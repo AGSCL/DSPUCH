@@ -1,5 +1,33 @@
 ---
-title: "Tesis"
-site: distill::distill_website
-listing: posts
+name: "repositorio_dsp_ags"
+title: "Repositorio Doctorado Andrés"
+creative_commons: CC BY
+navbar:
+  logo:
+    image: images/logo.png
+    href: https://www.rstudio.com
+  right:
+    - text: "Figures"
+      href: figures.html
+    - text: "Tables"
+      href: tables.html
+    - text: "Citations"
+      href: citations.html
+    - text: "Publish"
+      menu:
+        - text: "Publishing Articles"
+          href: publish_article.html
+        - text: "Publishing a Website"
+          href: publish_website.html
+        - text: "---"
+        - text: "Article Metadata"
+          href: metadata.html
+    - icon: fab fa-github
+      href: https://github.com/rstudio/distill
+output: 
+  distill::distill_article:
+    theme: theme.css
 ---
+
+- [Presentación](plantilla.html)
+- 
