@@ -12,8 +12,7 @@ Encoding: UTF-8
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
 
-BuildType: Website
-WebsitePath: H:/Mi unidad/PERSONAL ANDRES/UCH_salud_publica/asignaturas/0_TESIS
+BuildType: None
 
 PythonType: system
 PythonVersion: 3.9.13
