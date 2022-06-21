@@ -87,3 +87,5 @@ renv.lock
 *ssh*
 *id_rsa_*
 *.rar
+_bib/*
+_output/*
