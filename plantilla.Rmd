@@ -57,13 +57,14 @@ error=function(error_message) {
   icons::download_fontawesome()  
 })
 }
-plot_prueba<-barplot(rep(2,9), col=c("#92B6B1", "#fdecef", "#F9C784", "#CAE7B9", "#BDC667", "#B9D8C2", "#591F0A", "#D6FFF6", "#45503B"))
+vec_col<-c("#660600","#6F3930","#745248","#786B60","#E6E6E6","#738FBC","#003891","#3C5279","#786B60","#B48448","#EF9D2F","#D99155","#E3D1C2","#E0BC9E","#ABB0BF","#835F69","#5A0D13")
+plot_prueba<-barplot(1:length(vec_col), col=vec_col)
 
 #https://coolors.co/21177a-fe4a17-788aa3-45503b
-style_duo(
-  primary_color = "white",
+style_duo( 
+  primary_color = "#E6E6E6", ##E6E6E6
   secondary_color = "#003891",
-  text_color = "#333",
+  text_color = "#2f353b", 
   text_bold_color = "#EF9D2F", ##92B6B1   #fdecef  #F9C784   ##CAE7B9 ##BDC667 ##B9D8C2 ##591F0A ##D6FFF6 #45503B
   #base_color = '#aaaaaa',
 #  background_color = 'white',
