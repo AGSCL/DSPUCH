@@ -291,9 +291,7 @@ class: title-slide, middle, right
 ]
 
 .bg-text[
-
 `r withr::with_locale(new = c('LC_TIME' = 'es_ES'), code =format(Sys.time(),'%B %d, %Y'))`
-
 
 .text_100[Andrés González Santa Cruz]
 
