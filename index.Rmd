@@ -20,6 +20,6 @@ output:
     theme: theme.css
 ---
 
-- [Presentación](plantilla.html)
+- [Presentación Seminario MISP](seminario.html)
 
   

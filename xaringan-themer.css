@@ -505,11 +505,19 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-.center_down_image {
+.down_left {
   margin: 0;
   position: absolute;
-  top: 90%;
-  left: 50%;
+  top: 80%;
+  left: 22%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.down_right {
+  margin: 0;
+  position: absolute;
+  top: 80%;
+  left: 72%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
