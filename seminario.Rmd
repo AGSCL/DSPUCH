@@ -6,7 +6,7 @@ date:  "`r withr::with_locale(new =c('LC_TIME' = 'es_ES'), code =format(Sys.time
 output:
   xaringan::moon_reader:
     includes:
-      after_body: ['libs/collapseoutput.js','libs/hideOutput.js', 'libs/zoom.html', 'libs/manualcollapseinput.html']
+      after_body: ['mylibs/collapseoutput.js','mylibs/hideOutput.js', 'mylibs/zoom.html', 'mylibs/manualcollapseinput.html']
     transition: slide
     lib_dir: libs
     css: ['xaringan-themer.css', 'animate.min.css', 'ninjutsu']
@@ -344,7 +344,9 @@ Primeras dos, repaso:
 
 .panel[.panel-name[Estructura hipotética]
 
-```{r p1-est, eval=T,  dev.args = list(bg = 'transparent'), echo=F, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
+.details-code[
+
+```{r p1-est, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
 # Libraries
 library(ggplot2)
 
@@ -389,12 +391,28 @@ fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y>=10,y2>end_plot)
 fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10), aes(x=Paciente, xend=Paciente, y=y, yend=10), color="#21177A", alpha=.6, linetype="dotted", size=.8))
   #datos de tratamiento en periodo de seguimiento, menos de 2010 pero sólo y1
 fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10,y2>=10,y2<=end_plot), aes(x=Paciente, xend=Paciente, y=10, yend=y2), color="#21177A", alpha=.6,  size=.8))
+  #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entera hasta el 2020
+# fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10,y2>end_plot), aes(x=Paciente, xend=Paciente, y=10, yend=end_plot), color="#21177A", alpha=.6, size=.8))
+# CONTACTO: VICTIMARIO: debo saber si y3 está dentro o no del seguimiento
+  ###>=10
+  #datos de justicia en periodo de seguimiento, linea solida
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y3<=end_plot, y4<=end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=y4), color="#21177A", alpha=.6, size=.8))
+  #datos de justicia en periodo de seguimiento, exceden el seguiemiento pero parten en él. linea solida hasta el 2020
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y3<=end_plot, y4>end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=end_plot), color="#21177A", alpha=.6, size=.8))
+#si estoy dentro de los datos en y, peroen end plot no, tengo q hacer el interlineado afuera
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y3<=end_plot, y4>end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=end_plot, yend=y4), color="#21177A", alpha=.6,linetype="dotted",  size=.8))
+  #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
+ fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y3>end_plot, y4>end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=y4), color="#21177A", alpha=.6, linetype="dotted", size=.8))
 
  fig_trans_final<-
    #Puntos
 fig_trans+
      #Tratamientos completados
     geom_point(data=dplyr::filter(data,Paciente%in% sample(c(pac_aleatorio1,pac_aleatorio2),15)), aes(x=Paciente, y=y2), color="#21177A", size=3, alpha=.6) +
+     #Victimario
+    geom_point(data=dplyr::filter(data,Paciente%in% pac_aleatorio1), aes(x=Paciente, y=y4),color="#21177A",size=3,alpha=.6)+
+    #víctima (no necesita tiempo de seguimiento)
+     #geom_point(data=dplyr::filter(data,Paciente%in% pac_aleatorio2), aes(x=Paciente, y=y3),color="#21177A",size=3,alpha=.6)+
     theme_light() +
     coord_flip() +
     #fechas donde yo tomo gente
@@ -410,6 +428,7 @@ fig_trans+
     scale_x_continuous(breaks=seq(1,max(data$Paciente),by=10))+
     scale_y_continuous(breaks=seq(min(data$y),max(data$y4),by=2), labels=seq(min(data$y),max(data$y4),by=2)+2000)+
    labs(y="Tiempo de seguimiento (en trimestres)", x="Individuos (ID)")+
+  #labs(y="Follow-up (in quarters)",x="Individual(ID)", caption="Note. Dot= Complete treatment;\nSquare= Contact w/ justice system (imputed);\nTriangle= Contact w/ justice system (victim);\nBlue line= Time in treatment;\nOrange line= Time in conctact w/justice system;\nShared area=Follow-up window")+
   theme(plot.caption = element_text(hjust = 0, face= "italic"))+
    labs(caption="Punto= Completa treatmento;\nLínea azul= Tiempo en tratamiento;\nArea sombreada=Inicio y término seguimiento")+
   theme(
@@ -423,8 +442,10 @@ fig_trans+
   legend.box.background = element_rect(fill = "transparent"),
   legend.key = element_rect(fill = "transparent"))
  
+ invisible("Paciente 49: 2011 al 2014 cursa un primer tratamiento que abandona, luego del 2016 al 2018 completó un tratamiento")
  fig_trans_final
 ```
+]
 
 ]
 
@@ -457,8 +478,11 @@ $$4^{ta}\,readmisión\sim A_{1 (Modalidad\,base)}+ L_{2 (Completa\,tto.\,base)}+
 
 .panel[.panel-name[Esquema Diagrama Causal Simplificado]
 
-```{r p2-dag, eval=T,  dev.args = list(bg = 'transparent'), echo=F, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", out.width="60%", out.height="60%", error=T, dpi=750, fig.showtext=T}
+.details-code[
+
+```{r p2-dag, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", out.height=450, error=T, dpi=750, fig.showtext=T}
 #```{r, echo=F, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
+#fig.width = 7, fig.height = 5 muy grande
 dag23 <- dagitty('dag {
 bb="0,0,1,1"
 "A0 (Modalidad tto. basal)" [exposure,pos="0.184,0.608"]
@@ -539,12 +563,14 @@ ggdag_status(tidy_dag23, text=F, shadow = T,use_labels="label") +#node_size = 12
   guides(linetype="none", edge_alpha="none")+
   guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
   theme(plot.caption = element_text(hjust = 0))+
+  theme(legend.position = "bottom", aspect.ratio=6/10)+
     labs(caption="Nota. Ak= Modalidad (Residencial/Ambulatoria); LMk= Completa tratamiento;\nL0= Confusores, características individuales y del centro a la base;Lk+= Días previos a la readmisión;\nYk= Resultadotratamiento; Uk=Car. no observadas para cada tiempo")
 
 dag23_plot
 ```
-<div class="centered"> ¿Qué ocurre con las modalidades en los tratamientos sucesivos?, ¿Confunden la asociación entre $A_0$ e $Y_3$?, ¿Sigue siendo causal en presencia de { $A_1$, $A_2$, $A_3$ }? </div>
-
+]
+<div class="center"> ¿Qué ocurre con las modalidades en los tratamientos sucesivos?, ¿Confunden la asociación entre $A_0$ ` e $Y_3$ `?, ¿Sigue siendo causal en presencia de { $A_1$, $A_2$, $A_3$ }? 
+</div>
 
 ]
 
@@ -556,7 +582,10 @@ Debiesen analizarse otras estrategias que capturen efectos longitudinales,
 ***"In longitudinal studies with time-dependent confounding, identifying the structure allows us to detect situations in which stratification-based methods would adjust for confounding at the expense of introducing selection bias (p. 622)"*** $`r Cite(myBib, c("Hernan2004"))`$
 ]
 
-.red[¿Se puede responder a la pregunta de si haber asistido a tratamiento residencial a la base (A0) es beneficioso?, y si lo es, ¿qué régimen/estrategia es óptima o casi óptima? ] $`r Cite(myBib, c("Robins1986"))`$
+<div class="red"> 
+¿Se puede responder a la pregunta de si haber asistido a tratamiento residencial a la base ( $A_0$ `) es beneficioso?, y si lo es, ¿qué régimen/estrategia es óptima o casi óptima? $`r Cite(myBib, c("Robins1986"))`$ 
+
+</div>
 
 ]
 
@@ -585,30 +614,33 @@ https://mail.google.com/mail/u/0/?shva=1#inbox/QgrcJHrtsHBpsxdHtqFBpKpBwvhZLdvTz
 ---
 class: center, middle
 
-## Objetivos
+## Objetivo
 
-Este proyecto apunta a introducir sobre modelos estructurales marginales para el control de sesgos en estudios observacionales con factores de riesgo y exposición tiempo-dependientes
+Este proyecto apunta a servir como un material introductorio sobre modelos estructurales marginales para el control de sesgos en estudios observacionales con factores de riesgo y exposición tiempo-dependientes. 
 
+--
+- Se mostrará su estimación paso a paso y mediante un ejercicio reproducible. 
+
+--
+- Se utilizará un una base de datos simulada para ilustrar el proceso.
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-We simulate a simple dataset with a time-varying exposure. The data, collected at two time points, t = (0, 1), include a binary outcome measured at the end of follow up Y (1), a binary exposure at two time points {X(0),X(1)}, and a binary confounder of the exposure-outcome relationship that is also affected by prior exposure L(1). L(1) is related to the outcome by the common cause U, which we consider to be unmeasured. This particular simulation setup has been used previously to illustrate other causal inference methods.(Robins y Hernan, 2009) It addresses a central feature of the Bayesian g-formula: control of confounding by covariates that may also be affected by exposure.
+Ejemplos de publicaciones de este tipo hay:
 
+- Tutoriales de herramientas analíticas innovadoras en "Psychological Methods" (APA) https://www.apa.org/pubs/journals/met/call-for-papers-tutorials
 
+- Bradburn, M., Clark, T., Love, S. et al. Survival Analysis Part I: Multivariate data analysis – an introduction to concepts and methods. British Journal of Cancer 89, 431–436 (2003). https://doi.org/10.1038/sj.bjc.6601119
 
-- The data are simulated as follows:
-
-U ~ uniform(0.4, 0.5)
-X(0) ~ Bernoulli(0.5)
-L(1) ~ Bernoulli(logit−1(−1 + X(0) + U))
-X(1) ~ Bernoulli(logit−1(−1 + X(0) + L(1)))
-Y ~ Bernoulli(U + (X(0) + X(1))/2 * rd(1̄ ,0̄ ))
 
 ---
 ## Causalidad
+
+
+- SUTVA
 
 
 ???
@@ -642,7 +674,88 @@ Treated and untreated would have experienced the same risk of death if they had 
 - De ahí que surgieron algunas dudas
 
 ---
-## Mecanismos de identificación
+## Control de confusión
+
+
+.panelset.sideways[
+
+.panel[.panel-name[Estandarización]
+
+.details-code[
+
+```{r p1-cont_conf, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
+library(tidyverse)
+library(gganimate)
+library(ggthemes)
+
+df <- data.frame(L = as.integer((1:200>100))) %>%
+  mutate(A = .5+2*L + rnorm(200)) %>%
+  mutate(Y = -.5*A + 4*L + 1 + rnorm(200),time="1") %>%
+  group_by(L) %>%
+  mutate(mean_A=mean(A),mean_Y=mean(Y)) %>%
+  ungroup()
+
+#Calculate correlations
+before_cor <- as.expression(paste0("1. Datos crudos: r[total]=",round(cor(df$A,df$Y),3)))
+after_cor <- as.expression(paste0(bquote(6~Analizo~lo~resultante:~correlación~entre~A~e~Y|L  r[partial]:round(cor(df$A-df$mean_A,df$Y-df$mean_Y),3))))
+
+#Add step 2 in which X is demeaned, and 3 in which both X and Y are, and 4 which just changes label
+dffull <- rbind(
+  #Step 1: Raw data only
+  df %>% mutate(mean_A=NA,mean_Y=NA,time=before_cor),
+  #Step 2: Add x-lines
+  df %>% mutate(mean_Y=NA,time='2. Identificar diferencias explicadas por L'),
+  #Step 3: X de-meaned 
+  df %>% mutate(A = A - mean_A,mean_A=0,mean_Y=NA,time="3. Eliminar diferencias en A explicadas por L"),
+  #Step 4: Remove X lines, add Y
+  df %>% mutate(A = A - mean_A,mean_A=NA,time="4. Averiguar diferencias en Y son explicadas por L"),
+  #Step 5: Y de-meaned
+  df %>% mutate(A = A - mean_A,Y = Y - mean_Y,mean_A=NA,mean_Y=0,time="5. Eliminar diferencias en Y explicadas por L"),
+  #Step 6: Raw demeaned data only
+  df %>% mutate(A = A - mean_A,Y = Y - mean_Y,mean_A=NA,mean_Y=NA,time==parse(text = after_cor)))
+
+p <- ggplot(dffull,aes(y=Y,x=A,color=as.factor(L)))+geom_point()+
+  geom_vline(aes(xintercept=mean_A,color=as.factor(L)))+
+  geom_hline(aes(yintercept=mean_Y,color=as.factor(L)))+
+  guides(color=guide_legend(title="W"))+
+  scale_color_colorblind()+
+  labs(caption="Nota. Fuente: Nick Huntington-Klein (https://github.com/NickCH-K/causalgraphs)")+
+  labs(title = 'La relación entre X e Y Controlando por variable binaria L\n{next_state}')+
+  transition_states(time,transition_length=c(12,32,12,32,12,12),state_length=c(160,100,75,100,75,160),wrap=FALSE)+
+  labs(subtitle = as.expression(bquote('my text and {time}')))+
+  ease_aes('sine-in-out')+
+  exit_fade()+enter_fade()
+
+
+
+animate(p,nframes=100)
+```
+    ]
+  ]
+
+
+.panel[.panel-name[Regresión]
+
+.details-code[
+
+```{r p1-cont_conf2, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
+
+```
+    ]
+  ]
+]
+
+
+.panel[.panel-name[Regresión]
+
+.details-code[
+
+```{r p1-cont_conf2, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
+
+```
+    ]
+  ]
+]
 
 <br>
 
@@ -652,28 +765,45 @@ Treated and untreated would have experienced the same risk of death if they had 
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
+- El control de confusión es una forma de cerrar puertas traseras, siempre y cuando se cumplan otros supuestos (no hay error de medición, bariables no-observada, mediadores afectad)
+- Que no haya Ajuste por variables intermedias o descendientes de una variable intermedia ("the mantra not to control for factors affected by exposure".- Overadjustment)Schisterman2009
+
+- One way to close back doors is by controlling
+- Control for `W` by seeing what `W` explains (perhaps with a regression) and taking it out
 
 
 ---
 ## Aplicación
 
-```{r tab-comp, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=F}
-dataurls <- list()
-dataurls[[1]] <- 
-  "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/nhefs_sas.zip"
-dataurls[[2]] <- 
-  "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/nhefs_stata.zip"
-dataurls[[3]] <- 
-  "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2017/01/nhefs_excel.zip"
-dataurls[[4]] <- 
-  "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv"
-temp <- tempfile()
-for (i in 1:3) {
-  download.file(dataurls[[i]], temp)
-  unzip(temp, exdir = "data")
-}
-download.file(dataurls[[4]], here::here("data", "nhefs.csv"))
+.details-code[
 
+```{r tab-comp, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=F}
+download_data <-function(x="github"){
+tryCatch({
+    haven::read_dta("data/nhefs.dta")
+    return(message("Already downloaded data"))
+},
+# ... but if an error occurs, tell me what happened: 
+error=function(error_message) {
+    dataurls <- list()
+    dataurls[[1]] <- 
+      "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/nhefs_sas.zip"
+    dataurls[[2]] <- 
+      "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/nhefs_stata.zip"
+    dataurls[[3]] <- 
+      "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2017/01/nhefs_excel.zip"
+    dataurls[[4]] <- 
+      "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv"
+    temp <- tempfile()
+    for (i in 1:3) {
+      download.file(dataurls[[i]], temp)
+      unzip(temp, exdir = "data")
+    }
+    download.file(dataurls[[4]], here::here("data", "nhefs.csv"))
+})
+}
+
+download_data()
 nhefs <- haven::read_dta("data/nhefs.dta")
 
 
@@ -824,6 +954,35 @@ round(c(psi, psi_low, psi_high),2)
 
 #the few published applications of this method tend to use simplistic AFT models that do not allow for the treatment effect to vary across covariate values
 ```
+]
+
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+We simulate a simple dataset with a time-varying exposure. The data, collected at two time points, t = (0, 1), include a binary outcome measured at the end of follow up Y (1), a binary exposure at two time points {X(0),X(1)}, and a binary confounder of the exposure-outcome relationship that is also affected by prior exposure L(1). L(1) is related to the outcome by the common cause U, which we consider to be unmeasured. This particular simulation setup has been used previously to illustrate other causal inference methods.(Robins y Hernan, 2009) It addresses a central feature of the Bayesian g-formula: control of confounding by covariates that may also be affected by exposure.
+
+- The data are simulated as follows:
+
+U ~ uniform(0.4, 0.5)
+X(0) ~ Bernoulli(0.5)
+L(1) ~ Bernoulli(logit−1(−1 + X(0) + U))
+X(1) ~ Bernoulli(logit−1(−1 + X(0) + L(1)))
+Y ~ Bernoulli(U + (X(0) + X(1))/2 * rd(1̄ ,0̄ ))
+
+
+---
+## Desafíos
+
+- Confusores tiempo-modificados (*time-modified confounding*) $`r Cite(myBib, c("platt2009"))`$ 
+
+- Variaciones
+
+- Modelos doble o triplemente robustos
+
+- Machine Learning, se
 
 
 ---
