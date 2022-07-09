@@ -320,29 +320,32 @@ class: animated, fadeIn
 
 2. Causalidad
 
-3. Ajuste
+3. Ajuste confusión
 
-4. Supuestos de aplicación
+4. Marginal Structural Models
 
-5. Aplicación hipotética
+5. Aplicación
+
+6. Desafíos
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA INDICE**
 *#_#_#_#_#_#_#_#_#_#_
 Primeras dos, repaso:
-1- Origen de mi interés y problemática: factores de riesgo y exposición tiempo-dependientes: Ejemplo de arbol de decisiones y que al final obtenía puros efectos condicionales.
-2- La tarea de la epidemiología, definicion de causalidad y de confusión. Distribución marginal vs. conjunta, etc. Datos observacionales.
-3- Las formas. En una de esas, mostrar gif y animaciones (https://youtu.be/j8J2L_g76c4?t=68 o https://twitter.com/nickchk/status/1068215492458905600 / https://github.com/NickCH-K/causalgraphs/blob/master/Animation%20of%20IV.R / https://nickchk.com/causalgraphs.html).
-4- Supuestos: SUTVA; Sesgos.Supuestos a la base, amenazas, sesgos, y particularmente sesgos que ocurren para este diseño de datos.
-5- 
+1- **Origen de mi interés y problemática**: factores de riesgo y exposición tiempo-dependientes: Ejemplo de arbol de decisiones y que al final obtenía puros efectos condicionales.
+2- **Causalidad**: La tarea de la epidemiología, definicion de causalidad y de confusión. Distribución marginal vs. conjunta, etc. Datos observacionales. Supuestos: SUTVA; Sesgos.Supuestos a la base, amenazas, sesgos, y particularmente sesgos que ocurren para este diseño de datos.
+3- **Ajuste confusión**: Las formas. En una de esas, mostrar gif y animaciones (https://youtu.be/j8J2L_g76c4?t=68 o https://twitter.com/nickchk/status/1068215492458905600 / https://github.com/NickCH-K/causalgraphs/blob/master/Animation%20of%20IV.R / https://nickchk.com/causalgraphs.html). Explicar las diferencias entre estandarización y restricción --> ir poniendo el código paso por paso
+4- **MSM**, los tipos.Explicar por qué son **estructurales** (1) y **marginales**(2), explicar las situaciones en que se ocupan y son útiles. Incluso con datos aleatorizados. Sesgos que resuelven
+5- **Aplicación**: Explicar estructura hipotética de los datos, aplicación de un modelo simple.
+6- **Desafíos y aproximaciones más complejas**
 
 ---
 ## Problemática
 
 .panelset.sideways[
 
-.panel[.panel-name[Estructura hipotética]
+.panel[.panel-name[Estructura hipotética más cercana a lo real]
 
 .details-code[
 
@@ -371,17 +374,21 @@ for (i in 1:nrow(data)){
    data$y4[i]<-ifelse(data$y4[i]>=23,22,data$y4[i])
 }
 
-
 set.seed(2125)
 pac_aleatorio1<-sample(1:max(data$Paciente),40)
 pac_aleatorio2<-setdiff(sample(1:max(data$Paciente),40), pac_aleatorio1)
+
+set.seed(2125)
+pac_aleatorio3<-unique(data$Paciente)[sample(1:length(data$Paciente),15)]
+
 # Horizontal version, antes era 1985
 end_plot<-20
 
-fig_trans<-ggplot(data) 
+  fig_trans<-ggplot(data) 
   ###>=10
   #datos de tratamiento en periodo de seguimiento, posterior al 2010
-fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y>=10,y2<=end_plot), aes(x=Paciente, xend=Paciente, y=y, yend=y2), color="#21177A", alpha=.6, size=.8))
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y>=10,y2<=end_plot, Paciente %in% pac_aleatorio3), aes(x=Paciente, xend=Paciente, y=y, yend=y2), color="#EF9D2F", alpha=.6, size=.8))
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y>=10,y2<=end_plot, !Paciente %in% pac_aleatorio3), aes(x=Paciente, xend=Paciente, y=y, yend=y2), color="#21177A", alpha=.6, size=.8))
   #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entera hasta el 2020
 fig_trans<-try(fig_trans+ geom_segment(data=dplyr::filter(data,y>=10,y2>end_plot), aes(x=Paciente, xend=Paciente, y=y, yend=end_plot), color="#21177A", alpha=.6, size=.8))
   #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
@@ -390,7 +397,9 @@ fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y>=10,y2>end_plot)
   #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
 fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10), aes(x=Paciente, xend=Paciente, y=y, yend=10), color="#21177A", alpha=.6, linetype="dotted", size=.8))
   #datos de tratamiento en periodo de seguimiento, menos de 2010 pero sólo y1
-fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10,y2>=10,y2<=end_plot), aes(x=Paciente, xend=Paciente, y=10, yend=y2), color="#21177A", alpha=.6,  size=.8))
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10,y2>=10,y2<=end_plot, Paciente %in% pac_aleatorio3), aes(x=Paciente, xend=Paciente, y=10, yend=y2), color="#EF9D2F", alpha=.6,  size=.8))
+#fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10,y2>=10,y2<=end_plot, !Paciente %in% pac_aleatorio3), aes(x=Paciente, xend=Paciente, y=10, yend=y2), color="#21177A", alpha=.6,  size=.8))
+
   #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entera hasta el 2020
 # fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10,y2>end_plot), aes(x=Paciente, xend=Paciente, y=10, yend=end_plot), color="#21177A", alpha=.6, size=.8))
 # CONTACTO: VICTIMARIO: debo saber si y3 está dentro o no del seguimiento
@@ -403,16 +412,16 @@ fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y3<=end_plot, y4>e
 fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y3<=end_plot, y4>end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=end_plot, yend=y4), color="#21177A", alpha=.6,linetype="dotted",  size=.8))
   #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
  fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y3>end_plot, y4>end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=y4), color="#21177A", alpha=.6, linetype="dotted", size=.8))
-
+ 
  fig_trans_final<-
    #Puntos
 fig_trans+
      #Tratamientos completados
-    geom_point(data=dplyr::filter(data,Paciente%in% sample(c(pac_aleatorio1,pac_aleatorio2),15)), aes(x=Paciente, y=y2), color="#21177A", size=3, alpha=.6) +
-     #Victimario
-    geom_point(data=dplyr::filter(data,Paciente%in% pac_aleatorio1), aes(x=Paciente, y=y4),color="#21177A",size=3,alpha=.6)+
-    #víctima (no necesita tiempo de seguimiento)
-     #geom_point(data=dplyr::filter(data,Paciente%in% pac_aleatorio2), aes(x=Paciente, y=y3),color="#21177A",size=3,alpha=.6)+
+    geom_point(data=dplyr::filter(data,Paciente%in% sample(c(pac_aleatorio1,pac_aleatorio2),15), Paciente %in% pac_aleatorio3), aes(x=Paciente, y=y2), color="#EF9D2F", size=3, alpha=.6) +
+    #geom_point(data=dplyr::filter(data,Paciente%in% pac_aleatorio1, Paciente %in% pac_aleatorio3), aes(x=Paciente, y=y4),color="#EF9D2F",size=3,alpha=.6)+
+   geom_point(data=dplyr::filter(data,Paciente%in% sample(c(pac_aleatorio1,pac_aleatorio2),15), !Paciente %in% pac_aleatorio3), aes(x=Paciente, y=y2), color="#21177A", size=3, alpha=.6) +
+    geom_point(data=dplyr::filter(data,Paciente%in% pac_aleatorio1, !Paciente %in% pac_aleatorio3), aes(x=Paciente, y=y4),color="#21177A",size=3,alpha=.6)+
+   
     theme_light() +
     coord_flip() +
     #fechas donde yo tomo gente
@@ -430,7 +439,7 @@ fig_trans+
    labs(y="Tiempo de seguimiento (en trimestres)", x="Individuos (ID)")+
   #labs(y="Follow-up (in quarters)",x="Individual(ID)", caption="Note. Dot= Complete treatment;\nSquare= Contact w/ justice system (imputed);\nTriangle= Contact w/ justice system (victim);\nBlue line= Time in treatment;\nOrange line= Time in conctact w/justice system;\nShared area=Follow-up window")+
   theme(plot.caption = element_text(hjust = 0, face= "italic"))+
-   labs(caption="Punto= Completa treatmento;\nLínea azul= Tiempo en tratamiento;\nArea sombreada=Inicio y término seguimiento")+
+   labs(caption="Punto= Completa treatmento;\nAzul= Tratamiento ambulatorio;\nAmarillo= Tratamiento residencial; \nLínea= Tiempo en tratamiento;\nArea sombreada=Inicio y término seguimiento")+
   theme(
   panel.background = element_rect(fill = "transparent",
                                   colour = NA_character_), # necessary to avoid drawing panel outline
@@ -449,19 +458,23 @@ fig_trans+
 
 ]
 
-.panel[.panel-name[Árbol causal]
-```{r, echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
-#pdf_convert(paste0(getwd(),"/_figs/tree.pdf"), page = 1,dpi=1e3, filenames=paste0(getwd(),"/_figs/tree.jpg"))
-#knitr::include_graphics('./_figs/tree.jpg')
-translogo <- magick::image_read_pdf(paste0(getwd(),"/_figs/tree.pdf"),density=6e2,pages=1) %>% 
-             magick::image_crop("4100x3900+700+500") %>% 
-             magick::image_transparent('white') 
-translogo
-```
+- Pacientes cursando tratamiento por consumo problemático sustancias (2010-2019)
 
-]
+- Usuarios pueden haber experimentado el evento más de una vez, en distintas oportunidades
 
-.panel[.panel-name[Análisis propuestos en esa oportunidad]
+- Ej. Paciente N°55 completa tto. residencial y experimenta el evento de interés (readmisión)
+
+- Completar el tratamiento podría modificar 
+
+
+.panel[.panel-name[Primera aproximación]
+
+Objetivo:
+
+**Estimar el efecto de la modalidad de tratamiento por trastornos por uso de sustancias (ambulatorios vs. residenciales) a la base en la probabilidad de experimentar subsiguientes readmisiones a TUS**
+
+
+Análisis propuestos en esa oportunidad:
 
 .superbigimage[
 .text_50[
@@ -473,6 +486,19 @@ $$4^{ta}\,readmisión\sim A_{1 (Modalidad\,base)}+ L_{2 (Completa\,tto.\,base)}+
 ]
 
 .center[**¿Cómo se reflejaría en un diagrama?**]
+
+]
+
+
+.panel[.panel-name[Árbol causal]
+```{r, echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
+#pdf_convert(paste0(getwd(),"/_figs/tree.pdf"), page = 1,dpi=1e3, filenames=paste0(getwd(),"/_figs/tree.jpg"))
+#knitr::include_graphics('./_figs/tree.jpg')
+translogo <- magick::image_read_pdf(paste0(getwd(),"/_figs/tree.pdf"),density=6e2,pages=1) %>% 
+             magick::image_crop("4100x3900+700+500") %>% 
+             magick::image_transparent('white') 
+translogo
+```
 
 ]
 
@@ -551,16 +577,20 @@ tidy_dag23 <- tidy_dagitty(dag23) %>%
                                        T~"black")) %>% 
   dplyr::mutate(adjusted=factor(dplyr::case_when(grepl("L|LM",name)~"adjusted",T~"unadjusted")))
 
+  edge_function <- ggdag:::edge_type_switch("link_arc")
 dag23_plot<-
-ggdag_status(tidy_dag23, text=F, shadow = T,use_labels="label") +#node_size = 12,text_size = 2.5, $ 
+ggdag:::if_not_tidy_daggity(tidy_dag23) %>% ggdag:::node_status() %>% 
+  ggplot2::ggplot(ggplot2::aes(x = x, y = y, xend = xend, 
+                                 yend = yend, color = status, shape=factor(adjusted)))+ edge_function()+scale_adjusted()+ ggdag:::breaks(c("exposure", "outcome","latent"))+
+   ggdag:::geom_dag_point(size = 16)+
+  ggdag:::geom_dag_label_repel(ggplot2::aes_string(label = "label", 
+            fill = "status"), size = 4.88, col = "white", 
+            show.legend = FALSE)+
     theme_dag()+
-#    coord_flip() +
-    #scale_x_reverse(expand = expansion(c(0.1, 0.1)))+  
-  #expand_plot(c(0.05, 0.05),c(0.2, 0.7))+
-  scale_shape_manual(values = c(15, 16), name="Ajustado", labels=c("Sí", "No"))+ 
+    scale_shape_manual(values = c(15, 16), name="Ajustado", labels=c("Sí", "No"))+ 
   scale_fill_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado","No observado"), limits = c('exposure', 'outcome','latent'))+  
   scale_color_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado","No observado"), limits = c('exposure', 'outcome','latent'))+#E6E6E6
-  guides(linetype="none", edge_alpha="none")+
+  guides(linetype="none", edge_alpha="none", shape="none")+
   guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
   theme(plot.caption = element_text(hjust = 0))+
   theme(legend.position = "bottom", aspect.ratio=6/10)+
@@ -569,9 +599,10 @@ ggdag_status(tidy_dag23, text=F, shadow = T,use_labels="label") +#node_size = 12
 dag23_plot
 ```
 ]
-<div class="center"> ¿Qué ocurre con las modalidades en los tratamientos sucesivos?, ¿Confunden la asociación entre $A_0$ ` e $Y_3$ `?, ¿Sigue siendo causal en presencia de { $A_1$, $A_2$, $A_3$ }? 
+<div class="center"> ¿Qué ocurre con las modalidades en los tratamientos sucesivos?, ¿Confunden la asociación entre $A_0$ ` e` $Y_3$ `? `, ¿Sigue siendo causal en presencia de { $A_1\,, A_2\,,A_3$ `}? 
 </div>
-
+<!--- U puede tener relación con derivaciones no observadas posterior al tratamiento, que sería como un U1.5--->
+<!--- U puede tener relación con derivaciones no observadas posterior al tratamiento, que sería como un U1.5--->
 ]
 
 .panel[.panel-name[Entonces...]
@@ -750,7 +781,7 @@ animate(p,nframes=100)
 
 .details-code[
 
-```{r p1-cont_conf2, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
+```{r p1-cont_conf3, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
 
 ```
     ]
@@ -765,7 +796,9 @@ animate(p,nframes=100)
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- El control de confusión es una forma de cerrar puertas traseras, siempre y cuando se cumplan otros supuestos (no hay error de medición, bariables no-observada, mediadores afectad)
+- El control de confusión es una forma de cerrar puertas traseras, siempre y cuando se cumplan otros supuestos (no hay error de medición, variables no-observadas (confusión residual), mediadores afectad)
+**NO CREO NECESARIO GRAFICAR LA DIFERENCIA ENTRE UNO Y OTRO**
+
 - Que no haya Ajuste por variables intermedias o descendientes de una variable intermedia ("the mantra not to control for factors affected by exposure".- Overadjustment)Schisterman2009
 
 - One way to close back doors is by controlling
