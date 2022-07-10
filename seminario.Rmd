@@ -623,7 +623,6 @@ ggdag:::if_not_tidy_daggity(tidy_dag23) %>% ggdag:::node_status() %>%
 
 .panel[.panel-name[Entonces...]
 
-
 - Varias puertas traseras sin cerrar, confusión residual, abandono/pérdida, sobreajuste, etc.
 
 - El diseño y la estrategia analítica hasta el momento no permite responder a una pregunta causal de manera adecuada
@@ -669,6 +668,8 @@ ggdag:::if_not_tidy_daggity(tidy_dag23) %>% ggdag:::node_status() %>%
 
  #_#_#_#_#_#_#_#_#_#_#_#_#_
 The total effect cannot be estimated due to adjustment for an intermediate or a descendant of an intermediate.
+- El matching eElimina puertas traseras pero no se puede graficar.
+- **Hasta el momento es encesario hacer modificaciones al diseño y la estrategia analítica**
 
 
 ---
@@ -701,22 +702,88 @@ Ejemplos de publicaciones de este tipo hay:
 ---
 ## Causalidad (1)
 
+.pull_left[
 
-- Asociación vs. Causalidad 
+- Salud pública- epidemiología  $`r Cite(myBib, c("Kaufman2020"))`$
 
-- SUTVA
+- Qué pasaría si... // Qué causa ...  $`r Cite(myBib, c("gelman2013","Hernan2020"))`$
 
-- 
+```{r, echo=FALSE, dev.args = list(bg = 'transparent'), out.width= 350, fig.align="left", error=T}
+translogo25 <-magick::image_read('./_figs/el mundo si.jpg')%>% 
+             magick::image_transparent('#eeeeee')
+translogo25
+```
+
+- Asociación vs. Causalidad  $`r Cite(myBib, c("gelman2013","Pearl2003"))`$
+
+- Inferencia  $`r Cite(myBib, c("Pearl2003"))`$
+
+- RCTs: gold-standard $`r Cite(myBib, c("Muriel2011"))`$
+
+- Estudios observacionales
+
+.text_70[
+***"It’s much easier to get a result than it is to get an answer"*** $`r Cite(myBib, c("Aschwanden2015"))`$
+]
+]
+
+.pull_right[
+
+.
+
+```{r, echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="right",  out.width= 350, error=T}
+translogo2 <-magick::image_read('./_figs/ejemplo_dag_complejo.jpg')%>% 
+             magick::image_transparent('#eeeeee') %>% 
+            magick::image_transparent('#f1edec') %>%
+            magick::image_transparent('#efeff0') %>% 
+  magick::image_transparent('#eeeeed') %>% 
+  magick::image_transparent('#efefed') %>% 
+  magick::image_transparent('#f3edeb') %>%
+  magick::image_transparent('#f0eeec') %>% 
+  magick::image_transparent('#ecf0f2') %>% 
+  magick::image_transparent('#edf0ec') %>% 
+  magick::image_transparent('#ededed') %>%
+  magick::image_transparent('#eff1ec') %>% 
+  magick::image_transparent('#efeef2') 
+translogo2
+```
+.line_space_05[
+.text_60[
+.footnote[
+Riseberg,E., Melamed, R., James, K., Alderete, T. & Corlin, L. (2021). Development and application of an evidence-based directed acyclic graph to evaluate the associations between metal mixtures and cardiometabolic  outcomes. doi: https://doi.org/10.1101/2021.03.05.21252993
+]
+]
+]
+]
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA** (1)
 *#_#_#_#_#_#_#_#_#_#_
-- 
+- Distribución marginal vs. conjunta
+-  (a veces, no factibles, poco éticos, potencia estadística, etc.)
+- estandarizar el riesgo de la distribución conjunta (joint distribution) de los confusores en todo el seguimiento densidad conjunta de los datos observados para generar resultados potenciales bajo distintos escenarios de resultados
 
 ---
 ## Causalidad (2)
 
+**SUTVA** $`r Cite(myBib, c("rubin1980", "imbens_rubin_2015","tompsett_gesttools_2022"))`$
+
+```{r, echo=FALSE, dev.args = list(bg = 'transparent'), out.width= 300, fig.align="left", error=T}
+knitr::include_graphics('./_figs/sutva.jpg')
+```
+
+--
+
+- *Consistencia*
+
+--
+
+- *Intercambiabilidad*
+
+--
+
+- *Positividad*
 
 
 ???
@@ -724,24 +791,12 @@ Ejemplos de publicaciones de este tipo hay:
 **NOTA** (2)
 *#_#_#_#_#_#_#_#_#_#_
 
+- Si queremos que las estimaciones de un efecto puedan tener una interpretación causal, es necesario asumir algunos supuestos sobre los datos y su proceso de generación.
+
 potential outcomes framework (Neyman, 1923; Rubin, 1974).
 AT E = E[Y (1) -Y(0)]
 - estimates of effect that may fail to have a causal interpretation,
  even when confounding by unmeasured factors and model specification are absent
-- assuming exchangeability, consistency, and positivity
-https://www.ucl.ac.uk/population-health-sciences/sites/population_health_sciences/files/daniel.pdf
-
-- assumes “stable-unit-treatment-value assumption (SUTVA)” (Rubin 1980) [PONER EL MEME]
-- falta de intercambiabilidad entre expuestos y no-expuestos, no-comparabilidad (A structural approach to selection bias) -noncomparability (also referred to as lack of exchangeability) between the exposed and the unexposed.
-
-- Consistency: If an individual has observed exposure A = a then their observed outcome Y is equal to Y(a). 
-- Positivity: There must be a non zero chance of being assigned to each exposure value A = a.
-- Conditional Exchangability: Since Y(a) is unobserved, it is necessary to assume conditional exhangability. That is the counterfactual outcome is independent of the exposure, given the confounders L of the data. (Y(a) ⊥⊥ A|L)
-What would have happened if the research assistants had misinterpreted our instructions and had treated the grey group rather the white group?
-How does this reversal of treatment status affect our conclusions?
-Not at all.
-The counterfactual outcome and the observed treatment are independent
-Treated and untreated would have experienced the same risk of death if they had received the same treatment.
 
 - Asumimos NO Measurement Bias
 
@@ -752,24 +807,44 @@ Treated and untreated would have experienced the same risk of death if they had 
 ---
 ## Ajuste confusión
 
+- **Estratificación / Regresiones**  
 
+- **Estandarización** $`r Cite(myBib, c("Vansteelandt2011", "Hernan2020", "Naimi2016"))`$
 
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-
-- El control de confusión es una forma de cerrar puertas traseras, siempre y cuando se cumplan otros supuestos (no hay error de medición, variables no-observadas (confusión residual), mediadores afectad)
 **NO CREO NECESARIO GRAFICAR LA DIFERENCIA ENTRE UNO Y OTRO (AL FINAL FUE MUY DIFÍCIL, PORQUE LOS EJEMPLOS NO ERAN SUFICIENTEMENTE BUENOS**
+- El ajuste de confusión es una forma de cerrar puertas traseras, siempre y cuando se cumplan otros supuestos (no hay error de medición, variables no-observadas (confusión residual), mediadores afectad)
+- Cuando se ajusta por variables en un modelo de regresión se obtiene un efecto condicional. El efecto manteniendo constante el resto de las variables.
 
 - The conditional approach handles confounders using stratification or modeling (e.g., adding covariates to be regressed to the outcome).
 
+---
+## Marginal structural models
+
+- ¿Por qué el nombre?
+
+- Tres principales:
+ 
+ - IPTW
+ 
+ - Fórmula G paramétrica
+ 
+ - Estimación G
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
 - Que no haya Ajuste por variables intermedias o descendientes de una variable intermedia ("the mantra not to control for factors affected by exposure".- Overadjustment)Schisterman2009
 
-- One way to close back doors is by controlling
 - Control for `W` by seeing what `W` explains (perhaps with a regression) and taking it out
 - *crossover effects
+
 
 ---
 ## Aplicación (1)
@@ -780,12 +855,12 @@ Se generó una base de datos de 1.000 observaciones con las siguientes caracter�
 - t3 = `Tratamiento residencial Tiempo 2 ` ( $A_2$ ) `    ∼ Bernoulli(p=.15)
 - c1 = `Policonsumo`                                      ∼ Bernoulli(p=.32)
 - c2 = `Edad de inicio consumo de sustancias `            ∼ N(3,0.5)
-- dt1 = `Meses libre de readmisión Primer tto.`           ∼ Poisson(λ=4)  
-- dt2 = `Meses libre de readmisión Segundo tto.`          ∼ Poisson(λ=3)
-- dt3 = `Meses libre de readmisión Tercer tto.`           ∼ Poisson(λ=2)  
-- v1 = `Confusor tiempo-dependiente (t1)`                 ∼ $5+ 0.4\beta_{Tratamiento\,residencial\,basal} +0.78\beta_{Meses\,libre\,de\,readmision\,1}+ N(0, \sqrt{0.99})$
-- v2 = `Confusor tiempo-dependiente (t2)`                 ∼ $5+ 0.4\beta_{Tratamiento\,residencial\,(2^{do})} +0.78\beta_{Meses\,libre\,de\,readmision\,1}+ N(0, \sqrt{0.55})$
-- v3 = `Confusor tiempo-dependiente (t3)`                 ∼ $5+ 0.4\beta_{Tratamiento\,residencial\,(3^{er})} +0.78\beta_{Meses\,libre\,de\,readmision\,1}+ N(0, \sqrt{0.33})$ `
+- dt1 = `Meses sin readmisión Primer tto.`           ∼ Poisson(λ=4)  
+- dt2 = `Meses sin readmisión Segundo tto.`          ∼ Poisson(λ=3)
+- dt3 = `Meses sin readmisión Tercer tto.`           ∼ Poisson(λ=2)  
+- v1 = `Confusor tiempo-dependiente (t1)`                 ∼ $5+ 0.4\beta_{Tto\,residencial\,basal} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.99})$
+- v2 = `Confusor tiempo-dependiente (t2)`                 ∼ $5+ 0.4\beta_{Tto\,residencial\,(2^{do})} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.55})$
+- v3 = `Confusor tiempo-dependiente (t3)`                 ∼ $5+ 0.4\beta_{Tto\,residencial\,(3^{er})} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.33})$ `
 
 .details-code[
 ```{r tab-comp0, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T}
@@ -828,7 +903,7 @@ datos <- data.frame(policonsumo, edad_ini, v1, v2, v3, t1, t2, t3, dt1, dt2, dt3
   dplyr::mutate(time=as.numeric(time))
 #Primeros 4 filas
 head(datos,4) %>% 
-  knitr::kable("markdown", caption="Muestra de la base de datos (Primeras 4 filas)") %>%
+  knitr::kable("html", caption="Muestra de la base de datos (Primeras 4 filas)") %>%
   kableExtra::kable_classic(bootstrap_options = c("striped", "hover"),font_size = 10)
 ```
 ]
@@ -934,6 +1009,8 @@ dag34_plot
 
 ---
 ## Aplicación (3)
+
+.
 
 - Se estima una ponderación inversa al tratamiento que tiene en cuenta exposición y/o confusores tiempo-dependiente $`r Cite(myBib, c("ipw2011"))`$.
 
@@ -1089,6 +1166,8 @@ We simulate a simple dataset with a time-varying exposure. The data, collected a
 ---
 ## Desafíos
 
+- Structural Nested Models
+
 - Confusores tiempo-modificados (*time-modified confounding*) $`r Cite(myBib, c("platt2009"))`$ 
 
 - Generar modelos estructurales de análisis de supervivencia (incluir probabilidad inversa de censura)
@@ -1140,7 +1219,7 @@ knitr::include_graphics('./_style/Logo_nDP_color_hz_en.png')
 .  
   
 ```{r refs1, echo=FALSE, results="asis"}
-suppressWarnings(PrintBibliography(myBib, start= 1, end= 7))
+suppressWarnings(PrintBibliography(myBib, start= 1, end= 6))
 #https://github.com/ropensci/RefManageR/blob/master/R/rmdCite.R
 ```
 
@@ -1150,7 +1229,7 @@ suppressWarnings(PrintBibliography(myBib, start= 1, end= 7))
 .
 
 ```{r refs2, echo=FALSE, results="asis"}
-suppressWarnings(PrintBibliography(myBib, start= 8, end= 15))
+suppressWarnings(PrintBibliography(myBib, start= 7, end= 12))
 ```
 
 ---
@@ -1159,7 +1238,7 @@ suppressWarnings(PrintBibliography(myBib, start= 8, end= 15))
 .
 
 ```{r refs3, echo=FALSE, results="asis"}
-suppressWarnings(PrintBibliography(myBib, start= 16, end= 24))
+suppressWarnings(PrintBibliography(myBib, start= 13, end= 20))
 ```
 
 ```{r exp, eval=F,echo=F, results="asis"}
