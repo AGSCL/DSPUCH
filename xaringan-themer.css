@@ -400,7 +400,7 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
   code-inline-font-size: 60%;
   overflow-y: scroll !important;
   overflow-x: scroll !important;
-  max-height: 5vh !important;
+  max-height: 50vh !important;
   line-height: 0.75em;
 }
 .code_10_pre {
@@ -496,6 +496,22 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 .slide_blue {
   background-color: #FEDA3F;
   color: #3C3C3B;
+}
+.bottom_center {
+  margin: 0;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.down_center {
+  margin: 0;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 .center_image {
   margin: 0;

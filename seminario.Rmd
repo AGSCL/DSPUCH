@@ -38,8 +38,7 @@ local({r <- getOption("repos")
 })
 
 if(!require(pacman)){install.packages("pacman")}
-pacman::p_load(devtools, here, showtext, ggpattern, RefManageR, pagedown, magick, bibtex, DiagrammeR, xaringan, xaringanExtra, xaringanthemer, fontawesome, widgetframe, datapasta, tidyverse, psych, cowplot, coxphw, future, timereg, flexsurv, pdftools, mstate, showtext, compareGroups, chilemapas, choroplethrAdmin1,  choroplethr, choroplethrMaps, ggiraph, sf,distill, qrcode, pdftools, dagitty, ggdag,
-               widgetframe, install=F)
+pacman::p_load(devtools, here, showtext, ggpattern, RefManageR, pagedown, magick, bibtex, DiagrammeR, xaringan, xaringanExtra, xaringanthemer, fontawesome, widgetframe, datapasta, tidyverse, psych, cowplot, coxphw, future, timereg, flexsurv, pdftools, mstate, showtext, compareGroups, chilemapas, choroplethrAdmin1,  choroplethr, choroplethrMaps, ggiraph, sf,distill, qrcode, pdftools, dagitty, ggdag, geepack, survey, ipw, reshape, widgetframe, geeM, MuMIn, install=F)
 
 if(!require(xaringanBuilder)){devtools::install_github("jhelvy/xaringanBuilder",upgrade = "never")}
 if(!require(icons)){remotes::install_github("mitchelloharawild/icons",upgrade = "never")}
@@ -111,7 +110,7 @@ style_duo(
   ".code_10" = list("code-inline-font-size"= "60%",
                     "overflow-y" = "scroll !important",
                     "overflow-x" = "scroll !important",
-                    "max-height" = "5vh !important",
+                    "max-height" = "50vh !important",# 50% altura viewport
                     "line-height"= "0.75em"),
    ".code_10_pre" = list("code-inline-font-size"= "60%",
                     "overflow-y" = "scroll !important",
@@ -159,6 +158,22 @@ style_duo(
       "background-color" = "#FEDA3F",
       "color" = "#3C3C3B"
       ),
+      ".bottom_center" = list(
+    margin  = "0",
+    position = "absolute",
+    top      = "90%",
+    left     = "50%",
+    '-ms-transform' = "translate(-50%, -50%)",
+    transform = "translate(-50%, -50%)"
+    ),
+      ".down_center" = list(
+    margin  = "0",
+    position = "absolute",
+    top      = "80%",
+    left     = "50%",
+    '-ms-transform' = "translate(-50%, -50%)",
+    transform = "translate(-50%, -50%)"
+    ),
   ".center_image" = list(
     margin  = "0",
     position = "absolute",
@@ -202,12 +217,10 @@ style_duo(
 
 options(htmltools.preserve.raw = FALSE)
 
-
 #knitr::opts_chunk$set(comment = NA) # lo saqué pa probar por si
 knitr::opts_chunk$set(dpi=720)
 #options(htmltools.preserve.raw = FALSE)#A recent update to rmarkdown (in version 2.6) changed how HTML widgets are included in the output file to use pandoc's raw HTML blocks. Unfortunately, this feature isn't compatible with the JavaScript markdown library used by xaringan. You can disable this feature and resolve the issue with htmlwidgets in xaringan slides by setting
 #https://stackoverflow.com/questions/65766516/xaringan-presentation-not-displaying-html-widgets-even-when-knitting-provided-t/65768952#65768952
-
 
 xaringanExtra::use_progress_bar(color = "#12636B", location = "top")#, height = "550px")
 xaringanExtra::use_animate_css()
@@ -507,8 +520,6 @@ translogo
 .details-code[
 
 ```{r p2-dag, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", out.height=450, error=T, dpi=750, fig.showtext=T}
-#```{r, echo=F, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
-#fig.width = 7, fig.height = 5 muy grande
 dag23 <- dagitty('dag {
 bb="0,0,1,1"
 "A0 (Modalidad tto. basal)" [exposure,pos="0.184,0.608"]
@@ -578,17 +589,22 @@ tidy_dag23 <- tidy_dagitty(dag23) %>%
   dplyr::mutate(adjusted=factor(dplyr::case_when(grepl("L|LM",name)~"adjusted",T~"unadjusted")))
 
   edge_function <- ggdag:::edge_type_switch("link_arc")
-dag23_plot<-
+  
+  dag23_plot<-
 ggdag:::if_not_tidy_daggity(tidy_dag23) %>% ggdag:::node_status() %>% 
   ggplot2::ggplot(ggplot2::aes(x = x, y = y, xend = xend, 
-                                 yend = yend, color = status, shape=factor(adjusted)))+ edge_function()+scale_adjusted()+ ggdag:::breaks(c("exposure", "outcome","latent"))+
+                                 yend = yend, color = status, shape=factor(adjusted)))+ 
+    #edge_function()+
+    scale_adjusted()+ 
+    ggdag:::breaks(c("exposure", "outcome","latent"))+
+    geom_dag_edges_arc(curvature = c(0,5,rep(0,26)))+
    ggdag:::geom_dag_point(size = 16)+
   ggdag:::geom_dag_label_repel(ggplot2::aes_string(label = "label", 
             fill = "status"), size = 4.88, col = "white", 
             show.legend = FALSE)+
     theme_dag()+
     scale_shape_manual(values = c(15, 16), name="Ajustado", labels=c("Sí", "No"))+ 
-  scale_fill_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado","No observado"), limits = c('exposure', 'outcome','latent'))+  
+  scale_fill_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado","No observado"), limits = c('exposure', 'outcome','latent'))+
   scale_color_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado","No observado"), limits = c('exposure', 'outcome','latent'))+#E6E6E6
   guides(linetype="none", edge_alpha="none", shape="none")+
   guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
@@ -596,7 +612,7 @@ ggdag:::if_not_tidy_daggity(tidy_dag23) %>% ggdag:::node_status() %>%
   theme(legend.position = "bottom", aspect.ratio=6/10)+
     labs(caption="Nota. Ak= Modalidad (Residencial/Ambulatoria); LMk= Completa tratamiento;\nL0= Confusores, características individuales y del centro a la base;Lk+= Días previos a la readmisión;\nYk= Resultadotratamiento; Uk=Car. no observadas para cada tiempo")
 
-dag23_plot
+  dag23_plot
 ```
 ]
 <div class="center"> ¿Qué ocurre con las modalidades en los tratamientos sucesivos?, ¿Confunden la asociación entre $A_0$ ` e` $Y_3$ `? `, ¿Sigue siendo causal en presencia de { $A_1\,, A_2\,,A_3$ `}? 
@@ -607,17 +623,32 @@ dag23_plot
 
 .panel[.panel-name[Entonces...]
 
-Debiesen analizarse otras estrategias que capturen efectos longitudinales, 
 
+- Varias puertas traseras sin cerrar, confusión residual, abandono/pérdida, sobreajuste, etc.
+
+- El diseño y la estrategia analítica hasta el momento no permite responder a una pregunta causal de manera adecuada
+
+- Debiesen analizarse otras estrategias que capturen efectos longitudinales
+
+<br>
+
+.pull_r_30[
 .text_60[
 ***"In longitudinal studies with time-dependent confounding, identifying the structure allows us to detect situations in which stratification-based methods would adjust for confounding at the expense of introducing selection bias (p. 622)"*** $`r Cite(myBib, c("Hernan2004"))`$
 ]
+]
 
+<br>
+
+<br>
+
+<br>
+.down_center[
 <div class="red"> 
 ¿Se puede responder a la pregunta de si haber asistido a tratamiento residencial a la base ( $A_0$ `) es beneficioso?, y si lo es, ¿qué régimen/estrategia es óptima o casi óptima? $`r Cite(myBib, c("Robins1986"))`$ 
 
 </div>
-
+]
 ]
 
 ]
@@ -626,34 +657,32 @@ Debiesen analizarse otras estrategias que capturen efectos longitudinales,
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-- Reviewer comment y respuesta
-- Causal tree graph, L=0 y L=1 son los resultados del tratamiento (completa/no-completa), y los A son residencial/ambulatorio. Y= es readmisión
-- Washout window, no hay
 
+- Causal tree graph, L=0 y L=1 son los resultados del tratamiento (completa/no-completa), y los A son residencial/ambulatorio. Y= es readmisión
 
 - La figura muestra distintas trayectorias de la cohorte. La entrada de paciente a la cohorte retrospectiva empieza a la fecha en que es admitido por primera vez en un tratamiento por uso de sustancias en el período de 2010-2019 y figura en las listas anuales del SENDA al 2010 al 2019 (independientemente si tienen tratamientos previos).
-- **Punto**= Completa tratamiento;**Area sombreada**: Ventana de seguimiento;**Azul**=Tiempo en tratamiento
 
 - **Censura administrativa**: entrega información SENDA (2019-11-13), 
 - Otra censura ocurre después que se produce un evento de resultado competidor
 - Cuando un paciente deja la cohorte sin experimentar resultados (ej, si se va fuera del país). 
-- **Eventuales competidores**: tiempo en tratamiento (especialmente residenciales) o una sentencia **aunque debemos ver si es posible conocer este tiempo de censura**
+- **Eventuales competidores**: tiempo en tratamiento (especialmente residenciales) o una sentencia **aunque debemos ver si es posible conocer este tiempo de censura**, muerte
 
-- Tener presente esto para hacer gráficos lollipop
-https://mail.google.com/mail/u/0/?shva=1#inbox/QgrcJHrtsHBpsxdHtqFBpKpBwvhZLdvTzZv?projector=1&messagePartId=0.1
+ #_#_#_#_#_#_#_#_#_#_#_#_#_
+The total effect cannot be estimated due to adjustment for an intermediate or a descendant of an intermediate.
+
 
 ---
 class: center, middle
 
 ## Objetivo
 
-Este proyecto apunta a servir como un material introductorio sobre modelos estructurales marginales para el control de sesgos en estudios observacionales con factores de riesgo y exposición tiempo-dependientes. 
+Este proyecto apunta a servir como un material introductorio sobre modelos estructurales marginales para el control de sesgos en estudios observacionales con factores de riesgo y/o exposición tiempo-dependientes. 
 
 --
 - Se mostrará su estimación paso a paso y mediante un ejercicio reproducible. 
 
 --
-- Se utilizará un una base de datos simulada para ilustrar el proceso.
+- Se utilizará una base de datos simulada para ilustrar el proceso.
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -666,17 +695,33 @@ Ejemplos de publicaciones de este tipo hay:
 
 - Bradburn, M., Clark, T., Love, S. et al. Survival Analysis Part I: Multivariate data analysis – an introduction to concepts and methods. British Journal of Cancer 89, 431–436 (2003). https://doi.org/10.1038/sj.bjc.6601119
 
+- Zhang, Z., Abarda, A., Contractor, A., Wang, J., & Dayton, C. (2018). Exploring heterogeneity in clinical trials with latent class analysis. Annals Of Translational Medicine, 6(7), 9. doi:10.21037/atm.2018.01.24
+
 
 ---
-## Causalidad
+## Causalidad (1)
 
+
+- Asociación vs. Causalidad 
 
 - SUTVA
+
+- 
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA** (1)
+*#_#_#_#_#_#_#_#_#_#_
+- 
+
+---
+## Causalidad (2)
+
 
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA**
+**NOTA** (2)
 *#_#_#_#_#_#_#_#_#_#_
 
 potential outcomes framework (Neyman, 1923; Rubin, 1974).
@@ -700,95 +745,14 @@ Treated and untreated would have experienced the same risk of death if they had 
 
 - Asumimos NO Measurement Bias
 
-- Explicar causal approach, contrafactual, ajustre por confusión, hay métodos que restringen y otros que estandarizan
+- Explicar causal approach, contrafactual, ajuste por confusión, hay métodos que restringen y otros que estandarizan
 - En las clases abordamos a structural approach to selection bias y en What if se mencionó someramente sobre estos mecanismos.
 - De ahí que surgieron algunas dudas
 
 ---
-## Control de confusión
+## Ajuste confusión
 
 
-.panelset.sideways[
-
-.panel[.panel-name[Estandarización]
-
-.details-code[
-
-```{r p1-cont_conf, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
-library(tidyverse)
-library(gganimate)
-library(ggthemes)
-
-df <- data.frame(L = as.integer((1:200>100))) %>%
-  mutate(A = .5+2*L + rnorm(200)) %>%
-  mutate(Y = -.5*A + 4*L + 1 + rnorm(200),time="1") %>%
-  group_by(L) %>%
-  mutate(mean_A=mean(A),mean_Y=mean(Y)) %>%
-  ungroup()
-
-#Calculate correlations
-before_cor <- as.expression(paste0("1. Datos crudos: r[total]=",round(cor(df$A,df$Y),3)))
-after_cor <- as.expression(paste0(bquote(6~Analizo~lo~resultante:~correlación~entre~A~e~Y|L  r[partial]:round(cor(df$A-df$mean_A,df$Y-df$mean_Y),3))))
-
-#Add step 2 in which X is demeaned, and 3 in which both X and Y are, and 4 which just changes label
-dffull <- rbind(
-  #Step 1: Raw data only
-  df %>% mutate(mean_A=NA,mean_Y=NA,time=before_cor),
-  #Step 2: Add x-lines
-  df %>% mutate(mean_Y=NA,time='2. Identificar diferencias explicadas por L'),
-  #Step 3: X de-meaned 
-  df %>% mutate(A = A - mean_A,mean_A=0,mean_Y=NA,time="3. Eliminar diferencias en A explicadas por L"),
-  #Step 4: Remove X lines, add Y
-  df %>% mutate(A = A - mean_A,mean_A=NA,time="4. Averiguar diferencias en Y son explicadas por L"),
-  #Step 5: Y de-meaned
-  df %>% mutate(A = A - mean_A,Y = Y - mean_Y,mean_A=NA,mean_Y=0,time="5. Eliminar diferencias en Y explicadas por L"),
-  #Step 6: Raw demeaned data only
-  df %>% mutate(A = A - mean_A,Y = Y - mean_Y,mean_A=NA,mean_Y=NA,time==parse(text = after_cor)))
-
-p <- ggplot(dffull,aes(y=Y,x=A,color=as.factor(L)))+geom_point()+
-  geom_vline(aes(xintercept=mean_A,color=as.factor(L)))+
-  geom_hline(aes(yintercept=mean_Y,color=as.factor(L)))+
-  guides(color=guide_legend(title="W"))+
-  scale_color_colorblind()+
-  labs(caption="Nota. Fuente: Nick Huntington-Klein (https://github.com/NickCH-K/causalgraphs)")+
-  labs(title = 'La relación entre X e Y Controlando por variable binaria L\n{next_state}')+
-  transition_states(time,transition_length=c(12,32,12,32,12,12),state_length=c(160,100,75,100,75,160),wrap=FALSE)+
-  labs(subtitle = as.expression(bquote('my text and {time}')))+
-  ease_aes('sine-in-out')+
-  exit_fade()+enter_fade()
-
-
-
-animate(p,nframes=100)
-```
-    ]
-  ]
-
-
-.panel[.panel-name[Regresión]
-
-.details-code[
-
-```{r p1-cont_conf2, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
-
-```
-    ]
-  ]
-]
-
-
-.panel[.panel-name[Regresión]
-
-.details-code[
-
-```{r p1-cont_conf3, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
-
-```
-    ]
-  ]
-]
-
-<br>
 
 
 ???
@@ -797,213 +761,329 @@ animate(p,nframes=100)
 *#_#_#_#_#_#_#_#_#_#_
 
 - El control de confusión es una forma de cerrar puertas traseras, siempre y cuando se cumplan otros supuestos (no hay error de medición, variables no-observadas (confusión residual), mediadores afectad)
-**NO CREO NECESARIO GRAFICAR LA DIFERENCIA ENTRE UNO Y OTRO**
+**NO CREO NECESARIO GRAFICAR LA DIFERENCIA ENTRE UNO Y OTRO (AL FINAL FUE MUY DIFÍCIL, PORQUE LOS EJEMPLOS NO ERAN SUFICIENTEMENTE BUENOS**
+
+- The conditional approach handles confounders using stratification or modeling (e.g., adding covariates to be regressed to the outcome).
 
 - Que no haya Ajuste por variables intermedias o descendientes de una variable intermedia ("the mantra not to control for factors affected by exposure".- Overadjustment)Schisterman2009
 
 - One way to close back doors is by controlling
 - Control for `W` by seeing what `W` explains (perhaps with a regression) and taking it out
-
+- *crossover effects
 
 ---
-## Aplicación
+## Aplicación (1)
+
+Se generó una base de datos de 1.000 observaciones con las siguientes características $`r Cite(myBib, c("Bounthavong2018"))`$ :
+- t1 = `Tratamiento residencial Tiempo 0 ` ( $A_0$ ) `    ∼ Bernoulli(p=.23)
+- t2 = `Tratamiento residencial Tiempo 1 ` ( $A_1$ ) `    ∼ Bernoulli(p=.22)
+- t3 = `Tratamiento residencial Tiempo 2 ` ( $A_2$ ) `    ∼ Bernoulli(p=.15)
+- c1 = `Policonsumo`                                      ∼ Bernoulli(p=.32)
+- c2 = `Edad de inicio consumo de sustancias `            ∼ N(3,0.5)
+- dt1 = `Meses libre de readmisión Primer tto.`           ∼ Poisson(λ=4)  
+- dt2 = `Meses libre de readmisión Segundo tto.`          ∼ Poisson(λ=3)
+- dt3 = `Meses libre de readmisión Tercer tto.`           ∼ Poisson(λ=2)  
+- v1 = `Confusor tiempo-dependiente (t1)`                 ∼ $5+ 0.4\beta_{Tratamiento\,residencial\,basal} +0.78\beta_{Meses\,libre\,de\,readmision\,1}+ N(0, \sqrt{0.99})$
+- v2 = `Confusor tiempo-dependiente (t2)`                 ∼ $5+ 0.4\beta_{Tratamiento\,residencial\,(2^{do})} +0.78\beta_{Meses\,libre\,de\,readmision\,1}+ N(0, \sqrt{0.55})$
+- v3 = `Confusor tiempo-dependiente (t3)`                 ∼ $5+ 0.4\beta_{Tratamiento\,residencial\,(3^{er})} +0.78\beta_{Meses\,libre\,de\,readmision\,1}+ N(0, \sqrt{0.33})$ `
 
 .details-code[
+```{r tab-comp0, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T}
+#Semilla para replicar los resultados
+set.seed(2125)
+#definir confusor c1 (policonsumo al ingreso==1)
+policonsumo <-rbinom(1000,1,0.32)
+#definir confusor c2 (edad de inicio de consumo)
+edad_ini <-round(exp(rnorm(1000, 3, 0.5)))
+#definir tratamiento residencial al tiempo 0
+t1 <-rbinom(1000,1,0.23)
+#definir tratamiento residencial al tiempo 1
+t2 <-rbinom(1000,1,0.22)
+#definir tratamiento residencial al tiempo 2
+t3 <-rbinom(1000,1,0.15)
+#meses libre de readmisión T1
+dt1 <-rpois(1000,4)
+#meses libre de readmisión T2
+dt2 <-rpois(1000,3)
+#meses libre de readmisión T3
+dt3 <-rpois(1000,1)
+#definir el confusor tiempo-dependiente v1 como una función de t1 y dt1
+v1 <- (0.4*t1 + 0.78*dt1 + rnorm(1000, 0, sqrt(0.99))) + 5
+#definir el confusor tiempo-dependiente v2 como una función de t2 y dt2
+v2 <- (0.4*t2 + 0.78*dt2 + rnorm(1e3, 0, sqrt(0.55))) + 5
+#definir el confusor tiempo-dependiente v3 como una función de t3 y dt3
+v3 <- (0.4*t3 + 0.78*dt3 + rnorm(1e3, 0, sqrt(0.33))) + 5
 
-```{r tab-comp, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=F}
-download_data <-function(x="github"){
-tryCatch({
-    haven::read_dta("data/nhefs.dta")
-    return(message("Already downloaded data"))
-},
-# ... but if an error occurs, tell me what happened: 
-error=function(error_message) {
-    dataurls <- list()
-    dataurls[[1]] <- 
-      "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/nhefs_sas.zip"
-    dataurls[[2]] <- 
-      "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2012/10/nhefs_stata.zip"
-    dataurls[[3]] <- 
-      "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2017/01/nhefs_excel.zip"
-    dataurls[[4]] <- 
-      "https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/1268/20/nhefs.csv"
-    temp <- tempfile()
-    for (i in 1:3) {
-      download.file(dataurls[[i]], temp)
-      unzip(temp, exdir = "data")
-    }
-    download.file(dataurls[[4]], here::here("data", "nhefs.csv"))
-})
-}
-
-download_data()
-nhefs <- haven::read_dta("data/nhefs.dta")
-
-
-# some preprocessing of the data
-nhefs$survtime <- ifelse(nhefs$death==0, NA, (nhefs$yrdth-83)*12+nhefs$modth) # * yrdth ranges from 83 to 92
-
-# model to estimate E[A|L]
-modelA <- glm(qsmk ~ sex + race + age + I(age*age)
-              + as.factor(education) + smokeintensity
-              + I(smokeintensity*smokeintensity) + smokeyrs
-              + I(smokeyrs*smokeyrs) + as.factor(exercise)
-              + as.factor(active) + wt71 + I(wt71*wt71),
-              data=nhefs, family=binomial())
-
-nhefs$p.qsmk <- predict(modelA, nhefs, type="response") 
-d <- nhefs[!is.na(nhefs$survtime),] # select only those with observed death time
-n <- nrow(d)
-
-# define the estimating function that needs to be minimized
-sumeef <- function(psi){
-  
-  # creation of delta indicator
-  if (psi>=0){
-    delta <- ifelse(d$qsmk==0 | 
-                      (d$qsmk==1 & psi <= log(120/d$survtime)), 
-                    1, 0)
-  } else if (psi < 0) {
-    delta <- ifelse(d$qsmk==1 | 
-                      (d$qsmk==0 & psi > log(d$survtime/120)), 1, 0)
-  }
-  
-  smat <- delta*(d$qsmk-d$p.qsmk)
-  sval <- sum(smat, na.rm=T)
-  save <- sval/n
-  smat <- smat - rep(save, n)
-  
-  # covariance
-  sigma <- t(smat) %*% smat
-  if (sigma == 0){
-    sigma <- 1e-16
-  }
-  estimeq <- sval*solve(sigma)*t(sval)
-  return(estimeq)
-}
-
-res <- optimize(sumeef, interval = c(-0.2,0.2))
-psi1 <- res$minimum
-objfunc <- as.numeric(res$objective)
-
-
-# Use simple bisection method to find estimates of lower and upper 95% confidence bounds
-increm <- 0.1
-for_conf <- function(x){
-  return(sumeef(x) - 3.84)
-}
-
-if (objfunc < 3.84){
-  # Find estimate of where sumeef(x) > 3.84
-  
-  # Lower bound of 95% CI
-  psilow <- psi1
-  testlow <- objfunc
-  countlow <- 0
-  while (testlow < 3.84 & countlow < 100){
-    psilow <- psilow - increm
-    testlow <- sumeef(psilow)
-    countlow <- countlow + 1
-  }
-  
-  # Upper bound of 95% CI
-  psihigh <- psi1
-  testhigh <- objfunc
-  counthigh <- 0
-  while (testhigh < 3.84 & counthigh < 100){
-    psihigh <- psihigh + increm
-    testhigh <- sumeef(psihigh)
-    counthigh <- counthigh + 1
-  }
-  
-  # Better estimate using bisection method
-  if ((testhigh > 3.84) & (testlow > 3.84)){
-    
-    # Bisection method
-    left <- psi1
-    fleft <- objfunc - 3.84
-    right <- psihigh
-    fright <- testhigh - 3.84
-    middle <- (left  + right) / 2
-    fmiddle <- for_conf(middle)
-    count <- 0
-    diff <- right - left
-    
-    while (!(abs(fmiddle) < 0.0001 | diff < 0.0001 | count > 100)){
-      test <- fmiddle * fleft
-      if (test < 0){
-        right <- middle
-        fright <- fmiddle
-      } else {
-        left <- middle
-        fleft <- fmiddle
-      }
-      middle <- (left + right) / 2
-      fmiddle <- for_conf(middle)
-      count <- count + 1
-      diff <- right - left
-    }
-    
-    psi_high <- middle
-    objfunc_high <- fmiddle + 3.84
-    
-    # lower bound of 95% CI
-    left <- psilow
-    fleft <- testlow - 3.84
-    right <- psi1
-    fright <- objfunc - 3.84
-    middle <- (left + right) / 2
-    fmiddle <- for_conf(middle)
-    count <- 0
-    diff <- right - left
-    
-    while(!(abs(fmiddle) < 0.0001 | diff < 0.0001 | count > 100)){
-      test <- fmiddle * fleft
-      if (test < 0){
-        right <- middle
-        fright <- fmiddle
-      } else {
-        left <- middle
-        fleft <- fmiddle
-      }
-      middle <- (left + right) / 2
-      fmiddle <- for_conf(middle)
-      diff <- right - left
-      count <- count + 1
-    }
-    psi_low <- middle
-    objfunc_low <- fmiddle + 3.84
-    psi <- psi1
-  }
-}
-round(c(psi, psi_low, psi_high),2)
-
-1/exp(psi)
-
-# the g-estimate ˆ from the rank-preserving structural AFT model was -0.05
-#The number exp ³−ˆ= 105 can be interpreted as the median survival time that would havw been observed if  all individuals in the study had recieved a=1/(median survival time, si todos hubieran recibido a=0), survival time ratio.
-#s little effect of smoking cessation  on the time to death.
-
-
-#the few published applications of this method tend to use simplistic AFT models that do not allow for the treatment effect to vary across covariate values
+datos <- data.frame(policonsumo, edad_ini, v1, v2, v3, t1, t2, t3, dt1, dt2, dt3) %>% 
+# Generamos una columna id para cada sujeto
+   dplyr::mutate(id = row_number()) %>%
+# Convertimos la base de datos desde formato ancho a largo de todas las variables tiempo-dependientes. Aclaramos que la estructura de los nombres lleva inscrito primero el valor de interés, seguido por el tiempo/ola de aplicación. Y obtenemos el tiempo tomando el valor dígito de cada columna
+  tidyr::pivot_longer(cols=c("v1", "v2", "v3", "t1", "t2", "t3", "dt1", "dt2", "dt3"), names_to = c('.value',"time"), names_pattern = "(.*)(\\d+)$") %>% 
+# Ordenamos la base de datos por id y tiempo/ola
+  dplyr::arrange(id, time) %>% 
+# reordenamos las columnas
+  dplyr::select(id, time, policonsumo, edad_ini, t, v, dt) %>% 
+# formateamos la base de datos como data.frame
+  as.data.frame() %>% 
+  dplyr::mutate(time=as.numeric(time))
+#Primeros 4 filas
+head(datos,4) %>% 
+  knitr::kable("markdown", caption="Muestra de la base de datos (Primeras 4 filas)") %>%
+  kableExtra::kable_classic(bootstrap_options = c("striped", "hover"),font_size = 10)
 ```
 ]
-
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
+- Se asume que todos cursaron el tratamiento y no hay censura, que la velocidad es constante y los riesgos también.
+- Asumiendo que los riesgos son constantes y proporcionales (Pierce)
+- More generally, assuming constant hazard rates over fixed time intervals (known as a piecewise-exponential model) you can fit fairly flexible survival models in the form of poisson GLM
+
+---
+## Aplicación (2)
+
+
+.details-code[
+
+```{r tab-comp0_dag, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", out.height=450, error=T, dpi=750, fig.showtext=T}
+#```{r, echo=F, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
+#fig.width = 7, fig.height = 5 muy grande
+dag34 <- dagitty('dag {
+bb="0,0,1,1"
+L1_policonsumo [pos="0.117,0.205"]
+L2_edad_ini [pos="0.222,0.112"]
+dt1 [outcome,pos="0.294,0.491"]
+dt2 [outcome,pos="0.572,0.491"]
+dt3 [outcome,pos="0.838,0.491"]
+t1 [exposure,pos="0.092,0.491"]
+t2 [exposure,pos="0.380,0.491"]
+t3 [exposure,pos="0.657,0.491"]
+v1 [pos="0.289,0.686"]
+v2 [pos="0.576,0.668"]
+v3 [pos="0.849,0.657"]
+L1_policonsumo -> dt1
+L1_policonsumo -> dt2
+L1_policonsumo -> dt3
+L1_policonsumo -> t1
+L1_policonsumo -> t2
+L1_policonsumo -> t3
+L2_edad_ini -> dt1
+L2_edad_ini -> dt2
+L2_edad_ini -> dt3
+L2_edad_ini -> t1
+L2_edad_ini -> t2
+L2_edad_ini -> t3
+t1 -> dt1
+t1 -> t2 [pos="0.210,0.652"]
+t2 -> dt2
+t2 -> t3 [pos="0.514,0.677"]
+t3 -> dt3
+v1 -> dt1
+v1 -> t1
+v1 -> t2
+v2 -> dt2
+v2 -> t2
+v2 -> t3
+v3 -> dt3
+v3 -> t3
+}')
+
+tidy_dag34 <- tidy_dagitty(dag34) %>% 
+  dplyr::mutate(label=dplyr::case_when(grepl("A0",as.character(name))~"A0",
+                                       T~as.character(name))) %>% 
+  dplyr::mutate(label2=dplyr::case_when(grepl("L|v",name)~"adj",grepl("LM",name)~"white",
+                                       T~"black")) %>% 
+  dplyr::mutate(adjusted=factor(dplyr::case_when(grepl("L|v",name)~"adjusted",T~"unadjusted")))
+
+  edge_function <- ggdag:::edge_type_switch("link_arc")
+dag34_plot<-
+ggdag:::if_not_tidy_daggity(tidy_dag34) %>% ggdag:::node_status() %>% 
+  ggplot2::ggplot(ggplot2::aes(x = x, y = y, xend = xend, 
+                                 yend = yend, color = status, shape=factor(adjusted)))+ 
+  #edge_function()+
+  scale_adjusted()+ ggdag:::breaks(c("exposure", "outcome","latent"))+
+      theme_dag()+
+  geom_dag_edges_arc(curvature = c(rep(0,13),5,0,5,rep(0,9)))+ #14 y 16 de 24
+   ggdag:::geom_dag_point(size = 16)+
+  ggdag:::geom_dag_label_repel(ggplot2::aes_string(label = "label", 
+            fill = "status"), size = 4.88, col = "white", 
+            show.legend = FALSE)+
+
+    scale_shape_manual(values = c(15, 16), name="Ajustado", labels=c("Sí", "No"))+ 
+  scale_fill_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+  
+  scale_color_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+#E6E6E6
+  guides(linetype="none", edge_alpha="none", shape="none")+
+  guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
+  theme(plot.caption = element_text(hjust = 0))+
+  theme(legend.position = "bottom", aspect.ratio=6/10)+
+    labs(caption="Nota. Ak= Modalidad (Residencial/Ambulatoria); dtk= Meses libre de readmisión;\nvk= Confusor tiempo-dependiente")
+
+dag34_plot
+```
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+- E[Treatment=1, time=1 | Treatment=1, time=(time-1)]
+- Auto-regressive (AR1) correlation structure ...  correlation to decay as the outcome values were farther away from the time of interest.
+
+---
+## Aplicación (3)
+
+- Se estima una ponderación inversa al tratamiento que tiene en cuenta exposición y/o confusores tiempo-dependiente $`r Cite(myBib, c("ipw2011"))`$.
+
+.details-code[
+```{r tab-comp1, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T, results='hide'}
+#Paquetes necesarios para generar los análisis
+library(geepack)
+library(survey)
+library(ipw)
+library(reshape)
+library(MuMIn)
+
+###########################################################################################
+#Estimate ipw weights (time-varying)
+###########################################################################################
+#Estimate inverse probability weights to fit marginal structural models, with a time-varying exposure and time-varying confounders. Within each unit under observation this function computes inverse probability weights at each time point during follow-up. The exposure can be binomial, multinomial, ordinal or continuous. Both stabilized and unstabilized weights can be estimated.
+
+# estimate inverse probability weights (time-varying) using a logistic regression
+#https://search.r-project.org/CRAN/refmans/ipw/html/ipwtm.html
+w <- ipwtm(
+  exposure = t,
+  family = "binomial",
+  link = "logit",
+  # Time invariant stuff
+  numerator = ~ factor(policonsumo) + edad_ini,
+  # All confounders
+  denominator = ~ v + factor(policonsumo) + edad_ini,
+  id = id,
+  timevar=time,
+  type="first",
+  data = datos)
+summary(w$ipw.weights)
+
+#Se incorporan los pesos a la base de datos
+datos<-
+dplyr::bind_cols(datos, ipw=w$ipw.weights)
+
+###########################################################################################
+# Para obtener las salidas de los coeficientes
+###########################################################################################
+summary.geem <- function(object, ...)  {
+  Coefs <- matrix(NA,nrow=length(object$beta),ncol=5)
+  Coefs[,1] <- c(object$beta)
+  naive <- is.character(object$var)
+  if(!naive && any(diag(object$var) < 0) ){
+    naive <- TRUE
+    warning("Some elements of robust variance estimate < 0.  Reporting model based SE.")
+  }
+  Coefs[,2] <- sqrt(diag(object$naiv.var))
+  if(naive){Coefs[,3] <- rep(NA, length(object$beta))}else{Coefs[,3] <- sqrt(diag(object$var))}
+  if(naive){Coefs[,4] <- Coefs[,1]/Coefs[,2]}else{Coefs[,4] <- Coefs[,1]/Coefs[,3]}
+  Coefs[,5] <- round(2*pnorm(abs(Coefs[,4]), lower.tail=F), digits=8)
+  colnames(Coefs) <- c("Estimates","Model SE","Robust SE", "wald", "p")
+  
+  summ <<- list(beta = Coefs[,1], se.model = Coefs[,2], se.robust = Coefs[,3], wald.test = Coefs[,4], p = Coefs[,5],
+               alpha = object$alpha, corr = object$corr, phi = object$phi, niter = object$niter, clusz = object$clusz,
+               coefnames = object$coefnames, weights=object$weights, biggest.R.alpha = object$biggest.R.alpha)
+  class(summ) <- 'summary.geem'
+  return(summ)
+}
+
+###########################################################################################
+# Primer modelo GEE - GEE con errores estándar robustos  (no IPTW)
+###########################################################################################
+mod1<-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id ,data = data.frame(datos), family=poisson,
+corstr="ar1") 
+summary(mod1)
+summ_mod1<-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %>% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %>% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+
+invisible("Quasipoisson")
+
+mod2<-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+     family = MASS::negative.binomial(2), corstr = "ar1")  #The known value of the additional parameter, theta.
+mod3<-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+     family = MASS::negative.binomial(1), corstr = "ar1") 
+mod4<-geepack::geese(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+               corstr = "ar1", family=poisson) 
+```
+]
+
+- Una vez que se genera el modelo de ecuaciones de estimación generalizadas (GEE) sin considerar la probabilidad inversa de asignación a tratamiento, se contrasta con el modelo en el que se pondera por dicha probabilidad inversa. 
+
+Se seleccionó el modelo con menor QIC.
+
+.details-code[
+```{r tab-comp2, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T, results='hide'}
+#https://gist.github.com/avallecam/56af06f46e5544c3af0f46344df20989 
+#https://stackoverflow.com/questions/49089476/any-updates-to-model-negative-binomial-distribution-data-with-gee-in-r
+#https://www.rdocumentation.org/packages/geepack/versions/1.3.4/topics/geese
+#https://stackoverflow.com/questions/13946540/negative-binomial-in-gee?rq=1
+mod1b<- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id ,weights=ipw, data = data.frame(datos), family=poisson,
+corstr="ar1") 
+summary.geem(mod1b)
+summ_mod1b<-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %>% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %>% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+
+mod2b<- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, weights=ipw, data = datos, 
+     family = MASS::negative.binomial(2), corstr = "ar1")  #The known value of the additional parameter, theta.
+summary(mod2b)
+summ_mod2b<-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %>% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %>% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+
+mod3b<- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, weights=ipw, data = datos, 
+     family = MASS::negative.binomial(1), corstr = "ar1") 
+summary(mod3b)
+summ_mod3b<-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %>% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %>% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+
+#You can use the quasi-likelihood under the independence model criterion (QIC; Pan, 2001) to assess the model fit.
+model.sel(mod1b, mod2b, mod3b, rank = QIC)
+```
+]
+
+Por último, una tabla comparativa de las estimaciones del tratamiento.
+
+.details-code[
+```{r tab-comp3, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T}
+mt<-
+rbind.data.frame(
+summ_mod1[which(summ_mod1$cc=="t"),],
+summ_mod1b[which(summ_mod1$cc=="t"),]
+)
+rownames(mt) <- c("Modelo sin IPTW", "Modelo con IPTW")
+
+mt %>% 
+  knitr::kable("html", caption="Comparación resultados") %>%
+  kableExtra::kable_classic(bootstrap_options = c("striped", "hover"),font_size = 10)
+```
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+-  applying inverse probability of treatment weights (IPTW) to the observations, which are then fitted to a marginal structural model (MSM).
+
 We simulate a simple dataset with a time-varying exposure. The data, collected at two time points, t = (0, 1), include a binary outcome measured at the end of follow up Y (1), a binary exposure at two time points {X(0),X(1)}, and a binary confounder of the exposure-outcome relationship that is also affected by prior exposure L(1). L(1) is related to the outcome by the common cause U, which we consider to be unmeasured. This particular simulation setup has been used previously to illustrate other causal inference methods.(Robins y Hernan, 2009) It addresses a central feature of the Bayesian g-formula: control of confounding by covariates that may also be affected by exposure.
-
-- The data are simulated as follows:
-
-U ~ uniform(0.4, 0.5)
-X(0) ~ Bernoulli(0.5)
-L(1) ~ Bernoulli(logit−1(−1 + X(0) + U))
-X(1) ~ Bernoulli(logit−1(−1 + X(0) + L(1)))
-Y ~ Bernoulli(U + (X(0) + X(1))/2 * rd(1̄ ,0̄ ))
 
 
 ---
@@ -1011,11 +1091,13 @@ Y ~ Bernoulli(U + (X(0) + X(1))/2 * rd(1̄ ,0̄ ))
 
 - Confusores tiempo-modificados (*time-modified confounding*) $`r Cite(myBib, c("platt2009"))`$ 
 
+- Generar modelos estructurales de análisis de supervivencia (incluir probabilidad inversa de censura)
+
 - Variaciones
 
 - Modelos doble o triplemente robustos
 
-- Machine Learning, se
+- Machine Learning (bagging, boosting, random forests, neural networks)
 
 
 ---
@@ -1035,7 +1117,7 @@ class: center, middle
 
 .down_right[
 
-```{r echo=FALSE, error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=200}
+```{r echo=FALSE, dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=200}
 par(mar=c(0,0,0,0))
 image(qrcode::qr_code("https://agscl.github.io/DSPUCH/seminario.html"), 
       asp=1, col=c("white", "black"), axes=FALSE, alpha =c(.0,1), 
@@ -1046,7 +1128,7 @@ image(qrcode::qr_code("https://agscl.github.io/DSPUCH/seminario.html"),
 
 .down_left[
 
-```{r, echo=FALSE,  fig.align="center", out.width=200, error=T}
+```{r, echo=FALSE, fig.align="center", out.width=200, error=T}
 knitr::include_graphics('./_style/Logo_nDP_color_hz_en.png')
 ```
 
@@ -1054,26 +1136,30 @@ knitr::include_graphics('./_style/Logo_nDP_color_hz_en.png')
   
 ---
 ## Referencias
+
+.  
   
 ```{r refs1, echo=FALSE, results="asis"}
-PrintBibliography(myBib, start= 1, end= 7)
+suppressWarnings(PrintBibliography(myBib, start= 1, end= 7))
 #https://github.com/ropensci/RefManageR/blob/master/R/rmdCite.R
 ```
 
 ---
 ## Referencias (2)
-  
+
+.
+
 ```{r refs2, echo=FALSE, results="asis"}
-PrintBibliography(myBib, start= 8, end= 15)
-#https://github.com/ropensci/RefManageR/blob/master/R/rmdCite.R
+suppressWarnings(PrintBibliography(myBib, start= 8, end= 15))
 ```
 
 ---
 ## Referencias (3)
-  
+
+.
+
 ```{r refs3, echo=FALSE, results="asis"}
-PrintBibliography(myBib, start= 16, end= 24)
-#https://github.com/ropensci/RefManageR/blob/master/R/rmdCite.R
+suppressWarnings(PrintBibliography(myBib, start= 16, end= 24))
 ```
 
 ```{r exp, eval=F,echo=F, results="asis"}
