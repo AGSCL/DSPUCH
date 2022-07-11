@@ -471,15 +471,6 @@ fig_trans+
 
 ]
 
-- Pacientes cursando tratamiento por consumo problemático sustancias (2010-2019)
-
-- Usuarios pueden haber experimentado el evento más de una vez, en distintas oportunidades
-
-- Ej. Paciente N°55 completa tto. residencial y experimenta el evento de interés (readmisión)
-
-- Completar el tratamiento podría modificar 
-
-
 .panel[.panel-name[Primera aproximación]
 
 Objetivo:
@@ -502,20 +493,7 @@ $$4^{ta}\,readmisión\sim A_{1 (Modalidad\,base)}+ L_{2 (Completa\,tto.\,base)}+
 
 ]
 
-
-.panel[.panel-name[Árbol causal]
-```{r, echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
-#pdf_convert(paste0(getwd(),"/_figs/tree.pdf"), page = 1,dpi=1e3, filenames=paste0(getwd(),"/_figs/tree.jpg"))
-#knitr::include_graphics('./_figs/tree.jpg')
-translogo <- magick::image_read_pdf(paste0(getwd(),"/_figs/tree.pdf"),density=6e2,pages=1) %>% 
-             magick::image_crop("4100x3900+700+500") %>% 
-             magick::image_transparent('white') 
-translogo
-```
-
-]
-
-.panel[.panel-name[Esquema Diagrama Causal Simplificado]
+.panel[.panel-name[Diagrama Causal Simplificado]
 
 .details-code[
 
@@ -621,11 +599,23 @@ ggdag:::if_not_tidy_daggity(tidy_dag23) %>% ggdag:::node_status() %>%
 <!--- U puede tener relación con derivaciones no observadas posterior al tratamiento, que sería como un U1.5--->
 ]
 
+.panel[.panel-name[Árbol causal]
+```{r, echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
+#pdf_convert(paste0(getwd(),"/_figs/tree.pdf"), page = 1,dpi=1e3, filenames=paste0(getwd(),"/_figs/tree.jpg"))
+#knitr::include_graphics('./_figs/tree.jpg')
+translogo <- magick::image_read_pdf(paste0(getwd(),"/_figs/tree.pdf"),density=6e2,pages=1) %>% 
+             magick::image_crop("4100x3900+700+500") %>% 
+             magick::image_transparent('white') 
+translogo
+```
+
+]
+
 .panel[.panel-name[Entonces...]
 
 - Varias puertas traseras sin cerrar, confusión residual, abandono/pérdida, sobreajuste, etc.
 
-- El diseño y la estrategia analítica hasta el momento no permite responder a una pregunta causal de manera adecuada
+- El diseño y la estrategia analítica hasta el momento no permite responder a una pregunta causal de manera adecuada (muchos contrastes condicionales a la trayectoria de tratamientos y del mediador)
 
 - Debiesen analizarse otras estrategias que capturen efectos longitudinales
 
@@ -657,20 +647,18 @@ ggdag:::if_not_tidy_daggity(tidy_dag23) %>% ggdag:::node_status() %>%
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- Causal tree graph, L=0 y L=1 son los resultados del tratamiento (completa/no-completa), y los A son residencial/ambulatorio. Y= es readmisión
+1.	Mi interés principalmente proviene de una investigación en la que estoy participando, en que analizo trayectorias de tratamientos de drogas del 2010-2019. En esta imagen sólo expongo una muestra con una estructura hipotética
+Cada fila es un paciente, una línea es un tratamiento, el espacio blanco entre ellos es el tiempo en que no están en tratamientos. Los puntos son completar el tratamiento y las líneas amarillas es cursar un tratamiento residencial. Por ejemplo, en este caso, el Paciente N°55 completa tto. residencial y experimenta el evento de interés (readmisión), en ambos completa el tratamiento.
+2.	El objetivo de ese estudio era estimar ese efecto mediante 4 regresiones secuenciales y estratificado por la presencia de cada evento (ej., se partió con 22.000 usuarios que sólo tenían una readmisión; y ya a la 4ta se estimó el efecto sólo con 200 usuarios). Como había una razonable sospecha de dependencia en tiempos anteriores, se generó un modelo semi-markov. Al margen de eso, hay varios problemas.
+3.	El modelo causal es difícil de representar para mí. Sobre todo porque a la base se generó un pareamiento. Hernan señala que no es posible representar en un diagrama un pareamiento (Al margen de eso, ya también es discutible su implicancia causal, ya que agrupa al 90% de los tratamientos residenciales, pero al 18% de los ambulatorios. Es un efecto en los tratados. Se puede observar que hay muchos colliders (en LM) y puertas traseras no cerradas ().The total effect cannot be estimated due to adjustment for an intermediate or a descendant of an intermediate.).
+4.	Robins 1986 en su momento estableció un gráfico bastante similar, en que  L=0 y L=1 son los resultados del tratamiento (completa/no-completa), y los A son residencial/ambulatorio. Y= es readmisión  POR LO VISTO, SON EFECTOS ANIDADOS PRODUCTO DE LA COMBINACIÓN DE CADA CONFIGURACION (EJ., QUIEN PRESENTA UN REGIMEN EN QUE COMPLETA UN RESIDENCIAL A LA BASE, SEGUIDO DE COMPLETAR EL SEGUNDO TRATAMIENTO RESIDENCIAL,VA A TENER UN RIESGO DE READMISIÓN DISTINTO  DE AHÍ QUE EL EFECTO ES CONDICIONAL A ESTE REGIMEN DE EXPOSICION Y MEDIACION
 
-- La figura muestra distintas trayectorias de la cohorte. La entrada de paciente a la cohorte retrospectiva empieza a la fecha en que es admitido por primera vez en un tratamiento por uso de sustancias en el período de 2010-2019 y figura en las listas anuales del SENDA al 2010 al 2019 (independientemente si tienen tratamientos previos).
+**Hasta el momento es encesario hacer modificaciones al diseño y la estrategia analítica**
 
-- **Censura administrativa**: entrega información SENDA (2019-11-13), 
-- Otra censura ocurre después que se produce un evento de resultado competidor
-- Cuando un paciente deja la cohorte sin experimentar resultados (ej, si se va fuera del país). 
-- **Eventuales competidores**: tiempo en tratamiento (especialmente residenciales) o una sentencia **aunque debemos ver si es posible conocer este tiempo de censura**, muerte
-
- #_#_#_#_#_#_#_#_#_#_#_#_#_
-The total effect cannot be estimated due to adjustment for an intermediate or a descendant of an intermediate.
-- El matching eElimina puertas traseras pero no se puede graficar.
-- **Hasta el momento es encesario hacer modificaciones al diseño y la estrategia analítica**
-
+(por si ... )
+- Que no haya Ajuste por variables intermedias o descendientes de una variable intermedia ("the mantra not to control for factors affected by exposure".- Overadjustment)Schisterman2009
+- Control for `W` by seeing what `W` explains (perhaps with a regression) and taking it out
+- *crossover effects
 
 ---
 class: center, middle
@@ -697,7 +685,6 @@ Ejemplos de publicaciones de este tipo hay:
 - Bradburn, M., Clark, T., Love, S. et al. Survival Analysis Part I: Multivariate data analysis – an introduction to concepts and methods. British Journal of Cancer 89, 431–436 (2003). https://doi.org/10.1038/sj.bjc.6601119
 
 - Zhang, Z., Abarda, A., Contractor, A., Wang, J., & Dayton, C. (2018). Exploring heterogeneity in clinical trials with latent class analysis. Annals Of Translational Medicine, 6(7), 9. doi:10.21037/atm.2018.01.24
-
 
 ---
 ## Causalidad (1)
@@ -760,8 +747,28 @@ Riseberg,E., Melamed, R., James, K., Alderete, T. & Corlin, L. (2021). Developme
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA** (1)
 *#_#_#_#_#_#_#_#_#_#_
-- Distribución marginal vs. conjunta
--  (a veces, no factibles, poco éticos, potencia estadística, etc.)
+
+2- **Causalidad**: La tarea de la epidemiología, definición de causalidad y de confusión. Distribución marginal vs. conjunta, etc. Datos observacionales. Supuestos: SUTVA; Sesgos.Supuestos a la base, amenazas, sesgos, y particularmente sesgos que ocurren para este diseño de datos.
+-	Muchas preguntas en salud pública se remiten a cuestiones epidemiológicas. Desde determinantes (ej., vulnerabilidad, PP PP), pasando por factores de riesgo, procesos biológicos/mecanismos etiológicos, etc.
+-	Una asociación no siempre es causal, en esta presentación me remitiré a preguntas que apuntan a la identificación o a cuantificar relaciones causales.
+o	Hay asociación cuando el tener información sobre una variable me permite predecir mejor en promedio el resultado de Y, incluso si esa variable no causa Y. El mecanismo no lo sabemos.
+o	Uno de los desafíos es poder determinar si por sí sola una variable X causa Y
+-	Las preguntas epidemiológicas no se limitan a describir sino que algunas apuntan a un análisis causal (Kaufman Santiago 2020 Lunes). Al margen de la tarea valorable de la vigilancia, la predicción en el futuro, el “Mundo hipotético”, ¿qué pasaría si hacemos/aplicamos X? (efectos de causas)/ qué causa Y (causas de efectos)” (Gelman2013)
+-	Nos restringiremos a al estudio de las intervenciones. [Tener presente los alcances del estudio de potential outcomes framework]
+-	En un mundo complejo como el de hoy, es necesario observar los fenómenos de manera multivariable, razonamiento estadístico, el efecto de intervenir sobre una variable sobre otra. Cummiskey2020
+-	Ensayos clínicos controlados, buscan estimar el impacto de un tratamiento, patrón oro de evidencia, aleatorizados (NEFRO)
+-	Incluso ellos tienen limitaciones: no son aplicables, pueden carecer de potencia estadística, pueden ser no éticos, por diseño; por eso estudios observacionales (NEFRO)
+-	El control de la confusión es uno de los pasos más desafiantes en la conducción de estudios observacionales (MANSOURNIA) y a menudo puede ocurrir también en ensayos clínicos.
+-	El marco de inferencia contrafactual (potential outcomes framework) (Neyman, 1923; Rubin, 1974), iniciado por Neyman y continuado por Rubin y Robins, busca comparar teóricamente qué ocurriría si todos los pacientes hubieran sido tratados frente a si ningún paciente hubiese sido tratado.
+-	Una asociación puede definirse en términos de una distribución conjunta de variables observadas, mientras que un concepto causal no puede definirse solamente de la distribución. (Pearl 2003). 
+o	Asociaciones: correlaciones, regresiones, dependencia, independencia condicional, verosimilitud, colapsabilidad, PS, RR, OR, marginalización, condicionalización, controlando por.
+o	Causal: Aleatorización, influencia, efecto, confusión, manteniendo constante, disturbance, correlación espúrea, estabilidad, IV, intervención, explicación, atribución
+o	“different risk in two disjoint subsets of the population determined 12 Causal Inference by the subjects’ actual treatment value ( = 1 or  = 0), whereas causation is defined by a different risk in the entire population under two different The difference between association treatment values ( = 1 or  = 0)” (Hernan y Robins)
+-	La cita se vincula con que, para Pearl, el dato de por sí no es suficiente para señalar que una relación es causal(Pearl, 2003) Y eso nos da paso a la siguiente diapositiva.
+o	These considerations imply that the slogan “correlation does not imply causation” can be translated into a useful principle: one cannot substantiate causal claims from associations alone, even at the population level—behind every causal conclusion there must lie some causal assumption that is not testable in observational studies. (Pearl 2003)
+
+
+(por si...)
 - estandarizar el riesgo de la distribución conjunta (joint distribution) de los confusores en todo el seguimiento densidad conjunta de los datos observados para generar resultados potenciales bajo distintos escenarios de resultados
 
 ---
@@ -790,19 +797,18 @@ knitr::include_graphics('./_figs/sutva.jpg')
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA** (2)
 *#_#_#_#_#_#_#_#_#_#_
+potential outcomes framework (Neyman, 1923; Rubin, 1974).  ATE = E[Y (1) -Y(0)]
 
-- Si queremos que las estimaciones de un efecto puedan tener una interpretación causal, es necesario asumir algunos supuestos sobre los datos y su proceso de generación.
-
-potential outcomes framework (Neyman, 1923; Rubin, 1974).
-AT E = E[Y (1) -Y(0)]
-- estimates of effect that may fail to have a causal interpretation,
- even when confounding by unmeasured factors and model specification are absent
-
-- Asumimos NO Measurement Bias
-
-- Explicar causal approach, contrafactual, ajuste por confusión, hay métodos que restringen y otros que estandarizan
-- En las clases abordamos a structural approach to selection bias y en What if se mencionó someramente sobre estos mecanismos.
-- De ahí que surgieron algunas dudas
+-	RCTs se puede con la aleatorización. EN estudios observacionales es aún más importante inspeccionar en qué medida se cumplen estos supuestos. stable-unit-treatment-value assumption (SUTVA)” (Rubin 1980). La validez de nuestras inferencias causales requieren dichas condiciones:
+-	Nos obliga a pensar el mecanismo de asignación (assignment mechanism) para definir efectos causales para identificarlos
+o	Consistencia: Si un individuo tiene una exposición A=a, entonces su resultado Y = Y(a). ¿Todos recibieron el tratamiento en medida similar? ¿Lo mismo ocurre con quienes no lo recibieron? 
+	Nos permite homologar los resultados de quienes recibieron una exposición al resultado potencial que se habría observado con ese valor de exposición
+o	Positividad: ¿La distribución de las covariables L en tratados es similar con no-tratados?, la probabilidad de asignación está entre 0 y 1, por lo que se puede tener tratados y no tratados. Cuando hay expuestos y no expuestos en todos los niveles de confusión  Esto a menudo nos e ve en las regresiones.
+o	Intercambiabilidad: Debiese ser la primera, pero la dejé al final por ser la más importante. Fuera de contextos aleatorios, la intercambiabilidad será condicional a los confusores ¿Son comparables los grupos, dada la confusión?
+	¿Los tratados y no tratados habrían experimentado en promedio el mismo riesgo de muerte de haber recibido el mismo nivel de tratamiento?
+	¿Sigue siendo informativo para el resultado observado saber si son tratados o no, condicional a los niveles de confusión?
+	los resultados son independientes de la asignación a tratamiento dado que se tienen las covariables
+-	Sesgos como el error de medición, variables no-observadas también podrían	 afectar el cumplimiento de estos supuestos.
 
 ---
 ## Ajuste confusión
@@ -817,10 +823,15 @@ AT E = E[Y (1) -Y(0)]
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 **NO CREO NECESARIO GRAFICAR LA DIFERENCIA ENTRE UNO Y OTRO (AL FINAL FUE MUY DIFÍCIL, PORQUE LOS EJEMPLOS NO ERAN SUFICIENTEMENTE BUENOS**
-- El ajuste de confusión es una forma de cerrar puertas traseras, siempre y cuando se cumplan otros supuestos (no hay error de medición, variables no-observadas (confusión residual), mediadores afectad)
-- Cuando se ajusta por variables en un modelo de regresión se obtiene un efecto condicional. El efecto manteniendo constante el resto de las variables.
-
-- The conditional approach handles confounders using stratification or modeling (e.g., adding covariates to be regressed to the outcome).
+-	Asumiendo en gran parte SUTVA, abordaremos las estrategias analíticas para cerrar puertas traseras que pudiesen confundir el efecto del tratamiento en resultado.
+-	La manera que los manejamos los (Lit) puede introducir sesgo (2021 04 21 Marginal Structural Models)
+-	Están los modelos condicionales (Vansteelandt2011) y los basados en la estandarización.
+-	Los primeros agrupan
+o	Estratificación: El riesgo causal específico al estrato es igual al asociacional. Por ejemplo, las regresiones hacen un análisis por cada estrato y de ahí se agrupan; las medidas de resumen (centrar en los niveles de la covariable), o estratificar (restringir el análisis a un nivel de una covariable) (Hernan CURSO)
+o	Estandarización: pseudio-poblacion en que la exposición es independiente de confusores, permitiendo la estimación de parámetros marginales estructurales, es decir, en toda la población de haber recibido el tratamiento.
+-	No obstante, cuando se quiere analizar efectos longitudinales. No basta con el cumplimiento de los supuestos planteados arriba. Muchas exposiciones en epidemiología y salud pública son tiempo-variables (Mansournia2017)
+-	 Se suman otras fuentes de confusión y sesgo. Es aquí que son de utilidad los modelos marginales estructurales. Por ejemplo, se generan sesgos de selección en el seguimiento, se introducen confusores tiempo-dependientes (valores que toman más de un valor en el tiempo, algunos producto del tratamiento anterior - -	treatment confounder feedback) o tratamientos que son dependientes del tiempo, ajustes que van en un camino desde la exposición al resultado (condicioanr en mediadores) (sobreajuste) u estratificación por colliders
+-	De ahí que la intercambiabilidad pasa a ser secuencial (no sólo en el vector de confusión) Ya0,a1 _||_ A0
 
 ---
 ## Marginal structural models
@@ -840,10 +851,7 @@ AT E = E[Y (1) -Y(0)]
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- Que no haya Ajuste por variables intermedias o descendientes de una variable intermedia ("the mantra not to control for factors affected by exposure".- Overadjustment)Schisterman2009
 
-- Control for `W` by seeing what `W` explains (perhaps with a regression) and taking it out
-- *crossover effects
 
 
 ---
@@ -913,10 +921,8 @@ head(datos,4) %>%
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- Se asume que todos cursaron el tratamiento y no hay censura, que la velocidad es constante y los riesgos también.
-- Asumiendo que los riesgos son constantes y proporcionales (Pierce)
-- More generally, assuming constant hazard rates over fixed time intervals (known as a piecewise-exponential model) you can fit fairly flexible survival models in the form of poisson GLM
-
+- Se asume que todos cursaron el tratamiento y no hay censura, que la velocidad es constante y los riesgos son constantes y proporcionales (Pierce)
+- Auto-regressive (AR1) correlation structure ...  correlation to decay as the outcome values were farther away from the time of interest.
 ---
 ## Aplicación (2)
 
@@ -964,6 +970,8 @@ v2 -> t2
 v2 -> t3
 v3 -> dt3
 v3 -> t3
+dt1 -> dt2
+dt2 -> dt3
 }')
 
 tidy_dag34 <- tidy_dagitty(dag34) %>% 
@@ -981,7 +989,7 @@ ggdag:::if_not_tidy_daggity(tidy_dag34) %>% ggdag:::node_status() %>%
   #edge_function()+
   scale_adjusted()+ ggdag:::breaks(c("exposure", "outcome","latent"))+
       theme_dag()+
-  geom_dag_edges_arc(curvature = c(rep(0,13),5,0,5,rep(0,9)))+ #14 y 16 de 24
+  geom_dag_edges_arc(curvature = c(rep(0,12),5,5,0,5,0,5,rep(0,9)))+ #14 y 16 de 24
    ggdag:::geom_dag_point(size = 16)+
   ggdag:::geom_dag_label_repel(ggplot2::aes_string(label = "label", 
             fill = "status"), size = 4.88, col = "white", 
@@ -1005,14 +1013,16 @@ dag34_plot
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 - E[Treatment=1, time=1 | Treatment=1, time=(time-1)]
-- Auto-regressive (AR1) correlation structure ...  correlation to decay as the outcome values were farther away from the time of interest.
+
+- Generamos una muestra de 1000 casos con las siguientes características. En este ejemplo hipotético tenemos el proceso de generación de los datos y **queremos estimar el efecto de tratamiento residencial en los meses libre de readmisión**
+- Lo anterior, aplicando un modelo de ponderación inversa de la probabilidad de asignación de tratamiento , y luego un modelo marginal estructural en base a un modelo - GEE con errores estándar robustos  poisson, con estructura de correlación autorregresiva 1 para datos anidados por paciente (para reflejar la dependencia en los resultados del tratamiento anterior).
 
 ---
 ## Aplicación (3)
 
 .
 
-- Se estima una ponderación inversa al tratamiento que tiene en cuenta exposición y/o confusores tiempo-dependiente $`r Cite(myBib, c("ipw2011"))`$.
+- Se estima una ponderación inversa al tratamiento que tiene en cuenta exposición y/o confusores tiempo-dependientes $`r Cite(myBib, c("ipw2011"))`$
 
 .details-code[
 ```{r tab-comp1, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T, results='hide'}
@@ -1023,13 +1033,7 @@ library(ipw)
 library(reshape)
 library(MuMIn)
 
-###########################################################################################
-#Estimate ipw weights (time-varying)
-###########################################################################################
-#Estimate inverse probability weights to fit marginal structural models, with a time-varying exposure and time-varying confounders. Within each unit under observation this function computes inverse probability weights at each time point during follow-up. The exposure can be binomial, multinomial, ordinal or continuous. Both stabilized and unstabilized weights can be estimated.
-
-# estimate inverse probability weights (time-varying) using a logistic regression
-#https://search.r-project.org/CRAN/refmans/ipw/html/ipwtm.html
+#Estimamos el modelo de probabilidad inversa con el numerador (elementos invariantes en el tiempo) y el denominador todos los confusores de interés.
 w <- ipwtm(
   exposure = t,
   family = "binomial",
@@ -1160,8 +1164,20 @@ mt %>%
 *#_#_#_#_#_#_#_#_#_#_
 -  applying inverse probability of treatment weights (IPTW) to the observations, which are then fitted to a marginal structural model (MSM).
 
+- Se generaron los ponderadores de asignación a tratamiento, mediante un modelo de probabilidad inversa de tratamiento con una estructura, de exposición y confusión tiempo-dependientes. Within each unit under observation this function computes inverse probability weights at each time point during follow-up. T
+- Se probaron las distribuciones binomiales negativa para ver el grado de sobredispersión de los datos, pero “oh!, qué sorpresa”, parece que no existía tal (bueno, yo construí los datos).
+- El modelo generalizado simple señala que no hay diferencias en el número de meses libre de de reingresar a tratamiento, entre los tratamientos residenciales y ambulatorios ya que los intervalos de confianza se superponen el valor nulo. No obstante, el modelo que presenta ponderación por el tratamiento indica que los tratamientos residenciales presentan 1/0.88 o un **riesgo 14% menor de estar más meses libre de readmisión, por lo que serían readmitidos 14%más rápido.**
+
+
+*#_#_#_#_#_#_#_#_#_#_
+(por si...)
 We simulate a simple dataset with a time-varying exposure. The data, collected at two time points, t = (0, 1), include a binary outcome measured at the end of follow up Y (1), a binary exposure at two time points {X(0),X(1)}, and a binary confounder of the exposure-outcome relationship that is also affected by prior exposure L(1). L(1) is related to the outcome by the common cause U, which we consider to be unmeasured. This particular simulation setup has been used previously to illustrate other causal inference methods.(Robins y Hernan, 2009) It addresses a central feature of the Bayesian g-formula: control of confounding by covariates that may also be affected by exposure.
 
+
+Estimate ipw weights (time-varying)
+Estimate inverse probability weights to fit marginal structural models, with a time-varying exposure and time-varying confounders. Within each unit under observation this function computes inverse probability weights at each time point during follow-up. The exposure can be binomial, multinomial, ordinal or continuous. Both stabilized and unstabilized weights can be estimated.
+estimate inverse probability weights (time-varying) using a logistic regression
+https://search.r-project.org/CRAN/refmans/ipw/html/ipwtm.html
 
 ---
 ## Desafíos
