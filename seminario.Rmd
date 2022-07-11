@@ -692,7 +692,7 @@ translogo25
 
 - Inferencia  $`r Cite(myBib, c("Pearl2003"))`$
 
-- RCTs: gold-standard $`r Cite(myBib, c("Muriel2011"))`$
+- RCTs $`r Cite(myBib, c("Muriel2011"))`$
 
 - Estudios observacionales
 
@@ -763,12 +763,11 @@ knitr::include_graphics('./_figs/sutva.jpg')
 potential outcomes framework (Neyman, 1923; Rubin, 1974).  ATE = E[Y (1) -Y(0)]
 
 -	supuesto **stable-unit-treatment-value** (SUTVA)” (Rubin 1980). La validez de nuestras inferencias causales requieren dichas condiciones:
--	Nos obliga a pensar el mecanismo de asignación (assignment mechanism) para identificar/definir efectos causales
+-	Nos obliga a **pensar el mecanismo de asignación** (assignment mechanism) para definir efectos causales para identificarlos
 
 --
 
 - *Consistencia*
-
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -777,6 +776,7 @@ potential outcomes framework (Neyman, 1923; Rubin, 1974).  ATE = E[Y (1) -Y(0)]
 
 -	Consistencia: Si un individuo tiene una exposición A=a, entonces su resultado Y = Y(a). **¿Todos recibieron el tratamiento en medida similar? ¿Lo mismo ocurre con quienes no lo recibieron?**
 -	Nos permite homologar los resultados de quienes recibieron una exposición al resultado potencial que se habría observado con ese valor de exposición
+- ** **¿Está bien clasificada la exposición?**
 
 --
 
@@ -787,8 +787,9 @@ potential outcomes framework (Neyman, 1923; Rubin, 1974).  ATE = E[Y (1) -Y(0)]
 **NOTA** (22)
 *#_#_#_#_#_#_#_#_#_#_ 
 
--	Positividad: **¿La distribución de las covariables L en tratados es similar con no-tratados?**, la probabilidad de asignación está entre 0 y 1, por lo que se puede tener tratados y no tratados. Cuando **hay expuestos y no expuestos en todos los niveles de confusión**  Esto a menudo nos e ve en las regresiones.
-
+-	Positividad: **¿La distribución de las covariables L en tratados es similar con no-tratados?**, la probabilidad de asignación está entre 0 y 1, por lo que se puede tener tratados y no tratados. Cuando **hay expuestos y no expuestos en todos los niveles de confusión** 
+- **No puede haber un confusor o covariable que determine perfectamente el tratamiento o no-tratamiento fuera de A**
+- Esto a menudo nos e ve en las regresiones.
 --
 
 - *Intercambiabilidad*
@@ -797,7 +798,6 @@ potential outcomes framework (Neyman, 1923; Rubin, 1974).  ATE = E[Y (1) -Y(0)]
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA** (23)
 *#_#_#_#_#_#_#_#_#_#_
-
 
 -	Intercambiabilidad: Debiese ser la primera, pero la dejé al final por ser la **más importante**. Fuera de contextos aleatorios, la intercambiabilidad será **condicional a los confusores** ¿Son comparables los grupos, dada la confusión?
 -	**¿Los tratados y no tratados habrían experimentado en promedio el mismo riesgo de muerte de haber recibido el mismo nivel de tratamiento?**
@@ -812,24 +812,29 @@ potential outcomes framework (Neyman, 1923; Rubin, 1974).  ATE = E[Y (1) -Y(0)]
 
 - **Estandarización** $`r Cite(myBib, c("Vansteelandt2011", "Hernan2020", "Naimi2016"))`$
 
+--
+
+```{r p1-cont_conf, eval=T,  dev.args = list(bg = 'transparent'), echo=F, out.width= 350, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", error=T, dpi=750, fig.showtext=T}
+knitr::include_graphics('./_figs/control_regresion.gif')
+```
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-**NO CREO NECESARIO GRAFICAR LA DIFERENCIA ENTRE UNO Y OTRO (AL FINAL FUE MUY DIFÍCIL, PORQUE LOS EJEMPLOS NO ERAN SUFICIENTEMENTE BUENOS**
--	Asumiendo en gran parte SUTVA, abordaremos las **estrategias analíticas para cerrar puertas traseras que pudiesen confundir el efecto del tratamiento en resultado**.
--	La manera que los manejamos los (Lit) puede introducir sesgo (2021 04 21 Marginal Structural Models)
--	Están los modelos condicionales (Vansteelandt2011) y los basados en la estandarización.
+Asumiendo en gran parte SUTVA, **abordaremos las estrategias analíticas para cerrar puertas traseras que pudiesen confundir el efecto del tratamiento en resultado**.
+-	**La manera que los manejamos los (Lit) puede introducir sesgo** (2021 04 21 Marginal Structural Models)
+-	Están los **modelos condicionales (Vansteelandt2011) y los basados en la estandarización**.
 -	Los primeros agrupan
-o	Estratificación: El riesgo causal específico al estrato es igual al asociacional. Por ejemplo, las regresiones hacen un análisis por cada estrato y de ahí se agrupan; las medidas de resumen (centrar en los niveles de la covariable), o estratificar (restringir el análisis a un nivel de una covariable) (Hernan CURSO) --> Es relativo a...
-o	Estandarización: **pseudio-poblacion** en que la exposición es independiente de confusores, permitiendo la estimación de parámetros marginales estructurales, es decir, **en toda la población de haber recibido el tratamiento.**
+-	Estratificación: Por ejemplo, las regresiones hacen un análisis por cada estrato y de ahí agrupan las medidas de resumen (centrar en los niveles de la covariable), o estratificar (restringir el análisis a un nivel de una covariable) (Hernan CURSO). El **riesgo causal específico al estrato**,  igual al asociacional. Son **condicionales** al estrato y al modelo
+-	Estandarización: pseudo-poblacion en que la exposición es independiente de confusores, permitiendo la **estimación de parámetros marginales** estructurales, es decir, en toda la población de haber recibido el tratamiento. **no dependen de los valores de las otras covariables**. El contrafactual nunca lo observamos directamente, **lo estimamos**
 
 *#_#_#_#_#
 
 -	No obstante, cuando se quiere analizar efectos longitudinales. **No basta con el cumplimiento de los supuestos planteados arriba. Muchas exposiciones en epidemiología y salud pública son tiempo-variables** (Mansournia2017)
--	 Se suman otras fuentes de confusión y sesgo. Es aquí que son de utilidad los modelos marginales estructurales. Por ejemplo, se generan sesgos de selección en el seguimiento, se introducen confusores tiempo-dependientes (valores que toman más de un valor en el tiempo, algunos producto del tratamiento anterior - -	treatment confounder feedback) o tratamientos que son dependientes del tiempo, ajustes que van en un camino desde la exposición al resultado (condicioanr en mediadores) (sobreajuste) u estratificación por colliders
--	De ahí que la **intercambiabilidad** pasa a ser secuencial (no sólo en el vector de confusión) Ya0,a1 _||_ A0
+-	**Se suman otras fuentes de confusión y sesgo**. Es aquí que son de utilidad los modelos marginales estructurales.
+-	Por ejemplo, se generan **sesgos de selección en el seguimiento**, se introducen confusores tiempo-dependientes (valores que toman más de un valor en el tiempo, algunos producto del tratamiento anterior - -	**treatment confounder feedback**) o tratamientos que son dependientes del tiempo, ajustes que van en un camino desde la exposición al resultado (condicioanr en mediadores) (sobreajuste) u estratificación por colliders
+-	De ahí que la intercambiabilidad pasa a ser **secuencial (no sólo en el vector de confusión basal) **  Ya0,a1 _||_ A0
 
 ---
 ## Marginal structural models
@@ -843,19 +848,22 @@ o	Estandarización: **pseudio-poblacion** en que la exposición es independiente
  - Fórmula G paramétrica
  
  - Estimación G
+ 
+- Ventajas y desventajas:
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- IPTW (probabilidad inversa de asignación a tratamiento). Es un modelo en 2 etapas, en que primero estimamos la probabilidad de recibir tratamiento en base a un vector de confusores L. Luego en una segunda etapa se estima el modelo de regresión como tal, pero ya no existiendo la asociación entre confusor y tratamiento, ya que la pseudopoblación ponderada se encuentra balanceada en estos términos.  Lo problemático de este modelo es que algunas veces los tratados y no tratados tienen características muy distintas en los niveles de L, lo que puede generar problemas para asignar pesos (ej., asignaría pesos muy extremos e irrealistas).
-
-- Fórmula G paramétrica: Tiene un sesgo llamado G-null paradox, en que tiende a rechazar H0 en muestras muy grandes. 
-
-- La fórmula G es intensiva computacionalmente, al igual la estimación G, requieren más programación y e
-
-
+-	El nombre “marginal structural apunta a estimar los efectos causales (estructurales) y marginales porque estiman el efecto en toda la población, no sólo condicional a los tratados (average treatment effects). ** Requieren conocimiento del diagrama causal**
+-	Las ponderaciones producen un pseudo-cohorte en que todos los confusores se balancean. **Es más simple. Es el que vamos a mostrar**
+-	IPTW (probabilidad inversa de asignación a tratamiento). Es un **modelo en 2 etapas**, en que primero estimamos la **probabilidad de recibir tratamiento** en base a un vector de confusores L. Luego en una segunda etapa se estima el modelo de regresión como tal, pero ya no existiendo la asociación entre confusor y tratamiento, ya que la **pseudopoblación ponderada** se encuentra balanceada en estos términos.  Lo problemático de este modelo es que **algunas veces los tratados y no tratados tienen características muy distintas en los niveles de L**, lo que puede generar problemas para asignar pesos (ej., asignaría pesos muy extremos e irrealistas).
+-	Se llaman **métodos G** porque pueden ser **usados ara cualquier tratamiento de manera generalizada**, ya sea fijado en el tiempo o variable. Pueden estimar el efecto de exposición variable en el tiempo en presencia de confusores tiempo-dependientes afectados por la exposición previa. ** intensiva computacionalmente, al igual la estimación G, requieren más programación y datos**
+-	**Fórmula G paramétrica**: Ideal para examinar intervenciones en muchos factores de riesgo. Ya que ve las intervenciones en su conjunto, y ve las intervenciones dinámicas (ej., si un usuario cursó un tratamiento residencial y tuvo la oportunidad de trabajar, es menos probable que vuelva a tratamiento residencial donde tiene que estar 24/7).
+-	Lo malo es que es muy sensible al tamaño de la muestra, **paradoja g-null**, que es un falso positivo (rechazar la H0) en  muestras grandes.
+-	**Estimación G**: La ventaja es que puede usarse incluso cuando no hay “common support” (hay un nivel de confusión en que todos los participantes estan expuestos o no expuestos). Es muy sensible a la mala especificación, que llevará a estimaciones sesgadas mientras más etapas (t) se tenga.
+-	logra ajustar por confusores tiempo-dependientes que son afectados por la exposición previa, ya que examina por separado la asociación entre la exposición y el resultado contrafactual en cada visita y ajustando sólo por los valores de confusores tiempo-dependientes en tiempos anteriores
 
 (por si...)
 - estandarizar el riesgo de la distribución conjunta (joint distribution) de los confusores en todo el seguimiento densidad conjunta de los datos observados para generar resultados potenciales bajo distintos escenarios de resultados
@@ -1110,7 +1118,7 @@ mod4<-geepack::geese(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = d
 ```
 ]
 
-- Una vez que se genera el modelo de ecuaciones de estimación generalizadas (GEE) sin considerar la probabilidad inversa de asignación a tratamiento, se contrasta con el modelo en el que se pondera por dicha probabilidad inversa. 
+- Una vez que se genera el modelo GEE sin ajustar por la probabilidad inversa de asignación a tratamiento, se contrasta con el modelo en el que se pondera por dicha probabilidad. 
 
 Se seleccionó el modelo con menor QIC.
 
@@ -1152,7 +1160,7 @@ model.sel(mod1b, mod2b, mod3b, rank = QIC)
 ```
 ]
 
-Por último, una tabla comparativa de las estimaciones del tratamiento.
+<br>
 
 .details-code[
 ```{r tab-comp3, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T}

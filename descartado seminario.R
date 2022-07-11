@@ -10,11 +10,12 @@
   library(tidyverse)
   library(gganimate)
   library(ggthemes)
+library(transformr)
   options(expressions= 100000)
   
   
 set.seed(1234)
-corr <- 0.4
+corr <- -0.4
 
 cov.mat <- matrix(c(1, corr, 
                     corr, 1), nrow = 2)  
@@ -24,7 +25,7 @@ dfbin <- data.frame(MASS::mvrnorm(n = 2e2,
                                Sigma = cov.mat))
 
 dfbin$B1 <- ifelse(dfbin$X1 < qnorm(0.35), 1, 0)
-dfbin$B2 <- ifelse(dfbin$X2 < qnorm(0.8), 1, 0)
+dfbin$B2 <- ifelse(dfbin$X2 < qnorm(0.65), 1, 0)
 
 cor(dfbin$B1, dfbin$B2)
 
@@ -65,6 +66,8 @@ dffull <- rbind(
     ease_aes('sine-in-out')+
     exit_fade()+enter_fade()
   animate(p,nframes=100)
+  
+  gganimate(p, "output.gif")
 ```
 ]
 ]
@@ -82,84 +85,86 @@ knitr::include_graphics('./_figs/control_regresion.gif')
 
 ```{r p1-cont_conf2, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", out.width="100%", out.height="100%", error=T, dpi=750, fig.showtext=T}
 
+
+library(tidyverse)
+library(gganimate)
+library(ggthemes)
+options(expressions= 100000)
+
+
+set.seed(1234)
+corr <- -0.5
+
+cov.mat <- matrix(c(1, corr, 
+                    corr, 1), nrow = 2)  
+
+dfbin <- data.frame(MASS::mvrnorm(n = 9e2, 
+                                  mu = c(0, 0), 
+                                  Sigma = cov.mat))
+
+dfbin$B1 <- ifelse(dfbin$X1 < qnorm(0.5), 1, 0)
+dfbin$B2 <- ifelse(dfbin$X2 < qnorm(1- 0.5), 1, 0)
+
+#cor(dfbin$B1, dfbin$B2)
+#cor(dfbin$B1, df$Y)
+#cor(dfbin$B2, df$Y)
+
+df <- data.frame(L = dfbin$B2) %>% #variable binaria. Primeros 100= 0; Segundos=1
+  mutate(A = dfbin$B1) %>% #Variable explicativa, distribución normal, base .5+ doble de L
+  mutate(Y = 5*A + -3*L + -1 + rnorm(900),time="1. Inicio, datos crudos")
+
+
+#Calculamos las correlaciones
+before_cor <- paste("1. Inicio, datos crudos: r total= ",round(cor(df$A,df$Y),3),sep='')
+
 afterlab <-  paste('6. Lo resultante es la correlación entre X e Y controlando por W: ', round(cor(df$A-df$mean_A,df$Y-df$mean_Y),3),sep='')
 #0.579
 
 #Step 1: Raw data only
-dffull_ipw <-df %>% mutate(mean_A=NA,mean_Y=NA,time=before_cor,ipw=1)
+dffull_ipw0 <-df %>% mutate(mean_A=NA,mean_Y=NA,time=before_cor,ipw=1)
 modelo_lineal<-lm(Y~A,data = df)
 #Add predicted values
-dffull_ipw <-df %>% dplyr::mutate(lm=predict(modelo_lineal,newdata = df, type="response"))
+dffull_ipw0 <-df %>% dplyr::mutate(lm=predict(modelo_lineal,newdata = df, type="response"))
 
 #Step 2: Probability of treatment#<<
-modelo_exposicion <- glm(A ~ L, data = df, "binomial")#<<
+modelo_exposicion <- glm(A ~ factor(L), data = df, "binomial")#<<
+
+#Step 3: added that probability
+dffull_ipw05<-df %>% dplyr::mutate(lm=12,weight=1/predict(modelo_exposicion,newdata = df, type="response"))
+
+#Step 4: added the weighted regression
+modelo_lineal_ponderado <- lm(Y~A, data = dffull_ipw05, weight=weight)#<<
+
+dffull_ipw1<-df %>% dplyr::mutate(lm=predict(modelo_lineal_ponderado, newdata = df, type="response"),
+                                  weight=1/predict(modelo_exposicion,newdata = df, type="response"))
+
 #Add predicted values
-dffull_ipw <- rbind(dffull_ipw,
-       dffull_ipw %>% mutate(time='2. Identificar diferencias explicadas por L'))%>%
-       dplyr::left_join()
-df %>% dplyr::mutate(ipw=1/predict(modelo_exposicion,newdata = df, type="response"))
-dffull_ipw1<-
-  df %>% dplyr::mutate(ipw=1/predict(modelo_exposicion,newdata = df, type="response")) 
+dffull_ipw <- rbind(cbind.data.frame(dffull_ipw0, weight=1),
+                    dffull_ipw05 %>% mutate(time='2. Identificar diferencias explicadas por L'),
+                    dffull_ipw1 %>% mutate(time='3. Identificar diferencias explicadas por L'))
 
-%>% 
-  dplyr::mutate(eso=cov.wt(cbind(dffull_ipw1$A,dffull_ipw1$Y), wt = dffull_ipw1$ipw, cor = TRUE))
+# dplyr::mutate(eso=cov.wt(cbind(dffull_ipw1$A,dffull_ipw1$Y), wt = dffull_ipw1$ipw, cor = TRUE))
+# 
+# cov.wt(cbind(dffull_ipw1$A,dffull_ipw1$Y), wt = rep(1,200), cor = TRUE)$cor[1,2]
+# 
+# cov.wt(cbind(dffull_ipw1$A,dffull_ipw1$Y), wt = dffull_ipw1$ipw, cor = TRUE)$cor[1,2]
+# 
+# lm(Y~ A, data=dffull_ipw1, weight=ipw)  
+# 
+# sqrt(summary(lm(Y~ A, data=df))$r.squared)
+# 
+# cor(df$A,df$Y)
+# 
+# cor(df$A-df$mean_A,df$Y-df$mean_Y)^2
 
-cov.wt(cbind(dffull_ipw1$A,dffull_ipw1$Y), wt = rep(1,200), cor = TRUE)$cor[1,2]
-
-cov.wt(cbind(dffull_ipw1$A,dffull_ipw1$Y), wt = dffull_ipw1$ipw, cor = TRUE)$cor[1,2]
-
-lm(Y~ A, data=dffull_ipw1, weight=ipw)  
-
-sqrt(summary(lm(Y~ A, data=df))$r.squared)
-
-cor(df$A,df$Y)
-
-0.254438
-
-0.2449898
-
-cor(df$A-df$mean_A,df$Y-df$mean_Y)^2
-
-ggplot(aes(x=gdpPercap, y=lifeExp, color=continent, size=pop)) +
-  
-  ggplot(dffull,aes(y=Y,x=A,color=as.factor(L),size=1))+geom_point()+  
-  guides(color=guide_legend(title="W"))+
-  scale_color_colorblind()
-
-ipwplot(weights = temp$ipw.weights, timevar = startstop$fuptime,
-        + binwidth = 100, main = "Stabilized weights", xlab = "Days since HIV
-+ seroconversion", ylab = "Logarithm of weights", xaxt = "n")
-
-
-dffull <- rbind(
-  #Step 1: Raw data only
-  df %>% mutate(mean_X=NA,mean_Y=NA,time=before_cor),
-  #Step 2: Add x-lines
-  df %>% mutate(mean_Y=NA,time='2. Figure out what differences in X are explained by Z'),
-  #Step 3: X de-meaned 
-  df %>% mutate(X = mean_X,mean_Y=NA,time="3. Remove everything in X not explained by Z"),
-  #Step 4: Remove X lines, add Y
-  df %>% mutate(X = mean_X,mean_X=NA,time="4. Figure out what differences in Y are explained by Z"),
-  #Step 5: Y de-meaned
-  df %>% mutate(X = mean_X,Y = mean_Y,mean_X=NA,time="5. Remove everything in Y not explained by Z"),
-  #Step 6: Raw demeaned data only
-  df %>% mutate(X =  mean_X,Y =mean_Y,mean_X=NA,mean_Y=NA,YL=mean_Y,XL=mean_X,time=afterlab))
-
-```
-           ]
-    ]
-  ]
-
-
-.panel[.panel-name[Regresión]
-       
-       .details-code[
-         
-         ```{r p1-cont_conf3, eval=T,  dev.args = list(bg = 'transparent'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", fig.width = 7, fig.height = 5, out.width="70%", out.height="70%", error=T, dpi=750, fig.showtext=T}
-         
-         ```
-       ]
-]
-]
-
-<br>
+ggplot(dffull_ipw)+
+geom_point(aes(y=Y,x=A,color=as.factor(L),size=weight),position=position_jitter(seed = 2125))+
+  geom_line(aes(x=A, y=lm, time=time))+
+guides(color=guide_legend(title="W"))+
+scale_color_colorblind()+
+  #ylim(c(-2,9))+
+  labs(caption="Fuente: Nick Huntington-Klein (https://github.com/NickCH-K/causalgraphs)")+
+  labs(title = 'La relación entre X e Y Ponderando por la asignación inversa a tratamiento regresado en L\n{next_state}')+
+  transition_states(time,transition_length=c(12,32,12,32,12,12),state_length=c(160,100,75,100,75,160),wrap=FALSE)+
+  ease_aes('linear')+#ease_aes('sine-in-out')+
+  exit_fade()+enter_fade()
