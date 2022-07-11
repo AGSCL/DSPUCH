@@ -6,7 +6,7 @@ date:  "`r withr::with_locale(new =c('LC_TIME' = 'es_ES'), code =format(Sys.time
 output:
   xaringan::moon_reader:
     includes:
-      after_body: ['mylibs/collapseoutput.js','mylibs/hideOutput.js', 'mylibs/zoom.html', 'mylibs/manualcollapseinput.html']
+      after_body: ['mylibs/collapseoutput.js', 'mylibs/zoom.html']
     transition: slide
     lib_dir: libs
     css: ['xaringan-themer.css', 'animate.min.css', 'ninjutsu']
