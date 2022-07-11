@@ -851,7 +851,11 @@ o	Estandarización: pseudio-poblacion en que la exposición es independiente de 
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
+- IPTW (probabilidad inversa de asignación a tratamiento). Es un modelo en 2 etapas, en que primero estimamos la probabilidad de recibir tratamiento en base a un vector de confusores L. Luego en una segunda etapa se estima el modelo de regresión como tal, pero ya no existiendo la asociación entre confusor y tratamiento, ya que la pseudopoblación ponderada se encuentra balanceada en estos términos.  Lo problemático de este modelo es que algunas veces los tratados y no tratados tienen características muy distintas en los niveles de L, lo que puede generar problemas para asignar pesos (ej., asignaría pesos muy extremos e irrealistas).
 
+- Fórmula G paramétrica: Tiene un sesgo llamado G-null paradox, en que tiende a rechazar H0 en muestras muy grandes. 
+
+- La fórmula G es intensiva computacionalmente, al igual la estimación G, requieren más programación y e
 
 
 ---
@@ -922,7 +926,8 @@ head(datos,4) %>%
 *#_#_#_#_#_#_#_#_#_#_
 
 - Se asume que todos cursaron el tratamiento y no hay censura, que la velocidad es constante y los riesgos son constantes y proporcionales (Pierce)
-- Auto-regressive (AR1) correlation structure ...  correlation to decay as the outcome values were farther away from the time of interest.
+ Auto-regressive (AR1) correlation structure ...  correlation to decay as the outcome values were farther away from the time of interest.
+
 ---
 ## Aplicación (2)
 
@@ -1015,7 +1020,11 @@ dag34_plot
 - E[Treatment=1, time=1 | Treatment=1, time=(time-1)]
 
 - Generamos una muestra de 1000 casos con las siguientes características. En este ejemplo hipotético tenemos el proceso de generación de los datos y **queremos estimar el efecto de tratamiento residencial en los meses libre de readmisión**
-- Lo anterior, aplicando un modelo de ponderación inversa de la probabilidad de asignación de tratamiento , y luego un modelo marginal estructural en base a un modelo - GEE con errores estándar robustos  poisson, con estructura de correlación autorregresiva 1 para datos anidados por paciente (para reflejar la dependencia en los resultados del tratamiento anterior).
+- Lo anterior, aplicando un modelo de ponderación inversa de la probabilidad de asignación de tratamiento
+
+Estimamos el modelo de probabilidad inversa con el numerador (elementos invariantes en el tiempo) y el denominador todos los confusores de interés.
+
+, y luego un modelo marginal estructural en base a un modelo - GEE (generalized estimating ecuations) con errores estándar robustos  poisson, con estructura de correlación autorregresiva 1 para datos anidados por paciente (para reflejar la dependencia en los resultados del tratamiento anterior).
 
 ---
 ## Aplicación (3)
@@ -1194,6 +1203,11 @@ https://search.r-project.org/CRAN/refmans/ipw/html/ipwtm.html
 
 - Machine Learning (bagging, boosting, random forests, neural networks)
 
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+- Métodos mixtos: g-formula y IPTW
 
 ---
 class: center, middle
