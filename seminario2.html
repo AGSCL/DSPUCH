@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Seminario</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Andrés González" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/ninjutsu.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-progressBar-0.0.1/progress-bar.js"></script>
+    <link href="libs/animate.css-3.7.2/animate.xaringan.css" rel="stylesheet" />
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x489c851092949b7a74713b107817f6f","expires":1}</script>
+    <script src="libs/himalaya-1.1.0/himalaya.js"></script>
+    <script src="libs/js-cookie-3.0.0/js.cookie.js"></script>
+    <link href="libs/editable-0.2.6/editable.css" rel="stylesheet" />
+    <script src="libs/editable-0.2.6/editable.js"></script>
+    <script src="libs/xaringanExtra_fit-screen-0.2.6/fit-screen.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="animate.min.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+
+
+class: title-slide, middle, right 
+
+&lt;br&gt;
+
+&lt;br&gt; 
+
+
+&lt;br&gt; 
+
+.line_space_15[ 
+## .text_80[Modelos estructurales marginales para el control de&lt;br&gt;sesgos en estudios observacionales con factores de&lt;br&gt;riesgo y exposición tiempo-dependientes]
+]
+
+&lt;br&gt;
+
+.line_space_11[
+    
+&lt;br&gt;
+
+.text_70[[Código en: <svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>](https://github.com/AGSCL/DSPUCH)]
+
+.text_110[Seminario Métodos de Investigación en Salud Pública]
+
+]
+
+.bg-text[
+12 de julio, 2022
+
+.text_100[Andrés González Santa Cruz]
+
+.text_50[gonzalez.santacruz.andres@gmail.com] [<svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>](https://github.com/AGSCL) [<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:green;overflow:visible;position:relative;"><path d="M294.75 188.19h-45.92V342h47.47c67.62 0 83.12-51.34 83.12-76.91 0-41.64-26.54-76.9-84.67-76.9zM256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm-80.79 360.76h-29.84v-207.5h29.84zm-14.92-231.14a19.57 19.57 0 1 1 19.57-19.57 19.64 19.64 0 0 1-19.57 19.57zM300 369h-81V161.26h80.6c76.73 0 110.44 54.83 110.44 103.85C410 318.39 368.38 369 300 369z"/></svg>](https://orcid.org/0000-0002-5166-9121)
+]
+&lt;img src="./_style/Logo_nDP_monotono_vertical_en.png" width="15%" /&gt;
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+- Mi nombre es andrés gonzález y en esta instancia presentaré sobre los modelos estructurales marginales
+- Decidí abordar un tema metodológico no tratado en clases, que les será útil para mi tesis y que podría ser útil para otros.
+- 
+
+---
+layout: true
+class: animated, fadeIn
+---
+## Índice
+
+&lt;br&gt;
+
+1. Problemática
+
+2. Causalidad
+
+3. Ajuste confusión
+
+4. Marginal Structural Models
+
+5. Aplicación
+
+6. Desafíos
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA INDICE**
+*#_#_#_#_#_#_#_#_#_#_
+Primeras dos, repaso:
+1- **Origen de mi interés y problemática**: factores de riesgo y exposición tiempo-dependientes: Ejemplo de arbol de decisiones y que al final obtenía puros efectos condicionales.
+2- **Causalidad**: La tarea de la epidemiología, definicion de causalidad y de confusión. Distribución marginal vs. conjunta, etc. Datos observacionales. Supuestos: SUTVA; Sesgos.Supuestos a la base, amenazas, sesgos, y particularmente sesgos que ocurren para este diseño de datos.
+3- **Ajuste confusión**: Las formas. En una de esas, mostrar gif y animaciones (https://youtu.be/j8J2L_g76c4?t=68 o https://twitter.com/nickchk/status/1068215492458905600 / https://github.com/NickCH-K/causalgraphs/blob/master/Animation%20of%20IV.R / https://nickchk.com/causalgraphs.html). Explicar las diferencias entre estandarización y restricción --&gt; ir poniendo el código paso por paso
+4- **MSM**, los tipos.Explicar por qué son **estructurales** (1) y **marginales**(2), explicar las situaciones en que se ocupan y son útiles. Incluso con datos aleatorizados. Sesgos que resuelven
+5- **Aplicación**: Explicar estructura hipotética de los datos, aplicación de un modelo simple.
+6- **Desafíos y aproximaciones más complejas**
+
+---
+## Problemática
+
+.panelset.sideways[
+
+.panel[.panel-name[Estructura hipotética más cercana a lo real]
+
+.details-code[
+
+
+```r
+# Libraries
+library(ggplot2)
+
+set.seed(2125)
+# Create data
+data &lt;- data.frame(
+  y=abs(rpois(1:250,15)),
+  y2=abs(rpois(1:250,15))
+) %&gt;% 
+  dplyr::filter(y2&gt;y, y&gt;=8, y2&lt;=22) %&gt;%
+  dplyr::mutate(Paciente=row_number()) %&gt;% 
+  #filtrar tratamientos más largos que 3 años
+  dplyr::mutate(diff_treat=y2-y) %&gt;% 
+  dplyr::filter(diff_treat&lt;=3)
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+for (i in 1:nrow(data)){
+   data$y3[i]&lt;-base::sample(x=seq(from=data$y2[i]+1,to=22),1)
+   data$y3[i]&lt;-ifelse(data$y3[i]&lt;=data$y2[i],22,data$y3[i])
+   data$y3[i]&lt;-ifelse(data$y3[i]&gt;=23,22,data$y3[i])
+   data$y4[i]&lt;-ifelse(!is.na(data$y3[i]),base::sample(x=seq(from=data$y3[i]+1,to=22),1),22)
+   data$y4[i]&lt;-ifelse(data$y4[i]&lt;=data$y3[i],22,data$y4[i])
+   data$y4[i]&lt;-ifelse(data$y4[i]&gt;=23,22,data$y4[i])
+}
+```
+
+```
+## Error in 1:nrow(data): argument of length 0
+```
+
+```r
+set.seed(2125)
+pac_aleatorio1&lt;-sample(1:max(data$Paciente),40)
+```
+
+```
+## Error in data$Paciente: object of type 'closure' is not subsettable
+```
+
+```r
+pac_aleatorio2&lt;-setdiff(sample(1:max(data$Paciente),40), pac_aleatorio1)
+```
+
+```
+## Error in data$Paciente: object of type 'closure' is not subsettable
+```
+
+```r
+set.seed(2125)
+pac_aleatorio3&lt;-unique(data$Paciente)[sample(1:length(data$Paciente),15)]
+```
+
+```
+## Error in data$Paciente: object of type 'closure' is not subsettable
+```
+
+```r
+# Horizontal version, antes era 1985
+end_plot&lt;-20
+
+  fig_trans&lt;-ggplot(data) 
+```
+
+```
+## Error:   You're passing a function as global data.
+##   Have you misspelled the `data` argument in `ggplot()`
+```
+
+```r
+  ###&gt;=10
+  #datos de tratamiento en periodo de seguimiento, posterior al 2010
+fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y&gt;=10,y2&lt;=end_plot, Paciente %in% pac_aleatorio3), aes(x=Paciente, xend=Paciente, y=y, yend=y2), color="#EF9D2F", alpha=.6, size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y&gt;=10,y2&lt;=end_plot, !Paciente %in% pac_aleatorio3), aes(x=Paciente, xend=Paciente, y=y, yend=y2), color="#21177A", alpha=.6, size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entera hasta el 2020
+fig_trans&lt;-try(fig_trans+ geom_segment(data=dplyr::filter(data,y&gt;=10,y2&gt;end_plot), aes(x=Paciente, xend=Paciente, y=y, yend=end_plot), color="#21177A", alpha=.6, size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
+fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y&gt;=10,y2&gt;end_plot), aes(x=Paciente, xend=Paciente, y=end_plot, yend=y2), color="#21177A", alpha=.6, linetype="dotted", size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  ###&lt;10
+  #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
+fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y&lt;10), aes(x=Paciente, xend=Paciente, y=y, yend=10), color="#21177A", alpha=.6, linetype="dotted", size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  #datos de tratamiento en periodo de seguimiento, menos de 2010 pero sólo y1
+fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y&lt;10,y2&gt;=10,y2&lt;=end_plot, Paciente %in% pac_aleatorio3), aes(x=Paciente, xend=Paciente, y=10, yend=y2), color="#EF9D2F", alpha=.6,  size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+#fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y&lt;10,y2&gt;=10,y2&lt;=end_plot, !Paciente %in% pac_aleatorio3), aes(x=Paciente, xend=Paciente, y=10, yend=y2), color="#21177A", alpha=.6,  size=.8))
+
+  #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entera hasta el 2020
+# fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y&lt;10,y2&gt;end_plot), aes(x=Paciente, xend=Paciente, y=10, yend=end_plot), color="#21177A", alpha=.6, size=.8))
+# CONTACTO: VICTIMARIO: debo saber si y3 está dentro o no del seguimiento
+  ###&gt;=10
+  #datos de justicia en periodo de seguimiento, linea solida
+fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y3&lt;=end_plot, y4&lt;=end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=y4), color="#21177A", alpha=.6, size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  #datos de justicia en periodo de seguimiento, exceden el seguiemiento pero parten en él. linea solida hasta el 2020
+fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y3&lt;=end_plot, y4&gt;end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=end_plot), color="#21177A", alpha=.6, size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+#si estoy dentro de los datos en y, peroen end plot no, tengo q hacer el interlineado afuera
+fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y3&lt;=end_plot, y4&gt;end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=end_plot, yend=y4), color="#21177A", alpha=.6,linetype="dotted",  size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  #datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
+ fig_trans&lt;-try(fig_trans+geom_segment(data=dplyr::filter(data,y3&gt;end_plot, y4&gt;end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=y4), color="#21177A", alpha=.6, linetype="dotted", size=.8))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+##   namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+ fig_trans_final&lt;-
+   #Puntos
+fig_trans+
+     #Tratamientos completados
+    geom_point(data=dplyr::filter(data,Paciente%in% sample(c(pac_aleatorio1,pac_aleatorio2),15), Paciente %in% pac_aleatorio3), aes(x=Paciente, y=y2), color="#EF9D2F", size=3, alpha=.6) +
+    #geom_point(data=dplyr::filter(data,Paciente%in% pac_aleatorio1, Paciente %in% pac_aleatorio3), aes(x=Paciente, y=y4),color="#EF9D2F",size=3,alpha=.6)+
+   geom_point(data=dplyr::filter(data,Paciente%in% sample(c(pac_aleatorio1,pac_aleatorio2),15), !Paciente %in% pac_aleatorio3), aes(x=Paciente, y=y2), color="#21177A", size=3, alpha=.6) +
+    geom_point(data=dplyr::filter(data,Paciente%in% pac_aleatorio1, !Paciente %in% pac_aleatorio3), aes(x=Paciente, y=y4),color="#21177A",size=3,alpha=.6)+
+   
+    theme_light() +
+    coord_flip() +
+    #fechas donde yo tomo gente
+     annotate("rect", xmin=-Inf, xmax=Inf, ymin=10, ymax=10.5,
+          alpha = .2, fill="blue")+
+    annotate("rect", xmin=-Inf, xmax=Inf, ymin=19.5, ymax=20,
+          alpha = .2, fill="blue")+
+    theme(
+      panel.grid.major.y = element_blank(),
+      panel.border = element_blank(),
+      axis.ticks.y = element_blank()
+    )+
+    scale_x_continuous(breaks=seq(1,max(data$Paciente),by=10))+
+    scale_y_continuous(breaks=seq(min(data$y),max(data$y4),by=2), labels=seq(min(data$y),max(data$y4),by=2)+2000)+
+   labs(y="Tiempo de seguimiento (en trimestres)", x="Individuos (ID)")+
+  #labs(y="Follow-up (in quarters)",x="Individual(ID)", caption="Note. Dot= Complete treatment;\nSquare= Contact w/ justice system (imputed);\nTriangle= Contact w/ justice system (victim);\nBlue line= Time in treatment;\nOrange line= Time in conctact w/justice system;\nShared area=Follow-up window")+
+  theme(plot.caption = element_text(hjust = 0, face= "italic"))+
+   labs(caption="Punto= Completa treatmento;\nAzul= Tratamiento ambulatorio;\nAmarillo= Tratamiento residencial; \nLínea= Tiempo en tratamiento;\nArea sombreada=Inicio y término seguimiento")+
+  theme(
+  panel.background = element_rect(fill = "transparent",
+                                  colour = NA_character_), # necessary to avoid drawing panel outline
+  #panel.grid.major = element_blank(), # get rid of major grid
+  #panel.grid.minor = element_blank(), # get rid of minor grid
+  plot.background = element_rect(fill = "transparent",
+                                 colour = NA_character_), # necessary to avoid drawing plot outline
+  legend.background = element_rect(fill = "transparent"),
+  legend.box.background = element_rect(fill = "transparent"),
+  legend.key = element_rect(fill = "transparent"))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+ invisible("Paciente 49: 2011 al 2014 cursa un primer tratamiento que abandona, luego del 2016 al 2018 completó un tratamiento")
+ fig_trans_final
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'fig_trans_final' not found
+```
+]
+
+]
+
+.panel[.panel-name[Primera aproximación]
+
+Objetivo:
+
+**Estimar el efecto de la modalidad de tratamiento por trastornos por uso de sustancias (ambulatorios vs. residenciales) a la base en la probabilidad de experimentar subsiguientes readmisiones a TUS**
+
+
+Análisis propuestos en esa oportunidad:
+
+.superbigimage[
+.text_50[
+`$$readmisión\sim A_{1 (Modalidad\,base)}+X_{2 (Completa\,tto.\,base)}+\epsilon$$`
+`$$2^{da}\,readmisión\sim A_{1(Modalidad\,base)}+L_{2 (Completa\,tto.\,base)}+L_{3 (Completa\,2^{do}\,tto.)}+L_{4 (Días\,desde\,1^{er}\,ingreso)}+ \epsilon$$`
+`$$3^{era}\,readmisión\sim A_{1(Modalidad\,base)}+ L_{2 (Completa\,tto.\,base)}+ L_{3 (Completa\,2^{do}\,tto.)}+ L_{4 (Completa\,3^{er}\,tto.)}+ L_{5 (Días\,desde\,1^{er}\,ingreso)}+\epsilon$$`
+`$$4^{ta}\,readmisión\sim A_{1 (Modalidad\,base)}+ L_{2 (Completa\,tto.\,base)}+ L_{3 (Completa\,2^{do}\,tto.)}+ L_{4 (Completa\,3^{er}\,tto.)}+ L_{5 (Completa\,4^{to}\,tto.)}+ L_{6 (Días\,desde\,1^{er}\,ingreso)}+\epsilon$$`
+]
+]
+
+.center[**¿Cómo se reflejaría en un diagrama?**]
+
+]
+
+.panel[.panel-name[Diagrama Causal Simplificado]
+
+.details-code[
+
+
+```r
+dag23 &lt;- dagitty('dag {
+bb="0,0,1,1"
+"A0 (Modalidad tto. basal)" [exposure,pos="0.184,0.608"]
+"A1 (Modalidad tto. 2)" [pos="0.451,0.605"]
+"A2 (Modalidad tto. 3)" [pos="0.734,0.605"]
+"L0 (Vector car. individuales)- Pareamiento" [adjusted,pos="0.121,0.397"]
+"L1 (Días previos a la readmisión 2)" [adjusted,pos="0.507,0.341"]
+"L2 (Días previos a la readmisión 3)" [adjusted,pos="0.691,0.365"]
+"LM0(Completa tto. basal)" [adjusted,pos="0.269,0.707"]
+"LM1 (completa tto. 2)" [adjusted,pos="0.566,0.714"]
+"LM2 (completa tto. 3)" [adjusted,pos="0.838,0.722"]
+"U0 (ej., factores genéticos)" [latent,pos="0.124,0.273"]
+"U1 Car. indivudales (ej., patrón de consumo)" [latent,pos="0.444,0.829"]
+"U2 Car. individuales T2" [latent,pos="0.733,0.814"]
+"Y1(Readmisión)" [outcome,pos="0.355,0.604"]
+"Y2(2da Readmisión)" [outcome,pos="0.626,0.605"]
+"Y3(4ta Readmisión)" [outcome,pos="0.960,0.607"]
+"A0 (Modalidad tto. basal)" -&gt; "LM0(Completa tto. basal)"
+"A0 (Modalidad tto. basal)" -&gt; "Y3(4ta Readmisión)"
+"A1 (Modalidad tto. 2)" -&gt; "LM1 (completa tto. 2)"
+"A2 (Modalidad tto. 3)" -&gt; "LM2 (completa tto. 3)"
+"L0 (Vector car. individuales)- Pareamiento" -&gt; "A0 (Modalidad tto. basal)"
+"L0 (Vector car. individuales)- Pareamiento" -&gt; "Y1(Readmisión)"
+"L1 (Días previos a la readmisión 2)" -&gt; "Y2(2da Readmisión)"
+"L2 (Días previos a la readmisión 3)" -&gt; "Y3(4ta Readmisión)"
+"LM0(Completa tto. basal)" -&gt; "U1 Car. indivudales (ej., patrón de consumo)"
+"LM0(Completa tto. basal)" -&gt; "Y1(Readmisión)"
+"LM0(Completa tto. basal)" -&gt; "Y2(2da Readmisión)"
+"LM0(Completa tto. basal)" -&gt; "Y3(4ta Readmisión)"
+"LM1 (completa tto. 2)" -&gt; "U2 Car. individuales T2"
+"LM1 (completa tto. 2)" -&gt; "Y2(2da Readmisión)"
+"LM1 (completa tto. 2)" -&gt; "Y3(4ta Readmisión)"
+"LM2 (completa tto. 3)" -&gt; "Y3(4ta Readmisión)"
+"U0 (ej., factores genéticos)" -&gt; "L0 (Vector car. individuales)- Pareamiento"
+"U0 (ej., factores genéticos)" -&gt; "Y1(Readmisión)"
+"U0 (ej., factores genéticos)" -&gt; "Y2(2da Readmisión)"
+"U0 (ej., factores genéticos)" -&gt; "Y3(4ta Readmisión)"
+"U1 Car. indivudales (ej., patrón de consumo)" -&gt; "A1 (Modalidad tto. 2)"
+"U1 Car. indivudales (ej., patrón de consumo)" -&gt; "LM1 (completa tto. 2)"
+"U2 Car. individuales T2" -&gt; "A2 (Modalidad tto. 3)"
+"U2 Car. individuales T2" -&gt; "LM2 (completa tto. 3)"
+"Y1(Readmisión)" -&gt; "A1 (Modalidad tto. 2)"
+"Y1(Readmisión)" -&gt; "U1 Car. indivudales (ej., patrón de consumo)"
+"Y2(2da Readmisión)" -&gt; "A2 (Modalidad tto. 3)"
+"Y2(2da Readmisión)" -&gt; "U2 Car. individuales T2"
+}')
+
+tidy_dag23 &lt;- tidy_dagitty(dag23) %&gt;% 
+  dplyr::mutate(label=dplyr::case_when(grepl("A0",as.character(name))~"A0",
+                                       grepl("A1",as.character(name))~"A1",
+                                       grepl("A2",as.character(name))~"A2",
+                                       grepl("L0",as.character(name))~"L0",
+                                       grepl("L1",as.character(name))~"L1",
+                                       grepl("L2",as.character(name))~"L2",
+                                       grepl("LM0",as.character(name))~"LM0",
+                                       grepl("LM1",as.character(name))~"LM1",
+                                       grepl("LM2",as.character(name))~"LM2",
+                                       grepl("U0",as.character(name))~"U0",
+                                       grepl("U1",as.character(name))~"U1",
+                                       grepl("U2",as.character(name))~"U2",
+                                       grepl("Y1",as.character(name))~"Y1",
+                                       grepl("Y2",as.character(name))~"Y2",
+                                       grepl("Y3",as.character(name))~"Y3",
+                                       T~as.character(name))) %&gt;% 
+  dplyr::mutate(label2=dplyr::case_when(grepl("U",name)~"latent",grepl("L|LM",name)~"adj",grepl("LM",name)~"white",
+                                       T~"black")) %&gt;% 
+  dplyr::mutate(adjusted=factor(dplyr::case_when(grepl("L|LM",name)~"adjusted",T~"unadjusted")))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  edge_function &lt;- ggdag:::edge_type_switch("link_arc")
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  dag23_plot&lt;-
+ggdag:::if_not_tidy_daggity(tidy_dag23) %&gt;% ggdag:::node_status() %&gt;% 
+  ggplot2::ggplot(ggplot2::aes(x = x, y = y, xend = xend, 
+                                 yend = yend, color = status, shape=factor(adjusted)))+ 
+    #edge_function()+
+    scale_adjusted()+ 
+    ggdag:::breaks(c("exposure", "outcome","latent"))+
+    geom_dag_edges_arc(curvature = c(0,5,rep(0,26)))+
+   ggdag:::geom_dag_point(size = 16)+
+  ggdag:::geom_dag_label_repel(ggplot2::aes_string(label = "label", 
+            fill = "status"), size = 4.88, col = "white", 
+            show.legend = FALSE)+
+    theme_dag()+
+    scale_shape_manual(values = c(15, 16), name="Ajustado", labels=c("Sí", "No"))+ 
+  scale_fill_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado","No observado"), limits = c('exposure', 'outcome','latent'))+
+  scale_color_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado","No observado"), limits = c('exposure', 'outcome','latent'))+#E6E6E6
+  guides(linetype="none", edge_alpha="none", shape="none")+
+  guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
+  theme(plot.caption = element_text(hjust = 0))+
+  theme(legend.position = "bottom", aspect.ratio=6/10)+
+    labs(caption="Nota. Ak= Modalidad (Residencial/Ambulatoria); LMk= Completa tratamiento;\nL0= Confusores, características individuales y del centro a la base;Lk+= Días previos a la readmisión;\nYk= Resultadotratamiento; Uk=Car. no observadas para cada tiempo")
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  dag23_plot
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'dag23_plot' not found
+```
+]
+&lt;div class="center"&gt; ¿Qué ocurre con las modalidades en los tratamientos sucesivos?, ¿Confunden la asociación entre `\(A_0\)` ` e` `\(Y_3\)` `? `, ¿Sigue siendo causal en presencia de { `\(A_1\,, A_2\,,A_3\)` `}? 
+&lt;/div&gt;
+&lt;!--- U puede tener relación con derivaciones no observadas posterior al tratamiento, que sería como un U1.5---&gt;
+&lt;!--- U puede tener relación con derivaciones no observadas posterior al tratamiento, que sería como un U1.5---&gt;
+]
+
+.panel[.panel-name[Entonces...]
+
+- Varias puertas traseras sin cerrar, confusión residual, abandono/pérdida, sobreajuste, etc.
+
+- El diseño y la estrategia analítica hasta el momento no permite responder a una pregunta causal de manera adecuada (muchos contrastes condicionales a la trayectoria de tratamientos y del mediador)
+
+- Debiesen analizarse otras estrategias que capturen efectos longitudinales
+
+&lt;br&gt;
+
+.pull_r_30[
+.text_60[
+***"In longitudinal studies with time-dependent confounding, identifying the structure allows us to detect situations in which stratification-based methods would adjust for confounding at the expense of introducing selection bias (p. 622)"*** `\(^{[1]}\)`
+]
+]
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+&lt;br&gt;
+.down_center[
+&lt;div class="red"&gt; 
+¿Se puede responder a la pregunta de si haber asistido a tratamiento residencial a la base ( `\(A_0\)` `) es beneficioso?, y si lo es, ¿qué régimen/estrategia es óptima o casi óptima? `\(^{[2]}\)` 
+
+&lt;/div&gt;
+]
+]
+
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+1.	Mi interés principalmente proviene de una **investigación en la que estoy participando, en que analizo trayectorias de tratamientos de drogas del 2010-2019.** Por ejemplo, en este caso, el Paciente N°55 completa tto. residencial y experimenta el evento de interés (readmisión), en ambos completa el tratamiento.
+2.	El objetivo de ese estudio era **estimar ese efecto mediante 4 regresiones secuenciales y estratificado por la presencia de cada evento** (ej., se partió con 22.000 1era readmisión; 4ta = 200 usuarios).Hay varios problemas.
+3.	 Hernan señala que no es posible representar en un diagrama un **pareamiento** (Al margen de eso, ya también es discutible su implicancia causal, ya que agrupa al 90% de los tratamientos residenciales, pero al **18% de los ambulatorios**. Es un efecto en los tratados. Se puede observar que hay muchos colliders (en LM) y puertas traseras no cerradas ().**The total effect cannot be estimated due to adjustment for an intermediate or a descendant of an intermediate**.).
+4.	OR LO VISTO, SON **EFECTOS ANIDADOS PRODUCTO DE LA COMBINACIÓN DE CADA UNO Y POR TANTO  CONDICIONALES** (EJ., QUIEN PRESENTA UN REGIMEN EN QUE COMPLETA UN RESIDENCIAL A LA BASE, SEGUIDO DE COMPLETAR EL SEGUNDO TRATAMIENTO RESIDENCIAL,VA A TENER UN RIESGO DE READMISIÓN DISTINTO  DE AHÍ QUE EL EFECTO ES CONDICIONAL A ESTE REGIMEN DE EXPOSICION Y MEDIACION
+
+**Hasta el momento es encesario hacer modificaciones al diseño y la estrategia analítica**
+
+(por si ... )
+- Que no haya Ajuste por variables intermedias o descendientes de una variable intermedia ("the mantra not to control for factors affected by exposure".- Overadjustment)Schisterman2009
+- Control for `W` by seeing what `W` explains (perhaps with a regression) and taking it out
+- *crossover effects
+
+---
+class: center, middle
+
+## Objetivo
+
+Este proyecto apunta a servir como un material introductorio sobre modelos estructurales marginales para el control de sesgos en estudios observacionales con factores de riesgo y/o exposición tiempo-dependientes. 
+
+--
+- Se mostrará su estimación paso a paso y mediante un ejercicio reproducible. 
+
+--
+- Se utilizará una base de datos simulada para ilustrar el proceso.
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+Ejemplos de publicaciones de este tipo hay:
+
+- Tutoriales de herramientas analíticas innovadoras en "Psychological Methods" (APA) https://www.apa.org/pubs/journals/met/call-for-papers-tutorials
+
+- Bradburn, M., Clark, T., Love, S. et al. Survival Analysis Part I: Multivariate data analysis – an introduction to concepts and methods. British Journal of Cancer 89, 431–436 (2003). https://doi.org/10.1038/sj.bjc.6601119
+
+- Zhang, Z., Abarda, A., Contractor, A., Wang, J., &amp; Dayton, C. (2018). Exploring heterogeneity in clinical trials with latent class analysis. Annals Of Translational Medicine, 6(7), 9. doi:10.21037/atm.2018.01.24
+
+---
+## Causalidad (1)
+
+.pull_left[
+
+- Salud pública- epidemiología  `\(^{[3]}\)`
+
+- Qué pasaría si... // Qué causa ...  `\(^{[4; 5]}\)`
+
+&lt;img src="seminario2_files/figure-html/unnamed-chunk-2-1.png" width="350" style="display: block; margin: auto auto auto 0;" /&gt;
+
+- Asociación vs. Causalidad  `\(^{[4; 6]}\)`
+
+- Inferencia  `\(^{[6]}\)`
+
+- RCTs `\(^{[7]}\)`
+
+- Estudios observacionales
+
+.text_70[
+***"It’s much easier to get a result than it is to get an answer"*** `\(^{[8]}\)`
+]
+]
+
+.pull_right[
+
+.
+
+&lt;img src="seminario2_files/figure-html/unnamed-chunk-3-1.png" width="350" style="display: block; margin: auto 0 auto auto;" /&gt;
+.line_space_05[
+.text_60[
+.footnote[
+Riseberg,E., Melamed, R., James, K., Alderete, T. &amp; Corlin, L. (2021). Development and application of an evidence-based directed acyclic graph to evaluate the associations between metal mixtures and cardiometabolic  outcomes. doi: https://doi.org/10.1101/2021.03.05.21252993
+]
+]
+]
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA** (1)
+*#_#_#_#_#_#_#_#_#_#_
+
+2- **Causalidad**:
+-	Muchas preguntas en salud pública se remiten a cuestiones epidemiológicas. Desde determinantes (ej., vulnerabilidad, PP PP), pasando por **PP PP, factores de riesgo, procesos biológicos/mecanismos etiológicos**, etc.
+-	Una **asociación no siempre es causal**, en esta presentación me remitiré a preguntas que apuntan a la identificación o a cuantificar relaciones causales.
+-	Hay asociación cuando el tener información sobre una variable me permite predecir mejor en promedio el resultado de Y, incluso si esa variable no causa Y. El mecanismo no lo sabemos.
+-	**Uno de los desafíos es poder determinar si por sí sola una variable X causa Y**
+-	**El control de la confusión (terceras variables que podrían explicar las asociaciones de interés) es uno de los pasos más desafiantes en la conducción de estudios observacionales (MANSOURNIA) y a menudo puede ocurrir también en ensayos clínicos**
+-	**Ensayos clínicos** controlados patrón **oro** de evidencia, aleatorizados (NEFRO) aunque a veces no SON FACTIBLES O ÉTICOS
+-	El marco de inferencia contrafactual (potential outcomes framework) (Neyman, 1923; Rubin, 1974), iniciado por Neyman y continuado por Rubin, busca comparar teóricamente **qué ocurriría si todos los pacientes hubieran sido tratados frente a si ningún paciente hubiese sido tratado**
+-	Una asociación puede definirse en términos de una distribución conjunta de variables observadas, mientras que un concepto causal no puede definirse solamente de la distribución. (Pearl 2003). 
+-	La cita se vincula con que, **para Pearl, el dato de por sí no es suficiente para señalar que una relación es causal**(Pearl, 2003) Y eso nos da paso a la siguiente diapositiva.
+
+
+---
+## Causalidad (2)
+
+**SUTVA** `\(^{[9; 10; 11]}\)`
+
+&lt;img src="./_figs/sutva.jpg" width="300" style="display: block; margin: auto auto auto 0;" /&gt;
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA** (21)
+*#_#_#_#_#_#_#_#_#_#_
+potential outcomes framework (Neyman, 1923; Rubin, 1974).  ATE = E[Y (1) -Y(0)]
+
+-	supuesto **stable-unit-treatment-value** (SUTVA)” (Rubin 1980). La validez de nuestras inferencias causales requieren dichas condiciones:
+-	Nos obliga a **pensar el mecanismo de asignación** (assignment mechanism) para definir efectos causales para identificarlos
+
+--
+
+- *Consistencia*
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA** (22)
+*#_#_#_#_#_#_#_#_#_#_
+
+-	Consistencia: Si un individuo tiene una exposición A=a, entonces su resultado Y = Y(a). **¿Todos recibieron el tratamiento en medida similar? ¿Lo mismo ocurre con quienes no lo recibieron?**
+-	Nos permite homologar los resultados de quienes recibieron una exposición al resultado potencial que se habría observado con ese valor de exposición
+- ** **¿Está bien clasificada la exposición?**
+
+--
+
+- *Positividad*
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA** (22)
+*#_#_#_#_#_#_#_#_#_#_ 
+
+-	Positividad: **¿La distribución de las covariables L en tratados es similar con no-tratados?**, la probabilidad de asignación está entre 0 y 1, por lo que se puede tener tratados y no tratados. Cuando **hay expuestos y no expuestos en todos los niveles de confusión** 
+- **No puede haber un confusor o covariable que determine perfectamente el tratamiento o no-tratamiento fuera de A**
+- Esto a menudo nos e ve en las regresiones.
+--
+
+- *Intercambiabilidad*
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA** (23)
+*#_#_#_#_#_#_#_#_#_#_
+
+-	Intercambiabilidad: Debiese ser la primera, pero la dejé al final por ser la **más importante**. Fuera de contextos aleatorios, la intercambiabilidad será **condicional a los confusores** ¿Son comparables los grupos, dada la confusión?
+-	**¿Los tratados y no tratados habrían experimentado en promedio el mismo riesgo de muerte de haber recibido el mismo nivel de tratamiento?**
+-	¿Sigue siendo informativo para el resultado observado saber si son tratados o no, condicional a los niveles de confusión?
+-	los resultados son **independientes de la asignación a tratamiento dado que se tienen las covariables?**
+-	Sesgos como el error de medición, variables no-observadas también podrían	 afectar el cumplimiento de estos supuestos.
+
+---
+## Ajuste confusión
+
+- **Estratificación / Regresiones**  
+
+- **Estandarización** `\(^{[12; 5; 13]}\)`
+
+--
+
+&lt;img src="./_figs/control_regresion.gif" width="350" style="display: block; margin: auto;" /&gt;
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+Asumiendo en gran parte SUTVA, **abordaremos las estrategias analíticas para cerrar puertas traseras que pudiesen confundir el efecto del tratamiento en resultado**.
+-	**La manera que los manejamos los (Lit) puede introducir sesgo** (2021 04 21 Marginal Structural Models)
+-	Están los **modelos condicionales (Vansteelandt2011) y los basados en la estandarización**.
+-	Los primeros agrupan
+-	Estratificación: Por ejemplo, las regresiones hacen un análisis por cada estrato y de ahí agrupan las medidas de resumen (centrar en los niveles de la covariable), o estratificar (restringir el análisis a un nivel de una covariable) (Hernan CURSO). El **riesgo causal específico al estrato**,  igual al asociacional. Son **condicionales** al estrato y al modelo
+-	Estandarización: pseudo-poblacion en que la exposición es independiente de confusores, permitiendo la **estimación de parámetros marginales** estructurales, es decir, en toda la población de haber recibido el tratamiento. **no dependen de los valores de las otras covariables**. El contrafactual nunca lo observamos directamente, **lo estimamos**
+
+*#_#_#_#_#
+
+-	No obstante, cuando se quiere analizar efectos longitudinales. **No basta con el cumplimiento de los supuestos planteados arriba. Muchas exposiciones en epidemiología y salud pública son tiempo-variables** (Mansournia2017)
+-	**Se suman otras fuentes de confusión y sesgo**. Es aquí que son de utilidad los modelos marginales estructurales.
+-	Por ejemplo, se generan **sesgos de selección en el seguimiento**, se introducen confusores tiempo-dependientes (valores que toman más de un valor en el tiempo, algunos producto del tratamiento anterior - -	**treatment confounder feedback**) o tratamientos que son dependientes del tiempo, ajustes que van en un camino desde la exposición al resultado (condicioanr en mediadores) (sobreajuste) u estratificación por colliders
+-	De ahí que la intercambiabilidad pasa a ser **secuencial (no sólo en el vector de confusión basal) **  Ya0,a1 _||_ A0
+
+---
+## Marginal structural models
+
+- ¿Por qué el nombre?
+
+- Tres principales:
+ 
+ - IPTW
+ 
+ - Fórmula G paramétrica
+ 
+ - Estimación G
+ 
+- Ventajas y desventajas:
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+-	El nombre “marginal structural apunta a estimar los efectos causales (estructurales) y marginales porque estiman el efecto en toda la población, no sólo condicional a los tratados (average treatment effects). ** Requieren conocimiento del diagrama causal**
+-	Las ponderaciones producen un pseudo-cohorte en que todos los confusores se balancean. **Es más simple. Es el que vamos a mostrar**
+-	IPTW (probabilidad inversa de asignación a tratamiento). Es un **modelo en 2 etapas**, en que primero estimamos la **probabilidad de recibir tratamiento** en base a un vector de confusores L. Luego en una segunda etapa se estima el modelo de regresión como tal, pero ya no existiendo la asociación entre confusor y tratamiento, ya que la **pseudopoblación ponderada** se encuentra balanceada en estos términos.  Lo problemático de este modelo es que **algunas veces los tratados y no tratados tienen características muy distintas en los niveles de L**, lo que puede generar problemas para asignar pesos (ej., asignaría pesos muy extremos e irrealistas).
+-	Se llaman **métodos G** porque pueden ser **usados ara cualquier tratamiento de manera generalizada**, ya sea fijado en el tiempo o variable. Pueden estimar el efecto de exposición variable en el tiempo en presencia de confusores tiempo-dependientes afectados por la exposición previa. ** intensiva computacionalmente, al igual la estimación G, requieren más programación y datos**
+-	**Fórmula G paramétrica**: Ideal para examinar intervenciones en muchos factores de riesgo. Ya que ve las intervenciones en su conjunto, y ve las intervenciones dinámicas (ej., si un usuario cursó un tratamiento residencial y tuvo la oportunidad de trabajar, es menos probable que vuelva a tratamiento residencial donde tiene que estar 24/7).
+-	Lo malo es que es muy sensible al tamaño de la muestra, **paradoja g-null**, que es un falso positivo (rechazar la H0) en  muestras grandes.
+-	**Estimación G**: La ventaja es que puede usarse incluso cuando no hay “common support” (hay un nivel de confusión en que todos los participantes estan expuestos o no expuestos). Es muy sensible a la mala especificación, que llevará a estimaciones sesgadas mientras más etapas (t) se tenga.
+-	logra ajustar por confusores tiempo-dependientes que son afectados por la exposición previa, ya que examina por separado la asociación entre la exposición y el resultado contrafactual en cada visita y ajustando sólo por los valores de confusores tiempo-dependientes en tiempos anteriores
+
+(por si...)
+- estandarizar el riesgo de la distribución conjunta (joint distribution) de los confusores en todo el seguimiento densidad conjunta de los datos observados para generar resultados potenciales bajo distintos escenarios de resultados
+
+---
+## Aplicación (1)
+
+Se generó una base de datos de 1.000 observaciones con las siguientes características `\(^{[14]}\)` :
+- t1 = `Tratamiento residencial Tiempo 0 ` ( `\(A_0\)` ) `    ∼ Bernoulli(p=.23)
+- t2 = `Tratamiento residencial Tiempo 1 ` ( `\(A_1\)` ) `    ∼ Bernoulli(p=.22)
+- t3 = `Tratamiento residencial Tiempo 2 ` ( `\(A_2\)` ) `    ∼ Bernoulli(p=.15)
+- c1 = `Policonsumo`                                      ∼ Bernoulli(p=.32)
+- c2 = `Edad de inicio consumo de sustancias `            ∼ N(3,0.5)
+- dt1 = `Meses sin readmisión Primer tto.`           ∼ Poisson(λ=4)  
+- dt2 = `Meses sin readmisión Segundo tto.`          ∼ Poisson(λ=3)
+- dt3 = `Meses sin readmisión Tercer tto.`           ∼ Poisson(λ=2)  
+- v1 = `Confusor tiempo-dependiente (t1)`                 ∼ `\(5+ 0.4\beta_{Tto\,residencial\,basal} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.99})\)`
+- v2 = `Confusor tiempo-dependiente (t2)`                 ∼ `\(5+ 0.4\beta_{Tto\,residencial\,(2^{do})} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.55})\)`
+- v3 = `Confusor tiempo-dependiente (t3)`                 ∼ `\(5+ 0.4\beta_{Tto\,residencial\,(3^{er})} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.33})\)` `
+
+.details-code[
+
+```r
+#Semilla para replicar los resultados
+set.seed(2125)
+#definir confusor c1 (policonsumo al ingreso==1)
+policonsumo &lt;-rbinom(1000,1,0.32)
+#definir confusor c2 (edad de inicio de consumo)
+edad_ini &lt;-round(exp(rnorm(1000, 3, 0.5)))
+#definir tratamiento residencial al tiempo 0
+t1 &lt;-rbinom(1000,1,0.23)
+#definir tratamiento residencial al tiempo 1
+t2 &lt;-rbinom(1000,1,0.22)
+#definir tratamiento residencial al tiempo 2
+t3 &lt;-rbinom(1000,1,0.15)
+#meses libre de readmisión T1
+dt1 &lt;-rpois(1000,4)
+#meses libre de readmisión T2
+dt2 &lt;-rpois(1000,3)
+#meses libre de readmisión T3
+dt3 &lt;-rpois(1000,1)
+#definir el confusor tiempo-dependiente v1 como una función de t1 y dt1
+v1 &lt;- (0.4*t1 + 0.78*dt1 + rnorm(1000, 0, sqrt(0.99))) + 5
+#definir el confusor tiempo-dependiente v2 como una función de t2 y dt2
+v2 &lt;- (0.4*t2 + 0.78*dt2 + rnorm(1e3, 0, sqrt(0.55))) + 5
+#definir el confusor tiempo-dependiente v3 como una función de t3 y dt3
+v3 &lt;- (0.4*t3 + 0.78*dt3 + rnorm(1e3, 0, sqrt(0.33))) + 5
+
+datos &lt;- data.frame(policonsumo, edad_ini, v1, v2, v3, t1, t2, t3, dt1, dt2, dt3) %&gt;% 
+# Generamos una columna id para cada sujeto
+   dplyr::mutate(id = row_number()) %&gt;%
+# Convertimos la base de datos desde formato ancho a largo de todas las variables tiempo-dependientes. Aclaramos que la estructura de los nombres lleva inscrito primero el valor de interés, seguido por el tiempo/ola de aplicación. Y obtenemos el tiempo tomando el valor dígito de cada columna
+  tidyr::pivot_longer(cols=c("v1", "v2", "v3", "t1", "t2", "t3", "dt1", "dt2", "dt3"), names_to = c('.value',"time"), names_pattern = "(.*)(\\d+)$") %&gt;% 
+# Ordenamos la base de datos por id y tiempo/ola
+  dplyr::arrange(id, time) %&gt;% 
+# reordenamos las columnas
+  dplyr::select(id, time, policonsumo, edad_ini, t, v, dt) %&gt;% 
+# formateamos la base de datos como data.frame
+  as.data.frame() %&gt;% 
+  dplyr::mutate(time=as.numeric(time))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+#Primeros 4 filas
+head(datos,4) %&gt;% 
+  knitr::kable("html", caption="Muestra de la base de datos (Primeras 4 filas)") %&gt;%
+  kableExtra::kable_classic(bootstrap_options = c("striped", "hover"),font_size = 10)
+```
+
+```
+## Error in h(simpleError(msg, call)): error in evaluating the argument 'x' in selecting a method for function 'head': object 'datos' not found
+```
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+- Se asume que todos cursaron el tratamiento y no hay censura, que la velocidad es constante y los riesgos son constantes y proporcionales (Pierce)
+ Auto-regressive (AR1) correlation structure ...  correlation to decay as the outcome values were farther away from the time of interest.
+
+---
+## Aplicación (2)
+
+
+.details-code[
+
+
+```r
+#```{r, echo=F, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
+#fig.width = 7, fig.height = 5 muy grande
+dag34 &lt;- dagitty('dag {
+bb="0,0,1,1"
+L1_policonsumo [pos="0.117,0.205"]
+L2_edad_ini [pos="0.222,0.112"]
+dt1 [outcome,pos="0.294,0.491"]
+dt2 [outcome,pos="0.572,0.491"]
+dt3 [outcome,pos="0.838,0.491"]
+t1 [exposure,pos="0.092,0.491"]
+t2 [exposure,pos="0.380,0.491"]
+t3 [exposure,pos="0.657,0.491"]
+v1 [pos="0.289,0.686"]
+v2 [pos="0.576,0.668"]
+v3 [pos="0.849,0.657"]
+L1_policonsumo -&gt; dt1
+L1_policonsumo -&gt; dt2
+L1_policonsumo -&gt; dt3
+L1_policonsumo -&gt; t1
+L1_policonsumo -&gt; t2
+L1_policonsumo -&gt; t3
+L2_edad_ini -&gt; dt1
+L2_edad_ini -&gt; dt2
+L2_edad_ini -&gt; dt3
+L2_edad_ini -&gt; t1
+L2_edad_ini -&gt; t2
+L2_edad_ini -&gt; t3
+t1 -&gt; dt1
+t1 -&gt; t2 [pos="0.210,0.652"]
+t2 -&gt; dt2
+t2 -&gt; t3 [pos="0.514,0.677"]
+t3 -&gt; dt3
+v1 -&gt; dt1
+v1 -&gt; t1
+v1 -&gt; t2
+v2 -&gt; dt2
+v2 -&gt; t2
+v2 -&gt; t3
+v3 -&gt; dt3
+v3 -&gt; t3
+dt1 -&gt; dt2
+dt2 -&gt; dt3
+}')
+
+tidy_dag34 &lt;- tidy_dagitty(dag34) %&gt;% 
+  dplyr::mutate(label=dplyr::case_when(grepl("A0",as.character(name))~"A0",
+                                       T~as.character(name))) %&gt;% 
+  dplyr::mutate(label2=dplyr::case_when(grepl("L|v",name)~"adj",grepl("LM",name)~"white",
+                                       T~"black")) %&gt;% 
+  dplyr::mutate(adjusted=factor(dplyr::case_when(grepl("L|v",name)~"adjusted",T~"unadjusted")))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+  edge_function &lt;- ggdag:::edge_type_switch("link_arc")
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+dag34_plot&lt;-
+ggdag:::if_not_tidy_daggity(tidy_dag34) %&gt;% ggdag:::node_status() %&gt;% 
+  ggplot2::ggplot(ggplot2::aes(x = x, y = y, xend = xend, 
+                                 yend = yend, color = status, shape=factor(adjusted)))+ 
+  #edge_function()+
+  scale_adjusted()+ ggdag:::breaks(c("exposure", "outcome","latent"))+
+      theme_dag()+
+  geom_dag_edges_arc(curvature = c(rep(0,12),5,5,0,5,0,5,rep(0,9)))+ #14 y 16 de 24
+   ggdag:::geom_dag_point(size = 16)+
+  ggdag:::geom_dag_label_repel(ggplot2::aes_string(label = "label", 
+            fill = "status"), size = 4.88, col = "white", 
+            show.legend = FALSE)+
+
+    scale_shape_manual(values = c(15, 16), name="Ajustado", labels=c("Sí", "No"))+ 
+  scale_fill_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+  
+  scale_color_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+#E6E6E6
+  guides(linetype="none", edge_alpha="none", shape="none")+
+  guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
+  theme(plot.caption = element_text(hjust = 0))+
+  theme(legend.position = "bottom", aspect.ratio=6/10)+
+    labs(caption="Nota. Ak= Modalidad (Residencial/Ambulatoria); dtk= Meses libre de readmisión;\nvk= Confusor tiempo-dependiente")
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+dag34_plot
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'dag34_plot' not found
+```
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+- E[Treatment=1, time=1 | Treatment=1, time=(time-1)]
+
+- Generamos una muestra de 1000 casos con las siguientes características. En este ejemplo hipotético tenemos el proceso de generación de los datos y **queremos estimar el efecto de tratamiento residencial en los meses libre de readmisión**
+- Lo anterior, aplicando un modelo de ponderación inversa de la probabilidad de asignación de tratamiento
+
+Estimamos el modelo de probabilidad inversa con el numerador (elementos invariantes en el tiempo) y el denominador todos los confusores de interés.
+
+, y luego un modelo marginal estructural en base a un modelo - GEE (generalized estimating ecuations) con errores estándar robustos  poisson, con estructura de correlación autorregresiva 1 para datos anidados por paciente (para reflejar la dependencia en los resultados del tratamiento anterior).
+
+---
+## Aplicación (3)
+
+.
+
+- Se estima una ponderación inversa al tratamiento que tiene en cuenta exposición y/o confusores tiempo-dependientes `\(^{[15]}\)`
+
+.details-code[
+
+```r
+#Paquetes necesarios para generar los análisis
+library(geepack)
+```
+
+```
+## Error: package or namespace load failed for 'geepack' in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
+##  namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+library(survey)
+library(ipw)
+```
+
+```
+## Error: package or namespace load failed for 'ipw' in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
+##  namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+library(reshape)
+library(MuMIn)
+
+#Estimamos el modelo de probabilidad inversa con el numerador (elementos invariantes en el tiempo) y el denominador todos los confusores de interés.
+w &lt;- ipwtm(
+  exposure = t,
+  family = "binomial",
+  link = "logit",
+  # Time invariant stuff
+  numerator = ~ factor(policonsumo) + edad_ini,
+  # All confounders
+  denominator = ~ v + factor(policonsumo) + edad_ini,
+  id = id,
+  timevar=time,
+  type="first",
+  data = datos)
+```
+
+```
+## Error in ipwtm(exposure = t, family = "binomial", link = "logit", numerator = ~factor(policonsumo) + : could not find function "ipwtm"
+```
+
+```r
+summary(w$ipw.weights)
+```
+
+```
+## Error in summary(w$ipw.weights): object 'w' not found
+```
+
+```r
+#Se incorporan los pesos a la base de datos
+datos&lt;-
+dplyr::bind_cols(datos, ipw=w$ipw.weights)
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+###########################################################################################
+# Para obtener las salidas de los coeficientes
+###########################################################################################
+summary.geem &lt;- function(object, ...)  {
+  Coefs &lt;- matrix(NA,nrow=length(object$beta),ncol=5)
+  Coefs[,1] &lt;- c(object$beta)
+  naive &lt;- is.character(object$var)
+  if(!naive &amp;&amp; any(diag(object$var) &lt; 0) ){
+    naive &lt;- TRUE
+    warning("Some elements of robust variance estimate &lt; 0.  Reporting model based SE.")
+  }
+  Coefs[,2] &lt;- sqrt(diag(object$naiv.var))
+  if(naive){Coefs[,3] &lt;- rep(NA, length(object$beta))}else{Coefs[,3] &lt;- sqrt(diag(object$var))}
+  if(naive){Coefs[,4] &lt;- Coefs[,1]/Coefs[,2]}else{Coefs[,4] &lt;- Coefs[,1]/Coefs[,3]}
+  Coefs[,5] &lt;- round(2*pnorm(abs(Coefs[,4]), lower.tail=F), digits=8)
+  colnames(Coefs) &lt;- c("Estimates","Model SE","Robust SE", "wald", "p")
+  
+  summ &lt;&lt;- list(beta = Coefs[,1], se.model = Coefs[,2], se.robust = Coefs[,3], wald.test = Coefs[,4], p = Coefs[,5],
+               alpha = object$alpha, corr = object$corr, phi = object$phi, niter = object$niter, clusz = object$clusz,
+               coefnames = object$coefnames, weights=object$weights, biggest.R.alpha = object$biggest.R.alpha)
+  class(summ) &lt;- 'summary.geem'
+  return(summ)
+}
+
+###########################################################################################
+# Primer modelo GEE - GEE con errores estándar robustos  (no IPTW)
+###########################################################################################
+mod1&lt;-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id ,data = data.frame(datos), family=poisson,
+corstr="ar1") 
+```
+
+```
+## Error in data.frame(datos): object 'datos' not found
+```
+
+```r
+summary(mod1)
+```
+
+```
+## Error in summary(mod1): object 'mod1' not found
+```
+
+```r
+summ_mod1&lt;-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %&gt;% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %&gt;% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+invisible("Quasipoisson")
+
+mod2&lt;-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+     family = MASS::negative.binomial(2), corstr = "ar1")  #The known value of the additional parameter, theta.
+```
+
+```
+## Error in is.data.frame(data): object 'datos' not found
+```
+
+```r
+mod3&lt;-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+     family = MASS::negative.binomial(1), corstr = "ar1") 
+```
+
+```
+## Error in is.data.frame(data): object 'datos' not found
+```
+
+```r
+mod4&lt;-geepack::geese(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+               corstr = "ar1", family=poisson) 
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+]
+
+- Una vez que se genera el modelo GEE sin ajustar por la probabilidad inversa de asignación a tratamiento, se contrasta con el modelo en el que se pondera por dicha probabilidad. 
+
+Se seleccionó el modelo con menor QIC.
+
+.details-code[
+
+```r
+#https://gist.github.com/avallecam/56af06f46e5544c3af0f46344df20989 
+#https://stackoverflow.com/questions/49089476/any-updates-to-model-negative-binomial-distribution-data-with-gee-in-r
+#https://www.rdocumentation.org/packages/geepack/versions/1.3.4/topics/geese
+#https://stackoverflow.com/questions/13946540/negative-binomial-in-gee?rq=1
+mod1b&lt;- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id ,weights=ipw, data = data.frame(datos), family=poisson,
+corstr="ar1") 
+```
+
+```
+## Error in data.frame(datos): object 'datos' not found
+```
+
+```r
+summary.geem(mod1b)
+```
+
+```
+## Error in matrix(NA, nrow = length(object$beta), ncol = 5): object 'mod1b' not found
+```
+
+```r
+summ_mod1b&lt;-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %&gt;% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %&gt;% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+mod2b&lt;- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, weights=ipw, data = datos, 
+     family = MASS::negative.binomial(2), corstr = "ar1")  #The known value of the additional parameter, theta.
+```
+
+```
+## Error in is.data.frame(data): object 'datos' not found
+```
+
+```r
+summary(mod2b)
+```
+
+```
+## Error in summary(mod2b): object 'mod2b' not found
+```
+
+```r
+summ_mod2b&lt;-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %&gt;% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %&gt;% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+mod3b&lt;- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, weights=ipw, data = datos, 
+     family = MASS::negative.binomial(1), corstr = "ar1") 
+```
+
+```
+## Error in is.data.frame(data): object 'datos' not found
+```
+
+```r
+summary(mod3b)
+```
+
+```
+## Error in summary(mod3b): object 'mod3b' not found
+```
+
+```r
+summ_mod3b&lt;-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %&gt;% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %&gt;% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+```
+
+```
+## Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]): namespace 'rlang' 0.4.12 is already loaded, but &gt;= 1.0.1 is required
+```
+
+```r
+#You can use the quasi-likelihood under the independence model criterion (QIC; Pan, 2001) to assess the model fit.
+model.sel(mod1b, mod2b, mod3b, rank = QIC)
+```
+
+```
+## Error in model.sel(mod1b, mod2b, mod3b, rank = QIC): object 'mod1b' not found
+```
+]
+
+&lt;br&gt;
+
+.details-code[
+
+```r
+mt&lt;-
+rbind.data.frame(
+summ_mod1[which(summ_mod1$cc=="t"),],
+summ_mod1b[which(summ_mod1$cc=="t"),]
+)
+```
+
+```
+## Error in rbind.data.frame(summ_mod1[which(summ_mod1$cc == "t"), ], summ_mod1b[which(summ_mod1$cc == : object 'summ_mod1' not found
+```
+
+```r
+rownames(mt) &lt;- c("Modelo sin IPTW", "Modelo con IPTW")
+```
+
+```
+## Error in rownames(mt) &lt;- c("Modelo sin IPTW", "Modelo con IPTW"): object 'mt' not found
+```
+
+```r
+mt %&gt;% 
+  knitr::kable("html", caption="Comparación resultados") %&gt;%
+  kableExtra::kable_classic(bootstrap_options = c("striped", "hover"),font_size = 10)
+```
+
+```
+## Error in knitr::kable(., "html", caption = "Comparación resultados"): object 'mt' not found
+```
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+-  applying inverse probability of treatment weights (IPTW) to the observations, which are then fitted to a marginal structural model (MSM).
+
+- Se generaron los **ponderadores de asignación a tratamiento**, mediante un **modelo de probabilidad inversa de tratamiento** con una estructura, de exposición y confusión tiempo-dependientes. Within each unit under observation this function computes inverse probability weights at each time point during follow-up. T
+- Se probaron las distribuciones binomiales negativa para ver el grado de sobredispersión de los datos, pero “oh!, qué sorpresa”, parece que no existía tal (bueno, yo construí los datos).
+- El modelo generalizado simple señala que no hay diferencias en el número de meses libre de de reingresar a tratamiento, entre los tratamientos residenciales y ambulatorios ya que los intervalos de confianza se superponen el valor nulo. No obstante, el modelo que presenta ponderación por el tratamiento indica que los tratamientos residenciales presentan 1/0.88 o un **riesgo 14% menor de estar más meses libre de readmisión, por lo que serían readmitidos 14%más rápido.**
+
+
+*#_#_#_#_#_#_#_#_#_#_
+(por si...)
+
+Estimate ipw weights (time-varying)
+Estimate inverse probability weights to fit marginal structural models, with a time-varying exposure and time-varying confounders. Within each unit under observation this function computes inverse probability weights at each time point during follow-up. The exposure can be binomial, multinomial, ordinal or continuous. Both stabilized and unstabilized weights can be estimated.
+estimate inverse probability weights (time-varying) using a logistic regression
+https://search.r-project.org/CRAN/refmans/ipw/html/ipwtm.html
+
+---
+## Desafíos
+
+- Structural Nested Models
+
+- Confusores tiempo-modificados (*time-modified confounding*) `\(^{[16]}\)` 
+
+- Generar modelos estructurales de análisis de supervivencia (incluir probabilidad inversa de censura)
+
+- Variaciones
+
+- Modelos doble o triplemente robustos
+
+- Machine Learning (bagging, boosting, random forests, neural networks)
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+- Structural nested me permitiría ver cómo los distintos niveles en un tratamiento condicionan mediadores, etc.
+
+- Métodos robustos: g-formula y IPTW
+
+- ML: Más inteligentes por ejemplo en generar un espacio de comparación razonable entre tratados y no tratados (no asigna ponderadores muy extremos, actúa mejor cuando son muy distintos en covariables los tratados y no tratados etc.)
+
+---
+class: center, middle
+
+# Gracias!
+
+&lt;br&gt;
+  
+&lt;div class="centered"&gt; Contacto: gonzalez.santacruz.andres@gmail.com &lt;/div&gt;
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+&lt;br&gt;
+
+.down_right[
+
+&lt;img src="seminario2_files/figure-html/unnamed-chunk-5-1.png" width="200" style="display: block; margin: auto;" /&gt;
+
+]
+
+.down_left[
+
+&lt;img src="./_style/Logo_nDP_color_hz_en.png" width="200" style="display: block; margin: auto;" /&gt;
+
+]
+  
+---
+## Referencias
+
+.  
+  
+[1] M. A. Hernán, S. Hernández-Díaz, and J. M. Robins. "A structural approach to selection bias.".
+Eng. In: _Epidemiology (Cambridge, Mass.)_ 15.5 (sept.. 2004), pp. 615-625. ISSN: 1044-3983
+(Print). DOI:
+[10.1097/01.ede.0000135174.63482.43](https://doi.org/10.1097%2F01.ede.0000135174.63482.43).
+
+[2] J. Robins. "A new approach to causal inference in mortality studies with a sustained exposure
+period-application to control of the healthy worker survivor effect". En. In: _"Math. Modelling"_
+7 (1986), pp. 1393-1512.
+
+[3] J. Kaufman. _Conceptos de Causalidad y Sesgos en Estudios Observacionales_. 2020. URL:
+[https://fivethirtyeight.com/features/science-isnt-broken/#part1](https://fivethirtyeight.com/features/science-isnt-broken/#part1)
+(visited on 07/09/2022).
+
+[4] A. Gelman and G. Imbens. _Why ask Why? Forward Causal Inference and Reverse Causal Questions_.
+Working Paper 19614. National Bureau of Economic Research, nov.. 2013. DOI:
+[10.3386/w19614](https://doi.org/10.3386%2Fw19614). URL:
+[http://www.nber.org/papers/w19614](http://www.nber.org/papers/w19614).
+
+[5] M. Ã. Hernán and J. M. Robins. _Causal Inference: What If_. Boca Raton: Chapman &amp; Hall/CRC,
+2020. URL:
+[https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2019/10/ci_hernanrobins_1oct19.pdf](https://cdn1.sph.harvard.edu/wp-content/uploads/sites/1268/2019/10/ci_hernanrobins_1oct19.pdf).
+
+[6] J. Pearl. "Statistics and Causal Inference: A Review". In: _TEST: An Official Journal of the
+Spanish Society of Statistics and Operations Research_ 12 (feb.. 2003), pp. 281-345. DOI:
+[10.1007/BF02595718](https://doi.org/10.1007%2FBF02595718).
+
+---
+## Referencias (2)
+
+.
+
+[7] A. Muriel, D. Hernández, and V. Abraira. "Modelos estructurales marginales: una herramienta
+útil que proporciona evidencia a los estudios observacionales". In: _Nefrologia_ 2.7 (2011), pp.
+7-13. ISSN: 20137575. DOI:
+[10.3265/NefrologiaSuplementoExtraordinario.pre2011.Dec.11267](https://doi.org/10.3265%2FNefrologiaSuplementoExtraordinario.pre2011.Dec.11267).
+URL:
+[https://www.revistanefrologia.com/es-modelos-estructurales-marginales-una-herramienta-articulo-X2013757511000636](https://www.revistanefrologia.com/es-modelos-estructurales-marginales-una-herramienta-articulo-X2013757511000636).
+
+[8] C. Aschwanden. _Science Isnt Broken Its just a hell of a lot harder than we give it credit
+for_. 2015. URL:
+[https://fivethirtyeight.com/features/science-isnt-broken/#part1](https://fivethirtyeight.com/features/science-isnt-broken/#part1)
+(visited on 06/09/2022).
+
+[9] D. B. Rubin. "Randomization analysis of experimental data: The Fisher randomization test
+comment". In: _Journal of the American statistical association_ 75.371 (1980), pp. 591-593.
+
+[10] G. W. Imbens and D. B. Rubin. "Causality: The Basic Framework". In: _Causal Inference for
+Statistics, Social, and Biomedical Sciences: An Introduction_. Cambridge University Press, 2015,
+p. 3â€“22. DOI: [10.1017/CBO9781139025751.002](https://doi.org/10.1017%2FCBO9781139025751.002).
+
+[11] D. Tompsett, S. Vansteelandt, O. Dukes, et al. "gesttools: General Purpose G-Estimation in
+R". En. In: _Observational Studies_ 8.1 (2022), pp. 1-28. ISSN: 2767-3324. DOI:
+[10.1353/obs.2022.0003](https://doi.org/10.1353%2Fobs.2022.0003). URL:
+[https://muse.jhu.edu/article/856403](https://muse.jhu.edu/article/856403) (visited on
+07/10/2022).
+
+[12] S. Vansteelandt and N. Keiding. "Invited commentary: G-computation-lost in translation?" En.
+In: _Am J Epidemiol_ 173.7 (mar.. 2011), pp. 739-742.
+
+---
+## Referencias (3)
+
+.
+
+[13] A. I. Naimi, S. R. Cole, and E. H. Kennedy. "An introduction to g methods". In:
+_International Journal of Epidemiology_ 46.2 (dic.. 2016), pp. 756-762. ISSN: 0300-5771. DOI:
+[10.1093/ije/dyw323](https://doi.org/10.1093%2Fije%2Fdyw323). eprint:
+https://academic.oup.com/ije/article-pdf/46/2/756/25421672/dyw323.pdf. URL:
+[https://doi.org/10.1093/ije/dyw323](https://doi.org/10.1093/ije/dyw323).
+
+[14] M. Bounthavong. _Using inverse probability of treatment weights &amp; Marginal structural models
+to handle time-varying covariates_. 2018. URL:
+[https://rpubs.com/mbounthavong/IPTW_MSM_Tutorial](https://rpubs.com/mbounthavong/IPTW_MSM_Tutorial)
+(visited on 06/09/2022).
+
+[15] W. M. van der Wal and R. B. Geskus. "ipw: An R Package for Inverse Probability Weighting".
+In: _Journal of Statistical Software_ 43.13 (2011), pp. 1-23. URL:
+[http://www.jstatsoft.org/v43/i13/](http://www.jstatsoft.org/v43/i13/).
+
+[16] R. W. Platt, E. F. Schisterman, and S. R. Cole. "Time-modified Confounding". In: _American
+Journal of Epidemiology_ 170.6 (ago.. 2009), pp. 687-694. ISSN: 0002-9262. DOI:
+[10.1093/aje/kwp175](https://doi.org/10.1093%2Faje%2Fkwp175). eprint:
+https://academic.oup.com/aje/article-pdf/170/6/687/285709/kwp175.pdf. URL:
+[https://doi.org/10.1093/aje/kwp175](https://doi.org/10.1093/aje/kwp175).
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"slideNumberFormat": "%current%",
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+(function(time) {
+  var d2 = function(number) {
+    return ('0' + number).slice(-2); // left-pad 0 to minutes/seconds
+  },
+
+  time_format = function(total) {
+    var secs = Math.abs(total) / 1000;
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = Math.round(secs % 60);
+    var res = d2(m) + ':' + d2(s);
+    if (h > 0) res = h + ':' + res;
+    return res;  // [hh:]mm:ss
+  },
+
+  slide_number_div = function(i) {
+    return document.getElementsByClassName('remark-slide-number').item(i);
+  },
+
+  current_page_number = function(i) {
+    return slide_number_div(i).firstChild.textContent;  // text "i / N"
+  };
+
+  var timer = document.createElement('span'); timer.id = 'slide-time-left';
+  var time_left = time, k = slideshow.getCurrentSlideIndex(),
+      last_page_number = current_page_number(k);
+
+  setInterval(function() {
+    time_left = time_left - 1000;
+    timer.innerHTML = ' ' + time_format(time_left);
+    if (time_left < 0) timer.style.color = 'red';
+  }, 1000);
+
+  slide_number_div(k).appendChild(timer);
+
+  slideshow.on('showSlide', function(slide) {
+    var i = slide.getSlideIndex(), n = current_page_number(i);
+    // reset timer when a new slide is shown and the page number is changed
+    if (last_page_number !== n) {
+      time_left = time; last_page_number = n;
+      timer.innerHTML = ' ' + time_format(time); timer.style.color = null;
+    }
+    slide_number_div(i).appendChild(timer);
+  });
+})(90000);
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+<script>
+(function() {
+  var divHTML = document.querySelectorAll(".details-open-code");
+  divHTML.forEach(function (el) {
+    var preNodes = el.getElementsByTagName("pre");
+    var outputNode = preNodes[0];
+    outputNode.outerHTML = "<details open class='output'><summary>código</summary>" + outputNode.outerHTML + "]</details>";
+  })
+})();
+(function() {
+  var divHTML = document.querySelectorAll(".details-code");
+  divHTML.forEach(function (el) {
+    var preNodes = el.getElementsByTagName("pre");
+    var outputNode = preNodes[0];
+    outputNode.outerHTML = "<details class='output'><summary>código</summary>" + outputNode.outerHTML + "]</details>";
+  })
+})();
+(function() {
+  var divHTML = document.querySelectorAll(".details-open");
+  divHTML.forEach(function (el) {
+    var preNodes = el.getElementsByTagName("pre");
+    var outputNode = preNodes[1];
+    outputNode.outerHTML = "<details open class='output'><summary>salida</summary>" + outputNode.outerHTML + "]</details>";
+  })
+})();
+(function() {
+  var divHTML = document.querySelectorAll(".details");
+  divHTML.forEach(function (el) {
+    var preNodes = el.getElementsByTagName("pre");
+    var outputNode = preNodes[1];
+    outputNode.outerHTML = "<details class='output'><summary>salida</summary>" + outputNode.outerHTML + "]</details>";
+  })
+})();
+</script>
+<script src="https://lab.hakim.se/zoom-js/js/zoom.js" type="text/javascript"></script>
+<script type="text/javascript">
+	slideshow.on( "beforeHideSlide", function( slide ) {
+		zoom.out();
+	} );
+	slideshow.on( "afterShowSlide", function( slide ) {
+		document.querySelector( ".remark-visible" ).addEventListener( "dblclick", function( event ) {
+			event.preventDefault();
+			zoom.to( {element: event.target} );
+		} );
+	} );
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

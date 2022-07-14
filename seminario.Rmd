@@ -1287,7 +1287,15 @@ suppressWarnings(PrintBibliography(myBib, start= 13, end= 20))
 ```{r exp, eval=F,echo=F, results="asis"}
 library(pagedown)
 
-pagedown::chrome_print(gsub(".Rmd",".html",rstudioapi::getSourceEditorContext()$path),output="pres_2022_3.pdf")
-xaringanBuilder::build_pdf(gsub(".Rmd",".Rmd",rstudioapi::getSourceEditorContext()$path),complex_slides = TRUE,output_file="pres_2022_4.pdf")
-xaringanBuilder::build_pdf(gsub(".Rmd",".Rmd",rstudioapi::getSourceEditorContext()$path),complex_slides = TRUE,output_file="pres_2022_5.pdf")
+to_pdf_complex <- function(input, output_file, partial_slides, delay) {
+  if (!requireNamespace("chromote", quietly = TRUE)) {
+    stop("`chromote` is required: devtools::install_github('rstudio/chromote')")
+  }
+  if (!requireNamespace("pdftools", quietly = TRUE)) {
+    stop("`pdftools` is required: install.packages('pdftools')")
+  }
+
+
+pagedown::chrome_print(gsub(".Rmd",".html",rstudioapi::getSourceEditorContext()$path),output="seminario.pdf")
+xaringanBuilder::build_pdf(gsub(".Rmd",".Rmd",rstudioapi::getSourceEditorContext()$path),complex_slides = TRUE,output_file="seminario2.pdf")
 ```
