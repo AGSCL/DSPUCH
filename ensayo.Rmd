@@ -1,0 +1,675 @@
+---
+title: "Modelos estructurales marginales para el control de sesgos en estudios observacionales con factores de<br>riesgo y exposición tiempo-dependientes"
+lang: es
+author:
+  - first_name: "Andrés"
+    last_name: "González-Santa Cruz"
+    url: https://github.com/AGSCL/
+    affiliation: Personal Técnico. Núcleo Milenio para la Evaluación y Análisis de Políticas de Drogas (nDP)
+    affiliation_url: https://www.nucleondp.cl/
+    orcid_id: 0000-0002-5166-9121
+email : gonzalez.santacruz.andres@gmail.com
+description: |-
+   **ABSTRACT:**
+   Longitudinal designs are commonly used with observational data, however treatment and risk factors can vary across different times. Conventionally, studies used stratified analyses (eg., partitioned regressions, based on counting process) to overcome these issues. However, some authors have pointed that these analytical methods are usually incapable to adjust for complex biases and confounding variables. Counterfactual outcomes provides a framework to identify open backdoors that preclude researchers make strong causal claims from these studies. This essay introduces readers to marginal structural models, and provides a step-by-step tutorial on how to perform a specific type of marginal structural model in R. A simulated dataset is generated to illustrate the process. In the example, a type of inverse probability treatment weighting (IPWT) approach that accounts for time-varying risk factors and treatment exposures is employed to explore treatment effects. Several challenges are outlined for future research. 
+name: ensayo-misp
+date: "`r withr::with_locale(new = c('LC_TIME' = 'es_ES'), code =format(Sys.time(),'%B de %d, %Y'))`"
+output:
+  distill::distill_article:
+    code_folding: true
+    fig_height: 6
+    fig_width: 8
+    theme: spacelab
+    toc: yes
+    toc_depth: 5
+    toc_float: yes
+  toc_float:
+    collapsed: false
+    smooth_scroll: true
+bibliography: ./_bib/My Collection.bib
+csl: revista-medica-de-chile #american-medical-association-10th-edition.csl
+geometry: [top=1.5in, bottom=1.5in, right=1in, left=1in]
+linestretch: 1
+fontsize: 11pt
+nocite: '@*'
+---
+
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:350px; overflow-x: scroll; width:100%">
+
+```{css zoom-lib-src, echo = FALSE}
+script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+```
+
+```{js zoom-jquery, echo = FALSE}
+ $(document).ready(function() {
+    $('body').prepend('<div class=\"zoomDiv\"><img src=\"\" class=\"zoomImg\"></div>');
+    // onClick function for all plots (img's)
+    $('img:not(.zoomImg)').click(function() {
+      $('.zoomImg').attr('src', $(this).attr('src')).css({width: '100%'});
+      $('.zoomDiv').css({opacity: '1', width: 'auto', border: '1px solid white', borderRadius: '5px', position: 'fixed', top: '50%', left: '50%', marginRight: '-50%', transform: 'translate(-50%, -50%)', boxShadow: '0px 0px 50px #888888', zIndex: '50', overflow: 'auto', maxHeight: '100%'});
+    });
+    // onClick function for zoomImg
+    $('img.zoomImg').click(function() {
+      $('.zoomDiv').css({opacity: '0', width: '0%'}); 
+    });
+  });
+```
+
+```{=html}
+<style type="text/css">
+.tablelines table, .tablelines td, .tablelines th {
+  border: 1px solid black;
+  }
+.centrado {
+  text-align: center;
+}
+.table.center {
+  margin-left:auto; 
+  margin-right:auto;
+}
+.table_wrapper{
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+code.r{
+  font-size: 8px;
+}
+body{ /* Normal  */
+    text-align: justify;
+}
+.superbigimage{
+  overflow-y:scroll;
+  white-space: nowrap;
+}
+.superbigimage img{
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+p.comment {
+  background-color: #FF7F79;
+    padding: 10px;
+  border: 1px solid black;
+  margin-left: 25px;
+  border-radius: 5px;
+  font-style: italic;
+}
+</style>
+```
+```{=html}
+<style>
+  p.comment {
+    background-color: #ff9a9a;
+      padding: 10px;
+    border: 1px solid red;
+    margin-left: 25px;
+    border-radius: 5px;
+    font-style: italic;
+  }
+
+</style>
+```
+
+```{r setup0,include=T}
+knitr::opts_chunk$set(warning = TRUE, message = TRUE)
+rm(list=ls());gc()
+if(!grepl("4.1.2",R.version.string)){stop("Different version (must be 4.1.2)")}
+```
+
+```{r setup,include=T}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = TRUE,
+	warning = TRUE
+)
+local({r <- getOption("repos")
+       r["CRAN"] <- "http://cran.r-project.org" 
+       options(repos=r)
+})
+
+if(!require(pacman)){install.packages("pacman")}
+pacman::p_load(devtools, here, showtext, ggpattern, RefManageR, pagedown, magick, bibtex, DiagrammeR, xaringan, xaringanExtra, xaringanthemer, fontawesome, widgetframe, datapasta, tidyverse, psych, cowplot, coxphw, future, timereg, flexsurv, pdftools, mstate, showtext, compareGroups, chilemapas, choroplethrAdmin1,  choroplethr, choroplethrMaps, ggiraph, sf,distill, qrcode, pdftools, dagitty, ggdag, geepack, survey, ipw, reshape, widgetframe, geeM, MuMIn, install=F)
+
+copiar_nombres <- function(x,row.names=FALSE,col.names=TRUE,dec=",",...) {
+  if(class(ungroup(x))[1]=="tbl_df"){
+    if(options()$OutDec=="."){
+      options(OutDec = dec)
+      write.table(format(data.frame(x)),"clipboard",sep="\t",row.names=FALSE,col.names=col.names,...)
+      options(OutDec = ".")
+      return(x)
+    } else {
+      options(OutDec = ",")
+      write.table(format(data.frame(x)),"clipboard",sep="\t",row.names=FALSE,col.names=col.names,...)
+      options(OutDec = ",")
+      return(x)    
+    }
+  } else {
+    if(options()$OutDec=="."){
+      options(OutDec = dec)
+      write.table(format(x),"clipboard",sep="\t",row.names=FALSE,col.names=col.names,...)
+      options(OutDec = ".")
+      return(x)
+    } else {
+      options(OutDec = ",")
+      write.table(format(x),"clipboard",sep="\t",row.names=FALSE,col.names=col.names,...)
+      options(OutDec = ",")
+      return(x)       
+    }
+  }
+}
+
+options(knitr.kable.NA = '')
+```
+</div>
+
+<!---
+1- Problemática: Causalidad, Estudios observacionales, SUTVA, modos de controlar la confusión, desafíos con estudios longitudinales.
+2- Marginal structural models: Qué son y por qué el nombre, qué tipos hay, cómo se les conoce
+3- Ejemplo de aplicación simulada: 
+4- Diagnóstico
+5- Resultados
+6- Discusión
+--->
+
+## Introducción
+
+### Causalidad
+Muchas preguntas en salud pública se remiten a preguntas causales. Desde determinantes sociales (por ej., origen de las inequidades, vulnerabilidad social, políticas públicas), pasando por factores de riesgo, procesos biológicos/mecanismos etiológicos, etc. Estas preguntas no se limitan a describir sino que algunas apuntan a un análisis causal.[@Kaufman2020] Al margen de la tarea de la vigilancia involucrada en el ejercicio descriptivo, en algunos casos las preguntas requieren imaginar un escenario hipotético a futuro, o ¿qué pasaría si hacemos/aplicamos $A$ política pública? (dirigida a cuantificar los efectos de causas), vs. inferencia al pasado, o ¿qué causa $Y$? (dirigida a identificar las causas de los efectos)”.[@gelman2013]
+
+Además de que tales preguntas refieren a escenarios que no pudimos ni podríamos ver directamente en la práctica, también establecen vínculos entre uno o más elementos. Pero no una relación de cualquier tipo, sino uno de carácter causal. Hay asociación cuando el tener información sobre una variable $A$ me permite predecir mejor en promedio el resultado de otra, incluso si esa variable no causa $Y$. El mecanismo no lo sabemos. Uno de los desafíos es poder determinar si por sí sola una variable $A$ causa $Y$, ya que muchas veces hay terceras variables ($L$) que podrían explicar las asociaciones entre $A$ e $Y$.[@Hernan2020; @imbens_rubin_2015]
+
+Estos métodos de identificación causal se enmarcan en una aproximación de causalidad conocida como *"potential outcomes framework"*.[@abadie2018] Este marco de inferencia contrafactual (potential outcomes framework), iniciado por Neyman y continuado por Rubin y Robins, busca comparar teóricamente qué ocurriría si todos los pacientes hubieran sido tratados frente al caso que ningún paciente hubiese sido tratado [@Hernan2001]. Un diseño de investigación casi-perfecto para este marco de investigación son los ensayos clínicos controlados, ya que al ser aleatorizados, en la mayoría de los casos permiten estimar el impacto de un determinado tratamiento o intervención por sí misma no sólo en los tratados, si no también el efecto que hubiera tenido en los no tratados de haberlo sido.[@imai2018;@Vandenbroucke2016]
+
+No obstante, en muchos casos no es posible, ya sea por razones prácticas (factibilidad económica o social, por ejemplo, para lograr potencia estadística, o en el caso del efecto de un *shock* económico o una catástrofe natural, el tratamiento no es del todo manipulable) o ética (por ejemplo, no puedo inducir asignarle a personas un producto del que se sospecha un perjuicio para la salud). De igual manera, en algunos casos también los estudios aleatorizados tendrán problemas para estimar efectos en caso de pérdida de seguimiento, variables perdidas, falta de cooperación, entre otros. En tal escenario se hace necesario recurrir a estudios observacionales. [@Hernan2001;@Muriel2011]	El control de la confusión es uno de los pasos más desafiantes en la conducción de estudios observacionales y es aún más importante el cumplimiento de ciertas condiciones para dar validez a nuestras inferencias causales. [@Mansournia2017]
+
+El planteamiento de Pearl presentado a continuación permite interpretar que los datos de por sí no son suficientes para señalar que una relación es causal. Como diría Hernán [@Hernan2001], la interpretación depende de consideraciones más allá de los datos, como por ejemplo, el conocimiento adquirido:
+
+<p style="margin-left: 2em;"> *"Estas consideraciones implican que el eslogan 'correlación no implica causalidad' puede traducirse en un principio útil: uno no puede generar declaraciones causales sólo por asociaciones, incluso con datos poblacionales. Cada conclusión causal debe descansar detrás de supuestos causales no medibles en estudios obsrvacionales" [These considerations imply that the slogan “correlation does not imply causation” can be translated into a useful principle: one cannot substantiate causal claims from associations alone, even at the population level—behind every causal conclusion there must lie some causal assumption that is not testable in observational studies]* [@Pearl2003] (p.4) </p> 
+
+### Supuestos
+
+Uno de los principales supuestos son acuñados por Rubin en 1980 y al que denomina "la hipótesis de estabilidad del valor del tratamiento unitario" o *stable-unit-treatment-value* (SUTVA por sus siglas en inglés).[@Schwartz2012] La validez de nuestras inferencias causales requieren el cumplimiento de dichas condiciones [@Rubin1980]. Lo anterior nos lleva a **pensar el mecanismo de asignación detrás de los datos obtrnidos** (*assignment mechanism*) para definir efectos causales a identificar. Si la identificación es fallida, no se puede aprender una relación causal de los datos incluso teniendo una muestra infinita [@Keele2015]. A continuación se describen:[@Rubin1980;@tompsett_gesttools_2022;@Hernan2020]
+
+- **Consistencia**: Constituye uno de los criterios más cercanos a SUTVA Si un individuo tiene una exposición $A=a$, entonces su resultado $Y = Y(a)$. Dicho de otra manera, que la misma exposición tiene el mismo efecto en un individuo sin importar cómo llegó a ser expuesto. Implica hacerse las siguientes preguntas: ¿Todos recibieron el tratamiento en medida similar?, ¿Lo mismo ocurre con quienes no lo recibieron?, ¿Está bien clasificada la exposición?, ¿Es ambigua la definición de la exposición?. Nos permite homologar los resultados de quienes recibieron una exposición al resultado potencial que se habría observado con ese valor de exposición. Por otra parte, se requiere que no existiera interferencia (que el resultado potencial no estuviera afectado por la exposición a tratamiento por otros sujetos) o que el efecto de la exposición en un individuo sea independiente de la exposición en otros. De igual manera, se debe asumir que no hay variaciones ocultas del tratamiento o versiones ocultas que puedan tener otro efecto [@Naimi2016;@Muriel2011;@Schwartz2012]
+
+-	**Positividad**: La identificación de efectos causales requieren una variabilidad suficiente en la exposición o en la asignación de tratamiento en los estratos de los confusores. Lo anterior implica hacerse las siguientes preguntas: ¿La distribución de las covariables $L$ en tratados es similar que los no-tratados?, ¿cada observación tiene el potencial de estar (o no) expuesto a cada nivel de intervención?. La probabilidad de asignación está comprendida entre 0 y 1, por lo que se puede tener tratados y no tratados. Es necesario que haya expuestos y no expuestos en todos los niveles de confusión. En otras palabras, no puede haber un confusor o covariable que determine perfectamente el tratamiento o no-tratamiento fuera de $A$.[@Petersen2012;@Naimi2016;@Hernan2020]
+
+- **Intercambiabilidad**: Si bien no es estrictamente parte de SUTVA, ha sido reconocido como uno de los elementos más importantes y más estudiados en epidemiología.[@Schwartz2012] Fuera de ensayos aleatorios, la intercambiabilidad será condicional a los confusores medidos o teorizados. Implica preguntarse: ¿Son comparables los grupos, dada la confusión?, ¿Los tratados y no tratados habrían experimentado en promedio el mismo riesgo de muerte de haber recibido el mismo nivel de tratamiento?, ¿Sigue siendo informativo para el resultado observado saber si son tratados o no, condicional a los niveles de confusión?, ¿Los resultados son independientes de la asignación a tratamiento dado que se tienen las covariables?, ¿Hay independencia entre la asignación al tratamiento y los resultados potenciales? [@Keele2015]. Sesgos como el error de medición, variables no-observadas también podrían	 afectar el cumplimiento de estos supuestos. Sin la intercambiabilidad, el efecto puede ser interpretado como un efecto local, por lo que es un requisito de la validez interna.[@Schwartz2012]
+
+### Ajuste por confusión
+
+Incluso si se cumplen los supuestos antes mencionados, es necesario seguir algunas estrategias analíticas para identificar un efecto causal propiamente tal de una exposición/tratamiento ($A$) en un resultado $Y$. No obstante, **la manera que los manejamos los confusores ($L_{it}$) puede introducir sesgo**. [@Hernan2020]
+
+Hay aproximaciones condicionales y aquellas basadas en al estandarización.
+
+-	**Estratificación**: Son condicionales al estrato y al modelo. Lo anterior puede hacerse centrando en los niveles de las covariables, por ejemplo en una regresión; o restringiendo el análisis a un nivel de una covariable, lo que se conoce como estratificación propiamente tal.[@Hernan2020] Por años, la epidemiología ha estado dominada por la aproximación condicional: controlando por estratificación o regresión. [@Vansteelandt2011;@Richardson2014] No obstante, la no-colapsabilidad de efectos no lineales como los odds ratio o hazard ratios implican que efectos condicionales pueden diferir de los marginales. Se fijan los valores de las variables para ajustar, y por tanto, distintas variables a ajustar utilizadas arrojarán otra magnitud o dirección del efecto [@Knol2012].
+
+<!----
+	Condicional: en otras variables, en L; es un GLM, da una estimación manteniendo constante el resto de las covariables
+	Marginal: Ve la distribución marginal, balanceado en los niveles de A, pondera para lograr el balance, no es condicional a otros factores;
+--->
+
+-	**Estandarización**: Como se mencionó anteriormente, apunta a calcular el resultado contrafactual que habría ocurrido en expuestos de no haberlo estado (asumiendo el cumplimiento de los supuestos nombrados arriba). Originalmente utilizada para ajustar mortalidad (ej., por tramos de edad y sexo), su utilización más reciente apunta a utilizar a la población como objetivo. El contrafactual nunca lo observamos directamente, lo estimamos mediante la pseudo-poblacion en que la exposición es independiente de confusores, permitiendo la estimación de parámetros en toda la población de haber recibido el tratamiento y que no dependen de los valores de las otras covariables.[@Vansteelandt2011;@Hernan2020]
+
+### Supuestos en estudios observacionales longitudinales
+
+Cuando se quiere analizar efectos longitudinales, no basta con el cumplimiento de los supuestos planteados arriba. Muchas exposiciones en epidemiología y salud pública son tiempo-variables  (valores que toman más de un valor en el tiempo).[@Mansournia2017] Al trabajar con datos de este tipo, se suman otras fuentes de confusión y sesgo. En tal escenario, la estrategia analítica será de mucha importancia para reducir sesgos.[@Hernan2004]
+
+Por ejemplo, se generan **sesgos de selección en el seguimiento**, se introducen confusores tiempo-dependientes, algunos producto del tratamiento anterior (*treatment confounder feedback*) o ajustes que van en un camino desde la exposición al resultado (*adjustment for an intermediate or a descendant of an intermediate*). Estos elementos derivan en sobreajuste u estratificación por *colliders* (al ajustar por un camino naturalmente bloqueado al ser efecto común de una o más variables o descendiente de este).[@Schisterman2009; @Hernan2004] De tal manera, supuestos como la intercambiabilidad, positividad y consistencia deben ser ampliados a una lógica secuencial. Para ejemplificar, basados en un ejercicio de Hernán [@Hernansf]:
+
+```{r, echo=FALSE, dev.args = list(bg = 'white'), out.width= 350, fig.align="center", error=T, fig.cap="Diagrama estudio hipotético (Fuente: Hernán, Curso EDX Harvard)"}
+translogo25 <-magick::image_read('./_figs/intercambiabilidad_ej.png')%>% 
+             magick::image_transparent('#59897f') %>% 
+  magick::image_transparent('#68b9ab') %>% 
+  magick::image_transparent('#50736c') %>%
+  magick::image_transparent('#61a494') %>% 
+  magick::image_transparent('#3f635c') %>% 
+  magick::image_transparent('#609c94') %>% 
+  magick::image_transparent('#60bbad') %>% 
+  magick::image_transparent('#35514e') %>% 
+  magick::image_transparent('#6ebdaf') %>% 
+  magick::image_transparent('#6e9b91') %>% 
+  magick::image_transparent('#659e91') %>% 
+  magick::image_transparent('#73ab9e') %>% 
+  magick::image_transparent('#6bb5a8') %>% 
+  magick::image_transparent('#6aa89b') 
+translogo25
+```
+
+
+Un set mínimo de confusores a ajustar por $A_0$ y $L_1$. Por lo cual, el efecto en tiempo 2 puede interpretarse como $Y^{a0,a1}  \perp \!\!\! \perp A_1|L_1, A_0=a_0$ : Si hay intercambiabilidad en $A_1$, condicional a $L_1$; y considerando que también hay intercambiabilidad en el tiempo 0 ($Y^{a_0,a_1} \perp \!\!\! \perp A_0$), concluimos que hay intercambiabilidad secuencial. De igual manera, la consistencia debiese quedar representada como: $$ E(Y|A_0=a_0,A_1=a_1)=E(Y^{a0,a1}|A_0=a_0,A_1=a_1)$$, por lo que la respuesta observada según el valor de exposición debiese ser igual al resultado potencial que sería observado bajo el mismo valor de exposición. Por último, la positividad también debiese ser secuencial:[@Naimi2016] $$0 < P(A_1 = 1|L_1 = l_1, A_0 = a_0) < 1\,\,\,\,\,\,\&\,\,\,\,\,\,0 < P(A_0 = 1) < 1.$$
+
+<p style="margin-left: 2em;"> *"In longitudinal studies with time-dependent confounding, identifying the structure allows us to detect situations in which stratification-based methods would adjust for confounding at the expense of introducing selection bias" (p. 622)*[@Hernan2004] </p>
+
+<!----
+**The total effect cannot be estimated due to adjustment for an intermediate or a descendant of an intermediate**.
+EFECTOS ANIDADOS PRODUCTO DE LA COMBINACIÓN DE CADA UNO Y POR TANTO  CONDICIONALES** (EJ., QUIEN PRESENTA UN REGIMEN EN QUE COMPLETA UN RESIDENCIAL A LA BASE, SEGUIDO DE COMPLETAR EL SEGUNDO TRATAMIENTO RESIDENCIAL,VA A TENER UN RIESGO DE READMISIÓN DISTINTO 
+ DE AHÍ QUE EL EFECTO ES CONDICIONAL A ESTE REGIMEN DE EXPOSICION Y MEDIACION
+
+- Que no haya Ajuste por variables intermedias o descendientes de una variable intermedia ("the mantra not to control for factors affected by exposure".- Overadjustment)Schisterman2009
+- Control for `W` by seeing what `W` explains (perhaps with a regression) and taking it out
+- *crossover effects
+***"In longitudinal studies with time-dependent confounding, identifying the structure allows us to detect situations in which stratification-based methods would adjust for confounding at the expense of introducing selection bias (p. 622)"***
+
+--->
+
+## Marginal structural models
+
+El nombre *“marginal structural"* apunta a estimar los efectos causales (estructurales) y marginales porque estiman el efecto en toda la población, no sólo condicional a los tratados (*average treatment effects* o *ATE* por sus siglas en inglés). 
+
+Se distinguen 3 modelos principales:
+ 
+- **IPWT**: El más simple es la ponderación por la probabilidad inversa de asignación a tratamiento (*inverse probability treatment weighting* o IPTW, por sus siglas en inglés).
+ 
+ - **Fórmula G paramétrica**:
+ 
+ - **Estimación G**:
+ 
+
+[@Robins1986]
+[@Robins2000]
+[@Rothman]
+[@platt2009]
+[@Mansournia2017]
+
+<!----
+-	Las ponderaciones producen un pseudo-cohorte en que todos los confusores se balancean. **Es más simple. Es el que vamos a mostrar**
+-	IPTW (probabilidad inversa de asignación a tratamiento). Es un **modelo en 2 etapas**, en que primero estimamos la **probabilidad de recibir tratamiento** en base a un vector de confusores L. Luego en una segunda etapa se estima el modelo de regresión como tal, pero ya no existiendo la asociación entre confusor y tratamiento, ya que la **pseudopoblación ponderada** se encuentra balanceada en estos términos.  Lo problemático de este modelo es que **algunas veces los tratados y no tratados tienen características muy distintas en los niveles de L**, lo que puede generar problemas para asignar pesos (ej., asignaría pesos muy extremos e irrealistas).
+-	Se llaman **métodos G** porque pueden ser **usados ara cualquier tratamiento de manera generalizada**, ya sea fijado en el tiempo o variable. Pueden estimar el efecto de exposición variable en el tiempo en presencia de confusores tiempo-dependientes afectados por la exposición previa. ** intensiva computacionalmente, al igual la estimación G, requieren más programación y datos**
+-	**Fórmula G paramétrica**: Ideal para examinar intervenciones en muchos factores de riesgo. Ya que ve las intervenciones en su conjunto, y ve las intervenciones dinámicas (ej., si un usuario cursó un tratamiento residencial y tuvo la oportunidad de trabajar, es menos probable que vuelva a tratamiento residencial donde tiene que estar 24/7).
+-	Lo malo es que es muy sensible al tamaño de la muestra, **paradoja g-null**, que es un falso positivo (rechazar la H0) en  muestras grandes.
+-	**Estimación G**: La ventaja es que puede usarse incluso cuando no hay “common support” (hay un nivel de confusión en que todos los participantes estan expuestos o no expuestos). Es muy sensible a la mala especificación, que llevará a estimaciones sesgadas mientras más etapas (t) se tenga.
+-	logra ajustar por confusores tiempo-dependientes que son afectados por la exposición previa, ya que examina por separado la asociación entre la exposición y el resultado contrafactual en cada visita y ajustando sólo por los valores de confusores tiempo-dependientes en tiempos anteriores
+
+
+Inverse probability of treatment weighting (IPTW) using the propensity score uses weights based on the propensity score to create a synthetic sample in which the distribution of measured baseline covariates is independent of treatment assignment. The use of IPTW is similar to the use of survey sampling weights that are used to weight survey samples so that they are representative of specific populations (Morgan & Todd, 2008).
+ llamadas ecuaciones de estimación generalizadas (GEE). La distribución marginal de la variable respuesta es modelada como función de las covariables, asumiendo un modelo lineal generalizado o de cuasi-verosimilitud, y la asociación es incorporada para obtener estimaciones más confiables de los parámetros marginales de regresión. En este trabajo se construyen dos enfoques de modelación para el estudio de variables cuantitativas con distribución aproximadamente simétrica. - Schartz2012
+ 
+ IPW usa la probabilidad de tratamiento A dadas las covariables L
+ STD usa la probabilidad de la covariable L y la probabilidad condicional del resultado Y dado A y L
+ Ambos simulan que hubiese sido observado si la variable o variables L no hubiesen sido utilizadas para decidir la probabilidad de tratamiento. A menudo decimos que estos métodos ajustarán por L[Hernan2010]
+ 
+ 
+IPW: Debilidades: ineficiente, puede ser inestable en muestras finitas por pesos grandes, no  hay propiedades para ML de propensity scores //intuitivo (ver los pesos directamente), fácil de testear y colapsar los pesos, permite manejar censura longitudinal y puede usarse directamente para MSMs más complejos
+
+
+
+(por si...)
+- estandarizar el riesgo de la distribución conjunta (joint distribution) de los confusores en todo el seguimiento densidad conjunta de los datos observados para generar resultados potenciales bajo distintos escenarios de resultados
+--->
+
+
+---
+
+## Objetivos
+
+Este proyecto apunta a servir como un material introductorio sobre modelos estructurales marginales para el control de sesgos en estudios observacionales con factores de riesgo y/o exposición tiempo-dependientes.[@Cummiskey2020] Para ello se muestra su estimación paso a paso y mediante un ejercicio reproducible. De igual manera, se utiliza una base de datos simulada para ilustrar el proceso.
+
+---
+
+## Simulación
+
+Se generó una base de datos de 1.000 observaciones con las siguientes características en base al ejemplo de Bounthavong,[@Bounthavong2018] con la finalidad de estimar el efecot de tratamiento residencial en el recuento de meses libres de readmisión:
+
+<div class="superbigimage">
+
+- t1= Tratamiento residencial Tiempo 0 ( $A_0$ ) ∼ Bernoulli(p=.23)
+
+- t2= Tratamiento residencial Tiempo 1 ( $A_1$ ) ∼ Bernoulli(p=.22)
+
+- t3= Tratamiento residencial Tiempo 2 ( $A_2$ ) ∼ Bernoulli(p=.15)
+
+- c1= Policonsumo ∼ Bernoulli(p=.32)
+
+- c2 = Edad de inicio consumo de sustancias ∼ N(3,0.5)
+
+- dt1 = Meses sin readmisión Primer tto. ∼ Poisson(λ=4)  
+
+- dt2 = Meses sin readmisión Segundo tto. ∼ Poisson(λ=3)
+
+- dt3 = Meses sin readmisión Tercer tto. ∼ Poisson(λ=2)  
+
+- v1 = Confusor tiempo-dependiente (t1) ∼ $5+ 0.4\beta_{Tto\,residencial\,basal} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.99})$
+
+- v2 = Confusor tiempo-dependiente (t2) ∼ $5+ 0.4\beta_{Tto\,residencial\,(2^{do})} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.55})$
+
+- v3 = Confusor tiempo-dependiente (t3) ∼ $5+ 0.4\beta_{Tto\,residencial\,(3^{er})} +0.78\beta_{Meses\,sin\,readmision\,1}+ N(0, \sqrt{0.33})$
+</div>
+<br>
+Lo anterior, aplicando un modelo de ponderación inversa de la probabilidad de asignación de tratamiento, y luego un modelo marginal estructural en base a un modelo – GEE (generalized estimating ecuations) con errores estándar robustos  poisson, con estructura de correlación autorregresiva de orden 1 (de tal manera que $E[Tratamiento=1, tiempo=1 | Tratamiento=1, tiempo=(tiempo-1)]$) para datos anidados por paciente (que permita reflejar la dependencia en los resultados del tratamiento anterior). Se comparan los resultados de un modelo que no consideró la ponderación, versus uno que sí consideró la ponderación.
+
+Los datos poseen la siguiente estructura:
+
+```{r tab-comp0, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T}
+#Semilla para replicar los resultados
+set.seed(2125)
+#definir confusor c1 (policonsumo al ingreso==1)
+policonsumo <-rbinom(1000,1,0.32)
+#definir confusor c2 (edad de inicio de consumo)
+edad_ini <-round(exp(rnorm(1000, 3, 0.5)))
+#definir tratamiento residencial al tiempo 0
+t1 <-rbinom(1000,1,0.23)
+#definir tratamiento residencial al tiempo 1
+t2 <-rbinom(1000,1,0.22)
+#definir tratamiento residencial al tiempo 2
+t3 <-rbinom(1000,1,0.15)
+#meses libre de readmisión T1
+dt1 <-rpois(1000,4)
+#meses libre de readmisión T2
+dt2 <-rpois(1000,3)
+#meses libre de readmisión T3
+dt3 <-rpois(1000,1)
+#definir el confusor tiempo-dependiente v1 como una función de t1 y dt1
+v1 <- (0.4*t1 + 0.78*dt1 + rnorm(1000, 0, sqrt(0.99))) + 5
+#definir el confusor tiempo-dependiente v2 como una función de t2 y dt2
+v2 <- (0.4*t2 + 0.78*dt2 + rnorm(1e3, 0, sqrt(0.55))) + 5
+#definir el confusor tiempo-dependiente v3 como una función de t3 y dt3
+v3 <- (0.4*t3 + 0.78*dt3 + rnorm(1e3, 0, sqrt(0.33))) + 5
+
+datos <- data.frame(policonsumo, edad_ini, v1, v2, v3, t1, t2, t3, dt1, dt2, dt3) %>% 
+# Generamos una columna id para cada sujeto
+   dplyr::mutate(id = row_number()) %>%
+# Convertimos la base de datos desde formato ancho a largo de todas las variables tiempo-dependientes. Aclaramos que la estructura de los nombres lleva inscrito primero el valor de interés, seguido por el tiempo/ola de aplicación. Y obtenemos el tiempo tomando el valor dígito de cada columna
+  tidyr::pivot_longer(cols=c("v1", "v2", "v3", "t1", "t2", "t3", "dt1", "dt2", "dt3"), names_to = c('.value',"time"), names_pattern = "(.*)(\\d+)$") %>% 
+# Ordenamos la base de datos por id y tiempo/ola
+  dplyr::arrange(id, time) %>% 
+# reordenamos las columnas
+  dplyr::select(id, time, policonsumo, edad_ini, t, v, dt) %>% 
+# formateamos la base de datos como data.frame
+  as.data.frame() %>% 
+  dplyr::mutate(time=as.numeric(time))
+#Primeros 4 filas
+head(datos,4) %>% 
+  knitr::kable("html", caption="Muestra de la base de datos (Primeras 4 filas)") %>%
+  kableExtra::kable_classic(bootstrap_options = c("striped", "hover"),font_size = 10)
+```
+
+Se genera un diagrama causal para reflejar la estructura de confusión y sesgo presente en los datos en caso de estimar el efecto de $X$ en $Y$.
+
+```{r tab-comp0_dag, eval=T,  dev.args = list(bg = 'white'), echo=T, warning=FALSE, include=T, paged.print=TRUE, fig.align="center", error=T, dpi=750, fig.showtext=T}
+#```{r, echo=F, dev.args = list(bg = 'transparent'), fig.align="center", out.width=550, error=T}
+#fig.width = 7, fig.height = 5 muy grande
+#out.height=450, 
+dag34 <- dagitty('dag {
+bb="0,0,1,1"
+L1_policonsumo [pos="0.117,0.205"]
+L2_edad_ini [pos="0.222,0.112"]
+dt1 [outcome,pos="0.294,0.491"]
+dt2 [outcome,pos="0.572,0.491"]
+dt3 [outcome,pos="0.838,0.491"]
+t1 [exposure,pos="0.092,0.491"]
+t2 [exposure,pos="0.380,0.491"]
+t3 [exposure,pos="0.657,0.491"]
+v1 [pos="0.289,0.686"]
+v2 [pos="0.576,0.668"]
+v3 [pos="0.849,0.657"]
+L1_policonsumo -> dt1
+L1_policonsumo -> dt2
+L1_policonsumo -> dt3
+L1_policonsumo -> t1
+L1_policonsumo -> t2
+L1_policonsumo -> t3
+L2_edad_ini -> dt1
+L2_edad_ini -> dt2
+L2_edad_ini -> dt3
+L2_edad_ini -> t1
+L2_edad_ini -> t2
+L2_edad_ini -> t3
+t1 -> dt1
+t1 -> t2 [pos="0.210,0.652"]
+t2 -> dt2
+t2 -> t3 [pos="0.514,0.677"]
+t3 -> dt3
+v1 -> dt1
+v1 -> t1
+v1 -> t2
+v2 -> dt2
+v2 -> t2
+v2 -> t3
+v3 -> dt3
+v3 -> t3
+dt1 -> dt2
+dt2 -> dt3
+}')
+
+tidy_dag34 <- tidy_dagitty(dag34) %>% 
+  dplyr::mutate(label=dplyr::case_when(grepl("A0",as.character(name))~"A0",
+                                       T~as.character(name))) %>% 
+  dplyr::mutate(label2=dplyr::case_when(grepl("L|v",name)~"adj",grepl("LM",name)~"white",
+                                       T~"black")) %>% 
+  dplyr::mutate(adjusted=factor(dplyr::case_when(grepl("L|v",name)~"adjusted",T~"unadjusted")))
+
+  edge_function <- ggdag:::edge_type_switch("link_arc")
+dag34_plot<-
+ggdag:::if_not_tidy_daggity(tidy_dag34) %>% ggdag:::node_status() %>% 
+  ggplot2::ggplot(ggplot2::aes(x = x, y = y, xend = xend, 
+                                 yend = yend, color = status, shape=factor(adjusted)))+ 
+  #edge_function()+
+  scale_adjusted()+ ggdag:::breaks(c("exposure", "outcome","latent"))+
+      theme_dag()+
+  geom_dag_edges_arc(curvature = c(rep(0,12),5,5,0,5,0,5,rep(0,9)))+ #14 y 16 de 24
+   ggdag:::geom_dag_point(size = 16)+
+  ggdag:::geom_dag_label_repel(ggplot2::aes_string(label = "label", 
+            fill = "status"), size = 4.88, col = "white", 
+            show.legend = FALSE)+
+
+    scale_shape_manual(values = c(15, 16), name="Ajustado", labels=c("Sí", "No"))+ 
+  scale_fill_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+  
+  scale_color_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+#E6E6E6
+  guides(linetype="none", edge_alpha="none", shape="none")+
+  guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
+  theme(plot.caption = element_text(hjust = 0))+
+  theme(legend.position = "bottom", aspect.ratio=6/10)+
+    labs(caption="Nota. Ak= Modalidad (Residencial/Ambulatoria); dtk= Meses libre de readmisión;\nvk= Confusor tiempo-dependiente")
+
+dag34_plot
+```
+
+Para simplificar el ejemplo, se asume que todos cursaron el tratamiento y no hay censura, que la velocidad es constante y los riesgos son constantes y proporcionales. [@Pearce2004]
+
+Los ponderadores de asignación a tratamiento aquí utilizada tiene en cuenta una estructura de exposición y confusión tiempo-dependientes. Para cada unidad observada, esta función genera una ponderación de probabilidad inversa de tratamiento para cada etapa de seguimiento. Para ello se incluye en el numerador los confusores invariantes y el denominador todos los confusores de interés, incluidos los tiempo-dependientes.[@ipw2011]
+
+```{r tab-comp1, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T, results='hide'}
+#Paquetes necesarios para generar los análisis
+library(geepack)
+library(survey)
+library(ipw)
+library(reshape)
+library(MuMIn)
+
+#Estimamos el modelo de probabilidad inversa con el numerador (elementos invariantes en el tiempo) y el denominador todos los confusores de interés.
+w <- ipwtm(
+  exposure = t,
+  family = "binomial",
+  link = "logit",
+  # Invariantes en el tiempo
+  numerator = ~ factor(policonsumo) + edad_ini,
+  # Todos los confusores
+  denominator = ~ v + factor(policonsumo) + edad_ini,
+  id = id,
+  timevar=time,
+  type="first",
+  data = datos)
+summary(w$ipw.weights)
+
+#Se incorporan los pesos a la base de datos
+datos<-
+dplyr::bind_cols(datos, ipw=w$ipw.weights)
+
+###########################################################################################
+# Para obtener las salidas de los coeficientes
+###########################################################################################
+summary.geem <- function(object, ...)  {
+  Coefs <- matrix(NA,nrow=length(object$beta),ncol=5)
+  Coefs[,1] <- c(object$beta)
+  naive <- is.character(object$var)
+  if(!naive && any(diag(object$var) < 0) ){
+    naive <- TRUE
+    warning("Some elements of robust variance estimate < 0.  Reporting model based SE.")
+  }
+  Coefs[,2] <- sqrt(diag(object$naiv.var))
+  if(naive){Coefs[,3] <- rep(NA, length(object$beta))}else{Coefs[,3] <- sqrt(diag(object$var))}
+  if(naive){Coefs[,4] <- Coefs[,1]/Coefs[,2]}else{Coefs[,4] <- Coefs[,1]/Coefs[,3]}
+  Coefs[,5] <- round(2*pnorm(abs(Coefs[,4]), lower.tail=F), digits=8)
+  colnames(Coefs) <- c("Estimates","Model SE","Robust SE", "wald", "p")
+  
+  summ <<- list(beta = Coefs[,1], se.model = Coefs[,2], se.robust = Coefs[,3], wald.test = Coefs[,4], p = Coefs[,5],
+               alpha = object$alpha, corr = object$corr, phi = object$phi, niter = object$niter, clusz = object$clusz,
+               coefnames = object$coefnames, weights=object$weights, biggest.R.alpha = object$biggest.R.alpha)
+  class(summ) <- 'summary.geem'
+  return(summ)
+}
+
+###########################################################################################
+# Primer modelo GEE - GEE con errores estándar robustos  (no IPTW)
+###########################################################################################
+mod1<-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id ,data = data.frame(datos), family=poisson,
+corstr="ar1") 
+summary(mod1)
+summ_mod1<-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %>% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %>% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+
+invisible("Quasipoisson")
+
+mod2<-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+     family = MASS::negative.binomial(2), corstr = "ar1")  #The known value of the additional parameter, theta.
+mod3<-geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+     family = MASS::negative.binomial(1), corstr = "ar1") 
+mod4<-geepack::geese(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, data = datos, 
+               corstr = "ar1", family=poisson) 
+```
+
+
+Si bien se probaron distribuciones binomiales negativas para ver el grado de sobredispersión de los datos y se comparan mediante criterios de parsimonia bajo cuasi-verosimilitud (QIC), de antemano sabemos que no habrá ni sobre ni subdispersión dado que son datos simulados.
+
+<div class="superbigimage">
+
+```{r tab-comp2, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T}
+#, results='hide'
+#https://gist.github.com/avallecam/56af06f46e5544c3af0f46344df20989 
+#https://stackoverflow.com/questions/49089476/any-updates-to-model-negative-binomial-distribution-data-with-gee-in-r
+#https://www.rdocumentation.org/packages/geepack/versions/1.3.4/topics/geese
+#https://stackoverflow.com/questions/13946540/negative-binomial-in-gee?rq=1
+#_#_#_#_ POIS
+mod1b<- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id ,weights=ipw, data = data.frame(datos), family=poisson,
+corstr="ar1") 
+invisible(summary.geem(mod1b)) #para ver los resultados
+summ_mod1b<-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %>% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %>% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+#_#_#_#_ NB2
+mod2b<- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, weights=ipw, data = datos, 
+     family = MASS::negative.binomial(2), corstr = "ar1")  #El valor conocido del parámetro theta
+invisible(summary.geem(mod2b)) #para ver los resultados
+summ_mod2b<-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %>% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %>% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+#_#_#_#_ NB1
+mod3b<- geem(dt~ t+ time+ factor(policonsumo)+ edad_ini, id=id, weights=ipw, data = datos, 
+     family = MASS::negative.binomial(1), corstr = "ar1") 
+invisible(summary.geem(mod3b)) #para ver los resultados
+summ_mod3b<-
+cbind.data.frame(cc=summ$coefnames,
+  Estimate=summ$beta,Std.err=summ$se.robust) %>% 
+  dplyr::mutate(lwr=Estimate-qnorm((1+0.95)/2)*Std.err,upr=Estimate+qnorm((1+0.95)/2)*Std.err) %>% 
+  dplyr::mutate(across(where(is.numeric),~round(exp(.),2)))
+
+#Se muestra el criterio de cuasi-verosimilitud bajo el modelo de independencia (QIC; Pan, 2001) para ver el grado de ajuste del modelo.
+model.sel(mod1b, mod2b, mod3b, rank = QIC)
+```
+</div>
+
+Como era de esperarse, el modelo `mod1b` asumiendo una distribución Poisson tiene un mejor ajuste que el resto (asumiendo distribución binomial negativa). Una vez que se genera el modelo GEE sin ajustar por la probabilidad inversa de asignación a tratamiento, se contrasta con el modelo en el que se pondera por dicha probabilidad. 
+
+```{r tab-comp3, echo=T, cache= T, paged.print=TRUE, message=F, error=T, warning=F, include=T}
+mt<-
+rbind.data.frame(
+summ_mod1[which(summ_mod1$cc=="t"),],
+summ_mod1b[which(summ_mod1b$cc=="t"),]
+)
+rownames(mt) <- c("Modelo sin IPTW", "Modelo con IPTW")
+
+mt %>% 
+  knitr::kable("html", caption="Comparación resultados") %>%
+  kableExtra::kable_classic(bootstrap_options = c("striped", "hover"),font_size = 11)
+```
+
+El modelo generalizado sin ajustar señala que no hay diferencias en el número de meses libre de reingresar a tratamiento entre los tratamientos residenciales y ambulatorios, ya que los intervalos de confianza se superponen al valor nulo (RR= `r as.numeric(mt[1,2])` 95% IC: `r as.numeric(mt[1,4])`, `r as.numeric(mt[1,5])`). No obstante, el modelo que presenta ponderación por el tratamiento indica que los tratamientos residenciales presentan 1/0.88 o un riesgo 14% menor de estar más meses libre de readmisión, por lo que serían readmitidos 14% más rápido (RR= `r as.numeric(mt[2,2])` 95% IC: `r as.numeric(mt[2,4])`, `r as.numeric(mt[2,5])`). Dicho lo anterior, estar en tratamiento residencial tendría un efecto perjudicial una vez ponderando por la probabilidad inversa de asignación a tratamiento en el modelo estructural marginal.
+
+<!---
+Estimate ipw weights (time-varying)
+Estimate inverse probability weights to fit marginal structural models, with a time-varying exposure and time-varying confounders. Within each unit under observation this function computes inverse probability weights at each time point during follow-up. The exposure can be binomial, multinomial, ordinal or continuous. Both stabilized and unstabilized weights can be estimated.
+estimate inverse probability weights (time-varying) using a logistic regression
+https://search.r-project.org/CRAN/refmans/ipw/html/ipwtm.html
+--->
+
+---
+
+## Discusión
+
+### Reflexión
+
+- Es necesario tener en consideración que hay una tensión entre definir tan fielmente el tratamiento para cumplir SUTVA y tener la capacidad de generalizar un constructo más allá de la operacionalización de una exposición [@Schwartz2012]
+
+### Limitaciones
+
+- Structural Nested Models
+
+- Confusores tiempo-modificados (*time-modified confounding*) [@platt2009]
+
+- Generar modelos estructurales de análisis de supervivencia (incluir probabilidad inversa de censura)
+
+- Variaciones
+
+- Modelos doble o triplemente robustos
+
+- Machine Learning (bagging, boosting, random forests, neural networks)
+
+- No hay una versión de métodos-g para tratamientos con tiempo continuo y resultados de supervivencia censurados.
+
+
+
+- Structural nested me permitiría ver cómo los distintos niveles en un tratamiento condicionan mediadores, etc.
+
+- Métodos robustos: g-formula y IPTW
+
+- ML: Más inteligentes por ejemplo en generar un espacio de comparación razonable entre tratados y no tratados (no asigna ponderadores muy extremos, actúa mejor cuando son muy distintos en covariables los tratados y no tratados etc.)
+          
+<br>
+
+# Información de la sesión
+
+<div style="border: 1px solid #ddd; padding: 5px; overflow-y: scroll; height:250px; overflow-x: scroll; width:100%">
+```{r session-info, echo=T, paged.print=TRUE}
+Sys.getenv("R_LIBS_USER")
+sessionInfo()
+warning(getwd())
+```
+</div>
+
+```{r session-info2, echo=T, paged.print=TRUE}
+save.image("__analisis.RData")
+unlink("*_cache", recursive = T, force = T, expand = TRUE)
+
+sesion_info <- devtools::session_info()
+dplyr::select(
+  tibble::as_tibble(sesion_info$packages),
+  c(package, loadedversion, source)
+) %>% 
+  DT::datatable(filter = 'top', colnames = c('Row number' =1,'Variable' = 2, 'Percentage'= 3),
+              caption = htmltools::tags$caption(
+        style = 'caption-side: top; text-align: left;',
+        '', htmltools::em('Paquetes estadísticos utilizados')),
+      options=list(
+initComplete = htmlwidgets::JS(
+      "function(settings, json) {",
+      "$(this.api().tables().body()).css({'font-size': '80%'});",
+      "}")))
+```
