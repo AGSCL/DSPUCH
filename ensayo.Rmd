@@ -575,7 +575,7 @@ ggdag:::if_not_tidy_daggity(tidy_dag34) %>% ggdag:::node_status() %>%
   guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
   theme(plot.caption = element_text(hjust = 0))+
   theme(legend.position = "bottom", aspect.ratio=6/10)+
-    labs(caption="Nota. Ak= Modalidad (Residencial/Ambulatoria); dtk= Meses libre de readmisión;\nvk= Confusor tiempo-dependiente")
+    labs(caption="Nota. Ak= Modalidad (Residencial/Ambulatoria); dtk= Meses libre de readmisión;\nvk= Confusor tiempo-dependiente; c1= Policonsumo; c2= Edad de inicio consumo de sustancias")
 
 dag34_plot
 ```
@@ -737,13 +737,15 @@ https://search.r-project.org/CRAN/refmans/ipw/html/ipwtm.html
 
 ## Discusión
 
-### Reflexión
+### 
+
+Este estudio fue una aproximación muy preliminar al uso de modelos marginales estructurales. En el ejemplo presentado con datos simulados, se pudo apreciar cómo el uso de modelos marginales reducen la confusión generada por variables tiempo-dependientes y reproduce de mejor manera el proceso de generación de datos especificado en la simulación.
 
 Es necesario tener en consideración que hay una tensión entre definir tan fielmente el tratamiento para cumplir SUTVA y tener la capacidad de generalizar un constructo más allá de la operacionalización de una exposición, por lo que deben tenerse en cuenta tales consideraciones al momento de diseñar estudios observacionales con objetivos de inferencia causal.[@Schwartz2012]
 
 Por otra parte, es aconsejable que al momento de elegir la herramienta analítica se tenga en cuenta sus ventajas y desventajas. En la práctica, los modelos g-paramétricos y la estimación g pueden ser difíciles de implementar, particularmente cuando hay muchos tiempos de observación o cuando el tratamiento y los confusores son tiempo-dependientes en varias etapas.
 
-Con todo, al día de hoy se están produciendo grandes esfuerzos para superar la barrera computacional que dificulta la aplicación de estos modelos.[@McGrath2020] Y si por el momento no hay versiones del todo consolidadas de métodos-g para observar tratamientos con tiempo continuo y resultados de supervivencia censurados (más allá de IPTW más la probabilidad inversa de censura), de a poco se han ido publicando algunos estudios prometedores en esta materia.
+Con todo, al día de hoy se están produciendo grandes esfuerzos para superar la barrera computacional que dificulta la aplicación de estos modelos.[@McGrath2020] Y si por el momento no hay versiones del todo consolidadas de métodos-g para observar tratamientos con tiempo continuo y resultados de supervivencia censurados (más allá de IPTW más la probabilidad inversa de censura), de a poco se han ido publicando algunos estudios prometedores en esta materia.[@Schnitzer2020]
 
 <br>
 
@@ -755,7 +757,7 @@ Por otra parte, particularmente en datos en que la variable de interés mide una
 
 De igual manera, existen modelos doble o triplemente robustos que permiten combinar la probabilidad inversa de asignación a tratamiento con métodos g.[@Vansteelandt2011]
 
-Por último, se han publicado varias herramientas de Machine Learning (bagging, boosting, random forests, neural networks, SuperLearner), que son más capaces de generar un espacio de comparación razonable entre tratados/expuestos y no tratados/no expuestos (no asigna ponderadores muy extremos, penalizan por escasez de superposición en los niveles de una covariable, entre otras ventajas). Con todo y dada la extensión de este trabajo, no han podido ser abordados en el presente estudio.
+Por último, se han publicado varias herramientas de aprendizaje automático o *Machine Learning* (*bagging*, *boosting*, *random forests*, *neural networks*, *SuperLearner*), que son más capaces de generar un espacio de comparación razonable entre tratados/expuestos y no tratados/no expuestos (no asigna ponderadores muy extremos, penalizan por escasez de superposición en los niveles de una covariable, entre otras ventajas). Con todo y dada la extensión de este trabajo, no han podido ser abordados en el presente estudio.
 
 <br>
 
