@@ -262,7 +262,7 @@ EFECTOS ANIDADOS PRODUCTO DE LA COMBINACIÓN DE CADA UNO Y POR TANTO  CONDICIONA
 
 ## Marginal structural models
 
-El nombre *“marginal structural"* apunta a estimar los efectos causales (estructurales) y marginales porque estiman el efecto en toda la población, no sólo condicional a los tratados (*average treatment effects* o *ATE* por sus siglas en inglés). Todos ellos pueden estimar el efecto de exposición variable en el tiempo en presencia de confusores tiempo-dependientes afectados por la exposición previa.[@Robins1986;@Robins2000;@Rothman;@platt2009;@Mansournia2017;@Li2017]
+El nombre *“marginal structural"* apunta a estimar los efectos causales (estructurales) y marginales porque estiman el efecto en toda la población, no sólo condicional a los tratados (*average treatment effects* o *ATE* por sus siglas en inglés). Todos ellos pueden estimar el efecto de exposición variable en el tiempo en presencia de confusores tiempo-dependientes afectados por la exposición previa.[@Robins1986;@Robins2000;@Rothman;@platt2009;@Mansournia2017;@Li2017;@remiro-azocar2022]
 
 Se distinguen 3 modelos principales:
  
@@ -284,9 +284,13 @@ $$\Psi = E(Y^{a_0,a_1}-Y^{0,0})$$
  
 Una de sus desventajas es su sensibilidad a muestras excesivamente grandes en que tiende a rechazar $H_0$, lo que se ha denominado *G-null paradox* y razón por la que se recomienda utilizarse sólo en intervenciones en que se sospecha $H_1$.
  
-- **Estimación G**: La gran ventaja de esta herramienta es que puede usarse incluso cuando no hay “*common support*” (hay un nivel de confusión en que todos los participantes están expuestos o no expuestos y por tanto el supuesto de positividad peligra o *near-positivity violations*). Es muy sensible a la mala especificación, que llevará a estimaciones sesgadas mientras más etapas ($k$) se tenga. Por otra parte, es muy intensiva computacionalmente y requiere mayor programación y datos para resultados estables.
+- **Estimación G**: 
  
-  Estandariza el riesgo de la distribución conjunta (*joint distribution*) de los confusores en todo el seguimiento densidad conjunta de los datos observados para generar resultados potenciales bajo distintos escenarios de resultados. Tiene la ventaja de que no asume una distribución paramétrica y por tanto es insensible a una eventual mala especificación. Los intervalos de confianza deben obtenerse mediante remuestreons de tipo *bootstrap*.
+El primero es un modelo causal que incluye la variable causal de interés y enlaza el resultado contrafactual bajo no-exposición en el seguimiento (ej., el resultado que hubiese ocurrido si no se hubiese observado exposición). La segunda es una regresión logística para predecir la exposición en cada visita basado en la exposición previa y las historias de covariables y el resultado contracfactual. Luego la estimación G busca iterativamente los valores de la variable causal en el primer modelo causal, el que cuando es usado en el segundo modelo, hace la exposición independiente del resultado contrafactual estimado dado los tratamientos previos y la historia de confusores. La estimación G logra ajustar por confusores tiempo-dependientes que son afectados por la exposición previa, ya que examina por separado la asociación entre la exposición y el resultado contrafactual en cada visita y ajustando sólo por los valores de confusores tiempo-dependientes en tiempos anteriores. Los intervalos de confianza pueden construirse en un procedimiento basado en tests o remuestreo Bootstrap no-paramétrico.
+ 
+Estandariza el riesgo de la distribución conjunta (*joint distribution*) de los confusores en todo el seguimiento densidad conjunta de los datos observados para generar resultados potenciales bajo distintos escenarios de exposición. Tiene la ventaja de que no asume una distribución paramétrica y por tanto es insensible a una eventual mala especificación.
+
+La gran ventaja de esta herramienta es que puede usarse incluso cuando no hay “*common support*” (hay un nivel de confusión en que todos los participantes están expuestos o no expuestos y por tanto el supuesto de positividad peligra o *near-positivity violations*). No obstante y como ya se mencionó, es muy sensible a la mala especificación, lo que llevará a estimaciones sesgadas mientras más etapas ($k$) se tenga. Por otra parte, es muy intensiva computacionalmente y requiere mayor programación y datos para resultados estables. Los intervalos de confianza deben obtenerse mediante remuestreos de tipo *bootstrap*.
 
 <!----
 intensiva computacionalmente, al igual la estimación G, requieren más programación y datos**
@@ -319,13 +323,11 @@ o	Et-1..n~ Et-1..n+ Ct-1..n+ e (3)
 6.	Para estimarlo, se requiere estimar la estimación esperada de Y condicional a z (asignación) y x ((covariable) en el tiempo, para todas las covariables, generadas en la secuencia zt-1
 [Lesson 1: The g-formula]
 
--	G estimation: muy intensiva computacionalmente, requiere programación extra, puede llevar a problemas de ajuste, la metodología y su efecto son difíciles de entender. Es un modelo de 2 etapas que usa 2 modelos para estimar el efecto causal. El primero es un modelo causal que incluye la variable causal de interés y enlaza el resultado contrafactual bajo no-exposición en el seguimiento (ej., el resultado que hubiese ocurrido si no se hubiese observado exposición). La segunda es una regresión logística para predecir la exposición en cada visita basado en la exposición previa y las historias de covariables y el resultado contracfactual. Luego la estimación G busca iterativamente los valores de la variable causal en el primer modelo causal, el que cuando es usado en el segundo modelo, hace la exposición independiente del resultado contrafactual estimado dado los tratamientos previos y la historia de confusores. La estimación G logra ajustar por confusores tiempo-dependientes que son afectados por la exposición previa, ya que examina por separado la asociación entre la exposición y el resultado contrafactual en cada visita y ajustando sólo por los valores de confusores tiempo-dependientes en tiempos anteriores. Los ICs pueden construirse en un procedimiento basado en test o Bootstrap no-paramétrico.
+-	G estimation: muy intensiva computacionalmente, requiere programación extra, puede llevar a problemas de ajuste, la metodología y su efecto son difíciles de entender. Es un modelo de 2 etapas que usa 2 modelos para estimar el efecto causal. 
 o	Y= E*0+ C*0
 o	YE(log)~E9t-1+ Ct-1..n
 ajusta por confusores variables en el tiempo al examinar por separado una asociación entre la Exposición y el resultado contrafactual bajo no-exposición
 [@Mansournia2017]
-
-
 
 (por si...)
 - estandarizar el riesgo de la distribución conjunta (joint distribution) de los confusores en todo el seguimiento densidad conjunta de los datos observados para generar resultados potenciales bajo distintos escenarios de resultados
@@ -567,8 +569,8 @@ ggdag:::if_not_tidy_daggity(tidy_dag34) %>% ggdag:::node_status() %>%
             show.legend = FALSE)+
 
     scale_shape_manual(values = c(15, 16), name="Ajustado", labels=c("Sí", "No"))+ 
-  scale_fill_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+  
-  scale_color_manual(values = c("#003891", "#EF9D2F","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+#E6E6E6
+  scale_fill_manual(values = c("gray80", "gray30","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+  
+  scale_color_manual(values = c("gray75", "gray35","gray30"), name="Estatus",na.value="black", labels=c("Exposición", "Resultado"), limits = c('exposure', 'outcome'))+#E6E6E6
   guides(linetype="none", edge_alpha="none", shape="none")+
   guides(color=guide_legend(override.aes = list(arrow = NULL)))+#,guide_colourbar(order = 1)
   theme(plot.caption = element_text(hjust = 0))+
@@ -737,32 +739,24 @@ https://search.r-project.org/CRAN/refmans/ipw/html/ipwtm.html
 
 ### Reflexión
 
-- Es necesario tener en consideración que hay una tensión entre definir tan fielmente el tratamiento para cumplir SUTVA y tener la capacidad de generalizar un constructo más allá de la operacionalización de una exposición [@Schwartz2012]
+Es necesario tener en consideración que hay una tensión entre definir tan fielmente el tratamiento para cumplir SUTVA y tener la capacidad de generalizar un constructo más allá de la operacionalización de una exposición, por lo que deben tenerse en cuenta tales consideraciones al momento de diseñar estudios observacionales con objetivos de inferencia causal.[@Schwartz2012]
+
+Por otra parte, es aconsejable que al momento de elegir la herramienta analítica se tenga en cuenta sus ventajas y desventajas. En la práctica, los modelos g-paramétricos y la estimación g pueden ser difíciles de implementar, particularmente cuando hay muchos tiempos de observación o cuando el tratamiento y los confusores son tiempo-dependientes en varias etapas.
+
+Con todo, al día de hoy se están produciendo grandes esfuerzos para superar la barrera computacional que dificulta la aplicación de estos modelos.[@McGrath2020] Y si por el momento no hay versiones del todo consolidadas de métodos-g para observar tratamientos con tiempo continuo y resultados de supervivencia censurados (más allá de IPTW más la probabilidad inversa de censura), de a poco se han ido publicando algunos estudios prometedores en esta materia.
+
+<br>
 
 ### Limitaciones
 
-- Structural Nested Models
+En primer lugar, existen los modelos estructurales anidados (*Structural Nested Models*), que apuntan a identificar el efecto condicional a un regímenes de tratamiento específicos.[@Rothman] Estos modelos no fueron abordados en este estudio.
 
-- Confusores tiempo-modificados (*time-modified confounding*) [@platt2009]
+Por otra parte, particularmente en datos en que la variable de interés mide una duración o una supervivencia hasta que se produce un evento, pudiesen existir confusores tiempo-modificados en que no sólo adoptan distintos valores en el tiempo, si no que su efecto va cambiando conforme pasa el tiempo (*time-modified confounding*).[@platt2009] Dada su complejidad, dicha aproximación va más allá del alcance de este estudio.
 
-- Generar modelos estructurales de análisis de supervivencia (incluir probabilidad inversa de censura)
+De igual manera, existen modelos doble o triplemente robustos que permiten combinar la probabilidad inversa de asignación a tratamiento con métodos g.[@Vansteelandt2011]
 
-- Variaciones
+Por último, se han publicado varias herramientas de Machine Learning (bagging, boosting, random forests, neural networks, SuperLearner), que son más capaces de generar un espacio de comparación razonable entre tratados/expuestos y no tratados/no expuestos (no asigna ponderadores muy extremos, penalizan por escasez de superposición en los niveles de una covariable, entre otras ventajas). Con todo y dada la extensión de este trabajo, no han podido ser abordados en el presente estudio.
 
-- Modelos doble o triplemente robustos
-
-- Machine Learning (bagging, boosting, random forests, neural networks)
-
-- No hay una versión de métodos-g para tratamientos con tiempo continuo y resultados de supervivencia censurados.
-
-
-
-- Structural nested me permitiría ver cómo los distintos niveles en un tratamiento condicionan mediadores, etc.
-
-- Métodos robustos: g-formula y IPTW
-
-- ML: Más inteligentes por ejemplo en generar un espacio de comparación razonable entre tratados y no tratados (no asigna ponderadores muy extremos, actúa mejor cuando son muy distintos en covariables los tratados y no tratados etc.)
-          
 <br>
 
 # Información de la sesión
