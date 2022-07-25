@@ -21,5 +21,6 @@ output:
 ---
 
 - [Presentación Seminario MISP](seminario.html)
+- [Borrador de artículo](ensayo.html)
 
   
