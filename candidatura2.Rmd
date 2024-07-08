@@ -713,6 +713,7 @@ if(!require(plotly)){install.packages("plotly");library(plotly)}
 if(!require(htmlwidgets)){install.packages("htmlwidgets");library(htmlwidgets)}
 if(!require(ggrepel)){install.packages("ggrepel");library(ggrepel)}
 if(!require(pROC)){install.packages("pROC");library(pROC)}
+if(!require(emo)){install.packages("emo");library(emo)}
 
 options(scipen=2) #display numbers rather scientific number
 
@@ -1341,33 +1342,33 @@ class: bold-last-item, animated fadeIn
 
 ```{r, echo=FALSE}
 data <- list(
-  Variables = c("De resultado / desenlace", "Tiempo a la primera readmisión", "Tiempo a la mortalidad", 
+  Variables = c("De resultado / desenlace", "Tiempo a la primera readmisión (meses)", "Tiempo a la mortalidad (meses)", 
                 "Factores predictores candidatos", "De predisposición", "Edad al ingreso", 
                 "Sexo", "Situación de vivienda", "Condición ocupacional", "Estado conyugal", 
                 "Índice de pobreza de la comuna de residencia", "Clasificación de urbanización de la comuna de residencia", 
                 "Escolaridad", "De necesidad", "Estado de convivencia y cohabitación", 
-                "Comorbilidad psiquiátrica", "Severidad del uso de la sustancia", "Sustancia principal al ingreso", 
-                "Frecuencia de uso de la sustancia en el mes previo al ingreso", "Diagnóstico de dependencia al ingreso", 
-                "Facilitadores de acceso y una respuesta adecuada al tratamiento", "Tiempo de estadía en tratamiento (meses)", 
-                "Edad de ingreso a tratamiento", "Tipo de ingreso a tratamiento", 
-                "Factores que se asocian a una respuesta adecuada al tratamiento", "Modalidad de tratamiento"),
+                "Comorbilidad psiquiátrica", "Severidad del TUS", "Sustancia principal al ingreso", 
+                "Frecuencia de consumo de la sustancia principal al ingreso", "Policonsumo", 
+                "Facilitadores de atención", "Tiempo de estadía en tratamiento (meses)", 
+                "Resultado del tratamiento", "Origen de ingreso a tratamiento", 
+                "Factores que se asocian a una respuesta diferencial a tratamiento", "Modalidad de tratamiento"),
   Tipo = c("", "Numérica", "Numérica", "", "", "Numérica", "Dicótomica", 
            "Politómica", "Politómica", "Politómica", "Numérica", 
            "Politómica", "Politómica", "", "Politómica", "Politómica", 
            "Dicótomica", "Politómica", "Politómica", "Dicótomica", 
-           "", "Numérica", "Numérica", "Politómica", "", "Politómica"),
-  Operacionalización = c("", "0 ≤ T < ∞, n = 1203", "0 ≤ T < ∞, n = 1203", "", "", 
-                         "[18, …, 84]", "\"Mujer\" y \"Hombre\"", 
-                         "\"Allegada\", \"Arrendataria\", \"Ocupación irregular\", \"Vivienda propia/Cedida/Pago dividendo\", y \"Otros\"", 
-                         "\"Empleado\", \"Desempleado\" y \"Inactivo\"", 
+           "", "Numérica", "Dicotómica", "Politómica", "", "Politómica"),
+  Operacionalización = c("", "1 si $T_i$ $\\in$  {0, ..., 120} <br> 0 si $T_i > C_i$", "1 si $T_i$ $\\in$  {0, ..., 120} <br> 0 si $T_i > C_i$", "", "", 
+                         "{18, …, 64}", "\"Mujer\" y \"Hombre\"", 
+                         "\"Allegada\", \"Arrienda\", \"Ocupación irregular\", \"Vivienda propia/Cedida/Paga dividendo\", y \"Otros\"", 
+                         "\"Empleado\", \"Desempleado\" e \"Inactivo\"", 
                          "\"Casado/conviviente/conviviente civil\", \"Separado/divorciado\", \"Soltero\", \"Viudo\"", 
-                         "[0, …, 1]", "\"Rural\", \"Urbana\" y \"Mixta\"", 
+                         "{0, …, 1}", "\"Rural\", \"Urbana\" y \"Mixta\"", 
                          "\"Hasta primaria completa\", \"Hasta secundaria completa\" y \"Mayor que secundaria completa\"", 
                          "", "\"Solo\", \"Familia de origen\" y \"Solamente con pareja y/o hijos\"", 
                          "p. ej., \"Trastornos de la alimentación (F50)\"", "\"dependencia\" o \"consumo problemático\"", 
-                         "\"Alcohol\", \"cocaína\", \"Marihuana\", \"Pasta base de cocaína\", \"Otra\"", 
-                         "\"Less than daily or less than weekly\" / \"2-3 days per week\" / \"4-6 days per week\" / \"Daily\"", 
-                         "Presencia y Ausencia", "", "[0, …, ∞]", "[18, …, 84]", 
+                         "\"Alcohol\", \"clorhidrato de cocaína (aspirada)\", \"marihuana\", \"pasta base de cocaína\", \"Otras\"", 
+                         "\"Menos de un día a la semana\" / \"Un día a la semana\" / \"2-3 días por semana\" / \"4-6 días por semana\" / \"Diario\"", 
+                         "Presencia y Ausencia", "", "{0, …, 36}", "\"Completa\" / \"No completa\" ",
                          "\"Consulta espontánea\", \"Sistema sanitario\", \"red SENDA\", \"Sistema judicial\" y \"Otros\"", 
                          "", "\"Ambulatorio población general\", \"Ambulatorio intensivo específico mujeres\", \"Ambulatorio intensivo población general\", \"Residencial específico mujeres\" y \"Residencial población general\"")
 )
@@ -1379,7 +1380,7 @@ df <- data.frame(
   Operacionalización = data$Operacionalización,
   stringsAsFactors = FALSE
 )
-df$Variables <- ifelse(df$Variables %in% c("De resultado / desenlace", "De predisposición", "Facilitadores de acceso y una respuesta adecuada al tratamiento", "Factores que se asocian a una respuesta adecuada al tratamiento"), kableExtra::cell_spec(df$Variables, "html", bold = TRUE), df$Variables)
+df$Variables <- ifelse(df$Variables %in% c("De resultado / desenlace", "Factores predictores candidatos", "De predisposición", "De necesidad", "Facilitadores de atención", "Factores que se asocian a una respuesta diferencial a tratamiento"), kableExtra::cell_spec(df$Variables, "html", bold = TRUE), df$Variables)
 
 # Mostrar la tabla usando kable
 knitr::kable(df, format = "html", escape = FALSE) %>%
@@ -1397,11 +1398,30 @@ knitr::kable(df, format = "html", escape = FALSE) %>%
 class: bold-last-item, animated fadeIn 
 ## Plan de análisis (1)
 
+- Descriptivos
+
+- Tasas de incidencia
+
+- Kaplan meier
+
+- Razones de mortalidad estandarizadas
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
+
+- Cálculo de Frecuencias: Frecuencias absolutas y relativas para variables categóricas. Tasas de incidencia para variables de supervivencia.
+- Resumen de Variables Numéricas: Mediana y valores del primer y tercer cuartil.
+
+- Cálculo de Tasas de Incidencia: Por 1.000 años-persona (n(et)1,000).
+
+- Eventos: Primera readmisión y mortalidad. Curvas Kaplan-Meier: Estratificadas por modalidad de tratamiento y resultado inicial.
+Función de sobrevida representada por S(t)=j
+
+- Errores estándar según fórmula de Greenwood
+
+- Razones de mortalidad estandarizadas, personas en tratamiento vs. población general (año-grupo de edad- año calendario)
 
 ---
 class: bold-last-item, animated fadeIn 
@@ -1409,45 +1429,26 @@ class: bold-last-item, animated fadeIn
 
 .pull-left[
 
-```{r "calibration", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=450, message=F, warning=F}
-# Create sample data for calibration plot
-set.seed(0)
-observed_prob <- runif(100)
-predicted_prob <- observed_prob + rnorm(100, mean = 0, sd = 0.1)
+- Best subset selection
 
-# Create a data frame
-data <- data.frame(observed_prob, predicted_prob)
+- Modelo de riesgos proporcionales de Cox y extensiones
 
-# Define colors based on the provided gradient
-gradient_colors <- c("#666666", "#003891")
+- Medición de desempeño: 
 
-# Create the calibration plot using ggplot2
-calibration_plot <- ggplot(data, aes(x = predicted_prob, y = observed_prob)) +
-  geom_point(color = gradient_colors[1], alpha = 0.7, size=1.5) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = gradient_colors[2], size = 1.5) +
-  scale_x_continuous(labels = scales::percent_format()) +
-  scale_y_continuous(labels = scales::percent_format()) +
-  labs(
-    x = "Prob predicha",
-    y = "Prob observada",
-    #title = "Calibration Plot for Survival Model"
-  ) +
-  theme_minimal() +
-  theme(
-    plot.title = element_text(hjust = 0.5),
-    axis.title.x = element_text(color = gradient_colors[1], size=16),
-    axis.title.y = element_text(color = gradient_colors[1], size=16)
-  )
+  - Validación interna
+  
+  - Calibración
+  
+  - Discriminación
+  
+  - Utilidad clínica
 
-# Print the plot
-print(calibration_plot)
-```
 ]
 
 
 .pull-right[
 
-```{r "ROC", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=450, message=F, warning=F}
+```{r "ROC", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=250, message=F, warning=F}
 # Create sample data for ROC curve with high AUC
 set.seed(42)
 observed <- rbinom(500, 1, 0.8)  # High probability of positive outcome
@@ -1492,6 +1493,39 @@ roc_plot <- ggplot(roc_data, aes(x = 1 - Specificity, y = Sensitivity)) +
 print(roc_plot)
 ```
 
+```{r "calibration", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=250, message=F, warning=F}
+# Create sample data for calibration plot
+set.seed(0)
+observed_prob <- runif(100)
+predicted_prob <- observed_prob + rnorm(100, mean = 0, sd = 0.1)
+
+# Create a data frame
+data <- data.frame(observed_prob, predicted_prob)
+
+# Define colors based on the provided gradient
+gradient_colors <- c("#666666", "#003891")
+
+# Create the calibration plot using ggplot2
+calibration_plot <- ggplot(data, aes(x = predicted_prob, y = observed_prob)) +
+  geom_point(color = gradient_colors[1], alpha = 0.7, size=1.5) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = gradient_colors[2], size = 1.5) +
+  scale_x_continuous(labels = scales::percent_format()) +
+  scale_y_continuous(labels = scales::percent_format()) +
+  labs(
+    x = "Prob predicha",
+    y = "Prob observada",
+    #title = "Calibration Plot for Survival Model"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    axis.title.x = element_text(color = gradient_colors[1], size=16),
+    axis.title.y = element_text(color = gradient_colors[1], size=16)
+  )
+
+# Print the plot
+print(calibration_plot)
+```
 
 ]
 
@@ -1500,11 +1534,53 @@ print(roc_plot)
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
+- Modelos Predictivos de Sobrevida 
+
+- Desarrollo de Modelos:
+
+  - Modelos de regresión de Cox para predecir eventos post-tratamiento.
+  
+  - Medición de riesgos y tiempo al evento en cada modalidad de tratamiento inicial.
+  
+- Validación y evaluación de la utilidad clínica de los modelos.
+
+- Selección de Modelos:  Best subset selection: Ajuste por AIC y AICc para seleccionar los mejores modelos.
+
+- Expresado como h(t)=h0(t)e1x1+2x2++pxp.
+
+- Pruebas de violaciones al supuesto de riesgos proporcionales (e.g., Schoenfeld, log-rank).
+
+- Validación y Evaluación
+
+  - Validación Interna: Remuestreo bootstrap para corregir el optimismo de la validación aparente y el sobreajuste. **Que es optimismo?**: en datos de entrenamiento se muestra bien, pero no resulta generalizable a la población subyacente a los datos, reflejado en datos nuevos o no vistos.
+    
+- Calibración y Desempeño del Modelo:
+
+  - Calibración mediante Brier Score.
+    
+  - Desempeño mediante la prueba de concordancia C de Uno.
+    
+- Utilidad Clínica:
+
+  - Medición del beneficio neto usando umbrales de riesgo.
+  
+- Análisis de Sensibilidad
+
+- Imputación de Datos:
+  - Imputaciones múltiples con ecuaciones encadenadas (m=5).
+  - Modelos de Machine Learning: Integración de modelos para seleccionar variables y evaluar desempeño.
+
 ---
 class: bold-last-item, animated fadeIn 
 ## Plan de análisis (3)
 
+- Modelos multiestado
 
+- Cumplimiento de supuesto de Markov
+
+- Illness-death
+
+- Simulación
 
 ```{r "multiestado", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=450}
 magick::image_transparent(magick::image_transparent(image_read(path = './_figs/transmat_tesis_esp.png'), "white"), "lightgray")
@@ -1517,6 +1593,13 @@ magick::image_transparent(magick::image_transparent(image_read(path = './_figs/t
 
 - Nota.  indica las transiciones, y los subíndices denotan estados; No hay estados recurrentes; Estado absorbente: Fallecimiento. Fuente: elaboración propia, adaptado de Meira-Machado, L., & Sestelo, M. Estimation in the progressive illness-death model: A nonexhaustive review. Biometrical Journal, 61(2), 2019. 245-263. https://doi.org/10.1002/bimj.201700200
 
+- algoritmo de simulación generalizado para obtener probabilidades de transición; 100.000 pacientes repetidamente, distribución normal multivariada. Probabilidades a los 3 meses, 1 año, 3, 4 y 10 años.
+
+- **markov**: supouesto de no-memoria, en que el desenlace de readmitido a mortalidad no se cumple completamente.
+
+- en tal caso se utilizarán modelos que asuman tiempos de renovación sojourn, incorporen covariables relativas a la transición anterior (de tratamiento cursado a readmitido como el resultado del tto., anterior y el tiempo en un tto., anterior)
+
+- en caso que existan efectos aleatorios por anidamiento (ej., región o centro), se generarán modelos que asuman varianzas robustas a este anidamiento
 
 ---
 class: bold-last-item, animated fadeIn 
@@ -1583,7 +1666,7 @@ class: bold-last-item, animated fadeIn
 
 - Estructurar y limpiar base de datos
 
-- Parear con mortalidad
+- Vínculo con mortalidad
 
 - Análisis exploratorios
 
@@ -1599,7 +1682,11 @@ magick::image_transparent(magick::image_transparent(image_read(path = './_figs/p
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-También contemplo presentar en congresos nacionales e internacionales sobre los resultados. Para oportunidad de retroalimentación.
+Envío de Artículos:
+- A revistas indexadas en Web of Science.
+Presentaciones:
+- Conferencia internacional (e.g., Society for Epidemiologic Research).
+- Actividades científicas en la Universidad de Chile y otras instituciones.
 
 ---
 class: center, middle, animated fadeIn
