@@ -110,7 +110,7 @@ h1, h2, h3 {
 .remark-slide-content {
   background-color: var(--background-color);
   font-size: 1rem;
-  background-image: url("./_figs/2024PPT_ESP/Diapositiva2.svg");
+  background-image: url("https://raw.githubusercontent.com/AGSCL/DSPUCH/main/_figs/2024PPT_ESP/Diapositiva2.SVG");
   background-size: contain  !important;  /* Ensures the entire image is visible : cover era la anterior */
   background-position: center !important;
   background-repeat: no-repeat !important;
@@ -176,7 +176,7 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("./_figs/2024PPT_ESP/Diapositiva1.svg");
+  background-image: url("https://raw.githubusercontent.com/AGSCL/DSPUCH/main/_figs/2024PPT_ESP/Diapositiva1.SVG");
   background-size: 100% auto !important; /* Ensures the entire image is visible : cover era la anterior */
   /*background-position: center top !important; */
   background-repeat: no-repeat;
