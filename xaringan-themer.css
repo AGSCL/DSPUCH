@@ -15,7 +15,7 @@
  *    - xaringan wiki: https://github.com/yihui/xaringan/wiki
  *    - remarkjs wiki: https://github.com/gnab/remark/wiki
  *
- *  Version: 0.4.1
+ *  Version: 0.4.2
  *
  * ------------------------------------------------------- */
 @import url(https://fonts.googleapis.com/css?family=Arial:400,400i&display=swap);
@@ -78,7 +78,7 @@ h1, h2, h3 {
 .remark-slide-content {
   background-color: var(--background-color);
   font-size: 1rem;
-  background-image: url(./_figs/bg.svg);
+  background-image: url(./_figs/2024PPT_ESP/Diapositiva2.svg);
   background-size: cover;
   background-position: center;
   padding: 0.4em 2.4em 0.4em 2.4em;
@@ -142,7 +142,7 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("./_figs/bg_portada.svg");
+  background-image: url("./_figs/2024PPT_ESP/Diapositiva1.svg");
   background-size: cover;
 }
 .title-slide .remark-slide-number {
@@ -194,7 +194,9 @@ blockquote {
 th, td {
   padding: 5px;
 }
-.remark-slide thead, .remark-slide tfoot, .remark-slide tr:nth-child(even) {
+.remark-slide table:not(.table-unshaded) thead,
+.remark-slide table:not(.table-unshaded) tfoot,
+.remark-slide table:not(.table-unshaded) tr:nth-child(even) {
   background: #FCFCFC;
 }
 table.dataTable tbody {

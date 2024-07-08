@@ -1,0 +1,222 @@
+---
+pagetitle: "My title"
+title: "Evaluación de la Implementación e Impacto del Programa CERO en Niños de 2 y 4 Años del Servicio Metropolitano Sur Oriente Entre los Años 2017 y 2023"
+author: "Josefina Aubert Valderrama"
+director: "Iris Espinoza Santander"
+co-director: "Álvaro Castillo Carniglia"
+date:  "`r withr::with_locale(new =c('LC_TIME' = 'es_ES'), code =format(Sys.time(),'%B %d, %Y'))`"
+incremental: true
+format:
+  revealjs:
+    theme: [default]
+    logo: "H:/Mi unidad/PERSONAL ANDRES/UCH_salud_publica/asignaturas/0_TESIS/_style/Logo nDP_monotono_isotipo.png"
+    footer: "Footer text"
+    background-transition: slide
+    code-block-font-size: "53%"
+    title-slide-background: "./_figs/bg_portada.svg"
+    title-slide-background-size: cover
+    slide-background: "./_figs/bg.svg"
+    slide-background-size: cover
+    css: styles.css # Add your custom CSS filename here
+font:
+  heading: "Arial Narrow"
+  text: 
+    family: "Arial"
+    weight: 400
+    style: normal
+  code: "Arial Narrow"
+
+# Extra CSS for custom classes
+includes:
+  in-header: [styles.css, "H:/Mi unidad/PERSONAL ANDRES/UCH_salud_publica/asignaturas/0_TESIS/xaringan-themer", "H:/Mi unidad/PERSONAL ANDRES/UCH_salud_publica/asignaturas/0_TESIS/theme.css"] # Include your CSS for the custom styles
+# alt+ click to zoom
+---
+
+::: {.notes}
+Muy Buenas Tardes
+
+A continuación, les voy a presentar mi proyecto de tesis doctoral titulado **Evaluación de la Implementación del Programa CERO en Niños de 2 y 4 Años del Servicio Metropolitano Sur Oriente Entre los Años 2017 y 2023**.
+
+Acompañantes en este Proceso
+
+- Tutora: Iris Espinoza
+- Co-Tutor: Álvaro Castillo
+:::
+
+---
+
+```{r}
+#| class-output: center-table
+#| message: false
+#| include: true
+#| warning: false
+
+if(!require(pacman)){install.packages("pacman");require(pacman)}
+if (getRversion() != "4.4.0") { stop("Requires R version 4.4.0. Actual: ", getRversion()) }
+
+pacman::p_unlock(lib.loc = .libPaths()) #para no tener problemas reinstalando paquetes
+pacman::p_load(markdown, knitr, withr, install=T)
+```
+
+
+## Antecedentes
+
+### Magnitud y Consecuencias de la Caries Dental
+
+- Reducción de inequidades mediante intervenciones a temprana edad
+- Cambio en el paradigma de intervenciones orientadas al tratamiento a intervenciones preventivas a temprana edad
+- Importantes esfuerzos en Chile
+
+![Prevalencia de caries no tratada en niños de 1 a 6 años en la Región Metropolitana de Chile en 2015](path/to/figure1.png)
+
+---
+
+## Antecedentes: Programas y Políticas Odontológicas
+
+### Programas y Políticas Odontológicas de Relevancia
+
+- 2005: GES “Salud Oral Integral para niños y niñas de 6 años”.
+- 2010: GES “Salud Oral Integral de la Embarazada”
+- 2015: Sembrando Sonrisas
+- 2017: Implementación de CERO en la Atención Primaria de Salud del país
+
+---
+
+## Programa CERO
+
+### Descripción del Programa CERO
+
+- Ingreso a los 6 meses hasta 6 años
+- Control mínimo anual según evaluación de riesgo
+- Educación en factores de riesgo y cuidados de salud bucal para la cuidadora o cuidador principal
+- 2021: Extensión a 10 años y continuidad con Programa CERO Adolescente
+- Cambios en implementación por pandemia COVID-19
+
+---
+
+## Pregunta de Investigación
+
+### Preguntas de Investigación
+
+1. ¿Cómo ha sido la implementación del Programa CERO entre los años 2017 y 2023 del Servicio de Salud Metropolitano Suroriente?
+2. ¿Cuál ha sido el impacto del Programa CERO en la historia de caries y hábitos en salud bucal en niños de 2 y 4 años del Servicio de Salud Metropolitano Suroriente entre los años 2017 y 2023?
+
+---
+
+## Hipótesis
+
+### Hipótesis del Estudio
+
+- Implementación parcial del programa CERO atribuible a factores individuales y organizacionales.
+- La pandemia por COVID-19 disminuyó el alcance, fidelidad del Programa CERO y sostenibilidad de algunas intervenciones en el SSMSO.
+- Reducción en la historia de caries en niños de 2 y 4 años luego de la implementación del Programa CERO en el SSMSO.
+- Reducción en los factores de riesgo de caries en niños de 2 y 4 años luego de la implementación del Programa CERO en el SSMSO.
+
+---
+
+## Objetivos
+
+### Objetivo General
+
+Evaluar la implementación del Programa CERO y su impacto en historia de caries, hábitos de higiene y alimentación en niños de 2 y 4 años del Servicio de Salud Metropolitano Suroriente entre los años 2017 y 2023.
+
+### Objetivos Específicos
+
+1. Describir el alcance, adopción, fidelidad y sostenibilidad en el tiempo del Programa CERO en el SSMSO.
+2. Describir la forma en que la pandemia por COVID-19 afectó el alcance, fidelidad y sostenibilidad del Programa CERO en el SSMSO.
+3. Estimar el impacto del Programa CERO en la historia de caries en niños de 2 y 4 años del SSMSO.
+4. Estimar el impacto del Programa CERO en hábitos de higiene y alimentación en niños de 2 y 4 años del SSMSO.
+
+---
+
+## Metodología
+
+### Diseño de la Investigación
+
+- Metodología mixta convergente
+- Marco de ciencias de la implementación RE-AIM (Reach, Efficacy/Effectiveness, Adoption, Implementation, and Maintenance)
+
+---
+
+## RE-AIM Framework
+
+### Dimensiones del RE-AIM
+
+1. **Alcance (Reach)**: Número absoluto, proporción y/o representatividad de los individuos que participan en una iniciativa.
+2. **Efectividad (Effectiveness)**: Resultados de salud, incluyendo efectos positivos y negativos, y efectos no intencionados.
+3. **Adopción (Adoption)**: Proporción y representatividad de los entornos y/o agentes de intervención que la adoptan.
+4. **Implementación (Implementation)**: Grado en que se implementa la intervención según lo planeado.
+5. **Mantenimiento (Maintenance)**: Grado en que la intervención se mantiene a largo plazo a nivel individual y del entorno.
+
+---
+
+## Resultados Esperados
+
+### Resultados Cualitativos y Cuantitativos
+
+- Comparación de resultados cualitativos y cuantitativos
+- Identificación de áreas representadas en ambos conjuntos de datos
+- Desarrollo de procedimientos para transformar los diferentes tipos de datos
+
+---
+
+## Aspectos Éticos
+
+### Consideraciones Éticas
+
+- Fase cualitativa: Consentimiento Informado
+- Fase cuantitativa: Solicitud de bases de datos de registro clínico electrónico anonimizadas
+
+---
+
+## Factibilidad
+
+### Evaluación de la Factibilidad
+
+- Conversaciones iniciadas con el SSMSO
+- Evaluación de la extracción de datos y su formato
+- Postulación a beneficios complementarios para financiar transcripciones y apoyo en entrevistas
+
+---
+
+## Formato de Tesis
+
+### Manuscritos
+
+1. Resultados de la Implementación del Programa CERO entre 2017 y 2023 en el SSMSO.
+2. Impacto del Programa CERO en la Historia de Caries en Niños de 2 y 4 años del SSMSO entre 2017 y 2023.
+3. Impacto del Programa CERO en hábitos de higiene y dieta en Niños de 2 y 4 años del SSMSO entre 2017 y 2023.
+
+---
+
+## Plan de Trabajo
+
+### Cronograma
+
+- Año 1: Diseño de preguntas y objetivos cualitativos y cuantitativos, recolección de información.
+- Año 2: Análisis de datos cualitativos y cuantitativos.
+- Año 3: Fusión de resultados, interpretación y desarrollo de procedimientos.
+- Año 4: Redacción de manuscritos y defensa de tesis.
+
+---
+
+## Muchas Gracias
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
