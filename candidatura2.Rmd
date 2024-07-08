@@ -8,6 +8,7 @@ output:
   xaringan::moon_reader:
     chakra: libs/remark-latest.min.js
     includes:
+#      in_header: mylibs/math.html
       after_body: ['mylibs/collapseoutput.js', 'mylibs/zoom.html']
     transition: slide
     lib_dir: libs
@@ -560,12 +561,12 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 }
 .bottom_center2 {
   margin: 0;
-  position: absolute;
-  bottom: -20%;  /* Ajusta este valor para posicionarlo más abajo */
-  left: 52%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
+  position: fixed; /* Cambiar a 'fixed' para fijar la posición */
+  bottom: -50px; /* Ajustar el valor para posicionarlo desde la parte inferior de la pantalla */
+  left: 50%; /* Asegurar que esté centrado horizontalmente en la pantalla */
+  transform: translateX(-50%); /* Centrarse horizontalmente */
 }
+
 .down_center {
   margin: 0;
   position: absolute;
@@ -621,7 +622,7 @@ slides > slide {
 }
 
 .section{
-  background-image: linear-gradient(#003891 90%, : #EF9D2F;/* background-color: #ff7f50; */
+  background-image: linear-gradient(#003891 90%, : #EF9D2F !important;/* background-color: #ff7f50; */
   background-size: contain  !important;  /* Ensures the entire image is visible : cover era la anterior */
   background-position: center !important;
   background-repeat: no-repeat !important;
@@ -666,10 +667,17 @@ th:nth-child(3), td:nth-child(3) {
 }
 
 .move-right {
-  padding-left: 50px; /* Adjust the value as needed */
-  padding-top: -20px;
+  padding-left: 50px !important; /* Adjust the value as needed */
+  padding-top: -20px !important;
   /* Alternatively, you can use margin-left */
   /* margin-left: 50px; */
+}
+
+.footnote2 {
+/*  bottom: 60px;*/
+  padding-right: 4em !important;
+  font-size: 2.4px !important;
+  font-style: italic !important;
 }
 </style>
 
@@ -720,7 +728,9 @@ if(!require(plotly)){install.packages("plotly");library(plotly)}
 if(!require(htmlwidgets)){install.packages("htmlwidgets");library(htmlwidgets)}
 if(!require(ggrepel)){install.packages("ggrepel");library(ggrepel)}
 if(!require(pROC)){install.packages("pROC");library(pROC)}
+if(!require(Epi)){install.packages("Epi");library(Epi)}
 if(!require(emo)){devtools::install_github("hadley/emo");library(emo)} #https://github.com/hadley/emo
+if(!require(etm)){install.packages("etm");library(etm)}
 
 options(scipen=2) #display numbers rather scientific number
 
@@ -899,7 +909,7 @@ xaringanExtra::use_scribble() #son los lapices
 xaringanExtra::use_tile_view()
 xaringanExtra::use_panelset()
 xaringanExtra::use_editable(expires = 1)
-xaringanExtra::use_fit_screen()
+#xaringanExtra::use_fit_screen()
 
 check_code <- function(expr, available){
   if(available){
@@ -1096,8 +1106,8 @@ library(ggplot2)
 library(grid)
 
 # Definición de las etiquetas para las dimensiones de calidad
-labels <- c("Seguridad",
-            "Efectividad",
+labels <- c("Segura",
+            "Efectiva",
             "Centrada en\nel paciente",
             "Oportuna",
             "Eficiente",
@@ -1109,17 +1119,18 @@ points <- data.frame(x = c(0.5, 1, 1, 0.5, 0, 0),
 
 # Creación del gráfico
 ggplot() + 
-  geom_polygon(data = points, aes(x, y), fill = '#666666', alpha = 0.4) +
+  geom_polygon(data = points, aes(x, y), fill = '#66666630', alpha = 0.3) +
   # geom_text(data = points, aes(x, y, label = labels), 
   #           hjust = 0.5, vjust = 0.5, size = 6) +
-  geom_text(data = points, aes(x, y, label = labels), 
+  geom_text(data = points, aes(x, y, label = labels), color="#2f353b",
             hjust = c(0.5, 1.2, 1.2, 0.5, -0.2, -0.2), 
-            vjust = c(-0.5, 0.5, 0.5, 1.5, 0.5, 0.5), size = 6) +
+            vjust = c(-0.5, 0.5, 0.5, 1.5, 0.5, 0.5), size = 12) +
   theme_void() + 
   theme(plot.title = element_text(hjust = 0.5, size = 20, face = "bold"))
-#Fuente: Elaboración propia a partir de WHO-UNODC. 2020.  International Standards for the Treatment of Drug Use Disorders. Traducción no oficial. Obtenida desde: https://www.unodc.org/documents/drug-prevention-and-treatment/ES_UNODC-WHO_International_Standards_Treatment_Drug_Use_Disorders_April_unoff_2020.pdf
 
+# Fuente: Elaboración propia a partir de WHO-UNODC. 2020. International Standards for the Treatment of Drug Use Disorders. Traducción no oficial. Obtenida desde: https://www.unodc.org/documents/drug-prevention-and-treatment/ES_UNODC-WHO_International_Standards_Treatment_Drug_Use_Disorders_April_unoff_2020.pdf
 ```
+
 ]
 
 ???
@@ -1301,13 +1312,13 @@ Evaluar el rol predictivo de la duración de la estadía y el resultado del trat
 ]
 
 .small[
-- Describir la tasa de incidencia de muerte de pacientes entre pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022, en comparación con la población general.
+- Describir la **tasa de incidencia** de muerte de pacientes entre pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022, en comparación con la población general.
 
-- Identificar un conjunto clave de factores pronósticos y predictivos capaces de predecir el riesgo y tiempo a la primera readmisión a tratamientos por TUS en pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022.
+- **Identificar un conjunto clave** de factores pronósticos y predictivos capaces de predecir el riesgo y tiempo a la **primera readmisión** a tratamientos por TUS en pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022.
 
-- Identificar un conjunto clave de factores pronósticos y predictivos capaces de predecir el riesgo y tiempo a la mortalidad por todas las causas en pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022.
+- **Identificar un conjunto clave** de factores pronósticos y predictivos capaces de predecir el riesgo y tiempo a la **mortalidad por todas las causas** en pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022.
 
-- Predecir el riesgo y tiempo al evento de la primera readmisión a tratamientos por TUS y mortalidad por todas las causas de manera concatenada y conjunta (es decir, dando cuenta de riesgos semi-competidores) en pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022.
+- **Predecir** el riesgo y tiempo al evento de la **primera readmisión** a tratamientos por TUS y **mortalidad** por todas las causas de manera **concatenada y conjunta** (es decir, dando cuenta de riesgos semi-competidores) en pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022.
 ]
 
 ---
@@ -1321,12 +1332,121 @@ class: bold-last-item, animated fadeIn
 
 - Observacional, cohorte retrospectiva, vinculada con datos de mortalidad
 
-- RUN
+- RUN (Rol Único Nacional) encriptado
 
 <br>
 
-```{r "disenio", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=450}
-magick::image_transparent(magick::image_transparent(image_read(path = './_figs/situacion_hipotética2_esp.png'), "white"), "lightgray")
+```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=500}
+set.seed(2125)
+# Create data
+datasamp <- data.frame(
+  y=abs(rpois(1:250,15)),
+  y2=abs(rpois(1:250,15))
+) %>% 
+  dplyr::filter(y2>y, y>=8, y2<=24) %>%
+  dplyr::mutate(Paciente=row_number()) %>% 
+  #filtrar tratamientos más largos que 3 años
+  dplyr::mutate(diff_treat=y2-y) %>% 
+  dplyr::filter(diff_treat<=3)
+for (i in 1:nrow(datasamp)){
+  datasamp$y3[i]<-base::sample(x=seq(from=datasamp$y2[i]+1,to=24),1)
+  datasamp$y3[i]<-ifelse(datasamp$y3[i]<=datasamp$y2[i],22,datasamp$y3[i])
+  datasamp$y3[i]<-ifelse(datasamp$y3[i]>=25,24,datasamp$y3[i])
+  datasamp$y4[i]<-ifelse(!is.na(datasamp$y3[i]),base::sample(x=seq(from=datasamp$y3[i]+1,to=24),1),24)
+  datasamp$y4[i]<-ifelse(datasamp$y4[i]<=datasamp$y3[i],24,datasamp$y4[i])
+  datasamp$y4[i]<-ifelse(datasamp$y4[i]>=25,24,datasamp$y4[i])
+}
+set.seed(2125)
+pac_aleatorio1<-sample(1:max(datasamp$Paciente),40)
+pac_aleatorio2<-setdiff(sample(1:max(datasamp$Paciente),40), pac_aleatorio1)
+# Horizontal version, antes era 1985
+end_plot<-23
+
+data_mod<-
+datasamp %>%
+  dplyr::mutate(y42 = y3 + 3, resta = y4 - y3) %>% 
+  dplyr::mutate(y4=ifelse(resta>3,y42,y4)) 
+  #dplyr::mutate(y4= dplyr::case_when(resta > 3 ~ y42, TRUE~ y4))
+
+
+fig_trans<-ggplot(data_mod) 
+###>=10
+#datos de tratamiento en periodo de seguimiento, posterior al 2010
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data_mod,y>=10,y2<=end_plot), aes(x=Paciente, xend=Paciente, y=y, yend=y2), color="gray15", alpha=.6, size=.8))
+#datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entera hasta el 2020
+fig_trans<-try(fig_trans+ geom_segment(data=dplyr::filter(data_mod,y>=10,y2>end_plot), aes(x=Paciente, xend=Paciente, y=y, yend=end_plot), color="gray15", alpha=.6, size=.8))
+#datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data_mod,y>=10,y2>end_plot), aes(x=Paciente, xend=Paciente, y=end_plot, yend=y2), color="gray15", alpha=.6, linetype="dotted", size=.8))
+###<10
+#datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data_mod,y<10), aes(x=Paciente, xend=Paciente, y=y, yend=10), color="gray15", alpha=.6, linetype="dotted", size=.8))
+#datos de tratamiento en periodo de seguimiento, menos de 2010 pero sólo y1
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data_mod,y<10,y2>=10,y2<=end_plot), aes(x=Paciente, xend=Paciente, y=10, yend=y2), color="gray15", alpha=.6,  size=.8))
+#datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entera hasta el 2020
+# fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data,y<10,y2>end_plot), aes(x=Paciente, xend=Paciente, y=10, yend=end_plot), color="#21177A", alpha=.6, size=.8))
+# CONTACTO: VICTIMARIO: debo saber si y3 está dentro o no del seguimiento
+###>=10
+#datos de justicia en periodo de seguimiento, linea solida
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data_mod,y3<=end_plot, y4<=end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=y4), color="gray70", alpha=.6, size=.8))
+#datos de justicia en periodo de seguimiento, exceden el seguiemiento pero parten en él. linea solida hasta el 2020
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data_mod,y3<=end_plot, y4>end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=end_plot), color="gray70", alpha=.6, size=.8))
+#si estoy dentro de los datos en y, peroen end plot no, tengo q hacer el interlineado afuera
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data_mod,y3<=end_plot, y4>end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=end_plot, yend=y4), color="gray70", alpha=.6,linetype="dotted",  size=.8))
+#datos de tratamiento en periodo de seguimiento, exceden el seguiemiento. linea entrecortada despues del 2020
+fig_trans<-try(fig_trans+geom_segment(data=dplyr::filter(data_mod,y3>end_plot, y4>end_plot, Paciente%in% pac_aleatorio1), aes(x=Paciente, xend=Paciente, y=y3, yend=y4), color="gray70", alpha=.6, linetype="dotted", size=.8))
+
+
+fig_trans_final_esp<-
+  #Puntos
+  fig_trans+
+  #Tratamientos completados
+  geom_point(data=dplyr::filter(data_mod,Paciente%in% sample(c(pac_aleatorio1,pac_aleatorio2),15)), aes(x=Paciente, y=y2), color="gray15", size=3, alpha=.6) +
+  #Victimario
+  geom_point(data=dplyr::filter(data_mod,Paciente%in% pac_aleatorio1), aes(x=Paciente, y=y3), color="gray15", size=3, alpha=.6, shape=15)+
+  #víctima (no necesita tiempo de seguimiento)
+  geom_point(data=dplyr::filter(data_mod,Paciente%in% pac_aleatorio2), aes(x=Paciente, y=y3), color="gray15", size=3, alpha=.6, shape=17)+
+  theme_light() +
+  coord_flip() +
+  #fechas donde yo tomo gente
+  annotate("rect", xmin=-Inf, xmax=Inf, ymin=9.5, ymax=10,
+           alpha = .2, fill="gray60")+
+  annotate("rect", xmin=-Inf, xmax=Inf, ymin=23, ymax=23.5,
+           alpha = .2, fill="gray60")+
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.border = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank()
+  )+
+  scale_x_continuous(breaks=seq(1,max(data_mod$Paciente),by=10))+
+  scale_y_continuous(breaks=seq(min(data_mod$y),max(data_mod$y4),by=2), labels=seq(min(data_mod$y),max(data_mod$y4),by=2)+2000)+
+  labs(y="Tiempo de seguimiento (en años)", x="Individuos (ID)")+
+  #labs(y="Follow-up (in quarters)",x="Individual(ID)", caption="Note. Dot= Complete treatment;\nSquare= Contact w/ justice system (imputed);\nTriangle= Contact w/ justice system (victim);\nBlue line= Time in treatment;\nOrange line= Time in conctact w/justice system;\nShared area=Follow-up window")+
+  theme(plot.caption = element_text(hjust = 0, face= "italic"))
+
+ggsave(paste0(getwd(),"/_figs/situacion_hipotética2_esp.png"),fig_trans_final_esp,width = 7, height = 5, dpi = 600)
+
+img<-
+image_read(path = './_figs/situacion_hipotética2_esp.png')
+#Definir las propiedades del marco
+# Obtener las dimensiones de la imagen
+width <- image_info(img)$width
+height <- image_info(img)$height
+
+# Definir las propiedades de la franja
+frame_color <- "#FF000080"  # Color rojo con 50% de transparencia (en formato RGBA hexadecimal)
+frame_thickness <- 12  # Grosor de la franja en píxeles
+
+# Crear una imagen en blanco del tamaño de la franja horizontal
+horizontal_frame <- image_blank(width-180, frame_thickness, color = frame_color)
+
+# Superponer la franja horizontal en el medio de la imagen
+middle_y <- ((height - frame_thickness) / 2)+15
+img_with_frame <- image_composite(img, horizontal_frame, offset = paste0("+180+", middle_y))
+img_with_frame_mod <-magick::image_transparent(magick::image_transparent(img_with_frame , "white"), "lightgray")
+
+img_with_frame_mod
 ```
 
 ???
@@ -1336,12 +1456,14 @@ magick::image_transparent(magick::image_transparent(image_read(path = './_figs/s
 
 - Observacional utilizando datos de una cohorte retrospectiva de alcance nacional, vinculado con datos de mortalidad, entre 2010 y 2022
 
-- Deterministic linking
+- Deterministic linking, a través de una versión encriptada del RUn, identificador único e irrepetible
 
 - Las principal fuente de datos son los datos administrativos de Pacientes en tratamiento por TUS, adultos, Convenio 1: Programa con mayor antigüedad y seguimiento, registrado en SISTRAT. 
-- Según datos Registrados en 2022: Aproximadamente 15.273 personas atendidas, en total, Aproximadamente 103.074 (edades entre 18 y 64), 31.355 pacientes con readmisiones (30%), 4.226 pacientes (4,1%) durante el período de estudio fallecieron, Episodios de Tratamiento: Promedio de 1.5 tratamientos por paciente. 89% con dos o menos tratamientos. 2.5% con cuatro o más tratamientos.
-- Recolección de Datos: Registros Electrónicos: Datos de fichas clínicas. Entrevistas Clínicas: Conducidas por el equipo clínico al ingreso y seguimiento hasta la finalización del tratamiento.
+- Según datos Registrados en 2022: Aproximadamente 15 mil personas atendidas al 2022, aprox. 103 mil (en edades entre 18 y 64), 31 mil pacientes con readmisiones, 4 mil pacientes fallecieron durante el período de estudio, 
+- Episodios de Tratamiento: Promedio de 1.5 por paciente. **89% con dos o menos tratamientos**. 2.5% con 4o+
+- Los datos son recolectados por fichas clínicas conducidas por el equipo clínico al egreso y seguimiento al egreso o cierre de la ficha.
 
+- Ej., el paciente 50 tiene deñ 2011 al 2014 un tratamiento que no completa (no hay punto); luego, del 2022 al 2023 tiene un tto. 
 Nota. Punto= Completa tratamiento; cuadrado= readmitido a tratamiento; triángulo= fallecimiento; líneas verticales color gris claro= truncado a la izquierda (tratamientos terminando antes de 2010) y censura administrativa (tratamientos iniciando después del 31 de Diciembre de 2022); líneas horizontales gris oscuro= tiempo en tratamiento; líneas horizontales gris claro= tiempo en tratamiento posterior a readmisión. Líneas puntuadas= no monitoreado en el seguimiento realizado por este estudio. Por ejemplo, el paciente con ID=1 sólo experimentó un tratamiento (desde 2019 a 2020), y no se observaron readmisiones o muertes en el tiempo del estudio. Fuente: elaboración propia.
 
 ---
@@ -1365,7 +1487,7 @@ data <- list(
            "Politómica", "Politómica", "", "Politómica", "Politómica", 
            "Dicótomica", "Politómica", "Politómica", "Dicótomica", 
            "", "Numérica", "Dicotómica", "Politómica", "", "Politómica"),
-  Operacionalización = c("", "1 si $T_i$ $\\in$  {0, ..., 120} <br>    0 si $T_i > C_i$", "1 si $T_i$ $\\in$  {0, ..., 120}  <br>    si $T_i > C_i$", "", "", 
+  Operacionalización = c("", "1 si $T_i$ $\\in$  {0, ..., 120} \\,\\, 0 si $T_i > C_i$", "1 si $T_i$ $\\in$  {0, ..., 120} \\,\\, 0 si $T_i > C_i$", "", "", 
                          "{18, …, 64}", "\"Mujer\" y \"Hombre\"", 
                          "\"Allegada\", \"Arrienda\", \"Ocupación irregular\", \"Vivienda propia/Cedida/Paga dividendo\", y \"Otros\"", 
                          "\"Empleado\", \"Desempleado\" e \"Inactivo\"", 
@@ -1406,28 +1528,87 @@ knitr::kable(df, format = "html", escape = FALSE) %>%
 class: bold-last-item, animated fadeIn 
 ## Plan de análisis (1)
 
+.pull-left[
+
 - Descriptivos
 
 - Tasas de incidencia
 
-- Kaplan meier
+- Kaplan-Meier
 
 - Razones de mortalidad estandarizadas
+
+]
+
+.pull-right[
+
+```{r "", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=225, message=F, warning=F}
+set.seed(2125)
+n <- 100
+
+# Generar datos para el grupo 1
+group1 <- data.frame(
+  time = rexp(n, rate = 0.1), # tiempos de supervivencia
+  status = sample(0:1, n, replace = TRUE), # estado: 1 = evento, 0 = censurado
+  group = "Grupo 1"
+)
+
+# Generar datos para el grupo 2
+group2 <- data.frame(
+  time = rexp(n, rate = 0.05), # tiempos de supervivencia
+  status = sample(0:1, n, replace = TRUE), # estado: 1 = evento, 0 = censurado
+  group = "Grupo 2"
+)
+
+# Combinar los datos
+data <- rbind(group1, group2)
+
+# Ajustar el modelo de Kaplan-Meier
+fit <- survfit(Surv(time, status) ~ group, data = data)
+
+# Extraer los datos de supervivencia
+surv_data <- data.frame(
+  time = fit$time,
+  surv = fit$surv,
+  strata = rep(names(fit$strata), fit$strata)
+)
+surv_data$strata<-ifelse(grepl("1",surv_data$strata),"Grupo 1","Grupo 2")
+
+# Crear el gráfico con ggplot2
+ggplot(surv_data, aes(x = time, y = surv, color = strata)) +
+  geom_step(linewidth=1.5) +
+  labs(x = "Tiempo (en meses)",
+       y = "Prob supervivencia",
+       color = "Grupo") +
+      theme_minimal()+
+  scale_color_manual(values = c("Grupo 1" = "#E69F00", "Grupo 2" = "#56B4E9")) +
+  theme(
+    #plot.title = element_text(hjust = 0.5),
+    axis.title.x = element_text(color = "#666666", size=23),
+    axis.text.x = element_text(color = "#666666", size=23),
+    axis.title.y = element_text(color = "#666666", size=23),
+    axis.text.y = element_text(color = "#666666", size=23)
+   # caption = element_text(hjust = 0.5)
+  )+theme(legend.title = element_text(size = 23), legend.text = element_text(size = 23))
+```
+
+]
+
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- Cálculo de Frecuencias: Frecuencias absolutas y relativas para variables categóricas. Tasas de incidencia para variables de supervivencia.
-- Resumen de Variables Numéricas: Mediana y valores del primer y tercer cuartil.
+- A nivel descriptivo, cálculo de frecuencias absolutas y relativas para variables categóricas;
+
+- Resumen de Variables Numéricas continuas: Mediana y valores del primer y tercer cuartil.
 
 - Cálculo de Tasas de Incidencia: Por 1.000 años-persona (n(et)1,000).
 
-- Eventos: Primera readmisión y mortalidad. Curvas Kaplan-Meier: Estratificadas por modalidad de tratamiento y resultado inicial.
-Función de sobrevida representada por S(t)=j
+- Eventos: Primera readmisión y mortalidad. 
 
-- Errores estándar según fórmula de Greenwood
+- Curvas Kaplan-Meier: Estratificadas por modalidad de tratamiento y resultado inicial. Errores estándar según fórmula de Greenwood
 
 - Razones de mortalidad estandarizadas, personas en tratamiento vs. población general (año-grupo de edad- año calendario)
 
@@ -1479,8 +1660,8 @@ gradient_colors <- c("#666666", "#003891")
 
 # Create the ROC plot using ggplot2
 roc_plot <- ggplot(roc_data, aes(x = 1 - Specificity, y = Sensitivity)) +
-  geom_line(color = gradient_colors[1], size = 2) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = gradient_colors[2], size=2) +
+  geom_line(color = gradient_colors[1], size = 4) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = gradient_colors[2], size=4) +
   labs(
     x = "1 - Especificidad",
     y = "Sensibilidad"
@@ -1490,10 +1671,10 @@ roc_plot <- ggplot(roc_data, aes(x = 1 - Specificity, y = Sensitivity)) +
   theme_minimal() +
   theme(
     #plot.title = element_text(hjust = 0.5),
-    axis.title.x = element_text(color = gradient_colors[1], size=16),
-    axis.text.x = element_text(color = gradient_colors[1], size=16),
-    axis.title.y = element_text(color = gradient_colors[1], size=16),
-    axis.text.y = element_text(color = gradient_colors[1], size=16)
+    axis.title.x = element_text(color = gradient_colors[1], size=23),
+    axis.text.x = element_text(color = gradient_colors[1], size=23),
+    axis.title.y = element_text(color = gradient_colors[1], size=23),
+    axis.text.y = element_text(color = gradient_colors[1], size=23)
    # caption = element_text(hjust = 0.5)
   )
 
@@ -1502,8 +1683,10 @@ print(roc_plot)
 ```
 
 ```{r "calibration", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=225, message=F, warning=F}
+par(mar=c(0,0,0,0))
+par(bg=NA)
 # Create sample data for calibration plot
-set.seed(0)
+set.seed(2125)
 observed_prob <- runif(100)
 predicted_prob <- observed_prob + rnorm(100, mean = 0, sd = 0.1)
 
@@ -1514,9 +1697,10 @@ data <- data.frame(observed_prob, predicted_prob)
 gradient_colors <- c("#666666", "#003891")
 
 # Create the calibration plot using ggplot2
-calibration_plot <- ggplot(data, aes(x = predicted_prob, y = observed_prob)) +
-  geom_point(color = gradient_colors[1], alpha = 0.7, size=1.5) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = gradient_colors[2], size = 1.5) +
+calibration_plot <-
+  ggplot(data, aes(x = predicted_prob, y = observed_prob)) +
+  geom_point(color = gradient_colors[1], alpha = 0.7, size= 3) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = gradient_colors[2], size = 3) +
   scale_x_continuous(labels = scales::percent_format()) +
   scale_y_continuous(labels = scales::percent_format()) +
   labs(
@@ -1527,8 +1711,10 @@ calibration_plot <- ggplot(data, aes(x = predicted_prob, y = observed_prob)) +
   theme_minimal() +
   theme(
     plot.title = element_text(hjust = 0.5),
-    axis.title.x = element_text(color = gradient_colors[1], size=16),
-    axis.title.y = element_text(color = gradient_colors[1], size=16)
+    axis.title.x = element_text(color = gradient_colors[1], size=23),
+    axis.text.x = element_text(color = gradient_colors[1], size=23),
+    axis.title.y = element_text(color = gradient_colors[1], size=23),
+    axis.text.y = element_text(color = gradient_colors[1], size=23)
   )
 
 # Print the plot
@@ -1544,29 +1730,21 @@ print(calibration_plot)
 
 - Modelos Predictivos de Sobrevida 
 
-- Desarrollo de Modelos:
-
-  - Modelos de regresión de Cox para predecir eventos post-tratamiento.
-  
-  - Medición de riesgos y tiempo al evento en cada modalidad de tratamiento inicial.
-  
-- Validación y evaluación de la utilidad clínica de los modelos.
+- Mediante Modelos de regresión Cox para predecir eventos post-tratamiento, estratificado por modalidad de tratamiento
 
 - Selección de Modelos:  Best subset selection: Ajuste por AIC y AICc para seleccionar los mejores modelos.
 
-- Expresado como h(t)=h0(t)e1x1+2x2++pxp.
-
 - Pruebas de violaciones al supuesto de riesgos proporcionales (e.g., Schoenfeld, log-rank).
 
-- Validación y Evaluación
+- Validación y Evaluación- Medida desempeño
 
-  - Validación Interna: Remuestreo bootstrap para corregir el optimismo de la validación aparente y el sobreajuste. **Que es optimismo?**: en datos de entrenamiento se muestra bien, pero no resulta generalizable a la población subyacente a los datos, reflejado en datos nuevos o no vistos.
+  - Validación Interna: Remuestreo bootstrap para corregir el optimismo de la validación aparente y el sobreajuste. **Que es optimismo?**: capacidad de generalizarse más allá de los datos de entrenamiento, a la población subyacente a los datos
     
 - Calibración y Desempeño del Modelo:
 
-  - Calibración mediante Brier Score.
+  - Calibración (observaciones clasificadas correctamente, presición, ) mediante Brier Score. Ponderado por el inverso de la probabilidad de estar censurado.
     
-  - Desempeño mediante la prueba de concordancia C de Uno.
+  - Discriminación (¿logra distinguir entre sujetos positivos y negativos?) Desempeño mediante la prueba de concordancia C de Uno. 
     
 - Utilidad Clínica:
 
@@ -1582,6 +1760,8 @@ print(calibration_plot)
 class: bold-last-item, animated fadeIn 
 ## Plan de análisis (3)
 
+.pull-left[
+
 - Modelos multiestado
 
 - Cumplimiento de supuesto de Markov
@@ -1590,9 +1770,42 @@ class: bold-last-item, animated fadeIn
 
 - Simulación
 
-```{r "multiestado", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=450}
-magick::image_transparent(magick::image_transparent(image_read(path = './_figs/transmat_tesis_esp.png'), "white"), "lightgray")
+]
+
+.pull-right[
+```{r "multiestado", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=650, message=F, warning=F}
+#magick::image_transparent(magick::image_transparent(image_read(path = './_figs/transmat_tesis_esp.png'), "white"), "lightgray")
+par(mar=c(0,0,0,0))
+par(bg=NA)
+## Figura modelo multiestado  -------------------------------------------------------
+
+library(etm)
+#Definimos la matriz de transicion
+states_trans<-c("Completa/no completa", "Readmisión", "Fallecimiento")
+
+trans_matrix <- matrix(c(NA, 1, 2,
+                         NA, NA, 3,
+                         NA, NA, NA),
+                       nrow=3, ncol=3,byrow=TRUE,dimnames=list(from=states_trans,to=states_trans))
+
+#generar una figura
+Epi::boxes.Lexis(trans_matrix, 
+                 wmult = 1.5, # Aumentar el ancho de las cajas
+                 hmult = 1.5, # Aumentar la altura de las cajas
+                 cex = 1.2, # Aumentar el tamaño de la fuente dentro de las cajas
+                 txt.cex = 1.2, # Aumentar el tamaño de la fuente de las transiciones
+                 boxpos = list(y = c(25, 75, 25),
+                               x = ((20 + (1:3) * 30 - 15))-15), # Ajustar la disposición de las cajas
+                 txt.arr = c(expression("1) " * lambda['12']),
+                             expression("2) " * lambda['13']),
+                             expression("3) " * lambda['23'])
+                 ))
+
+#Definimos un vector de los estados y transiciones
+states_trans_lab<-paste0(1:3,") ",states_trans)
+attr(states_trans_lab,"names")<-1:3
 ```
+]
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1613,8 +1826,6 @@ magick::image_transparent(magick::image_transparent(image_read(path = './_figs/t
 class: bold-last-item, animated fadeIn 
 ## Potenciales limitaciones
 
-- Dependencia de actuales políticas
-
 - Datos administrativos
 
   - Datos no recopilados
@@ -1632,8 +1843,6 @@ class: bold-last-item, animated fadeIn
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- **Validación interna**: Eventuales cambios en las políticas públicas de acceso o disponibilidad podrían hacer un modelo de este tipo inservible. No obstante, el hecho de tener un seguimiento de más de 10 años le hace bastante estable.
-
 - **Datos administrativo**: Ausencia de datos sobre etapa de cambio, experiencias traumáticas o severidad del trastorno (vinculados a la satisfacción o que ahonden en motivos de tratamiento); Comorbilidad psiquiátrica, Relacionada con días en tratamiento; diagnósticos pueden no estar confirmados si el paciente abandona temprano; Índice de pobreza y clasificación de urbanización pueden tener errores de medición.
 
 - **Tratamientos en Curso**: Fallecimientos en el transcurso del tratamiento y observaciones con tratamientos en curso, descartados. Se realizará un análisis de sensibilidad caracterizándolos para ver eventuales sesgos de selección
@@ -1646,31 +1855,32 @@ class: bold-last-item, animated fadeIn
 class: bold-last-item, animated fadeIn 
 ## Consideraciones éticas
 
-- Datos secundarios deidentificados, que contienen información identificable
+- Datos secundarios deidentificados ~~`r emo::ji("key")`
 
 - Solicitud Comité de ética
 
 - Procedimientos para asegurar su no identificabilidad
+
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- utilización de datos de salud individual sin consentimiento explícito es un tema controvertido
+- Si bien usar datos de salud individual sin consentimiento explícito es un tema controvertido, 
 
-- Necesidad de equilibrar las demandas de la investigación basada en la población con los derechos individuales.
+- en temáticas de salud pública, los derechos individuales se contraponen con el derecho de las personas a que dichos datos recopilados de la población estén al servicio de la mejora de sus tratamientos
 
-- plan de gestión de datos incluye la recopilación y la curaduría de los datos.
+- Los identificadores, aunque no comprometen la privacidad al encontrarse enmascarados; de caer en manos incorrectas podrían ser utilizados incorrectamente ya que contienen información identificable. 
 
-- Los identificadores se encuentran cifrados, no son accesibles para el autor de este proyecto
+- Por lo mismo, el plan de gestión de datos compromete un cifrado del RUN que ni siquiera es accesible para el autor de este proyecto, sumado al almacenamiento en la nube en repositorios privados y que poseen altos estándares de seguridad. Por último, los resultados siempre se presentarán de forma agregada, en estratos no identificables mediante ejemplos específicos, por ej.
 
-- Se almacenan de forma segura, y se presentarán de forma agregada
-
+- normativa HIPAA según la Ley de Portabilidad y Responsabilidad de Seguros de Salud de los EEUU
 
 ---
-class: bold-last-item, animated fadeIn 
+class: animated fadeIn 
 ## Plan de trabajo
+
 
 - Estructurar y limpiar base de datos
 
@@ -1683,7 +1893,6 @@ class: bold-last-item, animated fadeIn
 ```{r "plan", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=700}
 magick::image_transparent(magick::image_transparent(image_read(path = './_figs/planificacion.svg'), "white"), "lightgray")
 ```
-
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1767,6 +1976,16 @@ suppressWarnings(PrintBibliography(myBib, start= 7, end= 12))
 suppressWarnings(PrintBibliography(myBib, start= 13, end= 20))
 ```
 
+
+---
+## Referencias (4)
+
+.
+
+```{r refs4, echo=FALSE, results="asis", eval=F}
+suppressWarnings(PrintBibliography(myBib, start= 21, end= 28))
+```
+
 ```{r exp, eval=F,echo=F, results="asis"}
 library(pagedown)
 
@@ -1781,3 +2000,75 @@ to_pdf_complex <- function(input, output_file, partial_slides, delay) {
 pagedown::chrome_print(gsub(".Rmd",".html",rstudioapi::getSourceEditorContext()$path),output="candidatura.pdf")
 xaringanBuilder::build_pdf(gsub(".Rmd",".Rmd",rstudioapi::getSourceEditorContext()$path),complex_slides = TRUE,output_file="candidatura2.pdf")
 ```
+
+---
+## Ecuaciones (1)
+
+- Kaplan-Meier
+
+$$ S(t) = \prod _{j:t_j\leq1}(1-\frac{d_j}{n_j})$$
+
+donde $t_j$ son los tiempos hasta el tiempo de interés $j$; $d_j$ denota el número de eventos en el tiempo $j$, $n_j$ indica el número de personas en riesgo en el tiempo y que no experimentó el evento hasta jsuto antes del tiempo $j$
+
+
+- Ajuste indirecto
+
+
+$$\frac{\sum_{i}\,x_{\,Ai\,}\,}{\sum \left[ M_i \times n_{\,Ai\,} \right]}$$
+
+donde $n_{Ai}$ son el número de muertes observadas en la subpoblación, $x_{Ai}$ son las muertes observadas, $M_i$ es la tasa de mortalidad de la población de referencia.
+
+---
+## Ecuaciones (2)
+
+- Modelo de regresión de riesgos proporcionales de Cox
+
+$$ h(t)= h_0(t)e^{\beta_1 x_1+\beta_2x_2+\dots+\beta_p x_p }$$
+
+donde $h_0(t)$ son los riesgos basales (tasas basales), no paramétricos; predictores lineales $x_p$ (donde $\beta_p$ alude a cualquier parámetro), paramétricos en escala log, por lo que actúan de forma multiplicativa sobre los riesgos basales.
+
+- Criterio de akaike
+
+$$ AIC = -2* \log(verosimilitud)+2(p+k)$$
+donde $p$ y $k$ son el número de parámetros y coeficientes, respectivamente
+
+- Criterio de akaike ajustado por el tamaño de la muestra/subpoblación ( $n$ )
+
+$$ AICc= AIC + \frac{2k(k+1)}{n-k-1}$$
+
+---
+## Ecuaciones (3)
+
+### Brier score integrado
+
+### Prueba de concordancia C de Uno
+
+---
+## Ecuaciones (4)
+
+### Kaplan-Meier para suceso doble
+
+- Suseso principal: muerte antes de resultar readmitidos $D_M(t)$
+
+$$\sum_{t_j \leq t} \frac{R_j}{n_j} \prod_{t_i \leq t} \left(1 - \frac{\,M_{\,s_i\,}+ R_i}{n_i} \right)$$
+
+```{r, include=F}
+#no permite subscript doble, tuve que poner espacios
+#
+#D_M(t)= \sum_{t_j\leq t}\frac{R_j}{n_j}\prod_{t_i\leq t}\left(1-\frac{M_{s_i}+R_i}{n_i}\right)
+
+```
+
+
+donde $R_i$ (n de readmitidos) y $n_j$ (n de sometidos a riesgo) antes del instante $t_j$ , $M_{s_i}$ (n de fallecidos antes de la readmisión), $R_i$ (n de readmitidos) y n de individuos sometidos a riesgo $n_i$ justo antes del instante $t_i$ . 
+
+- Suseso secundario: muerte tras resultar readmitidos $D_{M[S]}(t)$
+
+$$\sum_{t_j \leq t} \frac{\,M_{\,R_j\,}\,}{n_j} \prod_{t_i \leq t} \left(1 - \frac{\,M_{\,s_i\,}\,+ R_i}{n_i}\right)$$
+
+```{r, include=F}
+#D_{M[S]}(t) = \sum_{t_j \leq t} \frac{M_{R_j}}{n_j} \prod_{t_i \leq t} \left(1 - \frac{M_{s_i} + R_i}{n_i}\right)
+```
+
+
+donde $M_{s_i}$ es el n de que fallecen posterior a ser readmitidos justo antes del instante $t_i$ .
