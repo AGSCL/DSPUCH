@@ -1699,7 +1699,7 @@ Presentaciones:
 ---
 class: center, middle, animated fadeIn
 
-# Se agradece sus preguntas
+# Agradezco poder responder sus preguntas
 
 <br>
   
