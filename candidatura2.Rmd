@@ -664,6 +664,13 @@ th:nth-child(3), td:nth-child(3) {
   overflow-x: auto;
   overflow-y: auto;
 }
+
+.move-right {
+  padding-left: 50px; /* Adjust the value as needed */
+  padding-top: -20px;
+  /* Alternatively, you can use margin-left */
+  /* margin-left: 50px; */
+}
 </style>
 
 ```
@@ -916,6 +923,8 @@ warning(paste0("./_bib/My Collection.txt"))
   
 myBib <- ReadBib("./_bib/My Collection.txt", check = FALSE)
 ```
+
+.move-right[
 .line_space_15[ 
 ## .text_60[Predicción del tiempo a la readmisión y mortalidad en adultos<br>en tratamiento por trastornos por uso de sustancias en Chile:<br>Un estudio de cohorte retrospectivo de 12 años]
 ]
@@ -929,11 +938,10 @@ myBib <- ReadBib("./_bib/My Collection.txt", check = FALSE)
 .text_50[gonzalez.santacruz.andres@gmail.com] [`r fontawesome::fa(name = "github")`](https://github.com/AGSCL) [`r fontawesome::fa(name = "orcid", fill="green")`](https://orcid.org/0000-0002-5166-9121)
 ]
 ]
-
+]
 .bottom_center2[
 ```{r echo=FALSE, out.width = '19%'}
 image_colorize(image_read(path = './_style/Logo_nDP_monotono_vertical_esp.png'),99, "#666666")
-
 ```
 ]
 
@@ -1230,7 +1238,7 @@ class: bold-last-item, animated, fadeIn
 
 ---
 class: animated, fadeIn 
-## Estado y brechas en la investigación
+## Estado y brechas en la<br>investigación
 
 - Escasa investigación en el Sur Global
 
@@ -1253,7 +1261,7 @@ class: animated, fadeIn
 
 ---
 class: animated, fadeIn 
-## Oportunidades, proyecciones y relevancia
+## Oportunidades, proyecciones y<br>relevancia
 
 - Sistema centralizado de información a nivel nacional
 
@@ -1357,7 +1365,7 @@ data <- list(
            "Politómica", "Politómica", "", "Politómica", "Politómica", 
            "Dicótomica", "Politómica", "Politómica", "Dicótomica", 
            "", "Numérica", "Dicotómica", "Politómica", "", "Politómica"),
-  Operacionalización = c("", "1 si $T_i$ $\\in$  {0, ..., 120} <br> 0 si $T_i > C_i$", "1 si $T_i$ $\\in$  {0, ..., 120} <br> 0 si $T_i > C_i$", "", "", 
+  Operacionalización = c("", "1 si $T_i$ $\\in$  {0, ..., 120} <br>    0 si $T_i > C_i$", "1 si $T_i$ $\\in$  {0, ..., 120}  <br>    si $T_i > C_i$", "", "", 
                          "{18, …, 64}", "\"Mujer\" y \"Hombre\"", 
                          "\"Allegada\", \"Arrienda\", \"Ocupación irregular\", \"Vivienda propia/Cedida/Paga dividendo\", y \"Otros\"", 
                          "\"Empleado\", \"Desempleado\" e \"Inactivo\"", 
