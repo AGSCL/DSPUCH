@@ -479,6 +479,9 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 .text_65 {
   font-size: 65%;
 }
+.text_62 {
+  font-size: 62%;
+}
 .text_60 {
   font-size: 60%;
 }
@@ -912,11 +915,9 @@ warning(paste0("./_bib/My Collection.txt"))
   
 myBib <- ReadBib("./_bib/My Collection.txt", check = FALSE)
 ```
-
 .line_space_15[ 
-## .text_65[Predicción del tiempo a la readmisión y mortalidad en adultos<br>en tratamiento por trastornos por uso de sustancias en Chile:<br>Un estudio de cohorte retrospectivo de 12 años]
+## .text_62[Predicción del tiempo a la readmisión y mortalidad en adultos<br>en tratamiento por trastornos por uso de sustancias en Chile:<br>Un estudio de cohorte retrospectivo de 12 años]
 ]
-
 
 .line_space_11[
 
@@ -1408,7 +1409,7 @@ class: bold-last-item, animated fadeIn
 
 .pull-left[
 
-```{r "calibration", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=450}
+```{r "calibration", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=450, message=F, warning=F}
 # Create sample data for calibration plot
 set.seed(0)
 observed_prob <- runif(100)
@@ -1446,7 +1447,7 @@ print(calibration_plot)
 
 .pull-right[
 
-```{r "ROC", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=450}
+```{r "ROC", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=450, message=F, warning=F}
 # Create sample data for ROC curve with high AUC
 set.seed(42)
 observed <- rbinom(500, 1, 0.8)  # High probability of positive outcome
