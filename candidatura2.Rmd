@@ -713,7 +713,7 @@ if(!require(plotly)){install.packages("plotly");library(plotly)}
 if(!require(htmlwidgets)){install.packages("htmlwidgets");library(htmlwidgets)}
 if(!require(ggrepel)){install.packages("ggrepel");library(ggrepel)}
 if(!require(pROC)){install.packages("pROC");library(pROC)}
-if(!require(emo)){install.packages("emo");library(emo)}
+if(!require(emo)){devtools::install_github("hadley/emo");library(emo)} #https://github.com/hadley/emo
 
 options(scipen=2) #display numbers rather scientific number
 
@@ -917,7 +917,7 @@ warning(paste0("./_bib/My Collection.txt"))
 myBib <- ReadBib("./_bib/My Collection.txt", check = FALSE)
 ```
 .line_space_15[ 
-## .text_62[Predicción del tiempo a la readmisión y mortalidad en adultos<br>en tratamiento por trastornos por uso de sustancias en Chile:<br>Un estudio de cohorte retrospectivo de 12 años]
+## .text_60[Predicción del tiempo a la readmisión y mortalidad en adultos<br>en tratamiento por trastornos por uso de sustancias en Chile:<br>Un estudio de cohorte retrospectivo de 12 años]
 ]
 
 .line_space_11[
@@ -1384,8 +1384,8 @@ df$Variables <- ifelse(df$Variables %in% c("De resultado / desenlace", "Factores
 
 # Mostrar la tabla usando kable
 knitr::kable(df, format = "html", escape = FALSE) %>%
-  kableExtra::kable_styling(full_width = FALSE) %>%
-  kableExtra::scroll_box(height = "500px", width = "100%")
+  kableExtra::kable_styling(full_width = FALSE, font_size=12) %>%
+  kableExtra::scroll_box(height = "450px", width = "100%")
   
 ```
 
@@ -1429,7 +1429,7 @@ class: bold-last-item, animated fadeIn
 
 .pull-left[
 
-- Best subset selection
+- *Best subset selection*
 
 - Modelo de riesgos proporcionales de Cox y extensiones
 
@@ -1448,7 +1448,7 @@ class: bold-last-item, animated fadeIn
 
 .pull-right[
 
-```{r "ROC", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=250, message=F, warning=F}
+```{r "ROC", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=225, message=F, warning=F}
 # Create sample data for ROC curve with high AUC
 set.seed(42)
 observed <- rbinom(500, 1, 0.8)  # High probability of positive outcome
@@ -1493,7 +1493,7 @@ roc_plot <- ggplot(roc_data, aes(x = 1 - Specificity, y = Sensitivity)) +
 print(roc_plot)
 ```
 
-```{r "calibration", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=250, message=F, warning=F}
+```{r "calibration", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=225, message=F, warning=F}
 # Create sample data for calibration plot
 set.seed(0)
 observed_prob <- runif(100)
@@ -1672,7 +1672,7 @@ class: bold-last-item, animated fadeIn
 
 - Cumplimiento de objetivos
 
-```{r "plan", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=750}
+```{r "plan", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=700}
 magick::image_transparent(magick::image_transparent(image_read(path = './_figs/planificacion.svg'), "white"), "lightgray")
 ```
 
