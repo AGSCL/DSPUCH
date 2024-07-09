@@ -562,7 +562,7 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 .bottom_center2 {
   margin: 0;
   position: fixed; /* Cambiar a 'fixed' para fijar la posición */
-  bottom: -80px; /* Ajustar el valor para posicionarlo desde la parte inferior de la pantalla */
+  bottom: 80px; /* Ajustar el valor para posicionarlo desde la parte inferior de la pantalla */
   left: 50%; /* Asegurar que esté centrado horizontalmente en la pantalla */
   transform: translateX(-50%); /* Centrarse horizontalmente */
 }
