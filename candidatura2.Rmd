@@ -562,7 +562,7 @@ table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
 .bottom_center2 {
   margin: 0;
   position: fixed; /* Cambiar a 'fixed' para fijar la posición */
-  bottom: -50px; /* Ajustar el valor para posicionarlo desde la parte inferior de la pantalla */
+  bottom: -80px; /* Ajustar el valor para posicionarlo desde la parte inferior de la pantalla */
   left: 50%; /* Asegurar que esté centrado horizontalmente en la pantalla */
   transform: translateX(-50%); /* Centrarse horizontalmente */
 }
@@ -1435,7 +1435,7 @@ width <- image_info(img)$width
 height <- image_info(img)$height
 
 # Definir las propiedades de la franja
-frame_color <- "#FF000080"  # Color rojo con 50% de transparencia (en formato RGBA hexadecimal)
+frame_color <- "#FF000090"  # Color rojo con 50% de transparencia (en formato RGBA hexadecimal)
 frame_thickness <- 12  # Grosor de la franja en píxeles
 
 # Crear una imagen en blanco del tamaño de la franja horizontal
@@ -1454,16 +1454,20 @@ img_with_frame_mod
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- Observacional utilizando datos de una cohorte retrospectiva de alcance nacional, vinculado con datos de mortalidad, entre 2010 y 2022
+- Estudio de tipo Observacional utilizando datos de una cohorte retrospectiva de alcance nacional, vinculado con datos de mortalidad, entre 2010 y 2022
 
-- Deterministic linking, a través de una versión encriptada del RUn, identificador único e irrepetible
+- Mediante una vinculación determinística, a través de una versión encriptada del RUN, identificador único e irrepetible, y encriptado
 
-- Las principal fuente de datos son los datos administrativos de Pacientes en tratamiento por TUS, adultos, Convenio 1: Programa con mayor antigüedad y seguimiento, registrado en SISTRAT. 
+- Las principal fuente de datos son los datos administrativos de Pacientes en tratamiento por TUS, adultos, Convenio 1: Programa con mayor antigüedad y seguimiento, registrado en SISTRAT.
+
 - Según datos Registrados en 2022: Aproximadamente 15 mil personas atendidas al 2022, aprox. 103 mil (en edades entre 18 y 64), 31 mil pacientes con readmisiones, 4 mil pacientes fallecieron durante el período de estudio, 
+
 - Episodios de Tratamiento: Promedio de 1.5 por paciente. **89% con dos o menos tratamientos**. 2.5% con 4o+
+
 - Los datos son recolectados por fichas clínicas conducidas por el equipo clínico al egreso y seguimiento al egreso o cierre de la ficha.
 
-- Ej., el paciente 50 tiene deñ 2011 al 2014 un tratamiento que no completa (no hay punto); luego, del 2022 al 2023 tiene un tto. 
+- Ej., el paciente 50 no registra censura a la izquierda (no hay tratamientos previos no cubiertos por SENDA antes de 2010), tiene de 2011 al 2014 un tratamiento que no completa (no hay punto); luego, del 2016 al 2019 tiene un tto. (parte con un cuadrado que simboliza readmisión), luego, no registra muertes (triángulo); por último, no hay censura administrativa  (tratamientos iniciando después del 31 de Diciembre de 2022)
+
 Nota. Punto= Completa tratamiento; cuadrado= readmitido a tratamiento; triángulo= fallecimiento; líneas verticales color gris claro= truncado a la izquierda (tratamientos terminando antes de 2010) y censura administrativa (tratamientos iniciando después del 31 de Diciembre de 2022); líneas horizontales gris oscuro= tiempo en tratamiento; líneas horizontales gris claro= tiempo en tratamiento posterior a readmisión. Líneas puntuadas= no monitoreado en el seguimiento realizado por este estudio. Por ejemplo, el paciente con ID=1 sólo experimentó un tratamiento (desde 2019 a 2020), y no se observaron readmisiones o muertes en el tiempo del estudio. Fuente: elaboración propia.
 
 ---
