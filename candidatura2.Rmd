@@ -949,11 +949,6 @@ myBib <- ReadBib("./_bib/My Collection.txt", check = FALSE)
 ]
 ]
 ]
-.bottom_center2[
-```{r echo=FALSE, out.width = '19%'}
-image_colorize(image_read(path = './_style/Logo_nDP_monotono_vertical_esp.png'),99, "#666666")
-```
-]
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
