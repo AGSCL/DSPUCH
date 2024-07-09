@@ -1146,7 +1146,6 @@ ggplot() +
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-
 - **Objetivos**: Una respuesta social organizada a este problema han sido los programas de tratamiento. Estos conviven con otras políticas más punitivistas.
 
 **Metas de los Programas**
@@ -1203,6 +1202,7 @@ class: bold-last-item, animated, fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
+Mediciones imperfectas de **impacto** del tratamiento a posteriori, pero útiles:
 
 - A **nivel general** y globalmente, el impacto del tratamiento se ha medido en reducción de patrones de consumo, sintomatología psicológica y vinculados con el funcionamiento social (ej., conducta delictiva, educación, ocupación). El foco ha estado puesto en indicadores clínicos y de seguimiento a corto plazo (hasta 2 años), junto con beneficios económicos asociados (ej., uso de servicios de urgencia y criminalidad)
 
@@ -1251,6 +1251,7 @@ class: bold-last-item, animated, fadeIn
 class: bold-last-item, animated, fadeIn 
 ## Factores capaces de predecir<br>resultados adversos
 
+.pull-left[
 - Modelo de Ronald Andersen de utilización de servicios de salud
 
 - Predisponentes
@@ -1259,6 +1260,16 @@ class: bold-last-item, animated, fadeIn
 
 - Habilitadores
 
+  - MODALIDAD
+]
+
+.pull-right[
+```{r "diagrama", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=300}
+par(mar=c(0,0,0,0))
+par(bg=NA)
+magick::image_colorize(opacity = 10, magick::image_transparent(magick::image_transparent(image_read(path = './_figs/diagram.webp'), "white"), "lightgray"), "#666666") 
+```
+]
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1274,6 +1285,8 @@ Se ha utilizado el modelo de **Ronald anderson**, por su generalizabilidad y la 
 - **Necesidad**: Determinan *directamente* la demanda de asistencia sanitaria. Ej., comorbilidades (+ readmisión y mortalidad), severidad TUS (peores resultados post-tratamiento), policonsumo (+ tasas de readmisión y mortalidad)
 
 - **Habilitadores**: Relacionados con las dinámicas de tto. y logística que facilitan el acceso y la continuidad. Ej., duración (tto. más largo, no tiempre es mejor, hay un punto decreciente; duración óptima para efectividad; estancias muy cortas, peores resultados; 90 días ha sido un marcador bastante utilizado), completar tratamiento (mejores resultados post-tratamiento)
+
+- Por último, factores como la **modalidad** de tratamiento, pueden asociarse a una respuesta diferencial a tratamiento, ya que están dirigidos a poblaciones que se presentan con características biopsicosociales distintas. Pueden estar dirigidos a población general, donde hay tratamientos ambulatorios y residenciales; o, desde 2015, dirigidos específicamente a mujeres cuyas necesidades (hijos, embarazo) hace que requieran un tratamiento que responda a esas necesidades. este abarca ambulatorio intensivo y residencial.
 
 ---
 class: animated, fadeIn 
@@ -1311,6 +1324,8 @@ class: animated, fadeIn
 - Enfoque longitudinal
 
 - Enfoque en personas con alto riesgo
+
+  - Focalizar
 
 - Alineación con objetivos sanitarios
 
