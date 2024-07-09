@@ -989,15 +989,12 @@ class: bold-last-item, animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 A continuación mostraré la estructura de mi presentación: 
 
-- En 22 diapositivas, presentaré la Introducción. Qué entendemos por TUS[1], ¿Por qué es un problema de salud pública (tema que no sólo está vinculado a consecuencias perjuidiciales para la salud, sino que también preocupa a las personas en general)[1], tratamientos (con especial foco en los disponibles en chile)[1]. Por qué son importantes la readmisión y mortalidad como resultados a evitar y si es razonable hacerlo[1], factores predictivos, utilidad de un modelo de agrupación (Andersen) [1], brechas en investigación[1] y la oportunidad que plantea predecir resultados de tratamiento, junto con eventuales proyecciones[1] y relevancia para el país (en términos de planes nacionales y lineamientos internacionales)[1]. = 8 
-- Preguntas de investigación [1]
-- Objetivos: [1]
-- Métodos:  Diseño y participantes [1], Variables [1], Plan de análisis- Descriptivos [1], Modelos predictivos para cada desenlace [2], Modelo multiestado [1] = 6
-- Potenciales limitaciones [1]
-- Consideraciones éticas [1]
-- Plan de trabajo [1]
-
---> tener en cuenta la limitación que dice la profe de que en latinoamerica no hay multiplesbases de datos que son vinculables porque no hay run
+- En algunas diapositivas, presentaré la Introducción. Qué entendemos por TUS, ¿Por qué es un problema de salud pública (tema que no sólo está vinculado a consecuencias perjuidiciales para la salud, sino que también preocupa a las personas en general), tratamientos (con especial foco en chile)[1]. Por qué son importantes la readmisión y mortalidad como resultados a evitar, factores predictores, utilidad de un modelo de agrupación de ellos (Andersen), brechas en investigación, y la oportunidad que plantea predecir resultados de tratamiento, junto con eventuales proyecciones y relevancia para el país (en términos de planes nacionales y lineamientos internacionales)[1]. = 8 
+- Luego, Objetivos
+- Métodos:  Diseño, Variables, Plan de análisis- Descriptivos, Modelos predictivos para cada desenlace, Modelo multiestado
+- Potenciales limitaciones de la propuesta
+- Consideraciones éticas
+- Plan de trabajo
 
 ---
 class: bold-last-item, animated fadeIn 
@@ -1019,10 +1016,13 @@ class: bold-last-item, animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 
 **Definición**
-- Si bien la definición es problemática y no del todo unívoca o universal, refiere a trastornos psicológicos o comportamentales causados principalmente por el consumo regular e intencional de sustancias psicoactivas, ya sea legales como ilegales.
+- Si bien la definición es problemática y no del todo unívoca, diríamos a grandes razgos que refiere a trastornos psicológicos o comportamentales causados principalmente por el consumo regular e intencional de sustancias psicoactivas, ya sea legales como ilegales.
+
 - Se caracteriza por comportamientos recurrentes y disfuncionales, placenteros y que se refuerzan, aunque con efectos negativos
 - Algunos de los síntomas abarcan la compulsión a consumir ("deseo abrumador", *craving*), inhabilidad para autorregularse, tolerancia (dosis que causaban gratificación ya no lo hacen), recaídas (efectos negativos por descontinuar el uso, o *efecto rebote*), uso persistente a pesar de consecuencias negativas, abandono de actividades que le proporcionaban placer.
+
 - Según manual diagnóstico de trastornos mentales, quinta versión (DSM-V), se indica la presencia de este trastorno cuando al menos 2 de 11 criterios se cumplen en los últimos 12 meses
+
 - Siendo TUS bajo, 2-3; moderado, 4-6; severo, 7 o +
 
 ---
@@ -1048,7 +1048,7 @@ class: bold-last-item, animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-- A nivel mundial y en nuestro continente, representan una improtante contribución a las muertes prematuras y discapacidad en nuestra población. 0.52% de la mortalidad global (2019) y 1.38% de años de vida ajustados por discapacidad. En nuestra región, es la novena causa de años de vida ajustados por discapacidad y edad, con aumentos en la mortalidad de 2010 a 2019 de 0.15 a 0.45 AVISA.
+- A nivel mundial y en nuestro continente, representan el 0.52% de la mortalidad global (2019) y 1.38% de años de vida ajustados por discapacidad. En nuestra región, es la novena causa de pérdida de años de vida ajustados por discapacidad y edad (AVISA)
 
 --
 
@@ -1058,11 +1058,24 @@ class: bold-last-item, animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-- Si bien en las Américas, los paises con mayor impacto en términos de la mortalidad es Estados Unidos y Canadá, caracterizados por una crisis de opioides, que tiende a basarse en distintas formas de administración, que en los últimos años ha ido cambiando (desde inyectada a fumada). En Latinoamérica, en cambio, el alcohol, marihuana, cocaína y la pasta base son las formas más utilizadas, aunque emergen el 2CB o el tusi, cuya composición es todavía rara. Por otra parte, se ha constatado el ingreso de opioides como el fentanilo que han sido ampliamente cubiertos por los medios de comunicación.
+Américas:
 
-- Encuestas de opinión pública destacan el TUS y la salud mental en general como temas (Ramírez-Bontá et al., 2023). Por ej., para IPSOS y publicado en 2023, Chile es el 2do país después de Suecia que indican la SM como principal problema de salud (2 veces el promedio global= 62 vs. 36%). También según IPSOS, es el país en que las personas indican que más ha aumentado la delincuencia en sus comunidades (31% en el mundo, vs. Chile, 63%). Entre las causas, la primera atribuida fue el abuso de drogas y alcohol en Chile, mientras que a nivel mundial fueron la pobreza y el desempleo.
+- EE.UU. y Canadá: Crisis de opioides, variación en formas de administración (inyectada a fumada).
+- Latinoamérica: Predominan alcohol, marihuana, cocaína, y pasta base. Emergencia de 2CB (tusi). Ingreso de fentanilo, cobertura mediática.
+-  Percepción Pública (Ramírez-Bontá et al., 2023):
 
-- **Chile**, uno de los más altas cargas de enfermedad psiquiátrica globales. La dependencia de alcohol es una de las mayores causas de AVISA, tenemos un consumo alto de alcohol si nos compararmos con el continente. Hay una tendencia a decrecer o estabilizarse a nivel general en términos de consumo (baja en marihuana, cocaina y pasta base). Aunque el 2016 tuvimos una alta prevalencia de cocaina pasta base y marihuana en estudiantes de enseñanza superior entre países de Latinoamérica. Estas tendencias, proyectadas, podrían derivar en individuos que requieran más tratamiento. Adicionalmente, la pandemia COVID-19 y fenómenos como la inmigración podrían exascerbar esta situación. Por otra parte, la mortalidad atribuida a sustancias ilícitas incrementó sobre un 170% entre 2010 y 2019 en Chile, un incremento percentual de los más altos junto con Brasil y la Rep Dominicana. Al 2020, en base a la ENPG, el 6% cumplió con criterio para abuso o dependencia de alcohol, marihuana, cocaína o pasta base (12-64 años).
+Chile: Según encuesta IPSOS el 2023
+- Segundo país, después de Suecia, que considera la salud mental como principal problema (62% vs. promedio global de 36%).
+- Mayor percepción de aumento de delincuencia (63% vs. 31% global). Principal causa: abuso de drogas y alcohol (vs. percepción de pobreza y desempleo a nivel mundial).
+
+Chile: Situación Actual:
+- Alta carga de enfermedad psiquiátrica.
+- Dependencia de alcohol: una de las mayores causas de AVISA. Comparado con el continente, alto consumo de alcohol.
+- Tendencias decrecientes o estables en consumo general (marihuana, cocaína, pasta base).
+- En 2016, alta prevalencia de consumo en estudiantes de enseñanza superior. Proyecciones indican potencial aumento en necesidad de tratamiento.
+- COVID-19 e inmigración podrían exacerbar la situación.
+- Mortalidad atribuida a sustancias ilícitas: incremento del 170% entre 2010 y 2019 (junto con Brasil y Rep. Dominicana).
+- ENPG 2020: 6% cumplen criterios para abuso o dependencia de alcohol, marihuana, cocaína o pasta base (12-64 años).
 
 --
 
@@ -1072,7 +1085,7 @@ class: bold-last-item, animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-- Por tanto, se deben investigar factores subyacentes (inequidad, vulnerabilidad, estigma), entender predictores de resultados y desenlaces de salud negativos en personas con TUS, y apuntar a reducir la demanda.
+- Se deben investigar factores subyacentes (inequidad, vulnerabilidad, estigma), entender predictores de resultados y desenlaces de salud negativos en personas con TUS, y apuntar a reducir la demanda.
 
 ---
 class: bold-last-item, animated fadeIn 
@@ -1114,7 +1127,7 @@ points <- data.frame(x = c(0.5, 1, 1, 0.5, 0, 0),
 
 # Creación del gráfico
 ggplot() + 
-  geom_polygon(data = points, aes(x, y), fill = '#66666630', alpha = 0.3) +
+  geom_polygon(data = points, aes(x, y), fill = '#66666624', alpha = 0.24) +
   # geom_text(data = points, aes(x, y, label = labels), 
   #           hjust = 0.5, vjust = 0.5, size = 6) +
   geom_text(data = points, aes(x, y, label = labels), color="#2f353b",
@@ -1133,11 +1146,27 @@ ggplot() +
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
+
 - **Objetivos**: Una respuesta social organizada a este problema han sido los programas de tratamiento. Estos conviven con otras políticas más punitivistas.
 
-- Apuntan a mejorar la calidad de vida y el bienestar, reducir el consumo problemático, mitigar los síntomas asociados a recaídas, mejorar estatus de salud y funcional, dar cuenta de factores de riesgo contextuales y prevenir consumo futuro perjudicial o dañino. [World Health Organization[WHO] and United Nations Office on Drugs and Crime [UNODC]. International standards for the treatment of drug use disorders: revised edition incorporating results of field-testing.]
+**Metas de los Programas**
+- Mejorar calidad de vida y bienestar.
+- Reducir consumo problemático.
+- Mitigar síntomas asociados a recaídas.
+- Mejorar estatus de salud y funcionalidad.
+- Considerar factores de riesgo contextuales.
+- Prevenir consumo futuro perjudicial.
 
-- Si bien hay múltiples finalidades (abstinencia, reducción de daños, de patrones de consumo, reducción de recaídas, etc.) y es sumamente discutible, me colgaré de la definición de Restrepo- Guzmán et al. concibe la recuperación como “un estado de vida sin limitaciones o consecuencias negativas derivadas del consumo de sustancias”. Aunque hay gente que las deja de forma natural, otras personas requieren ponerse al alero de un tratamiento estructurado.
+*(Referencia: WHO y UNODC. International standards for the treatment of drug use disorders)*
+
+**Finalidades de los Tratamientos**
+- Abstinencia.
+- Reducción de daños y patrones de consumo.
+- Reducción de recaídas.
+
+**Definición de Recuperación**
+- Según Restrepo-Guzmán et al., "un estado de vida sin limitaciones o consecuencias negativas derivadas del consumo de sustancias".
+- Algunas personas dejan las sustancias de forma natural, otras requieren tratamiento estructurado.
 
 - **Tipos y modalidades**: Existen múltiples tipos, tanto farmacológicos, de base psicológica y comunitaria. Se entregan en viarias modalidades (por ej., ambulatoria [menos disruptiva], internación [para síntomas de abstinencia severos y alto riesgo de recaídas] y residencial [de mayor duración, para casos severos, con mayor compromiso]) dependiendo de factores contextuales y patrones de consumo.
 
@@ -1145,20 +1174,24 @@ ggplot() +
 
 - **Situación en latinoamérica y chile**: Sistemas de salud fragmentados (en público y privado), acceso limitado a recursos y tratamiento para ambos. Los tratamientos de base comunitaria son dominantes, aunque se han constatado algunas pocas terapias basasdas en la fe y coercitivas.
 
-- **Particularmente en chile**: fuerza de trabajo insuficiente en cuidados de salud vs. promedios OECD; limitada disponibilidad de servicios especializados en áreas rurales, cobertura limitada (1/8 recibe tratamiento de los que lo requieren, la cual es menor para alcohol), existen desafíos a la coordinación entre instituciones
+- **Particularmente en chile**: fuerza de trabajo insuficiente en cuidados de salud vs. promedios OECD; limitada disponibilidad de servicios especializados en áreas rurales, cobertura limitada (si bien no del todo comparables, 1/10 consumidores problemáticos de sustancias recibe tratamiento de los que lo requieren de acuerdo a estimaciones de la Encuesta de población general al 2018, vs. globalmente es 1/8 y para alcohol 1/5), existen desafíos a la coordinación entre instituciones
 
-- **Respecto a las instituciones en Chile**: SENDA (Servicio Nacional para la Prevención y Rehabilitación de Drogas y Alcohol), tiene una importante cobertura de tratamientos TUS (tratamientos con financiamiento público, que representan al 81% de la población), son tratamientos de carácter voluntario con opciones de derivación. SENDA define estándares, compra y supervisa la entrega tratamientos [20]. En tratamiento para adultos, ingresa ~15.000 adultos/año. También SENDA creó SISTRAT, uno de los primeros sistemas para monitoreo de tratamientos por TUS en Latinoamérica, documentando admisiones a tratamiento e información relevante a nivel nacional  [21; 22]
+[World Health Organization. World health statistics 2023: monitoring health for the SDGs, Sustainable Development Goals. Genève, Switzerland: World Health Organization; 2023.]
+
+- **Respecto a las instituciones en Chile**: SENDA (Servicio Nacional para la Prevención y Rehabilitación de Drogas y Alcohol), tiene una importante cobertura de tratamientos TUS (tratamientos con financiamiento público, que representan al 81% de la población), son tratamientos de carácter voluntario con opciones de derivación. SENDA define estándares, compra y supervisa la entrega tratamientos [20].
 
 **libreria_generica.txt**
 myBib <- ReadBib("_bibs/libreria_generica.txt", check = F,  .Encoding="latin1")
 myBib <- ReadBib("_bibs/libreria_poly.txt", check = F,  .Encoding="latin1")
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+La definición de consumo problemático de drogas considera a quienes presentan síntomas de abuso de alcohol según DSM-IV y/o presencia de síntomas de abuso DSM-IV o dependencia según CIE-10 para usuarios de último año de marihuana, cocaína y/o pasta base.
+
 [20] A. Pérez-Gómez and J. Mejía-Trujillo. "The Evolution of Alcohol and Drug Prevention Strategies in Latin America". In: The Cambridge Handbook of International Prevention Science. Ed. by J. L. Romano and M. Israelashvili. Cambridge Handbooks in Psychology. Cambridge: Cambridge University Press, 2016, pp. 753-779. ISBN: 9781107087972. DOI: DOI: 10.1017/9781316104453.033. URL: https://www.cambridge.org/core/books/cambridge-handbook-of-international-prevention-science/evolution-of-alcohol-and-drug-prevention-strategies-in-latin-america/D5388B39AE929D5E91DA5DC78D7F06F0.
 
 [21] Ministerio de Salud[MINSAL]. Norma y orientaciones técnicas de los planes de tratamiento y rehabilitación para personas adultas con problemas derivados del consumo de drogas. Legal Rule or Regulation.
-
 URL: https://www.senda.gob.cl/wp-content/uploads/2012/08/OrientacionesTecnicas_CentrosdeTratamiento.pdf.
-[22] Fondo Nacional de Salud[FONASA]. Boletín estadístico 2017-2018. Government Document. URL: https://www.fonasa.cl/sites/fonasa/adjuntos/boletin_estadistico_20172018.
 
 ---
 class: bold-last-item, animated, fadeIn 
@@ -1173,7 +1206,7 @@ class: bold-last-item, animated, fadeIn
 
 - A **nivel general** y globalmente, el impacto del tratamiento se ha medido en reducción de patrones de consumo, sintomatología psicológica y vinculados con el funcionamiento social (ej., conducta delictiva, educación, ocupación). El foco ha estado puesto en indicadores clínicos y de seguimiento a corto plazo (hasta 2 años), junto con beneficios económicos asociados (ej., uso de servicios de urgencia y criminalidad)
 
-- no hay un gold standar para ver resultados. Se recomienda recurrir a más de uno. Si bien son imperfectas, son útiles para ver consecuencias sobre pacientes, familiares, sistemas de salud, particularmente si son no planeados y evitables.
+- no hay un gold standard para ver resultados. Se recomienda recurrir a más de uno. Si bien son imperfectas, son útiles para ver consecuencias sobre pacientes, familiares, sistemas de salud, particularmente si son no planeados y evitables.
 
 --
 
@@ -1184,7 +1217,7 @@ class: bold-last-item, animated, fadeIn
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-**Readmisión**: Si bien es parte de la administración de una enfermedad crónica más que una falla de un tratamiento, puede indicar la dificultad para derivar a una persona a un tratamiento de menor intensidad o en la que falla el dispositivo de tratamiento escalonado o continuo de tratamientos. Particularmente, como proxy de si los centros entregan herramientas efectivas para reducir las necesidades o como un criterio de desempeño, mientras no se utilice para retención prolongada. Por ej., entre los criterios de desempeño para el tratamiento de los trastornos por consumo de alcohol según la Sociedad Americana de Medicina de Adicción (ASAM), la medida número siete apunta a la readmisión hospitalaria y residencial tras los episodios de tratamiento. 
+**Readmisión**: Si bien es parte de la administración de una enfermedad crónica más que una falla de un tratamiento, puede indicar la dificultad para derivar a una persona a un tratamiento de menor intensidad o en la que falla el dispositivo de tratamiento escalonado o continuo de tratamientos. Particularmente, puede ser útil como proxy de si los centros entregan herramientas efectivas para reducir las necesidades o como un criterio de desempeño, mientras no se utilice para retención prolongada. Por ej., entre los criterios de desempeño para el tratamiento de los trastornos por consumo de alcohol según la **Sociedad Americana de Medicina de Adicción (ASAM)**, la medida número siete apunta a la readmisión hospitalaria y residencial tras los episodios de tratamiento. 
 
 - Moss, H.B. (2020). Health Services for Addiction Treatment and Levels of Care. In: Marienfeld, C. (eds) Absolute Addiction Psychiatry Review. Springer, Cham. https://doi.org/10.1007/978-3-030-33404-8_1
 
@@ -1232,7 +1265,7 @@ class: bold-last-item, animated, fadeIn
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-, factores predictivos, utilidad de un modelo de agrupación (Andersen) [1], 
+Se ha utilizado el modelo de **Ronald anderson**, por su generalizabilidad y la utilidad de su un modelo de agrupación de predictores.
 
 - En base a una tesis previa para identificar predictores, para Magíster en salud pública, elaborada por Rodrigo Portilla Huidobro, se replicó la agrupación en factores de Predisposición, de Necesidad y Facilitadores de atención
 
@@ -1286,7 +1319,9 @@ class: animated, fadeIn
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- **centralizado**: Avances en Chile; en respuesta, el SISTRAT, implementado desde 2010, incorpora información sociodemográfica, estado de salud y antecedentes de uso de sustancias de pacientes en programas públicos de tratamiento por TUS. Permite la investigación y gestión de programa de tratamiento por TUS (posiblemente al 2023 llegue al 85%). Asimismo, los registros de mortalidad cumplen con estándares internacionales y son altamente fiables.
+- **centralizado**: Avances en Chile; en respuesta, a principios de la década pasada SENDA creó SISTRAT (sistema de monitoreo de tratamiento e información relevante por TUS de alcance nacional), incorpora información sociodemográfica, estado de salud y antecedentes de uso de sustancias de pacientes en programas públicos de tratamiento por TUS. Permite la investigación y gestión de programa de tratamiento por TUS (posiblemente al 2023 llegue al 85%). Asimismo, los registros de mortalidad cumplen con estándares internacionales y son altamente fiables.
+
+[21] Ministerio de Salud[MINSAL]. Norma y orientaciones técnicas de los planes de tratamiento y rehabilitación para personas adultas con problemas derivados del consumo de drogas. Legal Rule or Regulation.
 
 - **Datos Interconectados**: gestión de sistemas interoperables con datos de diferentes fuentes. hay ejemplos de combinación de datos rutinarios, por ej., el TEDS en estados unidos, o el National Drug Treatment Monitoring System (UK) // mecanismo de monitoreo y vigilancia epidemiológica, en línea con las mejores prácticas basadas en mediciones (measurement-based practices)
 
@@ -1294,7 +1329,7 @@ class: animated, fadeIn
 
 - **alto riesgo**: permite a futuro desarrollar planes especializados adaptados a necesidades específicas; ej., prevención de recaídas y seguimiento post-tratamiento; por ej., generando sistemas de alerta temprana para quienes cursan tratamiento, ofreciendo a futuro, por ej., tratamientos de menor intensidad (u ofrecer programa de apoyo a la integración social) o alocar esfuerzos en ellos para aplicar otros mecanismos de seguimiento que no han resultado para ser aplicados a todos después de tratamiento (Treatment outcomes profile, instrumentos para medir resultados de tratamiento)
 
-- Los TUS se encuentran en el cuarto y quinto objetivo sanitario del eje de objetivos de estilos de vida y conductuales de la Estrategia Nacional de Salud 2021-2030.48 // A pesar de ello, los tratamientos no sobran, por lo que las readmisiones deben entregarse selectivamente. // Esta tesis puede ser un primer paso, por su alcance nacional y un seguimiento de +10 años //  La investigación será abierta y código será públicamente disponible para revisión y escrutinio a través de GitHub, permitiendo  actualización futura y replicación a diferentes tratamientos.
+- Los TUS se encuentran en el cuarto y quinto objetivo sanitario del eje de objetivos de estilos de vida y conductuales de la Estrategia Nacional de Salud 2021-2030.48 // A pesar de ello, los tratamientos no sobran, por lo que las readmisiones deben entregarse de manera **focalizada** // Esta tesis puede ser un primer paso, por su alcance nacional y un seguimiento de +10 años //  La investigación será abierta y de código público disponible para revisión y escrutinio, permitiendo actualización y replicación a diferentes tratamientos a futuro.
 
 ---
 class: bold-last-item, animated, fadeIn 
@@ -1727,30 +1762,25 @@ print(calibration_plot)
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- Modelos Predictivos de Sobrevida 
+- Mediante Modelos de regresión Cox para predecir el tiempo a presentarse eventos post-tratamiento, estratificado por modalidad de tratamiento
 
-- Mediante Modelos de regresión Cox para predecir eventos post-tratamiento, estratificado por modalidad de tratamiento
-
-- Selección de Modelos:  Best subset selection: Ajuste por AIC y AICc para seleccionar los mejores modelos.
+- Selección de Modelos:  Best subset selection: Ajuste por AIC y AICc para seleccionar los mejores modelos (precisión/consistencia de predicción, ajuste a los datos, penalizado por número de parámetros y observaciones en el último caso).
 
 - Pruebas de violaciones al supuesto de riesgos proporcionales (e.g., Schoenfeld, log-rank).
 
-- Validación y Evaluación- Medida desempeño
-
-  - Validación Interna: Remuestreo bootstrap para corregir el optimismo de la validación aparente y el sobreajuste. **Que es optimismo?**: capacidad de generalizarse más allá de los datos de entrenamiento, a la población subyacente a los datos
+- Validación Interna: Remuestreo bootstrap para corregir el optimismo de la validación aparente y el sobreajuste. **Que es optimismo?**: capacidad de generalizarse más allá de los datos de entrenamiento, a la población subyacente a los datos
     
 - Calibración y Desempeño del Modelo:
 
-  - Calibración (observaciones clasificadas correctamente, presición, ) mediante Brier Score. Ponderado por el inverso de la probabilidad de estar censurado.
+  - Calibración (exactitud/accuracy de las probabilidades predichas) mediante Brier Score. Ponderado por el inverso de la probabilidad de que dicha obs. esté censurada a la derecha.
     
-  - Discriminación (¿logra distinguir entre sujetos positivos y negativos?) Desempeño mediante la prueba de concordancia C de Uno. 
-    
+  - Discriminación (¿logra distinguir entre sujetos de alto y bajo riesgo?) Desempeño mediante la prueba de concordancia C de Uno. Analiza la concordancia en parejas de observaciones comparables, compensando la censura asignando pesos a las observaciones para que las censuradas no sesguen resultados
+  
 - Utilidad Clínica:
 
-  - Medición del beneficio neto usando umbrales de riesgo.
+  - Medición del beneficio neto usando umbrales de riesgo. El número de verdaderos-positivos ganados usando el modelo vs. sin el modelo en base a cuatro umbrales distintos, en un rango de umbrales [10.1097/EDE.0b013e3181c30fb2].
   
-- Análisis de Sensibilidad
-
+- Análisis de **Sensibilidad**
 - Imputación de Datos:
   - Imputaciones múltiples con ecuaciones encadenadas (m=5).
   - Modelos de Machine Learning: Integración de modelos para seleccionar variables y evaluar desempeño.
@@ -2039,6 +2069,11 @@ $$ AICc= AIC + \frac{2k(k+1)}{n-k-1}$$
 ## Ecuaciones (3)
 
 ### Brier score integrado
+
+```{r, echo=T}
+#https://www.universiteitleiden.nl/binaries/content/assets/science/mi/scripties/mastertsouprou.pdf
+```
+
 
 ### Prueba de concordancia C de Uno
 
