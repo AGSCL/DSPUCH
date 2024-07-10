@@ -1385,7 +1385,7 @@ class: bold-last-item, animated fadeIn
 
 - RUN (Rol Único Nacional) encriptado
 
-```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), fig.cap="Estructura hipotética de los datos", out.width=500}
+```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), fig.cap="Estructura hipotética de los datos", out.width=480}
 set.seed(2125)
 # Create data
 datasamp <- data.frame(
@@ -1497,7 +1497,7 @@ img_with_frame_mod <-magick::image_transparent(magick::image_transparent(img_wit
 
 img_with_frame_mod
 ```
-<div style="width: 900px; height: 100px; padding: 0px; font-size: x-small; font-style: italic; line-height: 1;">
+<div style="width: 1100px; height: 100px; padding: 0px; font-size: x-small; font-style: italic; line-height: 1;">
  Nota. Punto= Completa tratamiento; cuadrado= readmitido a tratamiento; triángulo= fallecimiento; líneas verticales color gris claro= truncado a la izquierda (tratamientos terminando antes de 2010) y censura administrativa (tratamientos iniciando después del 31 de Diciembre de 2022); líneas horizontales gris oscuro= tiempo en tratamiento; líneas horizontales gris claro= tiempo en tratamiento posterior a readmisión. Líneas puntuadas= no monitoreado en el seguimiento realizado por este estudio. Por ejemplo, el paciente con ID=1 sólo experimentó un tratamiento (desde 2019 a 2020), y no se observaron readmisiones o muertes en el tiempo del estudio. Fuente: elaboración propia.
 </div>
 
