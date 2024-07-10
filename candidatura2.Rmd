@@ -1106,7 +1106,7 @@ class: bold-last-item, animated fadeIn
 
 - Modalidades e intervenciones $`r Cite(myBib, c("babor2021","White2012"))`$ 
 
-- Situación en latinoamérica y Chile $`r Cite(myBib, c("Marin2018","servicio_nacional_para_la_prevencion_y_rehabilitacion_del_consumo_de_drogas_y_alcohol_senda_decimo_2022-1","oecd_health_2023", "vicente_prevalencias_2016","inter-american_drug_abuse_control_commission_cicad_report_2019", "PrezGmez2016"))`$ 
+- Situación en latinoamérica y Chile $`r Cite(myBib, c("Marin2018","servicio_nacional_para_la_prevencion_y_rehabilitacion_del_consumo_de_drogas_y_alcohol_senda_decimo_2022-1","oecd_health_2023", "vicente_prevalencias_2016","inter-american_drug_abuse_control_commission_cicad_report_2019", "PrezGmez2016", "ToroDevia2023"))`$ 
 
 - Instituciones y lineamientos  $`r Cite(myBib, c("RN155", "mateo-pinones_evidence-based_2022"))`$ 
 
@@ -1235,7 +1235,7 @@ Mediciones imperfectas de **impacto** del tratamiento a posteriori, pero útiles
 
 --
 
-- Mortalidad
+- Mortalidad $`r Cite(myBib, c("Peacock2020","Laine2022", "Vallersnes2018", "RN438", "Donisi2016"))`$
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1255,7 +1255,7 @@ class: bold-last-item, animated, fadeIn
 ## Factores capaces de predecir<br>resultados adversos
 
 .pull-left[
-- Modelo de Ronald Andersen de utilización de servicios de salud
+- Modelo de Ronald Andersen de utilización de servicios de salud $`r Cite(myBib, c("portilla_huidobro_factores_2015"))`$
 
 - Predisponentes
 
@@ -2091,7 +2091,13 @@ donde $h$ es el riesgo predicho y $T$ es el tiempo al evento observado, y $\delt
 ---
 ## Ecuaciones (5)
 
+### Multiestado
 
+La ecuación de transición en el contexto de un modelo semi-Markov se puede expresar de la siguiente forma  $`r Cite(myBib, c("RN667", "RN700"))`$ :
+
+$$P_{ij}(s,t) = P(X(t) = j \mid X(s) = i, F_{ij}(s))$$
+
+Donde 
 
 ---
 ## Ecuaciones (6)
