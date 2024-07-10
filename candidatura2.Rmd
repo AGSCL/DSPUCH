@@ -9,7 +9,7 @@ output:
     chakra: libs/remark-latest.min.js
     includes:
 #      in_header: mylibs/math.html
-      after_body: ['mylibs/collapseoutput.js', 'mylibs/zoom.html']
+      after_body: ['mylibs/collapseoutput.js', 'mylibs/zoom.html', 'mylibs/timer.html']
     transition: slide
     lib_dir: libs
     css: ['animate.min.css', 'ninjutsu', 'mylibs/animate.css'] # xaringan-themer has something bad '\x93', had to include them as css
@@ -688,6 +688,7 @@ th:nth-child(3), td:nth-child(3) {
   --panel-tab-inactive-opacity: 0.5;
   --panel-tab-font-family: Arial;\
 }
+
 </style>
 
 ```
@@ -977,7 +978,7 @@ Acompañantes en este Proceso
 layout: true
 class: bold-last-item, animated fadeIn 
 ---
-class: bold-last-item, animated fadeIn 
+class: animated fadeIn 
 ## Índice
 
 <br>
@@ -1006,7 +1007,7 @@ A continuación mostraré la estructura de mi presentación:
 - Plan de trabajo
 
 ---
-class: bold-last-item, animated fadeIn 
+class: animated fadeIn 
 ## ¿Qué es un trastorno por uso<br>de sustancias (TUS)?
 
 <br>
@@ -1199,7 +1200,7 @@ URL: https://www.senda.gob.cl/wp-content/uploads/2012/08/OrientacionesTecnicas_C
 
 ---
 class: bold-last-item, animated, fadeIn 
-## Resultados evitables
+## Desenlaces posteriores<br>al tratamiento evitables
 
 ### Mediciones imperfectas pero útiles:
 
@@ -1255,7 +1256,7 @@ class: bold-last-item, animated, fadeIn
 ## Factores capaces de predecir<br>resultados adversos
 
 .pull-left[
-- Modelo de Ronald Andersen de utilización de servicios de salud $`r Cite(myBib, c("portilla_huidobro_factores_2015"))`$
+- Modelo de Ronald Andersen de utilización de servicios de salud (1995) $`r Cite(myBib, c("portilla_huidobro_factores_2015", "Andersen1995"))`$
 
 - Predisponentes
 
@@ -1384,7 +1385,7 @@ class: bold-last-item, animated fadeIn
 
 - RUN (Rol Único Nacional) encriptado
 
-```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=500}
+```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), fig.cap="Estructura hipotética de los datos", out.width=500}
 set.seed(2125)
 # Create data
 datasamp <- data.frame(
@@ -1585,7 +1586,7 @@ class: bold-last-item, animated fadeIn
 .panel[.panel-name[Objetivo 1]
 .pull-left[
 
-- Descriptivos 
+#### Estimar la tasa de incidencia
 
 - Tasas de incidencia
 
@@ -1597,7 +1598,7 @@ class: bold-last-item, animated fadeIn
 
 .pull-right[
 
-```{r "", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=225, message=F, warning=F}
+```{r "", echo=FALSE,   dev.args = list(bg = 'transparent'), fig.align="center", out.width=350, message=F, warning=F}
 set.seed(2125)
 n <- 100
 
@@ -1655,6 +1656,8 @@ ggplot(surv_data, aes(x = time, y = surv, color = strata)) +
 
 .pull-left[
 
+#### Predicción de resultados post-tratamiento por separado
+
 - *Best subset selection*
 
 - Modelo de riesgos proporcionales de Cox y extensiones $`r Cite(myBib, c("RN692","RN735"))`$ 
@@ -1668,6 +1671,8 @@ ggplot(surv_data, aes(x = time, y = surv, color = strata)) +
   - Discriminación
   
   - Utilidad clínica
+
+- Sensibilidad a valores perdidos
 
 ]
 
@@ -1762,7 +1767,10 @@ print(calibration_plot)
 ]
 
 .panel[.panel-name[Objetivo 4]
+
 .pull-left[
+
+#### Predicción de resultados post-tratamiento concatenados
 
 - Modelos multiestado  $`r Cite(myBib, c("RN667", "RN700"))`$
 
