@@ -679,6 +679,15 @@ th:nth-child(3), td:nth-child(3) {
   font-size: 2.4px !important;
   font-style: italic !important;
 }
+/*https://pkg.garrickadenbuie.com/xaringanExtra/panelset/#1*/
+.panelset {
+  --panel-tab-foreground: currentColor;
+  --panel-tab-active-foreground: #0051BA;
+  --panel-tab-hover-foreground: #8b0000;
+  --panel-tabs-border-bottom: #ddd;
+  --panel-tab-inactive-opacity: 0.5;
+  --panel-tab-font-family: Arial;\
+}
 </style>
 
 ```
@@ -929,9 +938,9 @@ BibOptions(check.entries = FALSE,
            super = TRUE,
            hyperlink = FALSE,
            dashed = FALSE)
-warning(paste0("./_bib/My Collection.txt"))
-  
-myBib <- ReadBib("./_bib/My Collection.txt", check = FALSE)
+warning(paste0("./libreria_generica.txt"))
+
+myBib <- ReadBib("./libreria_generica.txt", check = FALSE,  .Encoding="latin1")
 ```
 
 .move-right[
@@ -1002,9 +1011,9 @@ class: bold-last-item, animated fadeIn
 
 <br>
 
-- Definición
+- Definición $`r Cite(myBib, c("Volkow2023"))`$
 
-- Comportamientos 
+- Comportamientos $`r Cite(myBib, c("APA2013"))`$
 
 - Síntomas
 
@@ -1031,7 +1040,7 @@ class: bold-last-item, animated fadeIn
 
 --
 
-- Vínculos con trastornos neuropsiquiátricos, físicos y factores de riesgo social
+- Vínculos con trastornos neuropsiquiátricos, físicos y factores de riesgo social $`r Cite(myBib, c("national_institute_on_drug_abusenida_part_nodate"))`$
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1060,7 +1069,7 @@ class: bold-last-item, animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 Américas:
 
-- EE.UU. y Canadá: Crisis de opioides, variación en formas de administración (inyectada a fumada).
+- EE.UU. y Canadá: Donde hay una crisis de opioides, que últimamente está mutando desde inyectada a fumada. [https://www.cdc.gov/mmwr/volumes/73/wr/mm7306a2.htm]
 - Latinoamérica: Predominan alcohol, marihuana, cocaína, y pasta base. Emergencia de 2CB (tusi). Ingreso de fentanilo, cobertura mediática.
 -  Percepción Pública (Ramírez-Bontá et al., 2023):
 
@@ -1093,13 +1102,13 @@ class: bold-last-item, animated fadeIn
 
 .left-column[
 
-- Principales objetivos
+- Principales objetivos $`r Cite(myBib, c("babor2021","White2012", "world_health_organization_world_2023"))`$ 
 
-- Modalidades e intervenciones 
+- Modalidades e intervenciones $`r Cite(myBib, c("babor2021","White2012"))`$ 
 
-- Situación en latinoamérica y Chile 
+- Situación en latinoamérica y Chile $`r Cite(myBib, c("Marin2018","servicio_nacional_para_la_prevencion_y_rehabilitacion_del_consumo_de_drogas_y_alcohol_senda_decimo_2022-1","oecd_health_2023", "vicente_prevalencias_2016","inter-american_drug_abuse_control_commission_cicad_report_2019", "PrezGmez2016"))`$ 
 
-- Instituciones y lineamientos 
+- Instituciones y lineamientos  $`r Cite(myBib, c("RN155", "mateo-pinones_evidence-based_2022"))`$ 
 
 ]
 
@@ -1134,9 +1143,11 @@ ggplot() +
             hjust = c(0.5, 1.2, 1.2, 0.5, -0.2, -0.2), 
             vjust = c(-0.5, 0.5, 0.5, 1.5, 0.5, 0.5), size = 12) +
   theme_void() + 
-  theme(plot.title = element_text(hjust = 0.5, size = 20, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, size = 20, face = "bold"))+
+  labs(caption="Fuente: Elaboración propia a partir de WHO-UNODC. 2020.\nInternational Standards for the Treatment of Drug Use Disorders. Traducción no oficial. Obtenida desde:\n https://www.unodc.org/documents/drug-prevention-and-treatment/ES_UNODC-WHO_International_Standards_Treatment_Drug_Use_Disorders_April_unoff_2020.pdf")
 
-# Fuente: Elaboración propia a partir de WHO-UNODC. 2020. International Standards for the Treatment of Drug Use Disorders. Traducción no oficial. Obtenida desde: https://www.unodc.org/documents/drug-prevention-and-treatment/ES_UNODC-WHO_International_Standards_Treatment_Drug_Use_Disorders_April_unoff_2020.pdf
+# <div style="width: 500px; height: 100px; padding: 0px; font-size: x-small; font-style: italic; line-height: 1;">
+# </div>
 ```
 
 ]
@@ -1179,15 +1190,9 @@ ggplot() +
 
 - **Respecto a las instituciones en Chile**: SENDA (Servicio Nacional para la Prevención y Rehabilitación de Drogas y Alcohol), tiene una importante cobertura de tratamientos TUS (tratamientos con financiamiento público, que representan al 81% de la población), son tratamientos de carácter voluntario con opciones de derivación. SENDA define estándares, compra y supervisa la entrega tratamientos [20].
 
-**libreria_generica.txt**
-myBib <- ReadBib("_bibs/libreria_generica.txt", check = F,  .Encoding="latin1")
-myBib <- ReadBib("_bibs/libreria_poly.txt", check = F,  .Encoding="latin1")
-
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 La definición de consumo problemático de drogas considera a quienes presentan síntomas de abuso de alcohol según DSM-IV y/o presencia de síntomas de abuso DSM-IV o dependencia según CIE-10 para usuarios de último año de marihuana, cocaína y/o pasta base.
-
-[20] A. Pérez-Gómez and J. Mejía-Trujillo. "The Evolution of Alcohol and Drug Prevention Strategies in Latin America". In: The Cambridge Handbook of International Prevention Science. Ed. by J. L. Romano and M. Israelashvili. Cambridge Handbooks in Psychology. Cambridge: Cambridge University Press, 2016, pp. 753-779. ISBN: 9781107087972. DOI: DOI: 10.1017/9781316104453.033. URL: https://www.cambridge.org/core/books/cambridge-handbook-of-international-prevention-science/evolution-of-alcohol-and-drug-prevention-strategies-in-latin-america/D5388B39AE929D5E91DA5DC78D7F06F0.
 
 [21] Ministerio de Salud[MINSAL]. Norma y orientaciones técnicas de los planes de tratamiento y rehabilitación para personas adultas con problemas derivados del consumo de drogas. Legal Rule or Regulation.
 URL: https://www.senda.gob.cl/wp-content/uploads/2012/08/OrientacionesTecnicas_CentrosdeTratamiento.pdf.
@@ -1210,7 +1215,7 @@ Mediciones imperfectas de **impacto** del tratamiento a posteriori, pero útiles
 
 --
 
-- Readmisiones
+- Readmisiones $`r Cite(myBib, c("Moss2020","RN246", "RN223", "RN438", "Donisi2016"))`$
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1218,8 +1223,6 @@ Mediciones imperfectas de **impacto** del tratamiento a posteriori, pero útiles
 *#_#_#_#_#_#_#_#_#_#_
 
 **Readmisión**: Si bien es parte de la administración de una enfermedad crónica más que una falla de un tratamiento, puede indicar la dificultad para derivar a una persona a un tratamiento de menor intensidad o en la que falla el dispositivo de tratamiento escalonado o continuo de tratamientos. Particularmente, puede ser útil como proxy de si los centros entregan herramientas efectivas para reducir las necesidades o como un criterio de desempeño, mientras no se utilice para retención prolongada. Por ej., entre los criterios de desempeño para el tratamiento de los trastornos por consumo de alcohol según la **Sociedad Americana de Medicina de Adicción (ASAM)**, la medida número siete apunta a la readmisión hospitalaria y residencial tras los episodios de tratamiento. 
-
-- Moss, H.B. (2020). Health Services for Addiction Treatment and Levels of Care. In: Marienfeld, C. (eds) Absolute Addiction Psychiatry Review. Springer, Cham. https://doi.org/10.1007/978-3-030-33404-8_1
 
 - La readmisión se vincula a múltiples resultados negativos post-tratamiento, incluida la mortalidad, que viene a continuación
 [
@@ -1267,7 +1270,7 @@ class: bold-last-item, animated, fadeIn
 ```{r "diagrama", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=300}
 par(mar=c(0,0,0,0))
 par(bg=NA)
-magick::image_colorize(opacity = 10, magick::image_transparent(magick::image_transparent(image_read(path = './_figs/diagram.webp'), "white"), "lightgray"), "#666666") 
+magick::image_transparent(magick::image_transparent(image_read(path = './_figs/diagram.webp'), "white"), "lightgray")
 ```
 ]
 
@@ -1292,13 +1295,13 @@ Se ha utilizado el modelo de **Ronald anderson**, por su generalizabilidad y la 
 class: animated, fadeIn 
 ## Estado y brechas en la<br>investigación
 
-- Escasa investigación en el Sur Global
+- Escasa investigación en el Sur Global 
 
-- Poco extrapolables
+- Poco extrapolables  $`r Cite(myBib, c("Pacurucu2019","Reyes2013","Silva2009", "Castro2021"))`$ 
 
-  - Especialización de tratamientos
+  - Especialización de tratamientos $`r Cite(myBib, c("Stephen2012", "SantisB2007"))`$
 
-  - Policonsumo
+  - Policonsumo $`r Cite(myBib, c("Font-Mayolas2022", "Liu2018"))`$ 
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1315,7 +1318,7 @@ class: animated, fadeIn
 class: animated, fadeIn 
 ## Oportunidades, proyecciones y<br>relevancia
 
-- Sistema centralizado de información a nivel nacional
+- Sistema centralizado de información a nivel nacional $`r Cite(myBib, c("Marin2018"))`$ 
 
 - Datos administrativos
 
@@ -1325,9 +1328,9 @@ class: animated, fadeIn
 
 - Enfoque en personas con alto riesgo
 
-  - Focalizar
+  - Focalizar  $`r Cite(myBib, c("nuevo1"))`$
 
-- Alineación con objetivos sanitarios
+- Alineación con objetivos sanitarios $`r Cite(myBib, c("nuevo2"))`$
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1367,7 +1370,9 @@ Evaluar el rol predictivo de la duración de la estadía y el resultado del trat
 ]
 
 ---
-class: gradient-slide, center, middle, animated, fadeIn
+class: partial-bg inverse, center, middle, animated, fadeIn
+
+background-image: linear-gradient(45deg, #003891, #EF9D2F)
 
 # Métodos
 
@@ -1378,8 +1383,6 @@ class: bold-last-item, animated fadeIn
 - Observacional, cohorte retrospectiva, vinculada con datos de mortalidad
 
 - RUN (Rol Único Nacional) encriptado
-
-<br>
 
 ```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=500}
 set.seed(2125)
@@ -1480,7 +1483,7 @@ width <- image_info(img)$width
 height <- image_info(img)$height
 
 # Definir las propiedades de la franja
-frame_color <- "#FF000090"  # Color rojo con 50% de transparencia (en formato RGBA hexadecimal)
+frame_color <- "#FF000095"  # Color rojo con 50% de transparencia (en formato RGBA hexadecimal)
 frame_thickness <- 12  # Grosor de la franja en píxeles
 
 # Crear una imagen en blanco del tamaño de la franja horizontal
@@ -1493,6 +1496,9 @@ img_with_frame_mod <-magick::image_transparent(magick::image_transparent(img_wit
 
 img_with_frame_mod
 ```
+<div style="width: 900px; height: 100px; padding: 0px; font-size: x-small; font-style: italic; line-height: 1;">
+ Nota. Punto= Completa tratamiento; cuadrado= readmitido a tratamiento; triángulo= fallecimiento; líneas verticales color gris claro= truncado a la izquierda (tratamientos terminando antes de 2010) y censura administrativa (tratamientos iniciando después del 31 de Diciembre de 2022); líneas horizontales gris oscuro= tiempo en tratamiento; líneas horizontales gris claro= tiempo en tratamiento posterior a readmisión. Líneas puntuadas= no monitoreado en el seguimiento realizado por este estudio. Por ejemplo, el paciente con ID=1 sólo experimentó un tratamiento (desde 2019 a 2020), y no se observaron readmisiones o muertes en el tiempo del estudio. Fuente: elaboración propia.
+</div>
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1512,8 +1518,6 @@ img_with_frame_mod
 - Los datos son recolectados por fichas clínicas conducidas por el equipo clínico al egreso y seguimiento al egreso o cierre de la ficha.
 
 - Ej., el paciente 50 no registra censura a la izquierda (no hay tratamientos previos no cubiertos por SENDA antes de 2010), tiene de 2011 al 2014 un tratamiento que no completa (no hay punto); luego, del 2016 al 2019 tiene un tto. (parte con un cuadrado que simboliza readmisión), luego, no registra muertes (triángulo); por último, no hay censura administrativa  (tratamientos iniciando después del 31 de Diciembre de 2022)
-
-Nota. Punto= Completa tratamiento; cuadrado= readmitido a tratamiento; triángulo= fallecimiento; líneas verticales color gris claro= truncado a la izquierda (tratamientos terminando antes de 2010) y censura administrativa (tratamientos iniciando después del 31 de Diciembre de 2022); líneas horizontales gris oscuro= tiempo en tratamiento; líneas horizontales gris claro= tiempo en tratamiento posterior a readmisión. Líneas puntuadas= no monitoreado en el seguimiento realizado por este estudio. Por ejemplo, el paciente con ID=1 sólo experimentó un tratamiento (desde 2019 a 2020), y no se observaron readmisiones o muertes en el tiempo del estudio. Fuente: elaboración propia.
 
 ---
 class: bold-last-item, animated fadeIn 
@@ -1575,17 +1579,19 @@ knitr::kable(df, format = "html", escape = FALSE) %>%
 
 ---
 class: bold-last-item, animated fadeIn 
-## Plan de análisis (1)
+## Plan de análisis
 
+.panelset.sideways[
+.panel[.panel-name[Objetivo 1]
 .pull-left[
 
-- Descriptivos
+- Descriptivos 
 
 - Tasas de incidencia
 
-- Kaplan-Meier
+- Kaplan-Meier $`r Cite(myBib, c("In2019"))`$
 
-- Razones de mortalidad estandarizadas
+- Razones de mortalidad estandarizadas $`r Cite(myBib, c("instituto_nacional_de_estadisticasine_tablas_2023", "szklo_epidemiology_2019","CastilloCarniglia2015"))`$
 
 ]
 
@@ -1643,35 +1649,17 @@ ggplot(surv_data, aes(x = time, y = surv, color = strata)) +
 
 ]
 
+]
 
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
-
-- A nivel descriptivo, cálculo de frecuencias absolutas y relativas para variables categóricas;
-
-- Resumen de Variables Numéricas continuas: Mediana y valores del primer y tercer cuartil.
-
-- Cálculo de Tasas de Incidencia: Por 1.000 años-persona (n(et)1,000).
-
-- Eventos: Primera readmisión y mortalidad. 
-
-- Curvas Kaplan-Meier: Estratificadas por modalidad de tratamiento y resultado inicial. Errores estándar según fórmula de Greenwood
-
-- Razones de mortalidad estandarizadas, personas en tratamiento vs. población general (año-grupo de edad- año calendario)
-
----
-class: bold-last-item, animated fadeIn 
-## Plan de análisis (2)
+.panel[.panel-name[Objetivos 2 y 3]
 
 .pull-left[
 
 - *Best subset selection*
 
-- Modelo de riesgos proporcionales de Cox y extensiones
+- Modelo de riesgos proporcionales de Cox y extensiones $`r Cite(myBib, c("RN692","RN735"))`$ 
 
-- Medición de desempeño: 
+- Medición de desempeño: $`r Cite(myBib, c("RN672","Steyerberg2010"))`$ 
 
   - Validación interna
   
@@ -1682,7 +1670,6 @@ class: bold-last-item, animated fadeIn
   - Utilidad clínica
 
 ]
-
 
 .pull-right[
 
@@ -1772,47 +1759,18 @@ print(calibration_plot)
 
 ]
 
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
+]
 
-- Mediante Modelos de regresión Cox para predecir el tiempo a presentarse eventos post-tratamiento, estratificado por modalidad de tratamiento
-
-- Selección de Modelos:  Best subset selection: Ajuste por AIC y AICc para seleccionar los mejores modelos (precisión/consistencia de predicción, ajuste a los datos, penalizado por número de parámetros y observaciones en el último caso).
-
-- Pruebas de violaciones al supuesto de riesgos proporcionales (e.g., Schoenfeld, log-rank).
-
-- Validación Interna: Remuestreo bootstrap para corregir el optimismo de la validación aparente y el sobreajuste. **Que es optimismo?**: capacidad de generalizarse más allá de los datos de entrenamiento, a la población subyacente a los datos
-    
-- Calibración y Desempeño del Modelo:
-
-  - Calibración (exactitud/accuracy de las probabilidades predichas) mediante Brier Score. Ponderado por el inverso de la probabilidad de que dicha obs. esté censurada a la derecha.
-    
-  - Discriminación (¿logra distinguir entre sujetos de alto y bajo riesgo?) Desempeño mediante la prueba de concordancia C de Uno. Analiza la concordancia en parejas de observaciones comparables, compensando la censura asignando pesos a las observaciones para que las censuradas no sesguen resultados
-  
-- Utilidad Clínica:
-
-  - Medición del beneficio neto usando umbrales de riesgo. El número de verdaderos-positivos ganados usando el modelo vs. sin el modelo en base a cuatro umbrales distintos, en un rango de umbrales [10.1097/EDE.0b013e3181c30fb2].
-  
-- Análisis de **Sensibilidad**
-- Imputación de Datos:
-  - Imputaciones múltiples con ecuaciones encadenadas (m=5).
-  - Modelos de Machine Learning: Integración de modelos para seleccionar variables y evaluar desempeño.
-
----
-class: bold-last-item, animated fadeIn 
-## Plan de análisis (3)
-
+.panel[.panel-name[Objetivo 4]
 .pull-left[
 
-- Modelos multiestado
+- Modelos multiestado  $`r Cite(myBib, c("RN667", "RN700"))`$
 
-- Cumplimiento de supuesto de Markov
+- Illness-death $`r Cite(myBib, c("RN672"))`$
 
-- Illness-death
+- Cumplimiento de supuesto de Markov $`r Cite(myBib, c("RN676", "RN689"))`$
 
-- Simulación
+- Simulación $`r Cite(myBib, c("RN667", "RN700"))`$
 
 ]
 
@@ -1849,22 +1807,15 @@ Epi::boxes.Lexis(trans_matrix,
 states_trans_lab<-paste0(1:3,") ",states_trans)
 attr(states_trans_lab,"names")<-1:3
 ```
+<div style="width: 500px; height: 100px; padding: 0px; font-size: x-small; font-style: italic; line-height: 1;">
+  Meira-Machado, L., & Sestelo, M. Estimation in the progressive illness-death model: A nonexhaustive review. Biometrical Journal, 61(2), 2019. 245-263. https://doi.org/10.1002/bimj.201700200
+</div>
+
 ]
 
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA**
-*#_#_#_#_#_#_#_#_#_#_
+]
 
-- Nota.  indica las transiciones, y los subíndices denotan estados; No hay estados recurrentes; Estado absorbente: Fallecimiento. Fuente: elaboración propia, adaptado de Meira-Machado, L., & Sestelo, M. Estimation in the progressive illness-death model: A nonexhaustive review. Biometrical Journal, 61(2), 2019. 245-263. https://doi.org/10.1002/bimj.201700200
-
-- algoritmo de simulación generalizado para obtener probabilidades de transición; 100.000 pacientes repetidamente, distribución normal multivariada. Probabilidades a los 3 meses, 1 año, 3, 4 y 10 años.
-
-- **markov**: supouesto de no-memoria, en que el desenlace de readmitido a mortalidad no se cumple completamente.
-
-- en tal caso se utilizarán modelos que asuman tiempos de renovación sojourn, incorporen covariables relativas a la transición anterior (de tratamiento cursado a readmitido como el resultado del tto., anterior y el tiempo en un tto., anterior)
-
-- en caso que existan efectos aleatorios por anidamiento (ej., región o centro), se generarán modelos que asuman varianzas robustas a este anidamiento
+]
 
 ---
 class: bold-last-item, animated fadeIn 
@@ -1901,10 +1852,11 @@ class: bold-last-item, animated fadeIn
 
 - Datos secundarios deidentificados ~~`r emo::ji("key")`
 
-- Solicitud Comité de ética
+- Evaluación Comité de ética
 
 - Procedimientos para asegurar su no identificabilidad
 
+- Disposición de datos segura
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1925,6 +1877,7 @@ class: bold-last-item, animated fadeIn
 class: animated fadeIn 
 ## Plan de trabajo
 
+- Núcleo Milenio para la Evaluación y Análisis de Políticas de Drogas- N° NCS2021_003 (Castillo-Carniglia) 
 
 - Estructurar y limpiar base de datos
 
@@ -1933,6 +1886,8 @@ class: animated fadeIn
 - Análisis exploratorios
 
 - Cumplimiento de objetivos
+
+- Proyecciones: Retroalimentar SENDA, generar aplicación prototípica
 
 ```{r "plan", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=700}
 magick::image_transparent(magick::image_transparent(image_read(path = './_figs/planificacion.svg'), "white"), "lightgray")
@@ -1943,7 +1898,7 @@ magick::image_transparent(magick::image_transparent(image_read(path = './_figs/p
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-Envío de Artículos:
+Envío de 2 Artículos:
 - A revistas indexadas en Web of Science.
 Presentaciones:
 - Conferencia internacional (e.g., Society for Epidemiologic Research).
@@ -1993,42 +1948,51 @@ knitr::include_graphics('./_style/Logo_nDP_color_hz_en.png')
 ]
   
 ---
-## Referencias
+## Referencias (1)
 
-.  
+.text_50[
   
-```{r refs1, echo=FALSE, results="asis", eval=F}
-suppressWarnings(PrintBibliography(myBib, start= 1, end= 6))
+```{r refs1, echo=FALSE, results="asis", eval=T}
+suppressWarnings(PrintBibliography(myBib, start= 1, end= 13))
 #https://github.com/ropensci/RefManageR/blob/master/R/rmdCite.R
 ```
+
+]
 
 ---
 ## Referencias (2)
 
-.
+.text_50[
 
-```{r refs2, echo=FALSE, results="asis", eval=F}
-suppressWarnings(PrintBibliography(myBib, start= 7, end= 12))
+```{r refs2, echo=FALSE, results="asis", eval=T}
+suppressWarnings(PrintBibliography(myBib, start= 14, end= 26))
 ```
+
+]
 
 ---
 ## Referencias (3)
 
-.
+.text_50[
 
-```{r refs3, echo=FALSE, results="asis", eval=F}
-suppressWarnings(PrintBibliography(myBib, start= 13, end= 20))
+```{r refs3, echo=FALSE, results="asis", eval=T}
+suppressWarnings(PrintBibliography(myBib, start= 27, end= 39))
 ```
 
+]
 
 ---
 ## Referencias (4)
 
-.
+.text_50[
 
-```{r refs4, echo=FALSE, results="asis", eval=F}
-suppressWarnings(PrintBibliography(myBib, start= 21, end= 28))
+```{r refs4, echo=FALSE, results="asis", eval=T}
+suppressWarnings(PrintBibliography(myBib, start= 40, end= 52))
 ```
+
+]
+
+
 
 ```{r exp, eval=F,echo=F, results="asis"}
 library(pagedown)
@@ -2083,17 +2047,54 @@ $$ AICc= AIC + \frac{2k(k+1)}{n-k-1}$$
 ---
 ## Ecuaciones (3)
 
-### Brier score integrado
+**Brier score integrado**: El promedio de la suma de las distintas al cuadrado del estado de supervivencia observado para los individuos que no han $\left( 0 - \hat{S}(t, \mathbf{x}_i) \right)^2$ (donde el evento ya ha ocurrido $t(T_i\leq t\,y\,\delta=1)$ , lo que explica el 0) y han experimentado $( 1 - \hat S (t, x_i))^2$ el evento al tiempo de interés (no han experimentado el evento, $T_i > t$ , por eso =1); y la probabilidad predicha $\hat S (t, x_i)$. Va de 1 a 0, siendo más cercano a 0 más preciso. Éstas a su vez, ponderadas por la función de supervivencia condicional $\hat G (T_i)$ 
+  
+$$BS(t) = \frac{1}{N} \sum_{i=1}^{N} \left( \frac{ \left( 0 - \hat{S}(t, \mathbf{x}_i) \right)^2 \cdot \mathbf{1}_{\{T_i \leq t, \delta_i = 1\}} }{\hat{G}(T_i)} + \frac{ \left( 1 - \hat{S}(t, \mathbf{x}_i) \right)^2 \cdot \mathbf{1}_{\{T_i > t\}} }{\hat{G}(t)} \right)$$
 
-```{r, echo=T}
+donde $x_i$ ,  $\delta_i$ y $T_i$ es un vector de covariables, indicador de la ocurrencia del evento o censura y el tiempo observado transcurrido hasta el evento o censura para cada observación, respectivamente; $\hat G (t) = P(C>t)$ el estimador de la función de supervivencia condicional a los tiempos de censura, usando Kaplan-Meier, donde $C$ son los tiempos de censura (prob de que una obs. esté censurada más allá del tiempo $t$ ).
+
+Considerando que apuntamos a analizar la precisión en todo el rango hasta un tiempo $\tau$  más allá de un punto específico $t$ en donde se evalúa la calibración, integramos el brier score (IBS):
+
+$$IBS = \int_{0}^{\tau} BS(t) \, dt$$
+
+```{r, echo=F}
 #https://www.universiteitleiden.nl/binaries/content/assets/science/mi/scripties/mastertsouprou.pdf
+#
+#IBS = \int_{0}^{\tau} BS(t) \, dt
 ```
 
 
-### Prueba de concordancia C de Uno
-
 ---
 ## Ecuaciones (4)
+
+**Prueba de concordancia C de Uno**: Evalúa la capacidad del modelo para discriminar entre pares de observaciones ( $i$ , $j$ ) según el tiempo a un evento. Una concordancia de 0.5 indica que el modelo no discrimina mejor que el azar, mientras que uno indica una capacidad de discriminación perfecta.
+
+```{r, echo=F}
+#Rahman, M. S., Ambler, G., Choodari-Oskooei, B., & Omar, R. Z. (2017). Review and evaluation of performance measures for survival prediction models in external validation settings. BMC medical research methodology, 17(1), 60. https://doi.org/10.1186/s12874-017-0336-2
+
+```
+
+$$C = \frac{\sum \mathbf{1}(h_i > h_j) \cdot \mathbf{1}(T_i < T_j) \cdot \delta_i}{\sum \mathbf{1}(T_i < T_j) \cdot \delta_i}$$
+donde $h$ es el riesgo predicho y $T$ es el tiempo al evento observado, y $\delta$ permite considerar sólo las observaciones en las que el evento ha ocurrido en el numerador. 
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+
+- de los pares de obs. en que el evento ha ocurrido antes en j que  i, (ambos experimentaron el evento), se ve cuantos tenían efectivamente más riesgo predicho.
+
+- C-index General: Mejor para análisis rápidos y preliminares, conjuntos de datos sin empates y baja censura.
+
+- C-index de Harrell: Mejor para estudios clínicos, alta precisión, y conjuntos de datos con alta censura y empates en las predicciones de riesgo. Más robusto.
+
+---
+## Ecuaciones (5)
+
+
+
+---
+## Ecuaciones (6)
 
 ### Kaplan-Meier para suceso doble
 
