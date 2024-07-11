@@ -688,7 +688,16 @@ th:nth-child(3), td:nth-child(3) {
   --panel-tab-inactive-opacity: 0.5;
   --panel-tab-font-family: Arial;\
 }
-
+.left-column2 {
+    width: 30%;
+    height: 92%;
+    float: left;
+}
+.right-column2 {
+  width: 69%;
+  float: right;
+  padding-top: 1em;
+}
 </style>
 
 ```
@@ -1004,38 +1013,66 @@ class: animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 A continuación mostraré la estructura de mi presentación: 
 
-- En algunas diapositivas, presentaré la Introducción. Qué entendemos por TUS, ¿Por qué es un problema de salud pública (tema que no sólo está vinculado a consecuencias perjuidiciales para la salud, sino que también preocupa a las personas en general), tratamientos (con especial foco en chile)[1]. Por qué son importantes la readmisión y mortalidad como resultados a evitar, factores predictores, utilidad de un modelo de agrupación de ellos (Andersen), brechas en investigación, y la oportunidad que plantea predecir resultados de tratamiento, junto con eventuales proyecciones y relevancia para el país (en términos de planes nacionales y lineamientos internacionales)[1]. = 8 
-- Luego, Objetivos
-- Métodos:  Diseño, Variables, Plan de análisis- Descriptivos, Modelos predictivos para cada desenlace, Modelo multiestado
-- Potenciales limitaciones de la propuesta
-- Consideraciones éticas
-- Plan de trabajo
+Esta es la estructura clásica del proyecto de investigación; introducción, objetivos, métodos y resultados
 
 ---
 class: animated fadeIn 
 ## ¿Qué es un trastorno por uso<br>de sustancias (TUS)?
 
-<br>
+.pull-left[
+**Definición** $`r Cite(myBib, c("Volkow2023","APA2013"))`$
 
-- Definición $`r Cite(myBib, c("Volkow2023"))`$
+.line_space_11[.small[
+- Trastornos psicológicos o comportamentales
+  
+- Consumo regular e intencional
+  
+- Sustancias legales e ilegales
+]]
 
-- Comportamientos $`r Cite(myBib, c("APA2013"))`$
+**Comportamientos**
 
-- Síntomas
+.line_space_11[.small[
+- Recurrentes y disfuncionales
+  
+- Plancenteros y que se refuerzan
+  
+- Efectos negativos
+]]
 
-- Criterios de severidad según DSM-5
+]
+
+.pull-left[
+**Síntomas**
+
+.line_space_11[.small[
+- *Craving*
+  
+- Tolerancia y recaídas
+  
+- Interferencia actividades
+]]
+
+**Criterios de severidad según DSM-5**
+
+.line_space_11[.small[
+- Al menos 2 en los últimos 12 meses
+]]
+
+]
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-**Definición** - Si bien la definición es problemática y no del todo unívoca, diríamos a grandes razgos que refiere a trastornos psicológicos o comportamentales causados principalmente por el consumo regular e intencional de sustancias psicoactivas, ya sea legales como ilegales.
+**Definición** - Si bien la definición es problemática y no del todo unívoca, diríamos a grandes razgos que refiere a trastornos psicológicos o comportamentales causados principalmente por el consumo regular e intencional de sustancias psicoactivas, legales o ilegales.
 
 - Se caracteriza por comportamientos recurrentes y disfuncionales, placenteros y que se refuerzan, aunque con efectos negativos
-- Algunos de los síntomas abarcan la compulsión a consumir ("deseo abrumador", *craving*), inhabilidad para autorregularse, tolerancia (dosis que causaban gratificación ya no lo hacen), recaídas (efectos negativos por descontinuar el uso, o *efecto rebote*), uso persistente a pesar de consecuencias negativas, abandono de actividades que le proporcionaban placer.
 
-- Según manual diagnóstico de trastornos mentales, quinta versión (DSM-V), se indica la presencia de este trastorno cuando al menos 2 de 11 criterios se cumplen en los últimos 12 meses y se dividen en alto, medio y bajo
+- En TUS, sustancias interfieren en la vida, el manual de diagnóstico de trastornos mentales, quinta versión, identifica 11 criterios ( entre los que destaca la compulsión a consumir, deseo abrumador o craving, la interferencia en actividades cotidianas o roles laborales y recaídas). 
+
+- Cumpliendo 2, se indica la presencia del trastorno. Se divide en alto, medio y bajo.
 
 ---
 class: bold-last-item, animated fadeIn 
@@ -1110,17 +1147,23 @@ Chile: Situación Actual:
 - Se deben entender predictores de resultados y desenlaces de salud negativos en personas con TUS, y apuntar a reducir la demanda.
 
 ---
-class: bold-last-item, animated fadeIn 
-## Tratamientos
+class: animated fadeIn 
+## Tratamientos- <br>Situación general
+
 .left-column[
-- Principales objetivos $`r Cite(myBib, c("babor2021","White2012", "world_health_organization_world_2023"))`$ 
-
-- Modalidades e intervenciones $`r Cite(myBib, c("babor2021","White2012"))`$ 
-
-- Situación en latinoamérica y Chile $`r Cite(myBib, c("Marin2018","servicio_nacional_para_la_prevencion_y_rehabilitacion_del_consumo_de_drogas_y_alcohol_senda_decimo_2022-1","oecd_health_2023", "vicente_prevalencias_2016","inter-american_drug_abuse_control_commission_cicad_report_2019", "PrezGmez2016", "ToroDevia2023"))`$ 
-
-- Instituciones y lineamientos  $`r Cite(myBib, c("RN155", "mateo-pinones_evidence-based_2022"))`$ 
+Principales objetivos $`r Cite(myBib, c("babor2021","White2012", "world_health_organization_world_2023"))`$ 
+.small[
+- ¿abstinencia? ¿reducción daños/consumo? ¿recaídas?
+- **Recuperación** (Gomez-Restrepo)
 ]
+Modalidades e intervenciones $`r Cite(myBib, c("babor2021","White2012"))`$ 
+.small[
+- Farmacológica, psicológica y comunitaria
+- Ambulatoria, internación y residencial
+]
+
+]
+
 .right-column[
 ```{r "image-lousiana-trtmnts", echo=FALSE,  fig.align="left", out.width=250}
 image_colorize(opacity = 70, image_read(path = 'https://drughelpline.org/wp-content/uploads/2023/07/Louisiana3-1024x683.jpg'), "#666666") 
@@ -1203,7 +1246,6 @@ p <- ggraph(graph, layout = 'manual', x = V(graph)$x, y = V(graph)$y) +
   ggtitle(NULL)
 
 p
-
 ```
 ]
 
@@ -1233,10 +1275,47 @@ p
 - Según Restrepo-Guzmán et al., "un estado de vida sin limitaciones o consecuencias negativas derivadas del consumo de sustancias".
 - Algunas personas dejan las sustancias de forma natural, otras requieren tratamiento estructurado.
 
-- **Tipos y modalidades**: Existen múltiples tipos, tanto farmacológicos, de base psicológica y comunitaria. Se entregan en viarias modalidades (por ej., ambulatoria [menos disruptiva], internación [para síntomas de abstinencia severos y alto riesgo de recaídas] y residencial [de mayor duración, para casos severos, con mayor compromiso]) dependiendo de factores contextuales y patrones de consumo.
+- **Objetivos**: Una respuesta social organizada a este problema han sido los programas de tratamiento. Estos conviven con otras políticas más punitivistas.
 
-- Se busca que los tratamientos se entiendan en un continuo de cuidados, de cuidado escalonado. Sumado a esto, hay intervenciones de menor intensidad o en tecnológica que se encuentran en auge.
+**Metas de los Programas** : - Mejorar calidad de vida y bienestar. ; - Reducir consumo problemático.; - Mitigar síntomas asociados a recaídas.; - Mejorar estatus de salud y funcionalidad.; - Considerar factores de riesgo contextuales; - Prevenir consumo futuro perjudicial.
+*(Referencia: WHO y UNODC. International standards for the treatment of drug use disorders)*
 
+- **Tipos y modalidades**: Existen múltiples tipos, tanto farmacológicos, de base psicológica y comunitaria. Se entregan en viarias configuraciones (por ej., ambulatoria [menos disruptiva], internación [para síntomas de abstinencia severos y alto riesgo de recaídas] y residencial [de mayor duración, para casos severos, con mayor compromiso]) dependiendo de factores contextuales y patrones de consumo.
+
+- Se busca que los tratamientos se entiendan en un continuo de cuidados, de cuidado escalonado. También hay intervenciones de menor intensidad o en tecnológica que se encuentran en auge.
+
+---
+class: animated fadeIn 
+## Tratamientos- <br>Hispanoamérica y Chile
+
+.left-column[
+Situación en hispanoamérica y Chile $`r Cite(myBib, c("Marin2018","servicio_nacional_para_la_prevencion_y_rehabilitacion_del_consumo_de_drogas_y_alcohol_senda_decimo_2022-1","oecd_health_2023", "vicente_prevalencias_2016","inter-american_drug_abuse_control_commission_cicad_report_2019", "PrezGmez2016", "ToroDevia2023"))`$ 
+.small[
+- Personal especializado
+- Alcance áreas rurales
+- Cobertura
+]
+Instituciones y lineamientos  $`r Cite(myBib, c("RN155", "mateo-pinones_evidence-based_2022"))`$  
+.small[
+- SENDA, tratamientos, FONASA
+- Define estándares, compra y supervisa 
+]
+
+]
+
+.right-column[
+```{r "qalat", eval=T, echo=FALSE, fig.align="right", message=FALSE, warning=FALSE, dev.args = list(bg = 'transparent'), out.width=150}
+magick::image_transparent(magick::image_transparent(image_read(path = './_figs/qalat.png'), "white"), "lightgray")
+```
+```{r "senda", eval=T, echo=FALSE, fig.align="left", message=FALSE, warning=FALSE, dev.args = list(bg = 'transparent'), out.width=150}
+magick::image_transparent(magick::image_transparent(image_read(path = './_figs/LogoSENDA.png'), "white"), "lightgray")
+```
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
 - **Situación en latinoamérica y chile**: Sistemas de salud fragmentados (en público y privado), acceso limitado a recursos y tratamiento para ambos. Los tratamientos de base comunitaria son dominantes, aunque se han constatado algunas pocas terapias basasdas en la fe y coercitivas.
 
 - **Particularmente en chile**: fuerza de trabajo insuficiente en cuidados de salud vs. promedios OECD; limitada disponibilidad de servicios especializados en áreas rurales, cobertura limitada (si bien no del todo comparables, 1/10 consumidores problemáticos de sustancias recibe tratamiento de los que lo requieren de acuerdo a estimaciones de la Encuesta de población general al 2018, vs. globalmente es 1/8 y para alcohol 1/5), existen desafíos a la coordinación entre instituciones
@@ -1307,7 +1386,7 @@ Mediciones imperfectas de **impacto** del tratamiento a posteriori, pero útiles
 
 ---
 class: bold-last-item, animated, fadeIn 
-## Factores capaces de predecir<br>resultados adversos
+## Factores capaces de predecir<br>desenlaces post-tratamiento adversos
 
 .pull-left[
 - Modelo de Ronald Andersen de utilización de servicios de salud (1995) $`r Cite(myBib, c("portilla_huidobro_factores_2015", "Andersen1995"))`$
@@ -1678,11 +1757,11 @@ class: bold-last-item, animated fadeIn
 
 #### Estimar la tasa de incidencia
 
-- Tasas de incidencia
++ Tasas de incidencia
 
-- Kaplan-Meier $`r Cite(myBib, c("In2019"))`$
++ Kaplan-Meier $`r Cite(myBib, c("In2019"))`$
 
-- Razones de mortalidad estandarizadas $`r Cite(myBib, c("instituto_nacional_de_estadisticasine_tablas_2023", "szklo_epidemiology_2019","CastilloCarniglia2015"))`$
++ Razones de mortalidad estandarizadas $`r Cite(myBib, c("instituto_nacional_de_estadisticasine_tablas_2023", "szklo_epidemiology_2019","CastilloCarniglia2015"))`$
 
 ]
 
@@ -1747,23 +1826,20 @@ ggplot(surv_data, aes(x = time, y = surv, color = strata)) +
 
 .pull-left[
 
-#### Predicción de resultados post-tratamiento por separado
+#### Predicción de desenlaces post-tratamiento por separado
 
-- Modelo de riesgos proporcionales de Cox y extensiones $`r Cite(myBib, c("RN692","RN735"))`$ 
++ Modelo de riesgos proporcionales de Cox y extensiones $`r Cite(myBib, c("RN692","RN735"))`$ 
 
 - *Best subset selection*
 
-- Medición de desempeño: $`r Cite(myBib, c("RN672","Steyerberg2010"))`$ 
++ Medición de desempeño: $`r Cite(myBib, c("RN672","Steyerberg2010"))`$ 
 
   - Validación interna
-  
   - Calibración
-  
   - Discriminación
-  
   - Utilidad clínica
 
-- Sensibilidad a valores perdidos
++ Sensibilidad a valores perdidos
 
 ]
 
@@ -1861,15 +1937,15 @@ print(calibration_plot)
 
 .pull-left[
 
-#### Predicción de resultados post-tratamiento concatenados
+#### Predicción de desenlaces post-tratamiento concatenados
 
-- Modelos multiestado  $`r Cite(myBib, c("RN667", "RN700"))`$
++ Modelos multiestado  $`r Cite(myBib, c("RN667", "RN700"))`$
 
-- Illness-death $`r Cite(myBib, c("RN672"))`$
++ Illness-death $`r Cite(myBib, c("RN672"))`$
 
-- Cumplimiento de supuesto de Markov $`r Cite(myBib, c("RN676", "RN689"))`$
++ Cumplimiento de supuesto de Markov $`r Cite(myBib, c("RN676", "RN689"))`$
 
-- Simulación $`r Cite(myBib, c("RN667", "RN700"))`$
++ Simulación $`r Cite(myBib, c("RN667", "RN700"))`$
 
 ]
 
