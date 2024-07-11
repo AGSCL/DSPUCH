@@ -1165,7 +1165,7 @@ Modalidades e intervenciones $`r Cite(myBib, c("babor2021","White2012"))`$
 ]
 
 .right-column[
-```{r "image-lousiana-trtmnts", echo=FALSE,  fig.align="left", out.width=250}
+```{r "image-lousiana-trtmnts", echo=FALSE,  fig.align="left", out.width=200}
 image_colorize(opacity = 70, image_read(path = 'https://drughelpline.org/wp-content/uploads/2023/07/Louisiana3-1024x683.jpg'), "#666666") 
 ```
 ```{r "trtmnts-quality-stds", echo=FALSE, eval=F,  fig.align="right", out.width=250, dev.args = list(bg = 'transparent')}
