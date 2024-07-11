@@ -741,6 +741,11 @@ if(!require(pROC)){install.packages("pROC");library(pROC)}
 if(!require(Epi)){install.packages("Epi");library(Epi)}
 if(!require(emo)){devtools::install_github("hadley/emo");library(emo)} #https://github.com/hadley/emo
 if(!require(etm)){install.packages("etm");library(etm)}
+if(!require(ggraph)){install.packages("ggraph");library(ggraph)}
+if(!require(tidygraph)){install.packages("tidygraph");library(tidygraph)}
+if(!require(igraph)){install.packages("igraph");library(igraph)}
+if(!require(scatterpie)){install.packages("scatterpie");library(scatterpie)}
+
 
 options(scipen=2) #display numbers rather scientific number
 
@@ -976,7 +981,7 @@ Acompañantes en este Proceso
 
 ---
 layout: true
-class: bold-last-item, animated fadeIn 
+class: animated fadeIn 
 ---
 class: animated fadeIn 
 ## Índice
@@ -1018,22 +1023,19 @@ class: animated fadeIn
 
 - Síntomas
 
-- Criterios de severidad según DSM-V
+- Criterios de severidad según DSM-5
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-**Definición**
-- Si bien la definición es problemática y no del todo unívoca, diríamos a grandes razgos que refiere a trastornos psicológicos o comportamentales causados principalmente por el consumo regular e intencional de sustancias psicoactivas, ya sea legales como ilegales.
+**Definición** - Si bien la definición es problemática y no del todo unívoca, diríamos a grandes razgos que refiere a trastornos psicológicos o comportamentales causados principalmente por el consumo regular e intencional de sustancias psicoactivas, ya sea legales como ilegales.
 
 - Se caracteriza por comportamientos recurrentes y disfuncionales, placenteros y que se refuerzan, aunque con efectos negativos
 - Algunos de los síntomas abarcan la compulsión a consumir ("deseo abrumador", *craving*), inhabilidad para autorregularse, tolerancia (dosis que causaban gratificación ya no lo hacen), recaídas (efectos negativos por descontinuar el uso, o *efecto rebote*), uso persistente a pesar de consecuencias negativas, abandono de actividades que le proporcionaban placer.
 
-- Según manual diagnóstico de trastornos mentales, quinta versión (DSM-V), se indica la presencia de este trastorno cuando al menos 2 de 11 criterios se cumplen en los últimos 12 meses
-
-- Siendo TUS bajo, 2-3; moderado, 4-6; severo, 7 o +
+- Según manual diagnóstico de trastornos mentales, quinta versión (DSM-V), se indica la presencia de este trastorno cuando al menos 2 de 11 criterios se cumplen en los últimos 12 meses y se dividen en alto, medio y bajo
 
 ---
 class: bold-last-item, animated fadeIn 
@@ -1064,6 +1066,12 @@ class: bold-last-item, animated fadeIn
 
 - Impacto en el norte global, diferencias con Latinoamérica
 
+  - Mayor mortalidad, otras sustancias, otras vías de administración... hasta ahora
+  
+  - Chile, Opinión pública, una mirada a las "causas de las causas" más allá del populismo penal
+  
+  - Chile, mayor necesidad de tratamiento a futuro, alta mortalidad por sustancias 
+
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
@@ -1091,16 +1099,19 @@ Chile: Situación Actual:
 
 - De ahí que...
 
+.center[
+.darkred[ Debemos entender predictores de desenlaces de salud negativos]
+]
+
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-- Se deben investigar factores subyacentes (inequidad, vulnerabilidad, estigma), entender predictores de resultados y desenlaces de salud negativos en personas con TUS, y apuntar a reducir la demanda.
+- Se deben entender predictores de resultados y desenlaces de salud negativos en personas con TUS, y apuntar a reducir la demanda.
 
 ---
 class: bold-last-item, animated fadeIn 
 ## Tratamientos
-
 .left-column[
 
 - Principales objetivos $`r Cite(myBib, c("babor2021","White2012", "world_health_organization_world_2023"))`$ 
@@ -1112,18 +1123,14 @@ class: bold-last-item, animated fadeIn
 - Instituciones y lineamientos  $`r Cite(myBib, c("RN155", "mateo-pinones_evidence-based_2022"))`$ 
 
 ]
-
 .right-column[
 ```{r "image-lousiana-trtmnts", echo=FALSE,  fig.align="left", out.width=250}
 image_colorize(opacity = 70, image_read(path = 'https://drughelpline.org/wp-content/uploads/2023/07/Louisiana3-1024x683.jpg'), "#666666") 
 ```
-
-```{r "trtmnts-quality-stds", echo=FALSE,  fig.align="right", out.width=250, dev.args = list(bg = 'transparent')}
+```{r "trtmnts-quality-stds", echo=FALSE, eval=F,  fig.align="right", out.width=250, dev.args = list(bg = 'transparent')}
 
 library(ggplot2)
-library(grid)
-
-# Definición de las etiquetas para las dimensiones de calidad
+library(grid)# Definición de las etiquetas para las dimensiones de calidad
 labels <- c("Segura",
             "Efectiva",
             "Centrada en\nel paciente",
@@ -1150,7 +1157,57 @@ ggplot() +
 # <div style="width: 500px; height: 100px; padding: 0px; font-size: x-small; font-style: italic; line-height: 1;">
 # </div>
 ```
+```{r "goal-trtmnts", eval=T, echo=FALSE, fig.align="right", message=FALSE, warning=FALSE, dev.args = list(bg = 'transparent'), out.width=250}
+par(mar=c(0,0,0,0))
+par(bg=NA)
 
+nodes <- data.frame(
+    name = c("Metas", "Mejorar calidad de\nvida y bienestar", "Reducir consumo\nproblemático", 
+             "Mitigar síntomas asociados\na recaídas", "Mejorar estatus de\nsalud y funcionalidad", 
+             "Considerar factores\nde riesgo contextuales", "Prevenir consumo\nfuturo perjudicial")
+)
+
+edges <- data.frame(
+    from = rep("Metas", 6),
+    to = c("Mejorar calidad de\nvida y bienestar", "Reducir consumo\nproblemático", 
+             "Mitigar síntomas asociados\na recaídas", "Mejorar estatus de\nsalud y funcionalidad", 
+             "Considerar factores\nde riesgo contextuales", "Prevenir consumo\nfuturo perjudicial")
+)
+
+# Convertir a objeto tbl_graph
+graph <- tbl_graph(nodes = nodes, edges = edges, directed = TRUE)
+# Aplicar el layout con un número alto de iteraciones
+layout <- layout_with_fr(graph, niter = 5e6)
+
+# Convertir el layout a data frame para su uso en ggraph
+V(graph)$x <- layout[,1]
+V(graph)$y <- layout[,2]
+
+# Ajustar las posiciones para acercar los nodos al centro
+V(graph)$x <- V(graph)$x * 0.01
+V(graph)$y <- V(graph)$y * 0.01
+
+# Crear el gráfico de red con ggraph
+p <- ggraph(graph, layout = 'manual', x = V(graph)$x, y = V(graph)$y) + 
+  geom_edge_link(aes(), 
+                 arrow = arrow(length = unit(3, 'mm')), 
+                 start_cap = circle(3, 'mm'), 
+                 end_cap = circle(3, 'mm'), # Ajusta la longitud de la flecha aquí
+                 color = "skyblue", 
+                 linewidth = 1) +
+  geom_node_label(aes(label = name,  fontface = ifelse(name == "Metas", "bold", "plain")), repel = TRUE, size = 7, check_overlap =T) +
+  theme_void()+
+    theme_void() +
+    theme(
+    legend.position = 'none',
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),  # Eliminar márgenes
+    panel.spacing = unit(0, "cm")             # Eliminar espaciado del panel
+  ) +
+  ggtitle(NULL)
+
+p
+
+```
 ]
 
 ???
@@ -1373,7 +1430,7 @@ Evaluar el rol predictivo de la duración de la estadía y el resultado del trat
 ---
 class: partial-bg inverse, center, middle, animated, fadeIn
 
-background-image: linear-gradient(45deg, #003891, #EF9D2F)
+background-image: linear-gradient(45deg, #aaaaaa, #003891)
 
 # Métodos
 
@@ -1385,6 +1442,7 @@ class: bold-last-item, animated fadeIn
 
 - RUN (Rol Único Nacional) encriptado
 
+.pull-left[
 ```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), fig.cap="Estructura hipotética de los datos", out.width=480}
 set.seed(2125)
 # Create data
@@ -1414,9 +1472,8 @@ end_plot<-23
 data_mod<-
 datasamp %>%
   dplyr::mutate(y42 = y3 + 3, resta = y4 - y3) %>% 
-  dplyr::mutate(y4=ifelse(resta>3,y42,y4)) 
-  #dplyr::mutate(y4= dplyr::case_when(resta > 3 ~ y42, TRUE~ y4))
-
+  dplyr::mutate(y4=ifelse(resta>3,y42,y4)) %>%
+  dplyr::filter(Paciente >= 20 & Paciente <= 80)  # Filtrar pacientes con IDs menores a 20 y mayores a 80
 
 fig_trans<-ggplot(data_mod) 
 ###>=10
@@ -1458,9 +1515,9 @@ fig_trans_final_esp<-
   coord_flip() +
   #fechas donde yo tomo gente
   annotate("rect", xmin=-Inf, xmax=Inf, ymin=9.5, ymax=10,
-           alpha = .2, fill="gray60")+
+           alpha = .2, fill="gray40")+
   annotate("rect", xmin=-Inf, xmax=Inf, ymin=23, ymax=23.5,
-           alpha = .2, fill="gray60")+
+           alpha = .2, fill="gray40")+
   theme(
     panel.grid.major.y = element_blank(),
     panel.border = element_blank(),
@@ -1484,22 +1541,61 @@ width <- image_info(img)$width
 height <- image_info(img)$height
 
 # Definir las propiedades de la franja
-frame_color <- "#FF000095"  # Color rojo con 50% de transparencia (en formato RGBA hexadecimal)
+frame_color <- "#FF000097"  # Color rojo con 50% de transparencia (en formato RGBA hexadecimal)
 frame_thickness <- 12  # Grosor de la franja en píxeles
 
 # Crear una imagen en blanco del tamaño de la franja horizontal
 horizontal_frame <- image_blank(width-180, frame_thickness, color = frame_color)
 
 # Superponer la franja horizontal en el medio de la imagen
-middle_y <- ((height - frame_thickness) / 2)+15
+middle_y <- ((height - frame_thickness) / 2)+807
 img_with_frame <- image_composite(img, horizontal_frame, offset = paste0("+180+", middle_y))
 img_with_frame_mod <-magick::image_transparent(magick::image_transparent(img_with_frame , "white"), "lightgray")
 
 img_with_frame_mod
 ```
-<div style="width: 1100px; height: 100px; padding: 0px; font-size: x-small; font-style: italic; line-height: 1;">
- Nota. Punto= Completa tratamiento; cuadrado= readmitido a tratamiento; triángulo= fallecimiento; líneas verticales color gris claro= truncado a la izquierda (tratamientos terminando antes de 2010) y censura administrativa (tratamientos iniciando después del 31 de Diciembre de 2022); líneas horizontales gris oscuro= tiempo en tratamiento; líneas horizontales gris claro= tiempo en tratamiento posterior a readmisión. Líneas puntuadas= no monitoreado en el seguimiento realizado por este estudio. Por ejemplo, el paciente con ID=1 sólo experimentó un tratamiento (desde 2019 a 2020), y no se observaron readmisiones o muertes en el tiempo del estudio. Fuente: elaboración propia.
+<div style="width: 900px; height: 100px; padding: 0px; font-size: x-small; font-style: italic; line-height: 1;">
+Nota. Punto= Completa tratamiento; cuadrado= readmisión; triángulo= fallecimiento; líneas verticales color gris= truncado a la izquierda (tratamientos antes de 2010) y censura administrativa (tratamientos después del 31 de Diciembre de 2022); líneas horizontales gris oscuro= tiempo en tratamiento; líneas horizontales gris claro= tiempo en segundo tratamiento. Líneas punteadas= no monitoreado en este estudio. Fuente: elaboración propia.
 </div>
+]
+.pull-right[
+```{r "piechart", eval=T, echo=FALSE, fig.align="right", message=FALSE, warning=FALSE, dev.args = list(bg = 'transparent'), out.width=450}
+par(mar=c(0,0,0,0))
+par(bg=NA)
+
+df <- data.frame(A = c(69, 89), B = c(31, 11),
+                 group = c('A', 'B'),
+                 xpos = c(1, 5), ypos = c(1, 2), size = c(2, 1))
+
+# Define darker versions of the original colors
+darker_color1 <- adjustcolor("#3C5279", alpha = 0.7) 
+darker_color2 <- adjustcolor("#666666", alpha = 0.7)
+
+ggplot(df) +
+  geom_scatterpie(aes(x = xpos, y = ypos, r = size, group = group),
+                  data = df, cols = LETTERS[1:2], color = NA) + # Eliminar bordes
+  geom_path(data = data.frame(x = c(1.3, 4.6), y = c(3.02, 2.95)), aes(x, y),
+            color = 'gray30') +
+  geom_path(data = data.frame(x = c(2.1, 5), y = c(-.7, .95)), aes(x, y),
+            color = 'gray30') +
+  geom_label(aes(x = .2, y = 1.4, label = "Readmisiones\n31%"),
+             size = 7, color = "black", fontface = "bold", fill = "white",
+             label.size = 0.5, label.r = unit(0.2, "lines")) +
+  geom_label(aes(x = 5, y = 1.75, label = "Una\nreadmisión\n89%"),
+             size = 7, color = "black", fontface = "bold", fill = "white",
+             label.size = 0.5, label.r = unit(0.2, "lines")) +
+  coord_equal() +
+  theme_void() +
+    theme(
+    legend.position = 'none',
+    plot.margin = unit(c(0, 0, 0, 0), "cm"),  # Eliminar márgenes
+    panel.spacing = unit(0, "cm")             # Eliminar espaciado del panel
+  ) +
+  ggtitle(NULL)+
+  scale_fill_manual(values = c("A" = darker_color1, "B" = darker_color2))
+```
+]
+
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1636,8 +1732,8 @@ ggplot(surv_data, aes(x = time, y = surv, color = strata)) +
   labs(x = "Tiempo (en meses)",
        y = "Prob supervivencia",
        color = "Grupo") +
-      theme_minimal()+
-  scale_color_manual(values = c("Grupo 1" = "#E69F00", "Grupo 2" = "#56B4E9")) +
+      theme_minimal()+ #
+  scale_color_manual(values = c("Grupo 1" = "#666666", "Grupo 2" = "#003891")) +
   theme(
     #plot.title = element_text(hjust = 0.5),
     axis.title.x = element_text(color = "#666666", size=23),
@@ -1646,6 +1742,7 @@ ggplot(surv_data, aes(x = time, y = surv, color = strata)) +
     axis.text.y = element_text(color = "#666666", size=23)
    # caption = element_text(hjust = 0.5)
   )+theme(legend.title = element_text(size = 23), legend.text = element_text(size = 23))
+
 ```
 
 ]
@@ -1865,6 +1962,10 @@ class: bold-last-item, animated fadeIn
 - Procedimientos para asegurar su no identificabilidad
 
 - Disposición de datos segura
+
+```{r "vector-bases datos", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=250, message=F, warning=F}
+knitr::include_graphics("_figs/dbs.png")
+```
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -2105,7 +2206,7 @@ La ecuación de transición en el contexto de un modelo semi-Markov se puede exp
 
 $$P_{ij}(s,t) = P(X(t) = j \mid X(s) = i, F_{ij}(s))$$
 
-Donde 
+Donde $X(t)$ es el estado en el que los pacientes se encuentran al tiempo $t$ y $F$ es la función de distribución acumulada del tiempo sojourn en el estado $i$ antes de transitar al estado $j$ , en un intervalo de tiempo $[s, t]$
 
 ---
 ## Ecuaciones (6)
