@@ -1100,7 +1100,7 @@ Chile: Situación Actual:
 - De ahí que...
 
 .center[
-.darkred[ Debemos entender predictores de desenlaces de salud negativos]
+.darkred[ **Debemos entender predictores de desenlaces de salud negativos** ]
 ]
 
 ???
@@ -1113,7 +1113,6 @@ Chile: Situación Actual:
 class: bold-last-item, animated fadeIn 
 ## Tratamientos
 .left-column[
-
 - Principales objetivos $`r Cite(myBib, c("babor2021","White2012", "world_health_organization_world_2023"))`$ 
 
 - Modalidades e intervenciones $`r Cite(myBib, c("babor2021","White2012"))`$ 
@@ -1121,7 +1120,6 @@ class: bold-last-item, animated fadeIn
 - Situación en latinoamérica y Chile $`r Cite(myBib, c("Marin2018","servicio_nacional_para_la_prevencion_y_rehabilitacion_del_consumo_de_drogas_y_alcohol_senda_decimo_2022-1","oecd_health_2023", "vicente_prevalencias_2016","inter-american_drug_abuse_control_commission_cicad_report_2019", "PrezGmez2016", "ToroDevia2023"))`$ 
 
 - Instituciones y lineamientos  $`r Cite(myBib, c("RN155", "mateo-pinones_evidence-based_2022"))`$ 
-
 ]
 .right-column[
 ```{r "image-lousiana-trtmnts", echo=FALSE,  fig.align="left", out.width=250}
@@ -1163,14 +1161,14 @@ par(bg=NA)
 
 nodes <- data.frame(
     name = c("Metas", "Mejorar calidad de\nvida y bienestar", "Reducir consumo\nproblemático", 
-             "Mitigar síntomas asociados\na recaídas", "Mejorar estatus de\nsalud y funcionalidad", 
+             "Mitigar síntomas\nasociados a recaídas", "Mejorar estatus de\nsalud y funcionalidad", 
              "Considerar factores\nde riesgo contextuales", "Prevenir consumo\nfuturo perjudicial")
 )
 
 edges <- data.frame(
     from = rep("Metas", 6),
     to = c("Mejorar calidad de\nvida y bienestar", "Reducir consumo\nproblemático", 
-             "Mitigar síntomas asociados\na recaídas", "Mejorar estatus de\nsalud y funcionalidad", 
+             "Mitigar síntomas\nasociados a recaídas", "Mejorar estatus de\nsalud y funcionalidad", 
              "Considerar factores\nde riesgo contextuales", "Prevenir consumo\nfuturo perjudicial")
 )
 
@@ -1193,10 +1191,9 @@ p <- ggraph(graph, layout = 'manual', x = V(graph)$x, y = V(graph)$y) +
                  arrow = arrow(length = unit(3, 'mm')), 
                  start_cap = circle(3, 'mm'), 
                  end_cap = circle(3, 'mm'), # Ajusta la longitud de la flecha aquí
-                 color = "skyblue", 
+                 color = "#ABB0BF", 
                  linewidth = 1) +
-  geom_node_label(aes(label = name,  fontface = ifelse(name == "Metas", "bold", "plain")), repel = TRUE, size = 7, check_overlap =T) +
-  theme_void()+
+  geom_node_label(aes(label = name,  fontface = ifelse(name == "Metas", "bold", "plain")), repel = TRUE, size = 7.5, check_overlap =T) +
     theme_void() +
     theme(
     legend.position = 'none',
@@ -1378,17 +1375,15 @@ class: animated, fadeIn
 
 - Sistema centralizado de información a nivel nacional $`r Cite(myBib, c("Marin2018"))`$ 
 
-- Datos administrativos
-
-- Datos interconectados
+- Ejemplo de datos administrativos e interconectados internacionales
 
 - Enfoque longitudinal
+
+- Alineación con objetivos sanitarios $`r Cite(myBib, c("nuevo2"))`$
 
 - Enfoque en personas con alto riesgo
 
   - Focalizar  $`r Cite(myBib, c("nuevo1"))`$
-
-- Alineación con objetivos sanitarios $`r Cite(myBib, c("nuevo2"))`$
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1418,7 +1413,7 @@ Evaluar el rol predictivo de la duración de la estadía y el resultado del trat
 ]
 
 .small[
-- Describir la **tasa de incidencia** de muerte de pacientes entre pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022, en comparación con la población general.
+- Describir la **tasa de incidencia** de muerte de pacientes entre pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022, en **comparación con la población general**.
 
 - **Identificar un conjunto clave** de factores pronósticos y predictivos capaces de predecir el riesgo y tiempo a la **primera readmisión** a tratamientos por TUS en pacientes de 18 a 64 años en tratamientos iniciales por TUS en Chile entre 2010 y 2022.
 
@@ -1435,15 +1430,14 @@ background-image: linear-gradient(45deg, #aaaaaa, #003891)
 # Métodos
 
 ---
-class: bold-last-item, animated fadeIn 
+class: animated fadeIn 
 ## Diseño y participantes
 
 - Observacional, cohorte retrospectiva, vinculada con datos de mortalidad
 
 - RUN (Rol Único Nacional) encriptado
-
 .pull-left[
-```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), fig.cap="Estructura hipotética de los datos", out.width=480}
+```{r "disenio", echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), fig.cap="Estructura hipotética de los datos", out.width=460}
 set.seed(2125)
 # Create data
 datasamp <- data.frame(
@@ -1531,7 +1525,7 @@ fig_trans_final_esp<-
   #labs(y="Follow-up (in quarters)",x="Individual(ID)", caption="Note. Dot= Complete treatment;\nSquare= Contact w/ justice system (imputed);\nTriangle= Contact w/ justice system (victim);\nBlue line= Time in treatment;\nOrange line= Time in conctact w/justice system;\nShared area=Follow-up window")+
   theme(plot.caption = element_text(hjust = 0, face= "italic"))
 
-ggsave(paste0(getwd(),"/_figs/situacion_hipotética2_esp.png"),fig_trans_final_esp,width = 7, height = 5, dpi = 600)
+ggsave(paste0(getwd(),"/_figs/situacion_hipotética2_esp.png"),fig_trans_final_esp,width = 7*.8, height = 5*.8, dpi = 600)
 
 img<-
 image_read(path = './_figs/situacion_hipotética2_esp.png')
@@ -1548,7 +1542,7 @@ frame_thickness <- 12  # Grosor de la franja en píxeles
 horizontal_frame <- image_blank(width-180, frame_thickness, color = frame_color)
 
 # Superponer la franja horizontal en el medio de la imagen
-middle_y <- ((height - frame_thickness) / 2)+807
+middle_y <- ((height - frame_thickness) / 2)+602
 img_with_frame <- image_composite(img, horizontal_frame, offset = paste0("+180+", middle_y))
 img_with_frame_mod <-magick::image_transparent(magick::image_transparent(img_with_frame , "white"), "lightgray")
 
@@ -1755,9 +1749,9 @@ ggplot(surv_data, aes(x = time, y = surv, color = strata)) +
 
 #### Predicción de resultados post-tratamiento por separado
 
-- *Best subset selection*
-
 - Modelo de riesgos proporcionales de Cox y extensiones $`r Cite(myBib, c("RN692","RN735"))`$ 
+
+- *Best subset selection*
 
 - Medición de desempeño: $`r Cite(myBib, c("RN672","Steyerberg2010"))`$ 
 
@@ -1923,7 +1917,7 @@ attr(states_trans_lab,"names")<-1:3
 ]
 
 ---
-class: bold-last-item, animated fadeIn 
+class: animated fadeIn 
 ## Potenciales limitaciones
 
 - Datos administrativos
@@ -1952,7 +1946,7 @@ class: bold-last-item, animated fadeIn
 -**Cox**: si bien el incumplimiento de supuestos asociados podría limitar precisión, no así con la capacidad disciminativa. Lo bueno es que ofrece mayor interpretabilidad.
 
 ---
-class: bold-last-item, animated fadeIn 
+class: animated fadeIn 
 ## Consideraciones éticas
 
 - Datos secundarios deidentificados ~~`r emo::ji("key")`
