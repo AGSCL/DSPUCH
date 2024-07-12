@@ -79,7 +79,7 @@ class: title-slide, middle, right, animated fadeOut
   --header-color: #666666;
   --background-color: #E6E6E6;
   --link-color: #003891;
-  --text-bold-color: #EF9D2F;
+  --text-bold-color: #D3771F;
   --code-highlight-color: rgba(255,255,0,0.5);
   --inverse-text-color: #E6E6E6;
   --inverse-background-color: #003891;
@@ -1027,7 +1027,7 @@ class: animated fadeIn
   
 - Consumo regular e intencional
   
-- Sustancias legales e ilegales
+- Sustancias legales o ilegales
 ]]
 
 **Comportamientos**
@@ -1043,6 +1043,12 @@ class: animated fadeIn
 ]
 
 .pull-left[
+**Criterios de severidad según DSM-5**
+
+.line_space_11[.small[
+- Al menos 2 en los últimos 12 meses
+]]
+
 **Síntomas**
 
 .line_space_11[.small[
@@ -1051,12 +1057,6 @@ class: animated fadeIn
 - Tolerancia y recaídas
   
 - Interferencia actividades
-]]
-
-**Criterios de severidad según DSM-5**
-
-.line_space_11[.small[
-- Al menos 2 en los últimos 12 meses
 ]]
 
 ]
