@@ -1,11 +1,16 @@
-#E:\Mi unidad\Alvacast\SISTRAT 2022 (github)
+#setwd(E:\Mi unidad\Alvacast\SISTRAT 2022 (github)
 # Load data & packages ----------------------------------------------------------------
 
 rm(list = ls()) 
 unlink("*_cache", recursive=T)
+
+
+sistrat <- "E:/Mi unidad/Alvacast/SISTRAT 2022 (github)/"
+
+
 #fuentes: 
 #https://rpubs.com/georgy_makarov/897844
-load("1_ndp_2023_07_05_19_00_00.RData")
+load(paste0(sistrat,"1_ndp_2023_07_05_19_00_00.RData"))
 
 local({r <- getOption("repos")
 r["CRAN"] <- "http://cran.r-project.org" 
