@@ -177,7 +177,7 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("https://raw.githack.com/AGSCL/DSPUCH/2ea0a44ec27a2ba516eb8639289645f106917631/_figs/2025PPT_ESP/Diapositiva1.SVG"); /* ./_figs/2025PPT_ESP/Diapositiva1.SVG */
+  background-image: url("https://raw.githubusercontent.com/AGSCL/DSPUCH/main/_figs/2025PPT_ESP/Diapositiva1.SVG?sanitize=true"); /* ./_figs/2025PPT_ESP/Diapositiva1.SVG */
   background-size: 100% auto !important; /* Ensures the entire image is visible : cover era la anterior */
   /*background-position: center top !important; */
   background-repeat: no-repeat;
