@@ -1,5 +1,5 @@
 ---
-title: "Examen de Calificación"
+title: "Examen de Avance"
 subtitle: ""
 author: "Andres Gonzalez"
 date:  "2025-10-20"#"`r withr::with_locale(new =c('LC_TIME' = 'es_ES'), code =format(Sys.time(),'%B %d, %Y'))`"
@@ -111,7 +111,7 @@ h1, h2, h3 {
 .remark-slide-content {
   background-color: var(--background-color);
   font-size: 1rem;
-  background-image: url("_figs/2025PPT_ESP/Diapositiva2.SVG");
+  background-image: url("https://raw.githubusercontent.com/AGSCL/DSPUCH/main/_figs/2025PPT_ESP/Diapositiva2.svg");
   background-size: contain  !important;  /* Ensures the entire image is visible : cover era la anterior */
   background-position: center !important;
   background-repeat: no-repeat !important;
@@ -177,7 +177,7 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("_figs/2025PPT_ESP/Diapositiva1.SVG");
+  background-image: url("https://raw.githubusercontent.com/AGSCL/DSPUCH/main/_figs/2025PPT_ESP/Diapositiva1.svg");
   background-size: 100% auto !important; /* Ensures the entire image is visible : cover era la anterior */
   /*background-position: center top !important; */
   background-repeat: no-repeat;
@@ -738,7 +738,8 @@ pacman::p_unlock(lib.loc = .libPaths()) #para no tener problemas reinstalando pa
 if(!require(pacman)){install.packages("pacman")}
 pacman::p_load(devtools, here, showtext, ggpattern, RefManageR, pagedown, magick, bibtex, DiagrammeR, xaringan, xaringanExtra, xaringanthemer, fontawesome, tidyverse, psych, cowplot, pdftools, compareGroups, tableone, ggiraph, distill, qrcode, pdftools, htmlwidgets, widgetframe, ggpubr, ggrepel, DiagrammeRsvg, rsvg, plotly, install=F)
 
-if(!require(xaringanBuilder)){devtools::install_github("jhelvy/xaringanBuilder",upgrade = "never")}
+#if(!require(xaringanBuilder)){devtools::install_github("jhelvy/xaringanBuilder",upgrade = "never")}
+if(!require(renderthis)){devtools::install_github("jhelvy/renderthis",upgrade = "never")}
 if(!require(icons)){remotes::install_github("mitchelloharawild/icons",upgrade = "never")}
 
 test_fontawesome<- function(x="github"){
@@ -754,6 +755,16 @@ error=function(error_message) {
 }
 
 if(!require(emo)){devtools::install_github("hadley/emo");library(emo)} #https://github.com/hadley/emo
+
+ok <- tryCatch({
+  magick::magick_config()
+  TRUE
+}, error = function(e) FALSE)
+
+if (!ok) {
+  message("❗ magick not working — installing system dependencies...")
+  system("sudo apt install -y libmagick++-dev imagemagick", intern = TRUE)
+}
 
 
 options(scipen=2) #display numbers rather scientific number
@@ -787,6 +798,7 @@ check_code <- function(expr, available){
 path2<-getwd()
 ```
 ```{r, load_refs, include=F, eval=T, cache=FALSE}
+Sys.setlocale("LC_ALL", "Spanish_Spain.1252")  # en Windows
 library(RefManageR)
 BibOptions(check.entries = FALSE,
            bib.style = "numeric",
@@ -795,9 +807,9 @@ BibOptions(check.entries = FALSE,
            super = TRUE,
            hyperlink = FALSE,
            dashed = FALSE)
-warning(paste0("./libreria_generica.txt"))
+warning(paste0("libreria_generica_utf8.bib"))
 
-myBib <- ReadBib("./libreria_generica.txt", check = FALSE,  .Encoding="latin1")
+myBib <- ReadBib("libreria_generica_utf8.bib", check = FALSE,  .Encoding="UTF-8")
 ```
 
 .move-right[
@@ -1596,12 +1608,107 @@ print(flow_pred_transp, info = FALSE)
 **Tabla. Descriptivos**
 
 ```{r kable, error=T, echo=F, warning=F, message=F}
-datos<- 
-rio::import("https://drive.google.com/uc?export=download&id=1Khtz5-fldAhA2XUnLC6MuGVErTjLD4qC", encoding = "UTF-8")
-colnames(datos) <- c("Nivel", "Categoría", "General (n=88,695)", "p", "SMD", "Miss")
+datos <- rio::import(
+    "https://drive.google.com/uc?export=download&id=1Khtz5-fldAhA2XUnLC6MuGVErTjLD4qC",
+    format = "csv",
+    encoding = "UTF-8"
+)
+fix_encoding <- function(df) {
+  # Arregla nombres
+  names(df) <- iconv(names(df), from = "", to = "UTF-8", sub = "")
+  names(df) <- make.names(names(df), unique = TRUE)
+  
+  # Arregla columnas con texto
+  df[] <- lapply(df, function(x) {
+    if (is.character(x)) iconv(x, from = "", to = "UTF-8", sub = "") else x
+  })
+  df
+}
 
-options(knitr.kable.NA = '')
+datos_clean <- fix_encoding(datos)
 
+# Limpiar todos los caracteres
+datos_clean <- as.data.frame(
+  lapply(datos, function(x) {
+    if(is.character(x)) {
+      stringi::stri_enc_toutf8(stringi::stri_enc_toascii(x))
+    } else {
+      x
+    }
+  }),
+  stringsAsFactors = FALSE
+)
+datos_clean <- as.data.frame(
+  lapply(datos_clean, function(x) {
+    if(is.character(x)) {
+      x[is.na(x)] <- "|"
+    }
+    return(x)
+  }),
+  stringsAsFactors = FALSE
+)
+datos_clean <- as.data.frame(
+  lapply(datos_clean, function(x) {
+    if(is.character(x)) {
+      x[is.na(x)] <- ""
+    }
+    return(x)
+  }),
+  stringsAsFactors = FALSE
+)
+datos_clean <- as.data.frame(lapply(datos_clean, function(x) gsub("\\| N", "", x)))
+datos_clean <- as.data.frame(lapply(datos_clean, function(x) gsub("\\|", "", x)))
+datos_clean <- as.data.frame(lapply(datos_clean, function(x) gsub("NA", "", x)))
+
+datos_clean|>
+  dplyr::mutate(dplyr::across(dplyr::everything(),
+      ~ ifelse(is.na(.x), "",  # reemplaza NA por vacío (podrías dejar .x si querés mostrar NA)
+          ifelse(
+            dplyr::row_number() %in% c(1, 38, 62, 80),
+            kableExtra::cell_spec(.x, bold = TRUE),
+            .x
+          ))))|> 
+    dplyr::mutate(
+      SMD = readr::parse_double(SMD),
+      SMD = dplyr::if_else(is.na(SMD),
+            "",  # ← removes NA completely (empty cell)
+            kableExtra::cell_spec(SMD,
+              background = dplyr::case_when(
+                SMD > 0.15 & SMD <= 0.3 ~ "#B48448",  # marrón-arenoso
+                SMD > 0.3 ~ "#660600",                # rojo oscuro
+                TRUE ~ "white"),
+              color = dplyr::case_when(
+                SMD > 0.3 ~ "white", 
+                TRUE ~ "black"),
+              bold = dplyr::case_when(
+                SMD > 0.15 ~ TRUE,
+                TRUE ~ FALSE)
+          )))|> 
+    dplyr::mutate(Miss = readr::parse_double(Miss),
+      # Aplicar formato condicional con cell_spec
+      Miss = dplyr::if_else(is.na(Miss),"",  # elimina los NA de la columna
+        kableExtra::cell_spec(Miss,
+          background = dplyr::case_when(
+            Miss > 5 & Miss <= 10 ~ "#B48448",   # fondo marrón-arenoso para pérdidas moderadas
+            Miss > 10 ~ "#660600",               # fondo rojo oscuro para pérdidas altas
+            TRUE ~ "white"),
+          color = dplyr::case_when(
+            Miss > 10 ~ "white",                 # texto blanco sobre fondo oscuro
+            TRUE ~ "black"),
+          bold = dplyr::case_when(
+            Miss > 5 ~ TRUE,                     # texto en negrita si >5%
+            TRUE ~ FALSE)
+          )))|> 
+knitr::kable(format = "html",
+                na = "",
+                escape = FALSE,    # necesario para que <span> se interprete
+                align = c("l", "l", "r", "r", "r", "r"),
+                #caption = "Tabla. Descriptivos",
+                col.names=  c("Nivel", "Categoría", "General (n=88,695)", "p", "SMD", "Miss"))|> 
+  kableExtra::kable_styling(font_size = 9)|>
+  kableExtra::kable_classic(full_width = FALSE, 
+                           html_font = "Arial")|>
+  kableExtra::scroll_box(height = "400px", width = "100%")
 # Limpiar todos los caracteres
 datos_clean <- as.data.frame(
   lapply(datos, function(x) {
@@ -1985,7 +2092,7 @@ df <- tibble::tribble(
     outcome = factor(outcome, levels = c("Mortalidad", "Readmisión")),
     # Métricas auxiliares
     hr_mid  = (hr_min + hr_max)/2,
-    dir     = case_when(hr_max < 1 ~ "beneficio",
+    dir     = dplyr::case_when(hr_max < 1 ~ "beneficio",
                         hr_min > 1 ~ "riesgo",
                         TRUE       ~ "mixto"),
     etiqueta = paste(factor, "—", as.character(outcome)),
