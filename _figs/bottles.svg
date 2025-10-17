@@ -1,0 +1,21 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Botella izquierda (inclinada a la derecha) -->
+  <g transform="rotate(-20, 80, 100)">
+    <!-- Cuerpo de la botella -->
+    <path d="M70 60 Q75 130, 70 160 Q60 170, 50 160 Q45 130, 50 60 Z" fill="#f4a300"/>
+    <!-- Gollete -->
+    <rect x="60" y="40" width="20" height="20" fill="#d48300" rx="3"/>
+    <!-- Etiqueta -->
+    <rect x="55" y="90" width="30" height="30" fill="#e0e0e0" opacity="0.7" rx="2"/>
+  </g>
+
+  <!-- Botella derecha (inclinada a la izquierda) -->
+  <g transform="rotate(20, 120, 100)">
+    <!-- Cuerpo de la botella -->
+    <path d="M130 60 Q125 130, 130 160 Q140 170, 150 160 Q155 130, 150 60 Z" fill="#f4a300"/>
+    <!-- Gollete -->
+    <rect x="120" y="40" width="20" height="20" fill="#d48300" rx="3"/>
+    <!-- Etiqueta -->
+    <rect x="115" y="90" width="30" height="30" fill="#e0e0e0" opacity="0.7" rx="2"/>
+  </g>
+

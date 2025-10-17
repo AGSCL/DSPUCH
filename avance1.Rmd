@@ -111,7 +111,7 @@ h1, h2, h3 {
 .remark-slide-content {
   background-color: var(--background-color);
   font-size: 1rem;
-  background-image: url("https://raw.githubusercontent.com/AGSCL/DSPUCH/main/_figs/2025PPT_ESP/Diapositiva2.svg");
+  background-image: url("./_figs/2025PPT_ESP/Diapositiva2.SVG"); /* ./_figs/2025PPT_ESP/Diapositiva2.svg */
   background-size: contain  !important;  /* Ensures the entire image is visible : cover era la anterior */
   background-position: center !important;
   background-repeat: no-repeat !important;
@@ -177,7 +177,7 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("https://raw.githubusercontent.com/AGSCL/DSPUCH/main/_figs/2025PPT_ESP/Diapositiva1.svg");
+  background-image: url("./_figs/2025PPT_ESP/Diapositiva1.SVG"); /* ./_figs/2025PPT_ESP/Diapositiva1.svg */
   background-size: 100% auto !important; /* Ensures the entire image is visible : cover era la anterior */
   /*background-position: center top !important; */
   background-repeat: no-repeat;
@@ -861,7 +861,7 @@ class: animated fadeIn
 
 4. Plan de trabajo
 
-5. Reflexiones/Dudas/Instancia de conversación
+5. Consideraciones
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1358,7 +1358,7 @@ knitr::include_graphics("_figs/Figure_1_rates_and_SIR_by_fot_updated.png")
 
 <details open>
 <summary>📦 Ocultar</summary>
-```{r "figura2-paper1", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=150, message=F, warning=F}
+```{r "figura2-paper1", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=150, message=F, warning=F, out.height=350}
 women<- 
 magick::image_read("_figs/woman3.svg")|>
     magick::image_convert(format = "png")|>
@@ -1381,30 +1381,34 @@ women <- women |>
                        magick::image_info(women)$width,
                        magick::image_info(women)$height - 25)  )
 oh<- 
-magick::image_read("_figs/botellas2.svg")|>
+magick::image_read("_figs/bottles.svg")|>
     #magick::image_extent("120%x120%+30+40", gravity = "northwest")|>
     magick::image_convert(format = "png")|>
     magick::image_resize("70%")|>
     magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
     magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
     magick::image_transparent("white", fuzz = 15)|>      # un solo paso p/ blancos y grises claros
-  magick::image_border(color = "white", geometry = "0x20")|> 
+  magick::image_border(color = "white", geometry = "0x35")|> 
   magick::image_background("none")|>          # conserva transparencia
   magick::image_channel("gray")|> 
+  magick::image_background(color = "none")|>     # "none" = transparente
+  magick::image_transparent(color = "white")|>   # convierte blanco a transparente
+  magick::image_modulate(brightness = 60)|> 
   magick::image_annotate(
         text    = "x4.7",
-        size    = 50,
-        location = "+0+160",
+        size    = 45,
+        location = "+0+105",
         gravity = "south",
         font    = "Baloo Bhai 2",                   # usa otra fuente si no está instalada
         color   = "#4E5C68")
+
 res<- 
 magick::image_read("_figs/residencial.svg")|>
     magick::image_convert(format = "png")|>
     magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
     magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
     magick::image_transparent("white", fuzz = 15)|>      # un solo paso p/ blancos y grises claros
-  magick::image_border(color = "white", geometry = "15x25")|> 
+  magick::image_border(color = "white", geometry = "15x22")|> 
  magick::image_background("none")|>          # conserva transparencia
   magick::image_channel("gray")|> 
   magick::image_annotate(
@@ -1416,9 +1420,9 @@ magick::image_read("_figs/residencial.svg")|>
         color   = "#4E5C68")
 
 # Suponiendo que ya tienes: women, res, oh (como objetos magick)
-imgs <- c(women|> magick::image_resize("120%"), 
-          res, 
-          oh
+imgs <- c(women|> magick::image_resize("140%"), 
+          res|> magick::image_resize("90%"), 
+          oh|> magick::image_resize("110%")
           )
 # Obtener la altura máxima (opcional, pero útil si quieres alineación perfecta)
 # En vertical, lo más común es igualar el ANCHO para que queden alineadas
@@ -1435,13 +1439,12 @@ imgs_padded <- lapply(imgs, function(im) {
 # Combinar VERTICALMENTE (stack = TRUE)
 combined_image3_v <- magick::image_append(imgs_padded, stack = TRUE)
 # Opcional: recortar márgenes externos
-combined_image3_v <- magick::image_trim(combined_image3_v, fuzz = 20)
-
+combined_image3_v <- magick::image_trim(combined_image3_v, fuzz = 15)
+# Opcional: hacer transparente el fondo blanco remanente
 combined_image3_v_trim <-magick::image_trim(combined_image3_v, fuzz = 10)|>
   magick::image_transparent("white", fuzz = 15)
 # Mostrar
 print(combined_image3_v_trim, info = FALSE)
-
 ```
 
 </details>
@@ -1604,6 +1607,7 @@ print(flow_pred_transp, info = FALSE)
 
 <details>
 <summary>🔬 Ver descriptivos</summary>
+.small[
 
 **Tabla. Descriptivos**
 
@@ -1796,7 +1800,7 @@ knitr::kable(format = "html",
 
 <details open>
 <summary>📦 Ocultar</summary>
-.small[
+
 <ul>
   <li>Diferencias por tipo de plan:
     <ul>
@@ -1812,7 +1816,7 @@ knitr::kable(format = "html",
 ```{r "km-pre", echo=FALSE}
 km_death<- magick::image_read("_figs/_death_decomposition.png")
 ```
-```{r "km-aalen-joh", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=340, message=F, warning=F, fig.cap= "Muerte antes y después del reingreso: probabilidades acumuladas"}
+```{r "km-aalen-joh", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=320, message=F, warning=F}
 print(km_death, info = FALSE)
 ```
 </details>
@@ -1877,11 +1881,13 @@ denominador es la desviación estándar combinada de las dos proporciones, asumi
 
 Imagine que una persona comenzó un tratamiento en 2019, pero los registros no muestran cuándo terminó (si es que terminó). El sistema, al no tener esta información, calcula automáticamente el tiempo transcurrido desde el inicio hasta hoy, mostrando incorrectamente "5 años en tratamiento", cuando en realidad podría haber terminado antes.
 
-**Kaplan-Meier**
+**Kaplan-Meier= Muerte antes y después del reingreso: probabilidades acumuladas**
 “Partimos la mortalidad total según ocurra antes o después del reingreso. Estimamos ‘antes’ con CIF y ‘después’ como diferencia con KM. Las áreas suman la mortalidad total.”
 "Descomposición de la mortalidad: antes vs. después de la readmisión",
 "Aalen–Johansen (CIF) para ‘antes’; diferencia con KM para ‘después’",
 "Áreas apiladas = prob. total de muerte"
+
+(**no leer**): generalización/matriz del Kaplan-Meier adaptada para escenarios con riesgos competitivos o múltiples estados. Distingue entre censura informativa y no informativa.
 
 ---
 class: animated fadeIn
@@ -2123,6 +2129,13 @@ p <- ggplot(df, aes(y = etiqueta)) +
     panel.grid.major.y = element_blank(),
     panel.grid.minor   = element_blank(),
     axis.title.x       = element_text(margin = margin(t = 10))
+  )+
+   theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor   = element_blank(),
+    axis.title.x       = element_text(margin = margin(t = 10)),
+    plot.background = element_rect(fill = NA, color = NA),  # transparente
+    panel.background = element_rect(fill = NA, color = NA)  # transparente
   )
 print(p)
 # ggsave("_figs/hr_saturated_model.png", plot = p, width = 15, height = 6, dpi = 600)
@@ -2261,7 +2274,7 @@ class: center, middle, animated fadeIn
 
 .down_right[
 
-```{r echo=FALSE, include=F, fig.show='hide', dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=200}
+```{r echo=FALSE, include=F, fig.show='hide', dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=150}
 par(mar=c(0,0,0,0))
 par(bg=NA)
 image(qrcode::qr_code("https://agscl.github.io/DSPUCH/avance1.html"), asp=1, col=c("white", "black"), axes=FALSE, alpha =c(.0,1), 
@@ -2273,7 +2286,7 @@ magick::image_write(magick::image_transparent(magick::image_read("_figs/qrcode_a
 
 #"`r plot(qrcode::qr_code('https://fondecytacc.github.io/nDP/'))`" magick::image_write(magick::image_transparent(magick::image_read("_figs/qrcode.png"), "white"), path = "_figs/qrcode.png", format = "png")
 ```
-```{r echo=FALSE, dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=200}
+```{r echo=FALSE, dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=100}
 knitr::include_graphics("./_figs/qrcode_avance.png")
 
 ```
