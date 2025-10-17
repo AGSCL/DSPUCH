@@ -111,7 +111,7 @@ h1, h2, h3 {
 .remark-slide-content {
   background-color: var(--background-color);
   font-size: 1rem;
-  background-image: url("https://raw.githack.com/AGSCL/DSPUCH/2ea0a44ec27a2ba516eb8639289645f106917631/_figs/2025PPT_ESP/Diapositiva2.SVG"); /* ./_figs/2025PPT_ESP/Diapositiva2.svg */
+  background-image: url("https://raw.githack.com/AGSCL/DSPUCH/2ea0a44ec27a2ba516eb8639289645f106917631/_figs/2025PPT_ESP/Diapositiva2.SVG?sanitize=true"); /* ./_figs/2025PPT_ESP/Diapositiva2.svg */
   background-size: contain  !important;  /* Ensures the entire image is visible : cover era la anterior */
   background-position: center !important;
   background-repeat: no-repeat !important;
@@ -814,7 +814,7 @@ myBib <- ReadBib("libreria_generica_utf8.bib", check = FALSE,  .Encoding="UTF-8"
 
 .move-right[
 .line_space_15[ 
-## .text_60[Predicción del tiempo a la readmisión y mortalidad en adultos<br>en tratamiento por trastornos por uso de sustancias en Chile:<br>Un estudio de cohorte retrospectivo de 10 años]
+## .text_60[Predicción del tiempo a la readmisión y mortalidad en adultos<br>en tratamiento por trastornos por uso de sustancias en Chile:<br>Un estudio de cohorte retrospectivo de 11 años]
 ]
 
 .line_space_11[
@@ -877,11 +877,11 @@ A continuación mostraré la estructura de mi presentación:
 
 2. **Segundo Artículo**: Descriptivos, EPVs, One-hot encoding
 
-3. Otras dimensiones de **avance**: Coordinación, infraestructura reproducible, documentación
+3. Otras dimensiones de **avance**: Tiene relación con algunas otras cosas que he hecho y que considero contribuciones, que se detallarán más adelante
 
-4. **Plan de trabajo**: Rectificación a CEISH (OCT), Tiempo al evento por separado (OCT-NOV), Modelo multiestado (DIC-ENE), Redacción 2do artículo (FEB-MAR)   
+4. **Plan de trabajo**: Abarca lo que queda del 2025 y comienzos del 2026, de las acciones a seguir
 
-5. **Reflexiones/Dudas/Instancia de conversación**: Primer artículo y truncamiento administrativo, Factibilidad de estratificar por sustancia ppal. de ingreso, Predictores y categorías con <5%, 
+5. **Reflexiones/Dudas/Instancia de conversación**
 
 ---
 class: animated fadeIn 
@@ -903,11 +903,11 @@ class: animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-A continuación mostraré la estructura de mi presentación: 
 
+El **objetivo principal**:
 Evaluar el rol predictivo de la duración de la estadía y el resultado del tratamiento inicial, junto con otros factores pronósticos y predictivos de predisposición, necesidad percibida y facilitadores de atención, en la predicción del riesgo y el tiempo transcurrido a la primera readmisión y mortalidad por todas las causas en pacientes entre 18 y 64 años admitidos a tratamientos por TUS en Chile, desde 2010 a 2020.
 
-**CLAVE**= Cambio a 2020 por dificultades para obtener información de fallecimientos en 2021 y 2022.
+El cambio **CLAVE** fue pasar de 2010 a 2022 y restringirlo a 2020 por dificultades para obtener información de fallecimientos.
 
 ---
 class: animated fadeIn 
@@ -1136,7 +1136,9 @@ width = 400, height = 230)
 - **Ajuste**= SEXO + tramos de edad (18–29, 30–44, 45–59, 60+). EL formato **Lexis** permite que los individuos a medida que van siendo seguidos se vayan desplazando por el calendario o los tramos de edad. 
 - eso permite calcular muertes esperadas con la tasa adecuada para cada tramo. **Por ejemplo**, la mujer ID28 transita del 2014  de un tramo de edad (18-29) al otro (30-44) 
 
-- (**No leer**)La lógica de esto es que la gente que va avanzando en el periodo de seguimiento, por eso la configuración hasta 75 años al seguimiento (a los 10 años). Pero todo bien. #load("G:/My Drive/Alvacast/SISTRAT 2023/data/20241015_out/mort_2025_08_21.Rdata"); clean_df |> filter(disch_age_rec>65) |> select(hash_key,  adm_date_rec2, disch_date_rec6, disch_age_rec) |> arrange(desc(disch_age_rec))
+- (**No leer**)~~La lógica de esto es que la gente que va avanzando en el periodo de seguimiento, por eso la configuración hasta 75 años al seguimiento (a los 10 años). Pero todo bien. #load("G:/My Drive/Alvacast/SISTRAT 2023/data/20241015_out/mort_2025_08_21.Rdata"); clean_df |> filter(disch_age_rec>65) |> select(hash_key,  adm_date_rec2, disch_date_rec6, disch_age_rec) |> arrange(desc(disch_age_rec))~~
+
+Primer tratamiento, va del **seguimiento** fallecimiento, o al 31 de diciembre 2020, lo que venga primero.
 
 - **Resultados**: fallecimiento por todas las causas, de acuerdo a códigos CIE 10 (Clasificación Internacional de Enfermedades, 10.ª Revisión).
   + Por familia de causas: principalmente por capítulos.
@@ -1228,10 +1230,25 @@ image3 <- magick::image_read("_figs/aging.webp")|>
     magick::image_trim()|>
     magick::image_resize("50%")
 
+image4 <- magick::image_read("_figs/aging.webp")|>
+    magick::image_convert("png")|>                       # asegura canal alfa
+    magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
+    magick::image_transparent("white", fuzz = 90)|>      # un solo paso p/ blancos y grises claros
+    magick::image_annotate(
+        text    = "x3.6 vs.\npoblación\ngeneral",
+        size    = 120,
+        gravity = "center",
+        font    = "Baloo Bhai 2 Bold",
+        #font    = "Baloo Bhai 2",                   # usa otra fuente si no está instalada
+        color   = "darkred")|>
+    magick::image_trim()
+
 combined_image <- magick::image_append(c(
-    image1,
+    image1|> magick::image_resize("90%"),
     magick::image_read("_figs/plot2.png")|> magick::image_resize("90%"),
-    image3
+    image3,
+    image4
+    
 ), stack = FALSE)|>
   magick::image_transparent("white", fuzz = 15)
 ```
@@ -1360,7 +1377,7 @@ knitr::include_graphics("_figs/Figure_1_rates_and_SIR_by_fot_updated.png")
 <summary>📦 Ocultar</summary>
 ```{r "figura2-paper1", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=150, message=F, warning=F, out.height=350}
 women<- 
-magick::image_read("_figs/woman3.svg")|>
+magick::image_read("_figs/mujer2.svg")|>
     magick::image_convert(format = "png")|>
     magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
     magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
@@ -1370,8 +1387,8 @@ magick::image_read("_figs/woman3.svg")|>
   magick::image_channel("gray")|> 
   magick::image_annotate(
         text    = "x5.5",
-        size    = 60,
-        location = "+0+135",
+        size    = 50,
+        location = "+0+310",
         gravity = "south",
         font    = "Baloo Bhai 2",                   # usa otra fuente si no está instalada
         color   = "#4E5C68")
@@ -1381,7 +1398,7 @@ women <- women |>
                        magick::image_info(women)$width,
                        magick::image_info(women)$height - 25)  )
 oh<- 
-magick::image_read("_figs/bottles.svg")|>
+magick::image_read("_figs/alcohol.svg")|>
     #magick::image_extent("120%x120%+30+40", gravity = "northwest")|>
     magick::image_convert(format = "png")|>
     magick::image_resize("70%")|>
@@ -1396,14 +1413,14 @@ magick::image_read("_figs/bottles.svg")|>
   magick::image_modulate(brightness = 60)|> 
   magick::image_annotate(
         text    = "x4.7",
-        size    = 45,
-        location = "+0+105",
+        size    = 43,
+        location = "+0+165",
         gravity = "south",
         font    = "Baloo Bhai 2",                   # usa otra fuente si no está instalada
         color   = "#4E5C68")
 
 res<- 
-magick::image_read("_figs/residencial.svg")|>
+magick::image_read("_figs/casa.svg")|>
     magick::image_convert(format = "png")|>
     magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
     magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
@@ -1420,7 +1437,7 @@ magick::image_read("_figs/residencial.svg")|>
         color   = "#4E5C68")
 
 # Suponiendo que ya tienes: women, res, oh (como objetos magick)
-imgs <- c(women|> magick::image_resize("140%"), 
+imgs <- c(women|> magick::image_resize("100%"), 
           res|> magick::image_resize("90%"), 
           oh|> magick::image_resize("110%")
           )
@@ -2200,13 +2217,21 @@ print(magick::image_read("_figs/codebook.png"), info = FALSE)
 class: animated fadeIn 
 ## Comentarios finales
 
+.pull-left[
+
 ### Plan de trabajo
+```{r plan, echo=F, echo=FALSE, fig.align="left", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=350, out.height=200}
+planificacion <- magick::image_read("_figs/planificacion (2).svg")|>
+    magick::image_convert(format = "png")|>   
+    magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
+    magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
+    magick::image_transparent("white", fuzz = 15)|>      # un solo paso p/ blancos y grises claros
+    magick::image_background("none")          # conserva transparencia
+print(planificacion, info="none")
+```
+]
 
-- Entrega **borrador segundo artículo**: febrero-marzo 2025
-
-- **Segundo avance**: marzo-abril 2024
-
-- **Examen privado**: abril-mayo 2025
+.pull-right[
 
 ### Reflexiones
 
@@ -2215,7 +2240,7 @@ class: animated fadeIn
 - Categorías con recuentos escasos
 
 - Capacidad predictiva, otras variables
-
+]
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -2260,7 +2285,7 @@ En particular, el estrato de alcohol presenta frecuencias muy bajas de eventos e
 ---
 class: center, middle, animated fadeIn
 
-# Agradezco la instancia de preguntas y feedback
+# Agradezco la instancia de preguntas y retroalimentación
 
 <br>
   

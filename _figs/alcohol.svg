@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="280" height="280" role="img" aria-label="Concepto de alcohol: copa y botella">
+  <!-- Copa (izquierda) -->
+  <path d="M20 60 h80 a26 26 0 0 1 -26 26 h-28 a26 26 0 0 1 -26 -26 Z
+           M56 86 v38 h-14 v10 h36 v-10 h-14 V86 Z
+           M30 144 h72 v14 H30 Z"
+        fill="#777777"/>
+  
+  <!-- Botella (derecha) -->
+  <path d="M150 20 h20 v20 c0 6 -4 8 -4 14 v8 h-12 v-8 c0 -6 -4 -8 -4 -14 V20 Z
+           M146 62 h28 v95 a18 18 0 0 1 -18 18 h-10 a18 18 0 0 1 -18 -18 V62 Z"
+        fill="#555555"/>
+</svg>

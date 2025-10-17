@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 180" width="300" height="270" role="img" aria-label="Casa conceptual">
+  <!-- Techo -->
+  <path d="M30 80 L100 30 L170 80 Z" fill="#666666"/>
+  
+  <!-- Cuerpo de la casa -->
+  <rect x="45" y="80" width="110" height="80" fill="#808080"/>
+</svg>

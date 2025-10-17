@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" width="300" height="360" role="img" aria-label="Silueta de mujer de los hombros hacia arriba">
+  <!-- Silueta cabeza + cabello -->
+  <path d="M100 24
+           C72 24 54 42 50 72
+           C42 94 50 120 50 134
+           C30 140 18 158 18 174
+           L182 174
+           C182 158 170 140 150 134
+           C150 120 158 94 150 72
+           C146 42 128 24 100 24 Z"
+        fill="#000"/>
+
+  <!-- Cuello -->
+  <path d="M80 130 L76 158 L124 158 L120 130 Z" fill="#000"/>
+
+  <!-- Escote en V (marca femenina, simple) -->
+  <path d="M88 144 L100 156 L112 144" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Ajuste hombros suavizado -->
+  <path d="M24 174 Q 60 206 100 206 Q 140 206 176 174" fill="#000"/>
+</svg>
