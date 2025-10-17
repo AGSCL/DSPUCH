@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Cinta roja y blanca con silueta de tiza</title>
+  <defs>
+    <!-- Patrón de franjas diagonales -->
+    <pattern id="rojoblanco" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="20" height="20" fill="white"></rect>
+      <rect width="10" height="20" fill="#D62828"></rect>
+    </pattern>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="100%" height="100%" fill="white"></rect>
+
+  <!-- Cinta superior -->
+  <rect x="20" y="100" width="216" height="28" rx="6" fill="url(#rojoblanco)" stroke="#111" stroke-width="3" transform="rotate(-10 128 114)"></rect>
+
+  <!-- Cinta inferior -->
+  <rect x="20" y="130" width="216" height="28" rx="6" fill="url(#rojoblanco)" stroke="#111" stroke-width="3" transform="rotate(10 128 144)"></rect>
+
+  <!-- Silueta de tiza (minimalista) -->
+  <g fill="none" stroke="#F5F5F5" stroke-width="6" stroke-dasharray="10 6" stroke-linecap="round" stroke-linejoin="round" transform="translate(0,10)">
+    <!-- cabeza -->
+    <circle cx="118" cy="72" r="10"></circle>
+    <!-- cuerpo y extremidades -->
+    <polyline points="118,82 118,110 102,122 110,136 126,124 140,144 154,136 140,114 156,100 144,90"></polyline>
+  </g>
+</svg>

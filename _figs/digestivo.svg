@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Estómago con esófago</title>
+  <!-- Esófago -->
+  <path d="M130 20
+           C130 50, 140 70, 140 100" fill="none" stroke="#333333" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+  <!-- Cuerpo del estómago -->
+  <path d="M140 100
+           C150 90, 190 100, 190 140
+           C190 180, 150 200, 110 200
+           C80 200, 60 180, 60 160
+           C60 140, 80 130, 100 140
+           C120 150, 140 150, 150 130
+           C155 120, 150 110, 140 100 Z" fill="#E15554" stroke="#333333" stroke-width="6" stroke-linejoin="round"></path>
+</svg>

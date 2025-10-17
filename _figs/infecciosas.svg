@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" width="400" height="300">
+  <title>Virus y Bacterias</title>
+  
+  <rect width="100%" height="100%" fill="#ffffff" />
+
+  <g fill="#4CAF50" stroke="#388E3C" stroke-width="0.5">
+    <rect x="20" y="30" width="35" height="12" rx="6" />
+    
+    <g transform="translate(140 100) rotate(-25)">
+      <rect width="30" height="10" rx="5" fill="#2196F3"/>
+      <path d="M 30 5 Q 45 -5 60 8" stroke="#1976D2" fill="none" stroke-width="1"/>
+    </g>
+    
+    <circle cx="50" cy="110" r="6" fill="#4CAF50"/>
+    <circle cx="62" cy="113" r="6" fill="#4CAF50"/>
+    <circle cx="75" cy="110" r="6" fill="#4CAF50"/>
+  </g>
+
+  <g fill="#9C27B0" stroke="#7B1FA2" stroke-width="0.5">
+    <g transform="translate(100 30)">
+      <path d="M 0 0 l 10 5 v 12 l -10 5 l -10 -5 v -12 z" /> <rect x="-1.5" y="22" width="3" height="10" /> <path d="M -1.5 32 l -10 8 M 1.5 32 l 10 8 M 0 32 l 0 10" stroke-width="1"/> </g>
+    
+    <g transform="translate(160 40)">
+      <circle r="12" fill="#E91E63" stroke="#C2185B"/>
+      <g stroke="#C2185B" stroke-width="1">
+        <line x1="0" y1="0" x2="15" y2="0" transform="rotate(0)"/>
+        <line x1="0" y1="0" x2="15" y2="0" transform="rotate(45)"/>
+        <line x1="0" y1="0" x2="15" y2="0" transform="rotate(90)"/>
+        <line x1="0" y1="0" x2="15" y2="0" transform="rotate(135)"/>
+        <line x1="0" y1="0" x2="15" y2="0" transform="rotate(180)"/>
+        <line x1="0" y1="0" x2="15" y2="0" transform="rotate(225)"/>
+        <line x1="0" y1="0" x2="15" y2="0" transform="rotate(270)"/>
+        <line x1="0" y1="0" x2="15" y2="0" transform="rotate(315)"/>
+      </g>
+    </g>
+
+    <g transform="translate(30 80)">
+       <circle r="10" fill="#9C27B0"/>
+       <circle cx="-5" cy="-5" r="2" fill="#BA68C8"/>
+       <circle cx="4" cy="-3" r="1.5" fill="#BA68C8"/>
+       <circle cx="3" cy="5" r="2.5" fill="#BA68C8"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Cinta de advertencia - Escena del crimen</title>
+  <defs>
+    <!-- Patrón de franjas diagonales rojas y blancas -->
+    <pattern id="rojoblanco" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="20" height="20" fill="white"></rect>
+      <rect width="10" height="20" fill="#D62828"></rect>
+    </pattern>
+  </defs>
+
+  <!-- Cinta superior -->
+  <rect x="20" y="100" width="216" height="28" rx="6" fill="url(#rojoblanco)" stroke="#111" stroke-width="3" transform="rotate(-10 128 114)"></rect>
+
+  <!-- Cinta inferior -->
+  <rect x="20" y="130" width="216" height="28" rx="6" fill="url(#rojoblanco)" stroke="#111" stroke-width="3" transform="rotate(10 128 144)"></rect>
+
+  <!-- Texto -->
+  <text x="40" y="120" font-family="Arial Black, Arial" font-size="16" font-weight="bold" fill="#111" transform="rotate(-10 128 114)">
+    ESCENA DEL CRIMEN
+  </text>
+</svg>

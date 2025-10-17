@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Awareness Ribbon (Suicide Prevention)</title>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- brazo izquierdo (púrpura) -->
+    <path d="M128 32
+             C 92 32 72 64 88 96
+             C104 128 144 160 176 208" stroke="#6A1B9A" stroke-width="20"></path>
+    <!-- brazo derecho (turquesa) -->
+    <path d="M128 32
+             C164 32 184 64 168 96
+             C152 128 112 160 80 208" stroke="#00A3A3" stroke-width="20"></path>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <title>Ícono mujer baño</title>
+
+  <!-- Cabeza -->
+  <circle cx="128" cy="48" r="20" fill="#4E5C68"></circle>
+
+  <!-- Cuerpo / vestido -->
+  <path d="M88 90 
+           L168 90 
+           L188 160 
+           L68 160 
+           Z" fill="#4E5C68"></path>
+
+  <!-- Piernas -->
+  <rect x="88" y="160" width="24" height="60" fill="#4E5C68"></rect>
+  <rect x="144" y="160" width="24" height="60" fill="#4E5C68"></rect>
+
+  <!-- Brazos -->
+  <rect x="58" y="100" width="20" height="50" fill="#4E5C68" rx="5"></rect>
+  <rect x="178" y="100" width="20" height="50" fill="#4E5C68" rx="5"></rect>
+</svg>
