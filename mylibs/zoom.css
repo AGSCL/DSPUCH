@@ -1,0 +1,60 @@
+<style>
+  :root {
+    --zoom-scale: 1.8;
+    --zoom-x: 0.5;
+    --zoom-y: 0.5;
+  }
+
+.remark-slide-scaler {
+  transition: transform 220ms ease;
+}
+
+body.zoom-mode .remark-slide-scaler {
+  transform-origin: calc(var(--zoom-x) * 100%) calc(var(--zoom-y) * 100%);
+  transform: scale(var(--zoom-scale));
+  cursor: zoom-out;
+}
+
+body.zoom-mode .remark-slide-content {
+  overflow: auto !important;
+}
+</style>
+  
+  <script>
+  (function () {
+    const root = document.documentElement;
+    const body = document.body;
+    
+    function toggleZoom(event) {
+      const scaler = event.target.closest('.remark-slide-scaler');
+      if (!scaler) return;
+      
+      if (!body.classList.contains('zoom-mode')) {
+        const rect = scaler.getBoundingClientRect();
+        const zoomX = (event.clientX - rect.left) / rect.width;
+        const zoomY = (event.clientY - rect.top) / rect.height;
+        
+        root.style.setProperty('--zoom-x', zoomX);
+        root.style.setProperty('--zoom-y', zoomY);
+        body.classList.add('zoom-mode');
+      } else {
+        body.classList.remove('zoom-mode');
+      }
+    }
+    
+    document.addEventListener('dblclick', toggleZoom);
+    
+    document.addEventListener('keyup', event => {
+      if (event.key === 'Escape') {
+        body.classList.remove('zoom-mode');
+      }
+    });
+    
+    document.addEventListener('click', event => {
+      if (body.classList.contains('zoom-mode') &&
+          !event.target.closest('.remark-slide-scaler')) {
+        body.classList.remove('zoom-mode');
+      }
+    });
+  })();
+</script>
