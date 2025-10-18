@@ -1141,22 +1141,20 @@ width = 400, height = 230)
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- El primer artículo, enviado a la revista Addiction, evalúa el exceso de mortalidad por todas las causas en pacientes adultos en tratamiento por TUS en Chile entre 2010 y 2020.
-
+- El primer artículo, enviado a la revista Addiction, evalúa el exceso de mortalidad en pacientes adultos en tratamiento por TUS en Chile de 2010 a 2020. 
 - **Ajuste**= SEXO + tramos de edad (18–29, 30–44, 45–59, 60+). EL formato **Lexis** permite que los individuos a medida que van siendo seguidos se vayan desplazando por el calendario o los tramos de edad. 
 - eso permite calcular muertes esperadas con la tasa adecuada para cada tramo. **Por ejemplo**, la mujer ID28 transita del 2014  de un tramo de edad (18-29) al otro (30-44) 
-
 - (**No leer**)~~La lógica de esto es que la gente que va avanzando en el periodo de seguimiento, por eso la configuración hasta 75 años al seguimiento (a los 10 años). Pero todo bien. #load("G:/My Drive/Alvacast/SISTRAT 2023/data/20241015_out/mort_2025_08_21.Rdata"); clean_df |> filter(disch_age_rec>65) |> select(hash_key,  adm_date_rec2, disch_date_rec6, disch_age_rec) |> arrange(desc(disch_age_rec))~~
 
 Respecto al **seguimiento**, va desde el Primer tratamiento al fallecimiento o al 31 de diciembre 2020, lo que venga primero.
 
-- **Resultados**: fallecimiento por todas las causas, de acuerdo a códigos CIE 10 (Clasificación Internacional de Enfermedades, 10.ª Revisión).
+- **Desenlace**: fallecimiento por todas las causas, de acuerdo a códigos CIE 10 (Clasificación Internacional de Enfermedades, 10.ª Revisión).
   + Por familia de causas: principalmente por capítulos.
     &nbsp;&nbsp;- A00–B99 Infecciosas y parasitarias  
     &nbsp;&nbsp;- C00–C97 Neoplasias malignas  
     &nbsp;&nbsp;- E00–E90 Endocrinas y metabólicas  
     &nbsp;&nbsp;- F00–F99 Mentales y del comportamiento  
-    &nbsp;&nbsp;x|- G00–G99 Del sistema nervioso  
+    &nbsp;&nbsp;- G00–G99 Del sistema nervioso  
     &nbsp;&nbsp;- I00–I99 Del sistema circulatorio  
     &nbsp;&nbsp;- J00–J99 Del sistema respiratorio  
     &nbsp;&nbsp;- K00–K93 Del sistema digestivo  
@@ -1763,8 +1761,8 @@ print(km_death, info = FALSE)
 - La subpoblacioń seleccionada, se compone de 88.504 pacientes adultos (18-64 años) con TUS que iniciaron un primer tratamiento entre 2010 y 2020.
 - Seguimiento hasta 31 de diciembre de 2020.
 **Tiempos a eventos**  
-- **Mortalidad desde el egreso**: **54.2 meses /~4 años y medio**
-- **Readmisión desde el egreso**: **41.0 meses /~3 años y medio**
+- **Mortalidad desde el egreso**:**mediana de ~4 años y medio/54.3[27.0,83.9]**
+- **Readmisión desde el egreso**:**mediana de ~3 años y medio/41.0[15.0,73.0]**
 - % perdidos (sólo variables de interés)= 6,1%; si incluimos más variables (33,3%)
 **Descriptivos**
 - **Evento**= sin readm, sin mortalidad= 66,231(~75%); sólo Fallecimiento= 3,203(3.6%); sólo Readm= 18,326(20.7%); Ambos= 744(0.8%)
@@ -1902,7 +1900,6 @@ knitr::kable(format = "html",
       <li>Severidad</li>
       <li>Convivencia</li>
       <li>Tiempo en tratamiento</li>
-      <li>Pobreza multidimensional</li>
     </ul>
   </li>
   <li>Categorías escasas</li>
@@ -1957,7 +1954,7 @@ magick::image_read("_figs/edad.png")|>
 tr_length<- 
 magick::image_read("_figs/calendario.svg")|>
     magick::image_convert(format = "png")|>
-    magick::image_resize("70%")|>
+    #magick::image_resize("70%")|>
     magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
     magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
     magick::image_transparent("white", fuzz = 15)|>      # un solo paso p/ blancos y grises claros
@@ -1970,7 +1967,7 @@ magick::image_read("_figs/calendario.svg")|>
 imgs2 <- c(empleo,
           sus|> magick::image_resize("30%"),
           edad|> magick::image_resize("30%"),
-          tr_length|> magick::image_resize("200%")
+          tr_length|> magick::image_resize("140%")
           )
 # Obtener la altura máxima (opcional, pero útil si quieres alineación perfecta)
 # En vertical, lo más común es igualar el ANCHO para que queden alineadas
@@ -2001,14 +1998,15 @@ print(combined_image5_v, info = FALSE)
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-**Diferencias notables entre planes de tratamiento (SMD >0.3)**
+**Diferencias notables entre planes de tratamiento(SMD >0.3)**
 * Empleo: alto en PG-pab (65%); muy bajo en M-pr(10%) y PG-pr(18%)(SMD≈0.79).
-* Sustancia: RESIDENCIALES, PastaBase y frecuencia uso diario vs. BASICO:alcohol 44%(SMD=.47-.55).
+* Sustancia: RESIDENCIALES, PastaBase(~63%), policonsumo(82%) y frecuencia uso diario(~75%) vs. BASICO:alcohol 44%/64%/23%(SMD=.47-.55).
 * Edad: Amb básico, 1/4 entre 40 y 65 años; sólo mujeres, el que menos: 16%
 * Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-pab max “riesgoso”(45%)(SMD=0.48).
-* Convivencia(SMD=0.47): M-pai+pareja/hijos(67%); PG-pr+fam.origen(51%) y solos(16%)
-* Abandono= 53% total; + PG-PAB (58.3%) y (-) PG-PR (39.0)
-* Tiempo en tto= 5,6 meses mediana (IQR= 3-10); <90 días= M-PR=38%, PG-PR=31%
+* Convivencia(SMD=0.47): M-pai+pareja/hijos(67%vs44%,solos5%vs10%); PG-pr+fam.origen(51%vs38%) y solos(16%vs10%)
+* Vivienda: residencial m(18.4%)/pg(20%) + alto; bajo= PAB(7.4%)
+* Abandono= +PG-PAB(58.3%vs.53%total)y(-)PG-PR (39%)
+* Tiempo en tto=5,6 meses mediana; M-PR=6.5/PG-PAB=4.4;<90 días=menor:M-PR & PG-PAI=20%, mayor:PAB=38%
 * Pobreza multi= Amb. intensivos= (-) pobreza comuna res; PAB= + pobreza.
 
 **<5% del conjunto de datos**
@@ -2297,7 +2295,7 @@ print(p)
 * Por ejemplo, en modalidades m-pr y m-pai, tanto para alcohol como para otras sustancias, la cantidad de eventos es muy baja (tanto readmisión como mortalidad)
 
 **Exploración modelos cox saturado estratificando riesgo basal, seguimiento posterior al tto.**
-Para explorar asociaciones entre predictores de interés y riesgos de readmisión y mortalidad, se generaron modelos saturados de combinaciones lineales-no lineales de predictores y tiempos al eventos, los que se resumen en esta figura (estratificado por mortalidad).
+Para explorar asociaciones entre predictores de interés y riesgos de readmisión y mortalidad, se generaron modelos saturados de combinaciones lineales-no lineales de predictores y tiempos al eventos, los que se resumen en esta figura (estratificado por modalidad).
 * Alcohol como sus. principal ↑ mortalidad (HR≈3.43).
 * Alta mortandad tras “alta administrativa” (HR≈6.16).
 * Completar tratamiento ↓ readmisión (HR≈0.79) y ↓ mortalidad (HR≈0.72).
@@ -2350,6 +2348,11 @@ class: animated fadeIn
 .pull-left[
 
 ### Plan de trabajo
+
+- Fase 1: Modelos predictivos separados (Oct–Nov)
+
+- Fase 2: Modelo multiestado (Dic–Ene)
+
 ```{r plan, echo=F, echo=FALSE, fig.align="left", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=350, out.height=200}
 planificacion <- magick::image_read("_figs/planificacion (2).svg")|>
     magick::image_convert(format = "png")|>   
@@ -2378,7 +2381,7 @@ print(planificacion, info="none")
 *#_#_#_#_#_#_#_#_#_#_
 
 **Fase 1: Modelos predictivos separados (Oct–Nov)**
-- ¿12?/¿24? modelos de Cox (3/5 modalidades × 2 tipos de sustancia × 2 desenlaces), lo otro es estratificar el riesgo basal.
+- Cox.
 
 - Validación: AICc, Brier Score [**Calibración**= ¿coincide la P() predicha con la % real de readm/mortalidad?, Prom errores en el tiempo ≤ 0.10], Uno-C [**Discriminación**= Ordenando por riesgo: ¿los cpm mayor riesgo predicho readmiten/fallecen antes?,>0.8,  ambos bootstrap 500× IC 95%], net benefit [umbral de probabilidad clínico] 
 
@@ -2397,7 +2400,7 @@ print(planificacion, info="none")
 **"La mortalidad en esta población no es inevitable: hay un exceso de riesgo frente a la población general de misma edad y sexo. Predecirla no es solo una tarea técnica, es una oportunidad de intervención."**
 
 **Sobre estratificación**
-- 5 (modalidad) x 2 (sus.principal-licita/ilícita) x 2 (resultado tto.) x 2 (resultados post-tto.) = 40
+- 5 (modalidad) x 2 (sus.principal-licita/ilícita) x 2 (resultado tto.) x 2 (desenlaces post-tto.) = 40, lo otro es estratificar el riesgo basal
 - Conflicto modalidad con sexo (M vs. PG)
 Si bien reconocemos la importancia clínica de diferenciar entre sustancias lícitas e ilícitas —especialmente dada la heterogeneidad en perfiles de riesgo mostrada en nuestro primer artículo (SMR=4.74 para alcohol vs. 2.68 para ilícitas)—, realizar una estratificación completa que implique re-estimar, validar y calibrar modelos predictivos independientes en cada subgrupo conlleva importantes desafíos. 
 
