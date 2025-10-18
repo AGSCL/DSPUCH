@@ -1854,61 +1854,53 @@ print(km_death, info = FALSE)
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
+- Dado que el objetivo principal del estudio es desarrollar un modelo predictivo de readmisión y mortalidad, 
+- Se busca encontrar el conjunto de variables con mejor desempeño en términos de capacidad predictiva, validez, calibración y discriminación.
+- los predictores se agruparon teóricamente de acuerdo al modelo Andrersen de utilización de servicios de salud, que agrupa a factores **Predisponentes** (que influyen en que uno asista a tratamiento , ej., edad, sexo); **Necesidad** (Determinan directamente la demanda, como severidad TUS), **Habilitadores**, rel. con dinámicas de tto. (ej., tiempo en tto.)
+- Por último, se incluyeron variables relacionadas con la **modalidad** de tratamiento (residencial vs. ambulatorio), dado que la evidencia sugiere que la modalidad influye en los resultados post-tratamiento.
 
-- El enfoque predictivo para identificar el conjunto de variables con mejor desempeño en términos de capacidad predictiva, validez, calibración y discriminación
-
-- "Perdidos (w/o other variables): 6.1%; total = 88,695"
+**Totales**
+- 88.504 pacientes adultos (18-64 años) con TUS que iniciaron un primer tratamiento entre 2010 y 2020.
+- Seguimiento hasta 31 de diciembre de 2021.
 **Tiempos a eventos (mediana [IQR])**  
-- **Mortalidad desde alta**: **54.2 meses** [27.0–83.9]  
-- **Readmisión desde alta**: **41.0 meses** [15.0–73.0]  
-
+- **Mortalidad desde alta**: **54.2 meses /~4 años y medio**
+- **Readmisión desde alta**: **41.0 meses /~3 años y medio** [15.0–73.0]  
+- % perdidos (sólo variables de interés)= 6,1%; si incluimos más variables (33,3%)
 **Descriptivos**
-- **Evento**= sin readm, sin mortalidad= 66,361(~75%); sólo Fallecimiento= 3,239(3.7%); sólo Readm= 18,347(20.7%); Ambos= 748(0.8%)
-- **Figura KM** A ~11 años desde el egreso, la mortalidad acumulada llega a ≈9%. La mayoría de las muertes ocurre antes de cualquier readmisión (área celeste). La porción después de la readmisión (área ocre) crece con el tiempo y hacia el final representa ~20–30% del total.
-- 103.074 pacientes con edades entre 18 y 64 han cursado tratamientos, 31.355 presentan al menos una readmisión (30%) y 4.226 (4,1%)-3987 fallecieron durante el periodo de estudio [TESISvs.AHORA]
+- **Evento**= sin readm, sin mortalidad= 66,231(~75%); sólo Fallecimiento= 3,203(3.6%); sólo Readm= 18,326(20.7%); Ambos= 744(0.8%)
 
-* Fuerte sesgo por sexo: 81–94% hombres.
+**Diferencias notables entre planes de tratamiento (SMD >0.3)**
+* Empleo: alto en PG-pab (65%); muy bajo en M-pr(10%) y PG-pr(18%)(SMD≈0.79).
+* Sustancia: Residencial, P.base y uso diario vs. básico:alcohol 44%(SMD=.47-.55).
 * Edad: Amb básico, 1/4 entre 40 y 65 años; sólo mujeres, el que menos: 16%
-* Abandono >50% en todos; egreso: res. GP 32% e intensivo 30%.
-* Residencial: pasta base y uso diario; básico: alcohol 44%.
-* Sin hogar: 14% en residencial GP vs 1–3% en otros.
-* Empleo: 10% mujeres-resid., 18% residencial GP; 65% en básico GP.
-* Violencia y abuso más altos en tto. sólo-mujeres (40–45% y 6–8%).
-* Sin incongruencias sexo-gestación en diagnósticos obstétricos.
-* Convivencia GP: ~51% con pareja/hijos o familia de origen.
-* Mujeres-resid.: mediana 34 años y 28% ingreso espontáneo.
+* Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-pab max “riesgoso”(45%)(SMD=0.48).
+* Convivencia(SMD=0.47): M-pai+pareja/hijos(67%); PG-pr+fam.origen(51%) y solos(16%)
+* Abandono= 53% total; + PG-PAB (58.3%) y (-) PG-PR (39.0)
+* Tiempo en tto= 5,6 meses mediana (IQR= 3-10); <90 días= M-PR=38%, PG-PR=31%
+* Pobreza multi= Amb. intensivos= (-) pobreza comuna res; PAB= + pobreza.
 
 **<5% del conjunto de datos**
-- **Situación habitacional**
-  - Asentamiento ilegal_951(1.1)
-  - Otros_2,384 (2.8)
-- Nacionalidad, Otra (vs. Chile)_569(0.6)
-- Comorbilidad psiquiátrica (ICD-10)
-  - Trastornos psicóticos (F2)_1,361(1.5)
-  - Ansiedad y relacionados con estrés (F4–F5)_2,090(2.4)
-  - Neurocognitivos y del neurodesarrollo(F0,F7–F9)_3,002(3.4)
-- Sustancia principal (recodificada)
-  - Otras_1,603(1.8)
-- Diagnósticos físicos (agrupados)
-  - Otras condiciones médicas_3,966(4.5)
-  - Enfermedades de órganos/sistemas_2,487(2.8)
-  - Lesiones y secuelas_1,345(1.5)
-  - Enfermedades infecciosas_709(0.8)
-- Resultado del tratamiento
-  - Alta administrativa–razones administrativas_1,325(1.5)
-  - **Otro_216(0.2)**
-- Derivado por tribunal a tratamiento=1,669(2.0)
 - Modalidad de tratamiento=m-pr_3,548(4.0)
-
-**Descriptivos**
-- SMD = (p1 - p2) / √[ (p1(1 - p1) + p2(1 - p2)) / 2 ]
-denominador es la desviación estándar combinada de las dos proporciones, asumiendo varianzas binomiales𝑝(1−𝑝)
+- Situación habitacional= Asentamiento ilegal_951(1.1)/Otros_2,384 (2.8)
+- Sustancia principal (recodificada)= Otras_1,603(1.8)
+- Resultado del tratamiento= Alta administrativa–razones administrativas_1,325(1.5)
+  - **Otro_216(0.2)**
 
 **Casos truncados**= Personas con tratamientos de duración indeterminada debido a falta de información sobre su finalización.
 
-Imagine que una persona comenzó un tratamiento en 2019, pero los registros no muestran cuándo terminó (si es que terminó). El sistema, al no tener esta información, calcula automáticamente el tiempo transcurrido desde el inicio hasta hoy, mostrando incorrectamente "5 años en tratamiento", cuando en realidad podría haber terminado antes.
+**Kaplan-Meier/Estimador Aalen-Johansen= Muerte antes y después del reingreso: probabilidades acumuladas**
+- **Descomposición** A ~11 años desde el egreso, la mortalidad acumulada llega a ≈9%. La mayoría de las muertes ocurre antes de cualquier readmisión (área celeste). La porción después de la re-admisión (área ocre) crece con el tiempo y hacia el final representa ~20–30% del total.
 
-**Kaplan-Meier= Muerte antes y después del reingreso: probabilidades acumuladas**
+**======AUX= no leer======**
+**Descriptivos**
+~~**Anterior**103.074 pacientes **[no leer]**con edades entre 18 y 64 han cursado tratamientos, 31.355 presentan al menos una readmisión (30%) y 4.226 (4,1%)-3987 fallecieron durante el periodo de estudio[TESISvs.AHORA]~~
+
+- SMD = (p1 - p2) / √[ (p1(1 - p1) + p2(1 - p2)) / 2 ]
+denominador es la desviación estándar combinada de las dos proporciones, asumiendo varianzas binomiales𝑝(1−𝑝)
+
+**Casos truncados**
+Una persona empieza tratamiento en 2019, pero los registros no muestran cuándo y cómo terminó. El sistema, calcula automáticamente el tiempo transcurrido mostrando incorrectamente "5 años en tratamiento", cuando en realidad podría haber terminado antes.
+
 “Partimos la mortalidad total según ocurra antes o después del reingreso. Estimamos ‘antes’ con CIF y ‘después’ como diferencia con KM. Las áreas suman la mortalidad total.”
 "Descomposición de la mortalidad: antes vs. después de la readmisión",
 "Aalen–Johansen (CIF) para ‘antes’; diferencia con KM para ‘después’",
@@ -2294,6 +2286,10 @@ En particular, el estrato de alcohol presenta frecuencias muy bajas de eventos e
 - categorías con baja prevalencia pero relevancia clínica (ej. vivienda informal, violencia doméstica)
 
 - Un modelo predictivo y los scores de riesgo ayudan a entender cómo estas identidades cruzadas influyen en resultados post-tratamiento
+
+**Incorporar otras variables**
+- Variables adicionales: Evaluación del Proceso Terapéutico(d), Evaluación al Egreso Respecto al Patrón de consumo(d), Evaluación al Egreso Respecto a Situación Familiar(d), Evaluación al Egreso Respecto a Relaciones Interpersonales(d), Evaluación al Egreso Respecto a Situación Ocupacional(d),Evaluación al Egreso Respecto a Salud Mental(d), Evaluación al Egreso Respecto a Salud Física(d), Evaluación al Egreso Respecto a Trasgresión a la Norma Social(d)
+- logro alto logro intermedio     logro minimo, 235 perdidos=**todos los truncados, ¿los saco?**
 
 **Y ahora, me gustaría aprovechar la instancia para orientación respecto estas inquietudes"**
 
