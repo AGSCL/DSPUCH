@@ -919,7 +919,9 @@ Evaluar el rol predictivo de la duración de la estadía y el resultado del trat
 
 El cambio **CLAVE** fue pasar de 2010 a 2022 y restringirlo a 2020 por dificultades para obtener información de fallecimientos.
 
+Respecto a los **objetivos específicos**, el primero, que buscaba cuantificar la mortalidad en esta población, es el que presentaré a continuación y que se encuentra cumplido hasta la fecha.
 
+Los otros 3 ...
 
 ---
 class: animated fadeIn 
@@ -1487,12 +1489,12 @@ print(combined_image3_v_trim, info = FALSE)
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-
+- **Resultados principales**: Vinculamos las bases de tratamientos de adultos con mortalidad de DEIS
 **Descriptivos**: 
 - La subpoblación se compone de 70 mil pacientes, mayoritariamente hombres(76%), mediana de edad al ingreso 39 años, smando un total de 354 mil años-persona. 50% seguido por 4,9 años o menos, hasta 11 años
-- fallecidos, consumían más alcohol, levemente menos mujeres, de mayor edad al ingreso, etc.
+- fallecidos, ingresaban más por alcohol como sus.prin., levemente menos mujeres, de mayor edad al ingreso, etc.
 
-- La mortalidad es 3.6 veces mayor a la esperada para la pob. general **🚨🚨3.59(95%:3.37–3.83)🚨🚨**
+- **🚨🚨3.59 (IC95% 3.37–3.83)🚨🚨**: la tasa de mortalidad del estudio fue 3.59× la esperada según la población general estandarizada. 
 - Tasa std. directa global= 13.1 por 1.000 AP, IC95% 8.8–19.5 
 
 - **Entre las principales causas**: por enfermedades digestivas(6x), suicidio(5x) homicidios(4x), respiratorias(4x), infecciosas(3x)
@@ -1559,7 +1561,7 @@ class: animated fadeIn
 
 - Mejorar **retención en tratamiento** y continuidad post-alta. Primeras dos semanas posterior a tratamiento son clave. Vigilancia post-tratamiento y apoyo sostenido.
 
-- **Sexo**= Si bien las tasas estandarizadas son menores a las de hombres, la vulnerabilidad relativa, indica una vulnerabilidad diferencial que no se debe tanto a mayor exposición a estresores psicosociales que los hombres, sino sobre el mayor impacto que todas estas desventajas asociadas tienen en mujeres expuestas. Generando un efecto sinérgico que podría verse en la mortalidad observada. 
+- **Sexo**= Si bien las tasas estandarizadas son menores a las de hombres, la mortalidad relativa, indica una vulnerabilidad diferencial que no se debe tanto a mayor exposición a estresores psicosociales que los hombres, sino sobre el mayor impacto que todas estas desventajas asociadas tienen en mujeres expuestas. Generando un efecto sinérgico que podría explicar la mortalidad observada. 
     &nbsp;&nbsp;- Efecto "telescoping": progresión acelerada
     &nbsp;&nbsp;- Factores biológicos + estigmatización social
 - **En respuesta: Generar iniciativas de seguimiento específico para ellas, (ej., oferta tto. escalonado)**
@@ -1762,7 +1764,7 @@ print(km_death, info = FALSE)
 - Por último, se incluyeron variables relacionadas con la **modalidad** de tratamiento (residencial vs. ambulatorio), dado que la evidencia sugiere que la modalidad influye en los resultados post-tratamiento y que podría condicionar el rol que tienen algunos predictores.
 
 **Totales**
-- La subpoblacioń seleccionada, se compone de 88.504 pacientes adultos (18-64 años) con TUS que iniciaron un primer tratamiento entre 2010 y 2020.
+- La subpoblacioń seleccionada se compone de 88.504 pacientes adultos (18-64 años) que iniciaron un primer tratamiento por TUS entre 2010 y 2020.
 - Seguimiento hasta 31 de diciembre de 2020.
 **Tiempos a eventos**  
 - **Mortalidad desde el egreso**:**mediana de ~4 años y medio/54.3[27.0,83.9]**
@@ -2009,7 +2011,7 @@ print(combined_image5_v, info = FALSE)
 **Diferencias notables entre planes de tratamiento(SMD >0.3)**
 * Empleo: alto en PG-pab (65%); muy bajo en M-pr(10%) y PG-pr(18%)(SMD≈0.79).
 * Sustancia: RESIDENCIALES, PastaBase(~63%), policonsumo(82%) y frecuencia uso diario(~75%) vs. BASICO:alcohol 44%/64%/23%(SMD=.47-.55).
-* Edad: Amb básico, 1/4 entre 40 y 65 años; sólo mujeres, el que menos: 16%
+* Edad: Amb básico, 1/4 entre 40 y 65 años; mientras que en sólo mujeres, fue el que menos: 16% en este grupo
 * Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-PAB max,sólo 55%(SMD=0.48).
 * Convivencia(SMD=0.47): M-pai+pareja/hijos(67%vs44%,solos5%vs10%); PG-pr+fam.origen(51%vs38%) y solos(16%vs10%)
 * Vivienda: residencial m(18.4%)/pg(20%) + alto; bajo= PAB(7.4%)
@@ -2341,11 +2343,9 @@ print(magick::image_read("_figs/codebook.png"), info = FALSE)
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 - Reproducibilidad: pipeline de limpieza → análisis → reporte (todo en GitHub, un repositorio en línea y de consulta abierta)
-- Colaboración con SENDA: retroalimentación sobre calidad de datos, inconsistencias (ej., fechas de nacimiento, etc.), duplicados (), superposiciones de tto. (personas que se encuentran en tratamiento en más de un centro al mismo tiempo)
+- Colaboración con SENDA: retroalimentación sobre calidad de datos, inconsistencias (ej., fechas de nacimiento, etc.), duplicados (), superposiciones de tto. (personas que se encuentran en tratamiento en más de un centro al mismo tiempo). Se ofreció una reunión de devolución al DEIS, pero quedamos a la espera.
 - Documentación: libro de códigos, diagramas de flujo, algoritmos de decisión actualizados
-- Impacto institucional: mejora en prácticas de registro y gestión de datos
-
-&nbsp;&nbsp;- decir de los 10 registros duplicados de falelcimientos del DEIS, y que se propuso una instancias de feedback
+- Todas estas acciones, si bien no son parte de los objetivos principales de mi tesis, creo que contribuyen en una mejora en las prácticas de registro y gestión de datos
 
 ---
 class: animated fadeIn 
@@ -2414,9 +2414,9 @@ Si bien reconocemos la importancia clínica de diferenciar entre sustancias líc
 En particular, la estratificación compromete la estabilidad, capacidad de selección de variables y la validez de las métricas de desempeño (discriminación, calibración)
 - Se resume a la tensión entre capturar heterogeneidad vs. sacrificar reproducibilidad/generalizabilidad
 
-**Sobre <5%**
-- De nuevo, categorías escasas en nuestro conjunto de datos compromete al modelo entre la utilidad clínica vs. solo predictiva// interpretabilidad y estabilidad vs.parsimonia. Por ello,
+**Sobre <5%m categorías escasas:**
 - categorías con baja prevalencia pero relevancia clínica (ej. vivienda informal, violencia doméstica)
+- De nuevo, categorías escasas en nuestro conjunto de datos compromete al modelo entre la utilidad clínica vs. solo predictiva// interpretabilidad y estabilidad vs.parsimonia.
 
 **Incorporar otras variables**
 - Variables adicionales: Evaluación del Proceso Terapéutico(d), Respecto al Patrón de consumo(d), a Situación Familiar(d), Interpersonal(d), Ocupacional(d), Salud Mental(d),  Salud Física(d),  Trasgresión a la Norma Social(d). **Más subjetivas, pero pueden ser un insumo importante en capacidad predictiva**.
