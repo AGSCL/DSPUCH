@@ -1,11 +1,18 @@
-<svg width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 240">
+  <defs>
+    <!-- Gradiente del cuerpo -->
+    <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0"  stop-color="#E6A247"/>
+      <stop offset="1"  stop-color="#C67C2B"/>
+    </linearGradient>
+  </defs>
+
   <!-- Cuerpo de la maleta -->
-  <rect x="30" y="40" width="140" height="90" rx="10" ry="10" fill="black" />
-  
-  <!-- Asa superior -->
-  <path d="M80 40 Q100 20 120 40" stroke="black" stroke-width="8" fill="none" />
-  
-  <!-- Cierres (dos círculos pequeños) -->
-  <circle cx="70" cy="85" r="6" fill="black" />
-  <circle cx="130" cy="85" r="6" fill="black" />
+  <rect x="28" y="56" width="164" height="128" rx="14" ry="14"
+        fill="url(#bodyGrad)" stroke="#7A4311" stroke-width="2"/>
+
+  <!-- Manilla -->
+  <path d="M80 56 v-12 c0-10 8-18 18-18 h24 c10 0 18 8 18 18 v12"
+        fill="none" stroke="#5A3310" stroke-width="8" stroke-linecap="round"/>
 </svg>
+
