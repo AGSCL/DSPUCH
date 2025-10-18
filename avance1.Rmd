@@ -823,8 +823,8 @@ myBib <- ReadBib("libreria_generica_utf8.bib", check = FALSE,  .Encoding="UTF-8"
 <div style="
   position: relative; 
   width: 100%; 
-  text-align: right; 
-  transform: translate(100px, -50px);">
+  transform: translate(0px, -50px);/*moves right 100px*/
+  text-align: right;">
 
 .line_space_15[ 
 ## .text_60[Predicción del tiempo a la readmisión y mortalidad en<br>adultos en tratamiento por trastornos por uso de sustancias<br>en Chile: Un estudio de cohorte retrospectivo de 11 años]
@@ -845,14 +845,14 @@ myBib <- ReadBib("libreria_generica_utf8.bib", check = FALSE,  .Encoding="UTF-8"
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-Muy Buenos días
+Muy Buenas tardes a todos,
 
 A continuación, les voy a presentar el estado de avance de mi proyecto de tesis doctoral.
 
 Acompañantes en este Proceso
 
-- Tutor: el profesor Jay kaufman
-- Co-Tutor: Álvaro Castillo
+- Director: el profesor Jay kaufman
+- Co-Director: El profesor Álvaro Castillo
 
 ---
 layout: true
@@ -863,7 +863,7 @@ class: animated fadeIn
 
 <br>
 
-0. Objetivos actualizados
+0. Objetivos
 
 1. Primer Artículo
 
@@ -881,8 +881,6 @@ class: animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 A continuación mostraré la estructura de mi presentación: 
 
-0) 1 diapo; 1) 3 ; 2) 2 ; 3) 3 ; 4) 2 ; 5) 2
-
 0. Revisitar **Objetivos**, actualización
 
 1. **Primer Artículo**: Métodos, Resultados Clave, Implicancias, Limitaciones, Estado
@@ -893,7 +891,7 @@ A continuación mostraré la estructura de mi presentación:
 
 4. **Plan de trabajo**: Abarca lo que queda del 2025 y comienzos del 2026, de las acciones a seguir
 
-5. **Reflexiones/Dudas/Instancia de conversación**
+5. Por último, por consideraciones me refiero a **Reflexiones/Dudas/Instancia de conversación**
 
 ---
 class: animated fadeIn 
@@ -920,6 +918,8 @@ El **objetivo principal**:
 Evaluar el rol predictivo de la duración de la estadía y el resultado del tratamiento inicial, junto con otros factores pronósticos y predictivos de predisposición, necesidad percibida y facilitadores de atención, en la predicción del riesgo y el tiempo transcurrido a la primera readmisión y mortalidad por todas las causas en pacientes entre 18 y 64 años admitidos a tratamientos por TUS en Chile, desde 2010 a 2020.
 
 El cambio **CLAVE** fue pasar de 2010 a 2022 y restringirlo a 2020 por dificultades para obtener información de fallecimientos.
+
+
 
 ---
 class: animated fadeIn 
@@ -2404,23 +2404,22 @@ print(planificacion, info="none")
 **Borrador segundo artículo**
 
 **"La mortalidad en esta población no es inevitable: hay un exceso de riesgo frente a la población general de misma edad y sexo. Predecirla no es solo una tarea técnica, es una oportunidad de intervención."**
+- Un modelo predictivo y los scores de riesgo ayudan a entender cómo estas identidades cruzadas influyen en resultados post-tratamiento
 
 **Sobre estratificación**
 - 5 (modalidad) x 2 (sus.principal-licita/ilícita) x 2 (resultado tto.) x 2 (desenlaces post-tto.) = 40, lo otro es estratificar el riesgo basal
 - Conflicto modalidad con sexo (M vs. PG)
-Si bien reconocemos la importancia clínica de diferenciar entre sustancias lícitas e ilícitas —especialmente dada la heterogeneidad en perfiles de riesgo mostrada en nuestro primer artículo (SMR=4.74 para alcohol vs. 2.68 para ilícitas)—, realizar una estratificación completa que implique re-estimar, validar y calibrar modelos predictivos independientes en cada subgrupo conlleva importantes desafíos. 
+Si bien reconocemos la importancia clínica de diferenciar entre sustancias lícitas e ilícitas, realizar una estratificación completa que implique re-estimar, validar y calibrar modelos predictivos independientes en cada subgrupo conlleva importantes desafíos en tiempo. 
 
-En particular, el estrato de alcohol presenta frecuencias muy bajas de eventos en ciertas modalidades de tratamiento (ej. mortalidad en mujeres en modalidad ambulatoria intensiva: n=68), lo que compromete la estabilidad, capacidad de selección de variables y la validez de las métricas de desempeño (discriminación, calibración)
-- capturar heterogeneidad vs. sacrificar reproducibilidad/generalizabilidad
+En particular, la estratificación compromete la estabilidad, capacidad de selección de variables y la validez de las métricas de desempeño (discriminación, calibración)
+- Se resume a la tensión entre capturar heterogeneidad vs. sacrificar reproducibilidad/generalizabilidad
 
 **Sobre <5%**
-"modelo con utilidad clínica vs. solo predictiva// interpretabilidad y estabilidad vs.parsimonia. Por ello,
+- De nuevo, categorías escasas en nuestro conjunto de datos compromete al modelo entre la utilidad clínica vs. solo predictiva// interpretabilidad y estabilidad vs.parsimonia. Por ello,
 - categorías con baja prevalencia pero relevancia clínica (ej. vivienda informal, violencia doméstica)
 
-- Un modelo predictivo y los scores de riesgo ayudan a entender cómo estas identidades cruzadas influyen en resultados post-tratamiento
-
 **Incorporar otras variables**
-- Variables adicionales: Evaluación del Proceso Terapéutico(d), Evaluación al Egreso Respecto al Patrón de consumo(d), Evaluación al Egreso Respecto a Situación Familiar(d), Evaluación al Egreso Respecto a Relaciones Interpersonales(d), Evaluación al Egreso Respecto a Situación Ocupacional(d),Evaluación al Egreso Respecto a Salud Mental(d), Evaluación al Egreso Respecto a Salud Física(d), Evaluación al Egreso Respecto a Trasgresión a la Norma Social(d)
+- Variables adicionales: Evaluación del Proceso Terapéutico(d), Respecto al Patrón de consumo(d), a Situación Familiar(d), Interpersonal(d), Ocupacional(d), Salud Mental(d),  Salud Física(d),  Trasgresión a la Norma Social(d). **Más subjetivas, pero pueden ser un insumo importante en capacidad predictiva**.
 - logro alto logro intermedio     logro minimo, 235 perdidos=**todos los truncados, ¿los saco?**
 
 **Y ahora, me gustaría aprovechar la instancia para orientación respecto estas inquietudes"**
