@@ -883,7 +883,7 @@ A continuación mostraré la estructura de mi presentación:
 
 1. **Primer Artículo**: Métodos, Resultados Clave, Implicancias, Limitaciones, Estado
 
-2. **Segundo Artículo**: Descriptivos, EPVs, One-hot encoding
+2. **Segundo Artículo**: Descriptivos, información para EPVs, exploratorio de supervivencia
 
 3. Otras dimensiones de **avance**: Tiene relación con algunas otras cosas que he hecho y que considero contribuciones, que se detallarán más adelante
 
@@ -1370,7 +1370,7 @@ imgs_pad
   magick::image_transparent("white", fuzz = 15)
 ```
 
-```{r res-desc2-output, eval=T, echo=F, error=F, fig.align='right', fig.retina=2, message=FALSE, warning=FALSE, out.height="95%", out.width="95%", dpi=600}
+```{r res-desc2-output, eval=T, echo=F, error=F, fig.align='left', fig.retina=2, message=FALSE, warning=FALSE, out.height="95%", out.width="95%", dpi=600}
 # Display combined image
 suppressMessages(combined_image2)
 ```
@@ -1392,13 +1392,14 @@ magick::image_read("_figs/mujer2.svg")|>
     magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
     magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
     magick::image_transparent("white", fuzz = 15)|>      # un solo paso p/ blancos y grises claros
-  magick::image_border(color = "white", geometry = "20x50")|> 
- magick::image_background("none")|>          # conserva transparencia
-  magick::image_channel("gray")|> 
-  magick::image_annotate(
+    magick::image_border(color = "white", geometry = "20x50")|> 
+    magick::image_background("none")|>          # conserva transparencia
+    magick::image_channel("gray")|>
+    magick::image_resize("90%")|>
+    magick::image_annotate(
         text    = "x5.5",
         size    = 50,
-        location = "+0+310",
+        location = "+0+280",
         gravity = "south",
         font    = "Baloo Bhai 2",                   # usa otra fuente si no está instalada
         color   = "#4E5C68")
@@ -1440,8 +1441,8 @@ magick::image_read("_figs/casa.svg")|>
   magick::image_channel("gray")|> 
   magick::image_annotate(
         text    = "x4.8",
-        size    = 50,
-        location = "-2-95",
+        size    = 53,
+        location = "-4-98",
         gravity = "east",
         font    = "Baloo Bhai 2",                   # usa otra fuente si no está instalada
         color   = "#4E5C68")
@@ -1632,9 +1633,62 @@ print(flow_pred_transp, info = FALSE)
 ```
 </details>
 
+<details open>
+<summary>📦 Ocultar</summary>
+
+```{r "km-pre", echo=FALSE}
+km_death<- magick::image_read("_figs/_death_decomposition.png")
+```
+```{r "km-aalen-joh", echo=FALSE, dev.args = list(bg = 'transparent'), fig.retina=2, fig.align="center", out.width=650, message=F, warning=F}
+print(km_death, info = FALSE)
+```
+</details>
+]
+
+???
+*#_#_#_#_#_#_#_#_#_#_
+**NOTA**
+*#_#_#_#_#_#_#_#_#_#_
+- Dado que el objetivo principal del estudio es desarrollar un modelo predictivo de readmisión y mortalidad, 
+- Se busca encontrar el conjunto de variables con mejor desempeño en términos de capacidad predictiva, validez, calibración y discriminación.
+- los predictores se agruparon teóricamente de acuerdo al modelo Andrersen de utilización de servicios de salud, que agrupa a factores **Predisponentes** (que influyen en que uno asista a tratamiento , ej., edad, sexo); **Necesidad** (Determinan directamente la demanda, como severidad TUS), **Habilitadores**, rel. con dinámicas de tto. (ej., tiempo en tto.)
+- Por último, se incluyeron variables relacionadas con la **modalidad** de tratamiento (residencial vs. ambulatorio), dado que la evidencia sugiere que la modalidad influye en los resultados post-tratamiento.
+
+**Totales**
+- 88.504 pacientes adultos (18-64 años) con TUS que iniciaron un primer tratamiento entre 2010 y 2020.
+- Seguimiento hasta 31 de diciembre de 2021.
+**Tiempos a eventos**  
+- **Mortalidad desde alta**: **54.2 meses /~4 años y medio**
+- **Readmisión desde alta**: **41.0 meses /~3 años y medio** [15.0–73.0]  
+- % perdidos (sólo variables de interés)= 6,1%; si incluimos más variables (33,3%)
+**Descriptivos**
+- **Evento**= sin readm, sin mortalidad= 66,231(~75%); sólo Fallecimiento= 3,203(3.6%); sólo Readm= 18,326(20.7%); Ambos= 744(0.8%)
+
+**Kaplan-Meier/Estimador Aalen-Johansen= Muerte antes y después del reingreso: probabilidades acumuladas**
+- **Descomposición** A ~11 años desde el egreso, la mortalidad acumulada llega a ≈9%. La mayoría de las muertes ocurre antes de cualquier readmisión (área celeste). La porción después de la re-admisión (área ocre) crece con el tiempo y hacia el final representa ~20–30% del total.
+
+**======AUX= no leer======**
+**Descriptivos**
+~~**Anterior**103.074 pacientes **[no leer]**con edades entre 18 y 64 han cursado tratamientos, 31.355 presentan al menos una readmisión (30%) y 4.226 (4,1%)-3987 fallecieron durante el periodo de estudio[TESISvs.AHORA]~~
+
+- SMD = (p1 - p2) / √[ (p1(1 - p1) + p2(1 - p2)) / 2 ]
+denominador es la desviación estándar combinada de las dos proporciones, asumiendo varianzas binomiales𝑝(1−𝑝)
+
+“Partimos la mortalidad total según ocurra antes o después del reingreso. Estimamos ‘antes’ con CIF y ‘después’ como diferencia con KM. Las áreas suman la mortalidad total.”
+"Descomposición de la mortalidad: antes vs. después de la readmisión",
+"Aalen–Johansen (CIF) para ‘antes’; diferencia con KM para ‘después’",
+"Áreas apiladas = prob. total de muerte"
+
+(**no leer**): generalización/matriz del Kaplan-Meier adaptada para escenarios con riesgos competitivos o múltiples estados. Distingue entre censura informativa y no informativa.
+
+---
+class: animated fadeIn
+
+## Segundo artículo
+
+.pull-left[
 <details>
 <summary>🔬 Ver descriptivos</summary>
-.small[
 
 **Tabla. Descriptivos**
 
@@ -1658,99 +1712,6 @@ fix_encoding <- function(df) {
 
 datos_clean <- fix_encoding(datos)
 
-# Limpiar todos los caracteres
-datos_clean <- as.data.frame(
-  lapply(datos, function(x) {
-    if(is.character(x)) {
-      stringi::stri_enc_toutf8(stringi::stri_enc_toascii(x))
-    } else {
-      x
-    }
-  }),
-  stringsAsFactors = FALSE
-)
-datos_clean <- as.data.frame(
-  lapply(datos_clean, function(x) {
-    if(is.character(x)) {
-      x[is.na(x)] <- "|"
-    }
-    return(x)
-  }),
-  stringsAsFactors = FALSE
-)
-datos_clean <- as.data.frame(
-  lapply(datos_clean, function(x) {
-    if(is.character(x)) {
-      x[is.na(x)] <- ""
-    }
-    return(x)
-  }),
-  stringsAsFactors = FALSE
-)
-datos_clean <- as.data.frame(lapply(datos_clean, function(x) gsub("\\| N", "", x)))
-datos_clean <- as.data.frame(lapply(datos_clean, function(x) gsub("\\|", "", x)))
-datos_clean <- as.data.frame(lapply(datos_clean, function(x) gsub("NA", "", x)))
-
-datos_clean|>
-  dplyr::mutate(dplyr::across(dplyr::everything(),
-      ~ ifelse(is.na(.x), "",  # reemplaza NA por vacío (podrías dejar .x si querés mostrar NA)
-          ifelse(
-            dplyr::row_number() %in% c(1, 38, 62, 80),
-            kableExtra::cell_spec(.x, bold = TRUE),
-            .x
-          ))))|> 
-    dplyr::mutate(
-      SMD = readr::parse_double(SMD),
-      SMD = dplyr::if_else(is.na(SMD),
-            "",  # ← removes NA completely (empty cell)
-            kableExtra::cell_spec(SMD,
-              background = dplyr::case_when(
-                SMD > 0.15 & SMD <= 0.3 ~ "#B48448",  # marrón-arenoso
-                SMD > 0.3 ~ "#660600",                # rojo oscuro
-                TRUE ~ "white"),
-              color = dplyr::case_when(
-                SMD > 0.3 ~ "white", 
-                TRUE ~ "black"),
-              bold = dplyr::case_when(
-                SMD > 0.15 ~ TRUE,
-                TRUE ~ FALSE)
-          )))|> 
-    dplyr::mutate(Miss = readr::parse_double(Miss),
-      # Aplicar formato condicional con cell_spec
-      Miss = dplyr::if_else(is.na(Miss),"",  # elimina los NA de la columna
-        kableExtra::cell_spec(Miss,
-          background = dplyr::case_when(
-            Miss > 5 & Miss <= 10 ~ "#B48448",   # fondo marrón-arenoso para pérdidas moderadas
-            Miss > 10 ~ "#660600",               # fondo rojo oscuro para pérdidas altas
-            TRUE ~ "white"),
-          color = dplyr::case_when(
-            Miss > 10 ~ "white",                 # texto blanco sobre fondo oscuro
-            TRUE ~ "black"),
-          bold = dplyr::case_when(
-            Miss > 5 ~ TRUE,                     # texto en negrita si >5%
-            TRUE ~ FALSE)
-          )))|> 
-knitr::kable(format = "html",
-                na = "",
-                escape = FALSE,    # necesario para que <span> se interprete
-                align = c("l", "l", "r", "r", "r", "r"),
-                #caption = "Tabla. Descriptivos",
-                col.names=  c("Nivel", "Categoría", "General (n=88,695)", "p", "SMD", "Miss"))|> 
-  kableExtra::kable_styling(font_size = 9)|>
-  kableExtra::kable_classic(full_width = FALSE, 
-                           html_font = "Arial")|>
-  kableExtra::scroll_box(height = "400px", width = "100%")
-# Limpiar todos los caracteres
-datos_clean <- as.data.frame(
-  lapply(datos, function(x) {
-    if(is.character(x)) {
-      stringi::stri_enc_toutf8(stringi::stri_enc_toascii(x))
-    } else {
-      x
-    }
-  }),
-  stringsAsFactors = FALSE
-)
 datos_clean <- as.data.frame(
   lapply(datos_clean, function(x) {
     if(is.character(x)) {
@@ -1827,47 +1788,110 @@ knitr::kable(format = "html",
 
 <details open>
 <summary>📦 Ocultar</summary>
-
 <ul>
   <li>Diferencias por tipo de plan:
     <ul>
-      <li>Sustancia de ingreso</li>
-      <li>Situación de vivienda</li>
       <li>Empleabilidad</li>
-      <li>Antecedentes de violencia y abuso</li>
+      <li>Sustancia y frecuencia de uso al ingreso</li>
+      <li>Edad</li>
+      <li>Severidad</li>
+      <li>Convivencia</li>
+      <li>Tiempo en tratamiento</li>
+      <li>Pobreza multidimensional</li>
     </ul>
   </li>
   <li>Categorías escasas</li>
+    <ul>  
+      <li>Modalidad de tratamiento</li>
+      <li>Situación habitacional</li>
+      <li>Sustancia principal</li>
+      <li>Resultado de tratamiento</li>
+    </ul>      
 </ul>
-
-```{r "km-pre", echo=FALSE}
-km_death<- magick::image_read("_figs/_death_decomposition.png")
-```
-```{r "km-aalen-joh", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=320, message=F, warning=F}
-print(km_death, info = FALSE)
-```
 </details>
 ]
+
+.pull-right[
+```{r "comparacion-modalidad-paper2", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=150, message=F, warning=F, out.height=350}
+empleo<- 
+  magick::image_read("_figs/empleo.svg") |>
+    magick::image_convert(format = "png") |>
+    magick::image_trim(fuzz = 10) |>
+    magick::image_transparent("white", fuzz = 15) |>      # Hace blancos y grises muy claros transparentes
+    magick::image_border(color = "white", geometry = "20x50") |>
+    magick::image_background("none")
+
+sus<- 
+magick::image_read("_figs/sus.png")|>
+    #magick::image_extent("120%x120%+30+40", gravity = "northwest")|>
+    magick::image_resize("70%")|>
+    magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
+    magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
+    magick::image_transparent("white", fuzz = 15)|>      # un solo paso p/ blancos y grises claros
+  magick::image_border(color = "white", geometry = "0x35")|> 
+  magick::image_background("none")|>          # conserva transparencia
+  magick::image_background(color = "none")|>     # "none" = transparente
+  magick::image_transparent(color = "white")  # convierte blanco a transparent
+
+edad<- 
+magick::image_read("_figs/edad.png")|>
+    #magick::image_extent("120%x120%+30+40", gravity = "northwest")|>
+    magick::image_resize("70%")|>
+    magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
+    magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
+    magick::image_transparent("white", fuzz = 15)|>      # un solo paso p/ blancos y grises claros
+  magick::image_border(color = "white", geometry = "0x35")|> 
+  magick::image_background("none")|>          # conserva transparencia
+  magick::image_background(color = "none")|>     # "none" = transparente
+  magick::image_transparent(color = "white")  # convierte blanco a transparent
+
+tr_length<- 
+magick::image_read("_figs/calendario.svg")|>
+    magick::image_convert(format = "png")|>
+    magick::image_resize("70%")|>
+    magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
+    magick::image_trim(fuzz = 10)|>                      # recorta bordes casi blancos (opcional)
+    magick::image_transparent("white", fuzz = 15)|>      # un solo paso p/ blancos y grises claros
+  magick::image_border(color = "white", geometry = "0x35")|> 
+  magick::image_background("none")|>          # conserva transparencia
+  magick::image_background(color = "none")|>     # "none" = transparente
+  magick::image_transparent(color = "white")  # convierte blanco a transparent
+
+# Suponiendo que ya tienes: women, res, oh (como objetos magick)
+imgs2 <- c(empleo|> magick::image_resize("130%"),
+          sus|> magick::image_resize("30%"),
+          edad|> magick::image_resize("30%"),
+          tr_length|> magick::image_resize("150%")
+          )
+# Obtener la altura máxima (opcional, pero útil si quieres alineación perfecta)
+# En vertical, lo más común es igualar el ANCHO para que queden alineadas
+max_width <- max(magick::image_info(imgs2)$width)
+# Asegurar que todas tengan el MISMO ANCHO y estén centradas horizontalmente
+imgs2_padded <- lapply(imgs2, function(im) {
+  magick::image_extent(
+    im,
+    geometry = paste0(max_width, "x"),  # mismo ancho
+    gravity = "center",                 # centra horizontalmente (clave para vertical)
+    color = "none"
+  )
+}) |> do.call(what = c)
+# Combinar VERTICALMENTE (stack = TRUE)
+combined_image5_v <- magick::image_append(imgs2_padded, stack = TRUE)
+# Opcional: recortar márgenes externos
+combined_image5_v <- magick::image_trim(combined_image5_v, fuzz = 15)
+# Opcional: hacer transparente el fondo blanco remanente
+combined_image5_v_trim <-magick::image_trim(combined_image5_v, fuzz = 10)|>
+  magick::image_transparent("white", fuzz = 15)
+# Mostrar
+print(combined_image5_v, info = FALSE)
+```
+
 ]
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-- Dado que el objetivo principal del estudio es desarrollar un modelo predictivo de readmisión y mortalidad, 
-- Se busca encontrar el conjunto de variables con mejor desempeño en términos de capacidad predictiva, validez, calibración y discriminación.
-- los predictores se agruparon teóricamente de acuerdo al modelo Andrersen de utilización de servicios de salud, que agrupa a factores **Predisponentes** (que influyen en que uno asista a tratamiento , ej., edad, sexo); **Necesidad** (Determinan directamente la demanda, como severidad TUS), **Habilitadores**, rel. con dinámicas de tto. (ej., tiempo en tto.)
-- Por último, se incluyeron variables relacionadas con la **modalidad** de tratamiento (residencial vs. ambulatorio), dado que la evidencia sugiere que la modalidad influye en los resultados post-tratamiento.
-
-**Totales**
-- 88.504 pacientes adultos (18-64 años) con TUS que iniciaron un primer tratamiento entre 2010 y 2020.
-- Seguimiento hasta 31 de diciembre de 2021.
-**Tiempos a eventos (mediana [IQR])**  
-- **Mortalidad desde alta**: **54.2 meses /~4 años y medio**
-- **Readmisión desde alta**: **41.0 meses /~3 años y medio** [15.0–73.0]  
-- % perdidos (sólo variables de interés)= 6,1%; si incluimos más variables (33,3%)
-**Descriptivos**
-- **Evento**= sin readm, sin mortalidad= 66,231(~75%); sólo Fallecimiento= 3,203(3.6%); sólo Readm= 18,326(20.7%); Ambos= 744(0.8%)
 
 **Diferencias notables entre planes de tratamiento (SMD >0.3)**
 * Empleo: alto en PG-pab (65%); muy bajo en M-pr(10%) y PG-pr(18%)(SMD≈0.79).
@@ -1888,8 +1912,6 @@ print(km_death, info = FALSE)
 
 **Casos truncados**= Personas con tratamientos de duración indeterminada debido a falta de información sobre su finalización.
 
-**Kaplan-Meier/Estimador Aalen-Johansen= Muerte antes y después del reingreso: probabilidades acumuladas**
-- **Descomposición** A ~11 años desde el egreso, la mortalidad acumulada llega a ≈9%. La mayoría de las muertes ocurre antes de cualquier readmisión (área celeste). La porción después de la re-admisión (área ocre) crece con el tiempo y hacia el final representa ~20–30% del total.
 
 **======AUX= no leer======**
 **Descriptivos**
@@ -1900,13 +1922,6 @@ denominador es la desviación estándar combinada de las dos proporciones, asumi
 
 **Casos truncados**
 Una persona empieza tratamiento en 2019, pero los registros no muestran cuándo y cómo terminó. El sistema, calcula automáticamente el tiempo transcurrido mostrando incorrectamente "5 años en tratamiento", cuando en realidad podría haber terminado antes.
-
-“Partimos la mortalidad total según ocurra antes o después del reingreso. Estimamos ‘antes’ con CIF y ‘después’ como diferencia con KM. Las áreas suman la mortalidad total.”
-"Descomposición de la mortalidad: antes vs. después de la readmisión",
-"Aalen–Johansen (CIF) para ‘antes’; diferencia con KM para ‘después’",
-"Áreas apiladas = prob. total de muerte"
-
-(**no leer**): generalización/matriz del Kaplan-Meier adaptada para escenarios con riesgos competitivos o múltiples estados. Distingue entre censura informativa y no informativa.
 
 ---
 class: animated fadeIn
