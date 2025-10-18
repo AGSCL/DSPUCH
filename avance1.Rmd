@@ -820,19 +820,23 @@ warning(paste0("libreria_generica_utf8.bib"))
 myBib <- ReadBib("libreria_generica_utf8.bib", check = FALSE,  .Encoding="UTF-8")
 ```
 
-.move-right[
+<div style="
+  position: relative; 
+  width: 100%; 
+  text-align: right; 
+  transform: translate(100px, -50px);">
+
 .line_space_15[ 
-## .text_60[Predicción del tiempo a la readmisión y mortalidad en adultos<br>en tratamiento por trastornos por uso de sustancias en Chile:<br>Un estudio de cohorte retrospectivo de 11 años]
+## .text_60[Predicción del tiempo a la readmisión y mortalidad en<br>adultos en tratamiento por trastornos por uso de sustancias<br>en Chile: Un estudio de cohorte retrospectivo de 11 años]
 ]
+</div>
 
 .line_space_11[
-
 .bg-text[
 
 .text_80[Director de tesis: Jay S. Kaufman<br>Co-director de tesis: Álvaro Castillo-Carniglia<br>Estudiante: Andrés González-Santa Cruz]
 
 .text_50[gonzalez.santacruz.andres@gmail.com] [`r fontawesome::fa(name = "github")`](https://github.com/AGSCL) [`r fontawesome::fa(name = "orcid", fill="green")`](https://orcid.org/0000-0002-5166-9121)
-]
 ]
 ]
 
@@ -1892,25 +1896,29 @@ knitr::kable(format = "html",
 <details open>
 <summary>📦 Ocultar</summary>
 <ul>
-  <li>Diferencias por tipo de plan:
-    <ul>
-      <li>Empleabilidad</li>
-      <li>Sustancia y frecuencia de uso al ingreso</li>
-      <li>Edad</li>
-      <li>Severidad</li>
-      <li>Convivencia</li>
-      <li>Tiempo en tratamiento</li>
-    </ul>
-  </li>
-  <li>Categorías escasas</li>
-    <ul>  
-      <li>Modalidad de tratamiento</li>
-      <li>Situación habitacional</li>
-      <li>Sustancia principal</li>
-      <li>Resultado de tratamiento</li>
-    </ul>      
+    <li>Diferencias por tipo de plan:
+        <ul>
+            <li>Empleabilidad</li>
+            <li>Sustancia y frecuencia de uso al ingreso</li>
+            <li>Edad</li>
+            <li>Severidad</li>
+            <li>Convivencia</li>
+            <li>Tiempo en tratamiento</li>
+        </ul>
+    </li>
+    <li>Categorías escasas
+        <ul>
+            <li>Modalidad de tratamiento</li>
+            <li>Situación habitacional</li>
+            <li>Sustancia principal</li>
+            <li>Resultado de tratamiento
+                <ul>
+                    <li>Casos truncados</li>
+                </ul>
+            </li>
+        </ul>
+    </li>
 </ul>
-</details>
 ]
 
 .pull-right[
@@ -2002,12 +2010,11 @@ print(combined_image5_v, info = FALSE)
 * Empleo: alto en PG-pab (65%); muy bajo en M-pr(10%) y PG-pr(18%)(SMD≈0.79).
 * Sustancia: RESIDENCIALES, PastaBase(~63%), policonsumo(82%) y frecuencia uso diario(~75%) vs. BASICO:alcohol 44%/64%/23%(SMD=.47-.55).
 * Edad: Amb básico, 1/4 entre 40 y 65 años; sólo mujeres, el que menos: 16%
-* Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-pab max “riesgoso”(45%)(SMD=0.48).
+* Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-PAB max,sólo 55%(SMD=0.48).
 * Convivencia(SMD=0.47): M-pai+pareja/hijos(67%vs44%,solos5%vs10%); PG-pr+fam.origen(51%vs38%) y solos(16%vs10%)
 * Vivienda: residencial m(18.4%)/pg(20%) + alto; bajo= PAB(7.4%)
 * Abandono= +PG-PAB(58.3%vs.53%total)y(-)PG-PR (39%)
-* Tiempo en tto=5,6 meses mediana; M-PR=6.5/PG-PAB=4.4;<90 días=menor:M-PR & PG-PAI=20%, mayor:PAB=38%
-* Pobreza multi= Amb. intensivos= (-) pobreza comuna res; PAB= + pobreza.
+* Tiempo en tto=5,6 meses mediana; M-PR=6.5/PG-PAB=4.4;TTos. <90 días=menos frecunte en M-PR & PG-PAI=20%, más frecuente enPAB=38%
 
 **<5% del conjunto de datos**
 - Modalidad de tratamiento=m-pr_3,548(4.0)
@@ -2218,7 +2225,6 @@ print(img_trim, info = FALSE)
 # ---- Datos (mismos que antes) ----
 df <- tibble::tribble(
   ~factor,                   ~outcome,        ~hr_min, ~hr_max,
-  "Alta administrativa",     "Mortalidad",     6.16,    6.16,
   "Infracción de normas",    "Readmisión",     1.17,    1.17,
   "Infracción de normas",    "Mortalidad",     1.61,    1.61,
   "Alcohol principal",       "Mortalidad",     3.43,    3.43,
