@@ -1148,6 +1148,7 @@ width = 400, height = 230)
 *#_#_#_#_#_#_#_#_#_#_
 
 - El primer artículo, enviado a la revista Addiction, evalúa el exceso de mortalidad en pacientes adultos en tratamiento por TUS en Chile de 2010 a 2020. 
+- Vinculamos las bases de tratamientos de adultos con mortalidad de DEIS
 - **Ajuste**= SEXO + tramos de edad (18–29, 30–44, 45–59, 60+). EL formato **Lexis** permite que los individuos a medida que van siendo seguidos se vayan desplazando por el calendario o los tramos de edad. 
 - eso permite calcular muertes esperadas con la tasa adecuada para cada tramo. **Por ejemplo**, la mujer ID28 transita del 2014  de un tramo de edad (18-29) al otro (30-44) 
 - (**No leer**)~~La lógica de esto es que la gente que va avanzando en el periodo de seguimiento, por eso la configuración hasta 75 años al seguimiento (a los 10 años). Pero todo bien. #load("G:/My Drive/Alvacast/SISTRAT 2023/data/20241015_out/mort_2025_08_21.Rdata"); clean_df |> filter(disch_age_rec>65) |> select(hash_key,  adm_date_rec2, disch_date_rec6, disch_age_rec) |> arrange(desc(disch_age_rec))~~
@@ -1489,10 +1490,9 @@ print(combined_image3_v_trim, info = FALSE)
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-- **Resultados principales**: Vinculamos las bases de tratamientos de adultos con mortalidad de DEIS
-**Descriptivos**: 
-- La subpoblación se compone de 70 mil pacientes, mayoritariamente hombres(76%), mediana de edad al ingreso 39 años, smando un total de 354 mil años-persona. 50% seguido por 4,9 años o menos, hasta 11 años
-- fallecidos, ingresaban más por alcohol como sus.prin., levemente menos mujeres, de mayor edad al ingreso, etc.
+*Resultados principales**: 
+- La subpoblación se compone de 70 mil pacientes, mayoritariamente hombres(76%), mediana de edad al ingreso 39 años, sumando un total de 354 mil años-persona. 50% seguido por 4,9 años o menos, hasta 11 años
+- **Descriptivos**: comparando fallecidos con no-fallecidos, ingresaban más por alcohol como sus.prin., levemente menos mujeres, de mayor edad al ingreso, etc.
 
 - **🚨🚨3.59 (IC95% 3.37–3.83)🚨🚨**: la tasa de mortalidad del estudio fue 3.59× la esperada según la población general estandarizada. 
 - Tasa std. directa global= 13.1 por 1.000 AP, IC95% 8.8–19.5 
@@ -1763,8 +1763,8 @@ print(km_death, info = FALSE)
 - los predictores se agruparon teóricamente de acuerdo al modelo Andrersen de utilización de servicios de salud, que agrupa a factores **Predisponentes** (que influyen en que uno asista a tratamiento , ej., edad, sexo); **Necesidad** (Determinan directamente la demanda, como severidad TUS), **Habilitadores**, rel. con dinámicas de tto. (ej., tiempo en tto.)
 - Por último, se incluyeron variables relacionadas con la **modalidad** de tratamiento (residencial vs. ambulatorio), dado que la evidencia sugiere que la modalidad influye en los resultados post-tratamiento y que podría condicionar el rol que tienen algunos predictores.
 
-**Totales**
-- La subpoblacioń seleccionada se compone de 88.504 pacientes adultos (18-64 años) que iniciaron un primer tratamiento por TUS entre 2010 y 2020.
+**En términos generales**
+- La subpoblacioń seleccionada se compone de 88.504 pacientes adultos (18-64 años) que iniciaron un primer tratamiento entre 2010 y 2020.
 - Seguimiento hasta 31 de diciembre de 2020.
 **Tiempos a eventos**  
 - **Mortalidad desde el egreso**:**mediana de ~4 años y medio/54.3[27.0,83.9]**
@@ -2014,9 +2014,9 @@ print(combined_image5_v, info = FALSE)
 * Edad: Amb básico, 1/4 entre 40 y 65 años; mientras que en sólo mujeres, fue el que menos: 16% en este grupo
 * Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-PAB max,sólo 55%(SMD=0.48).
 * Convivencia(SMD=0.47): M-pai+pareja/hijos(67%vs44%,solos5%vs10%); PG-pr+fam.origen(51%vs38%) y solos(16%vs10%)
-* Vivienda: residencial m(18.4%)/pg(20%) + alto; bajo= PAB(7.4%)
 * Abandono= +PG-PAB(58.3%vs.53%total)y(-)PG-PR (39%)
 * Tiempo en tto=5,6 meses mediana; M-PR=6.5/PG-PAB=4.4;TTos. <90 días=menos frecunte en M-PR & PG-PAI=20%, más frecuente enPAB=38%
+* Vivienda: residencial m(18.4%)/pg(20%) + alto; bajo= PAB(7.4%)
 
 **<5% del conjunto de datos**
 - Modalidad de tratamiento=m-pr_3,548(4.0)
@@ -2297,12 +2297,13 @@ print(p)
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
+* Para explorar la cantidad de eventos por variable, generamos un diagrama en que...
 **Dividimos los eventos por cada estrato de interés y combinación: sus. principal y modalidad**
 * Son los que fueron conversados en la presentación del proyecto
 * Pero vemos que hay desenlaces que resultan muy inestables para poder generar un modelo predictivo generalizable
 * Por ejemplo, en modalidades m-pr y m-pai, tanto para alcohol como para otras sustancias, la cantidad de eventos es muy baja (tanto readmisión como mortalidad)
 
-**Exploración modelos cox saturado estratificando riesgo basal, seguimiento posterior al tto.**
+**(no leer)Exploración modelos cox saturado estratificando riesgo basal, seguimiento posterior al tto.**
 Para explorar asociaciones entre predictores de interés y riesgos de readmisión y mortalidad, se generaron modelos saturados de combinaciones lineales-no lineales de predictores y tiempos al eventos, los que se resumen en esta figura (estratificado por modalidad).
 * Alcohol como sus. principal ↑ mortalidad (HR≈3.43).
 * Alta mortandad tras “alta administrativa” (HR≈6.16).
