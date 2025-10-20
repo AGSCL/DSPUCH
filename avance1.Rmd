@@ -721,6 +721,9 @@ th:nth-child(3), td:nth-child(3) {
   float: right;
   padding-top: 1em;
 }
+.remark-notes-mode .remark-notes {
+  font-size: 0.8rem !important; /* Prueba ajustar este valor */
+}
 </style>
 
 ```
@@ -879,7 +882,7 @@ class: animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA INDICE**
 *#_#_#_#_#_#_#_#_#_#_
-A continuación mostraré la estructura de mi presentación: 
+Esta es la estructura de mi presentación: 
 
 0. Revisitar **Objetivos**, actualización
 
@@ -1490,6 +1493,7 @@ print(combined_image3_v_trim, info = FALSE)
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
+
 *Resultados principales**: 
 - La subpoblación se compone de 70 mil pacientes, mayoritariamente hombres(76%), mediana de edad al ingreso 39 años, sumando un total de 354 mil años-persona. 50% seguido por 4,9 años o menos, hasta 11 años
 - **Descriptivos**: comparando fallecidos con no-fallecidos, ingresaban más por alcohol como sus.prin., levemente menos mujeres, de mayor edad al ingreso, etc.
@@ -1561,10 +1565,7 @@ class: animated fadeIn
 
 - Mejorar **retención en tratamiento** y continuidad post-alta. Primeras dos semanas posterior a tratamiento son clave. Vigilancia post-tratamiento y apoyo sostenido.
 
-- **Sexo**= Si bien las tasas estandarizadas son menores a las de hombres, la mortalidad relativa, indica una vulnerabilidad diferencial que no se debe tanto a mayor exposición a estresores psicosociales que los hombres, sino sobre el mayor impacto que todas estas desventajas asociadas tienen en mujeres expuestas. Generando un efecto sinérgico que podría explicar la mortalidad observada. 
-    &nbsp;&nbsp;- Efecto "telescoping": progresión acelerada
-    &nbsp;&nbsp;- Factores biológicos + estigmatización social
-- **En respuesta: Generar iniciativas de seguimiento específico para ellas, (ej., oferta tto. escalonado)**
+- **Sexo**= Si bien las tasas estandarizadas son menores a las de hombres, la mortalidad relativa, indica una vulnerabilidad diferencial que no se debe tanto a mayor exposición a estresores psicosociales que los hombres, sino sobre el mayor impacto que todas estas desventajas asociadas tienen en mujeres expuestas. Generando un efecto sinérgico que podría explicar la mortalidad observada. Efecto "telescoping": progresión acelerada /Factores biológicos + estigmatización social. **En respuesta: Generar iniciativas de seguimiento específico para ellas, (ej., oferta tto. escalonado)**
 
 - Monitoreo sistemático de **comorbilidades psiquiátricas**, dado el vínculo de causas como el **suicidio** con trastornos de salud mental.
 
@@ -1761,14 +1762,14 @@ print(km_death, info = FALSE)
 - Dado que el objetivo principal del estudio es desarrollar un modelo predictivo de readmisión y mortalidad, 
 - Se busca encontrar el conjunto de variables con mejor desempeño en términos de capacidad predictiva, validez, calibración y discriminación.
 - los predictores se agruparon teóricamente de acuerdo al modelo Andrersen de utilización de servicios de salud, que agrupa a factores **Predisponentes** (que influyen en que uno asista a tratamiento , ej., edad, sexo); **Necesidad** (Determinan directamente la demanda, como severidad TUS), **Habilitadores**, rel. con dinámicas de tto. (ej., tiempo en tto.)
-- Por último, se incluyeron variables relacionadas con la **modalidad** de tratamiento (residencial vs. ambulatorio), dado que la evidencia sugiere que la modalidad influye en los resultados post-tratamiento y que podría condicionar el rol que tienen algunos predictores.
+- Por último, se incluyeron variables relacionadas con la **modalidad** de tratamiento (residencial vs. ambulatorio, programa mujeres/pob. general), ya que podría condicionar el rol que tienen algunos predictores.
 
 **En términos generales**
 - La subpoblacioń seleccionada se compone de 88.504 pacientes adultos (18-64 años) que iniciaron un primer tratamiento entre 2010 y 2020.
 - Seguimiento hasta 31 de diciembre de 2020.
-**Tiempos a eventos**  
-- **Mortalidad desde el egreso**:**mediana de ~4 años y medio/54.3[27.0,83.9]**
-- **Readmisión desde el egreso**:**mediana de ~3 años y medio/41.0[15.0,73.0]**
+**Tiempos a eventos**
+- **mediana de ~3 años y medio de Readmisión desde el egreso/41.0[15.0,73.0]**
+- **mediana de ~4 años y medio de Mortalidad desde el egreso/54.3[27.0,83.9]**
 - % perdidos (sólo variables de interés)= 6,1%; si incluimos más variables (33,3%)
 **Descriptivos**
 - **Evento**= sin readm, sin mortalidad= 66,231(~75%); sólo Fallecimiento= 3,203(3.6%); sólo Readm= 18,326(20.7%); Ambos= 744(0.8%)
@@ -2111,13 +2112,13 @@ print(combined_image5_v, info = FALSE)
 *#_#_#_#_#_#_#_#_#_#_
 **Difs. notables entre planes de tratamiento**
 * Empleo: alto en AMB BASICO (65%); muy bajo en RESIDENCIALES(10-18%)(SMD≈0.79).
-* Sustancia: RESIDENCIALES, PastaBase(~63%), policonsumo(82%) y frecuencia uso diario(~75%) vs. BASICO:alcohol 44%/64%/23%(SMD=.47-.55).
+* Sustancia: RESIDENCIALES, PastaBase(~63%), policonsumo(82%) y frecuencia uso diario(~75%) vs. BASICO:alcohol 44%/64%/29%(SMD=.47-.55).
 * Convivencia(SMD=0.47): M-pai+pareja/hijos(67%vs44%,solos5%vs10%); PG-pr+fam.origen(51%vs38%) y solos(16%vs10%)
 * Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-PAB max,sólo 55%(SMD=0.48).
 * Residenciales, menor % de vivienda formal reportada // Residencial mujeres, trastornos de personalidad (por ej., T.límite)
 * Abandono voluntario= +PG-PAB(58.3%vs.53%total)y(-)PG-PR (39%), violación de normas, más en residenciales
 * Edad: Mujeres tienden a ingresar a tratamiento más jóvenes (Amb básico, 1/4 entre 40 y 65 años; mientras que en sólo mujeres, fue el que menos: 16% en este grupo)
-* Tiempo en tto=TTos. <90 días=menos frecunte en M-PR & PG-PAI=20%, más frecuente enPAB=38%
+* Tiempo en tto=TTos. <90 días=menos frecunte en AMB BASICO=20%, más frecuente en RES MUJERES=38%
 
 **<5% del conjunto de datos**, vuelven el modelo inestable, riesgo de sobreajuste (overfitting) y mala generalización con datos nuevos.
 - La modalidad de tratamiento Residencial Mujeres es sólo el 4% del subconjunto de datos
@@ -2559,18 +2560,6 @@ knitr::include_graphics("./_figs/qrcode_avance.png")
 
 ```{r, echo=FALSE, fig.align="center", out.width=200, error=T}
 knitr::include_graphics('./_style/Logo_nDP_color_hz_en.png')
-```
-
-]
-  
----
-## Referencias (1)
-
-.text_50[
-  
-```{r refs1, echo=FALSE, results="asis", eval=T}
-suppressWarnings(PrintBibliography(myBib, start= 1, end= 13))
-#https://github.com/ropensci/RefManageR/blob/master/R/rmdCite.R
 ```
 
 ]
