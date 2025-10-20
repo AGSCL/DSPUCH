@@ -1795,7 +1795,7 @@ class: animated fadeIn
 
 ## Segundo artículo
 
-.pull-left[
+.pull_l_70[
 <details>
 <summary>🔬 Ver descriptivos</summary>
 
@@ -1897,33 +1897,134 @@ knitr::kable(format = "html",
 
 <details open>
 <summary>📦 Ocultar</summary>
-<ul>
-    <li>Diferencias por tipo de plan:
-        <ul>
-            <li>Empleabilidad</li>
-            <li>Sustancia y frecuencia de uso al ingreso</li>
-            <li>Edad</li>
-            <li>Severidad</li>
-            <li>Convivencia</li>
-            <li>Tiempo en tratamiento</li>
-        </ul>
-    </li>
-    <li>Categorías escasas
-        <ul>
-            <li>Modalidad de tratamiento</li>
-            <li>Situación habitacional</li>
-            <li>Sustancia principal</li>
-            <li>Resultado de tratamiento
-                <ul>
-                    <li>Casos truncados</li>
-                </ul>
-            </li>
-        </ul>
-    </li>
-</ul>
+```{r "difs-modalidad-paper2", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", fig.retina=2, message=F, out.height=450, out.width=450, warning=F}
+# Datos: Orden específico (tus 12 + 2 faltantes al final), nombres sin paréntesis
+datos_breakdown <- data.frame(
+  Predictor = rep(c(
+    "Frecuencia consumo (diario)",
+    "Empleo (emplead@s)",
+    "Sustancia principal- Alcohol",  
+    "Sustancia principal- Pasta Base", 
+    "Cohabitación (pareja/hij@s)",
+    "Cohabitación (solo)",
+    "Policonsumo",
+    "Severidad TUS (dependencia)",
+    "T. de Personalidad F6",
+    "Vivienda formal",
+    "Motivo ingreso (espontáneo)",  # Faltante 13: Al final
+    "Duración tratamiento (<90 días)",  # Faltante 14: Al final    
+    "Abandono- Violación normas",  
+    "Abandono- voluntario" 
+  ), each = 6),
+  Grupo = rep(c("Total", "M-PAI", "M-PR", "PG-PAB", "PG-PAI", "PG-PR"), 14),
+  Proporcion = c(
+    # Orden específico: Frecuencia primero, etc.
+    44.1, 46.6, 75.9, 28.7, 46.7, 72.3,  # Frecuencia consumo
+    49.0, 30.5, 10.2, 65.0, 49.5, 17.6,  # Empleo
+    34.1, 28.4, 17.5, 44.2, 31.5, 20.0,  # Alcohol
+    37.8, 38.1, 63.6, 26.4, 38.8, 62.2,  # Pasta Base
+    44.9, 66.6, 51.6, 51.0, 41.7, 22.5,  # Cohabitación pareja/hij@s
+    9.5, 5.3, 9.5, 8.7, 9.1, 16.3,       # Cohabitación solo
+    72.9, 73.5, 81.6, 64.2, 77.0, 82.7,  # Policonsumo
+    72.8, 78.0, 94.3, 55.0, 80.6, 91.4,  # Severidad TUS
+    28.4, 35.4, 46.8, 22.2, 29.8, 33.1,  # T. de Personalidad F6
+    89.9, 90.2, 81.6, 92.6, 90.2, 79.8,  # Vivienda formal
+    44.8, 35.6, 28.2, 53.4, 42.8, 35.1,  # Motivo ingreso (al final)
+    23.7, 20.2, 37.6, 19.6, 24.6, 30.6,  # Duración tratamiento (al final)    
+    7.3, 6.1, 11.2, 6.0, 6.7, 13.0,      # Abandono- Violación normas
+    53.2, 49.7, 43.6, 58.3, 53.8, 39.0  # Abandono- voluntario
+  ),
+  SMD = c(
+    rep(0.586, 6),  # Frecuencia consumo
+    rep(0.792, 6),  # Empleo
+    rep(0.469, 6),  # Alcohol
+    rep(0.469, 6),  # Pasta Base
+    rep(0.468, 6),  # Cohabitación pareja/hij@s
+    rep(0.468, 6),  # Cohabitación solo
+    rep(0.210, 6),  # Policonsumo
+    rep(0.477, 6),  # Severidad TUS
+    rep(0.236, 6),  # T. de Personalidad F6
+    rep(0.297, 6),  # Vivienda formal
+    rep(0.458, 6),  # Motivo ingreso
+    rep(0.210, 6),   # Duración tratamiento    
+    rep(0.279, 6),  # Abandono- Violación normas
+    rep(0.279, 6)  # Abandono- voluntario
+  )
+)
+
+# Preprocesar: Ordenar barras por Proporcion descendente DENTRO de cada Predictor, y factor para orden de facetas
+datos_breakdown <- datos_breakdown %>%
+  dplyr::mutate(Predictor = factor(Predictor, levels = c(
+    "Frecuencia consumo (diario)",
+    "Empleo (emplead@s)",
+    "Sustancia principal- Alcohol",  
+    "Sustancia principal- Pasta Base", 
+    "Cohabitación (pareja/hij@s)",
+    "Cohabitación (solo)",
+    "Policonsumo",
+    "Severidad TUS (dependencia)",
+    "T. de Personalidad F6",
+    "Vivienda formal",
+    "Abandono- Violación normas",  
+    "Abandono- voluntario", 
+    "Motivo ingreso (espontáneo)",
+    "Duración tratamiento (<90 días)"
+  ))) %>%  # Fuerza orden de facetas: arriba-abajo, izquierda-derecha con ncol=2
+  dplyr::group_by(Predictor) %>%
+  dplyr::arrange(desc(Proporcion)) %>%
+  dplyr::ungroup() %>%
+  dplyr::mutate(
+    Grupo = factor(Grupo, levels = unique(Grupo))
+  ) %>%
+  dplyr::mutate(
+    Desbalance = dplyr::case_when(
+      SMD > 0.5 ~ "Alto (SMD > 0.5)",
+      SMD > 0.3 ~ "Medio (SMD > 0.3)",
+      TRUE ~ "Bajo (SMD ≤ 0.3)"
+    )
+  )
+
+# Gráfico: Basado en tu código, con orden forzado y ajustes
+p <- ggplot2::ggplot(datos_breakdown, ggplot2::aes(y = Grupo, x = Proporcion, fill = Desbalance)) +
+  ggplot2::geom_col(width = 0.7, alpha = 0.7) +
+  ggplot2::geom_text(ggplot2::aes(label = paste0(round(Proporcion, 0), "%")), 
+                     hjust = 0.5, vjust = 0.5, size = 4, fontface = "bold") +  # % redondeado y centrado
+  ggplot2::facet_wrap(~ Predictor, scales = "free_y", ncol = 2) +  # ncol=2: Llena izquierda primero, luego derecha
+  ggplot2::scale_fill_manual(
+    values = c("Alto (SMD > 0.5)" = "#E31A1C", "Medio (SMD > 0.3)" = "#FF7F00", "Bajo (SMD ≤ 0.3)" = "#33A02C"),
+    name = "Nivel de Desbalance"
+  ) +
+  ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.05)), limits = c(0, 100)) +
+  ggplot2::labs(
+    x = "Proporción (%)", y = NULL
+  ) +
+  ggplot2::theme_minimal(base_size = 10) +
+  ggplot2::theme(
+    axis.text.y = ggplot2::element_blank(),  # Sin labels y
+    axis.text.x = ggplot2::element_text(size = 11, face = "bold"),  # x visible bold
+    strip.text = ggplot2::element_text(size = 9, face = "bold", margin = ggplot2::margin(b = 2)),
+    plot.title = ggplot2::element_blank(),
+    plot.subtitle = ggplot2::element_blank(),
+    legend.position = "bottom",
+    legend.margin = ggplot2::margin(t = 0),
+    panel.grid.major.x = ggplot2::element_line(color = "gray95", size = 0.2),
+    panel.grid.minor = ggplot2::element_blank(),
+    panel.spacing = ggplot2::unit(0.1, "lines"),
+    plot.margin = ggplot2::unit(c(0.2, 0.2, 0.2, 0.2), "cm"),
+    panel.background = ggplot2::element_rect(fill = "transparent", colour = NA),
+    plot.background = ggplot2::element_rect(fill = "transparent", colour = NA)
+  ) +
+  ggplot2::coord_flip(clip = "off")
+
+# Mostrar
+print(p)
+```
+
+
+</details>
 ]
 
-.pull-right[
+.pull_r_30[
 ```{r "comparacion-modalidad-paper2", echo=FALSE, dev.args = list(bg = 'transparent'), fig.align="center", out.width=150, message=F, warning=F, out.height=350}
 empleo<- 
   magick::image_read("_figs/empleo.svg") |>
@@ -2008,34 +2109,28 @@ print(combined_image5_v, info = FALSE)
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-**Diferencias notables entre planes de tratamiento(SMD >0.3)**
-* Empleo: alto en PG-pab (65%); muy bajo en M-pr(10%) y PG-pr(18%)(SMD≈0.79).
+**Difs. notables entre planes de tratamiento**
+* Empleo: alto en AMB BASICO (65%); muy bajo en RESIDENCIALES(10-18%)(SMD≈0.79).
 * Sustancia: RESIDENCIALES, PastaBase(~63%), policonsumo(82%) y frecuencia uso diario(~75%) vs. BASICO:alcohol 44%/64%/23%(SMD=.47-.55).
-* Edad: Amb básico, 1/4 entre 40 y 65 años; mientras que en sólo mujeres, fue el que menos: 16% en este grupo
-* Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-PAB max,sólo 55%(SMD=0.48).
 * Convivencia(SMD=0.47): M-pai+pareja/hijos(67%vs44%,solos5%vs10%); PG-pr+fam.origen(51%vs38%) y solos(16%vs10%)
-* Abandono= +PG-PAB(58.3%vs.53%total)y(-)PG-PR (39%)
-* Tiempo en tto=5,6 meses mediana; M-PR=6.5/PG-PAB=4.4;TTos. <90 días=menos frecunte en M-PR & PG-PAI=20%, más frecuente enPAB=38%
-* Vivienda: residencial m(18.4%)/pg(20%) + alto; bajo= PAB(7.4%)
+* Severidad: Dependencia alta en res.(m-pr 94%, PG-pr 91%); PG-PAB max,sólo 55%(SMD=0.48).
+* Residenciales, menor % de vivienda formal reportada // Residencial mujeres, trastornos de personalidad (por ej., T.límite)
+* Abandono voluntario= +PG-PAB(58.3%vs.53%total)y(-)PG-PR (39%), violación de normas, más en residenciales
+* Edad: Mujeres tienden a ingresar a tratamiento más jóvenes (Amb básico, 1/4 entre 40 y 65 años; mientras que en sólo mujeres, fue el que menos: 16% en este grupo)
+* Tiempo en tto=TTos. <90 días=menos frecunte en M-PR & PG-PAI=20%, más frecuente enPAB=38%
 
-**<5% del conjunto de datos**
-- Modalidad de tratamiento=m-pr_3,548(4.0)
-- Situación habitacional= Asentamiento ilegal_951(1.1)/Otros_2,384 (2.8)
-- Sustancia principal (recodificada)= Otras_1,603(1.8)
-- Resultado del tratamiento= Alta administrativa–razones administrativas_1,325(1.5)
+**<5% del conjunto de datos**, vuelven el modelo inestable, riesgo de sobreajuste (overfitting) y mala generalización con datos nuevos.
+- La modalidad de tratamiento Residencial Mujeres es sólo el 4% del subconjunto de datos
+- Hay otras categorías como Situación habitacional= Asentamiento ilegal_951(1.1)/Otros_2,384 (2.8) que también son escasas
+- Otras sustancia principales reportadas, fuera de marihuana, pastabase, alcohol y cocaina, 1.8%
+- El Alta administrativa por razones administrativas agrupa al 1.5%
   - **Otro_216(0.2)**
 
-**Casos truncados**= Personas con tratamientos de duración indeterminada debido a falta de información sobre su finalización.
+**Casos truncados**= Reguistros de tratamientos de duración indeterminada debido a falta de información sobre su finalización (resultado tratamiento y otras evaluaciones)
 
 **======AUX= no leer======**
-**Descriptivos**
-~~**Anterior**103.074 pacientes **[no leer]**con edades entre 18 y 64 han cursado tratamientos, 31.355 presentan al menos una readmisión (30%) y 4.226 (4,1%)-3987 fallecieron durante el periodo de estudio[TESISvs.AHORA]~~
-
-- SMD = (p1 - p2) / √[ (p1(1 - p1) + p2(1 - p2)) / 2 ]
-denominador es la desviación estándar combinada de las dos proporciones, asumiendo varianzas binomiales𝑝(1−𝑝)
-
-**Casos truncados**
-Una persona empieza tratamiento en 2019, pero los registros no muestran cuándo y cómo terminó. El sistema, calcula automáticamente el tiempo transcurrido mostrando incorrectamente "5 años en tratamiento", cuando en realidad podría haber terminado antes.
+- SMD = (p1 - p2) / √[ (p1(1 - p1) + p2(1 - p2)) / 2 ] denominador es la desviación estándar combinada de las dos proporciones, asumiendo varianzas binomiales𝑝(1−𝑝)
+**Casos truncados** Una persona empieza tratamiento en 2019, pero los registros no muestran cuándo y cómo terminó. El sistema, calcula automáticamente el tiempo transcurrido mostrando incorrectamente "5 años en tratamiento", cuando en realidad podría haber terminado antes.
 
 ---
 class: animated fadeIn
