@@ -1765,7 +1765,7 @@ print(km_death, info = FALSE)
 - Por último, se incluyeron variables relacionadas con la **modalidad** de tratamiento (residencial vs. ambulatorio, programa mujeres/pob. general), ya que podría condicionar el rol que tienen algunos predictores.
 
 **En términos generales**
-- La subpoblacioń seleccionada se compone de 88.504 pacientes adultos (18-64 años) que iniciaron un primer tratamiento entre 2010 y 2020.
+- La subpoblacioń seleccionada se compone de 88.504 pacientes adultos (18-64 años) que **egresaron** un primer tratamiento entre 2010 y 2020.
 - Seguimiento hasta 31 de diciembre de 2020.
 **Tiempos a eventos**
 - **mediana de ~3 años y medio de Readmisión desde el egreso/41.0[15.0,73.0]**
@@ -1979,9 +1979,9 @@ datos_breakdown <- datos_breakdown %>%
   ) %>%
   dplyr::mutate(
     Desbalance = dplyr::case_when(
-      SMD > 0.5 ~ "Alto (SMD > 0.5)",
-      SMD > 0.3 ~ "Medio (SMD > 0.3)",
-      TRUE ~ "Bajo (SMD ≤ 0.3)"
+      SMD > 0.5 ~ "3.Alto (SMD > 0.5)",
+      SMD > 0.3 ~ "2.Medio (SMD > 0.3)",
+      TRUE ~ "1.Bajo (SMD ≤ 0.3)"
     )
   )
 
@@ -1992,7 +1992,7 @@ p <- ggplot2::ggplot(datos_breakdown, ggplot2::aes(y = Grupo, x = Proporcion, fi
                      hjust = 0.5, vjust = 0.5, size = 4, fontface = "bold") +  # % redondeado y centrado
   ggplot2::facet_wrap(~ Predictor, scales = "free_y", ncol = 2) +  # ncol=2: Llena izquierda primero, luego derecha
   ggplot2::scale_fill_manual(
-    values = c("Alto (SMD > 0.5)" = "#E31A1C", "Medio (SMD > 0.3)" = "#FF7F00", "Bajo (SMD ≤ 0.3)" = "#33A02C"),
+    values = c("3.Alto (SMD > 0.5)" = "#E31A1C", "2.Medio (SMD > 0.3)" = "#FF7F00", "1.Bajo (SMD ≤ 0.3)" = "#33A02C"),
     name = "Nivel de Desbalance"
   ) +
   ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.05)), limits = c(0, 100)) +
@@ -2486,7 +2486,7 @@ print(planificacion, info="none")
 **Fase 1: Modelos predictivos separados (Oct–Nov)**
 - Cox.
 
-- Validación: AICc, Brier Score [**Calibración**= ¿coincide la P() predicha con la % real de readm/mortalidad?, Prom errores en el tiempo ≤ 0.10], Uno-C [**Discriminación**= Ordenando por riesgo: ¿los cpm mayor riesgo predicho readmiten/fallecen antes?,>0.8,  ambos bootstrap 500× IC 95%], net benefit [umbral de probabilidad clínico] 
+- Validación: AICc, Brier Score [**Calibración**= ¿coincide la P() predicha con la % real de readm/mortalidad?, Uno-C [**Discriminación**= Ordenando por riesgo: ¿los cpm mayor riesgo predicho readmiten/fallecen antes?,>0.8,  ambos bootstrap 500× IC 95%], net benefit [umbral de probabilidad clínico]  (no leer= , de calibración: Prom errores en el tiempo ≤ 0.10])
 
 - Manejo de datos faltantes: MICE (5 imputaciones, PMM)= Copio la base 5x,lleno lo vacío con un paciente parecido y copio su valor; luego pool por las 5 bases, así el error queda cuantificado
 
@@ -2500,8 +2500,8 @@ print(planificacion, info="none")
 
 **Borrador segundo artículo**
 
-**"La mortalidad en esta población no es inevitable: hay un exceso de riesgo frente a la población general de misma edad y sexo. Predecirla no es solo una tarea técnica, es una oportunidad de intervención."**
-- Un modelo predictivo y los scores de riesgo ayudan a entender cómo estas identidades cruzadas influyen en resultados post-tratamiento
+**"Los resultados nos muestran que la mortalidad en esta población no es inevitable: hay un exceso de riesgo frente a la población general de misma edad y sexo. Predecirla no es solo una tarea técnica, es una oportunidad de intervención."**
+- Un modelo predictivo y los scores de riesgo ayudan a entender cómo estos factores cruzados influyen en resultados post-tratamiento
 
 **Sobre estratificación**
 - 5 (modalidad) x 2 (sus.principal-licita/ilícita) x 2 (resultado tto.) x 2 (desenlaces post-tto.) = 40, lo otro es estratificar el riesgo basal
@@ -2517,7 +2517,7 @@ En particular, la estratificación compromete la estabilidad, capacidad de selec
 
 **Incorporar otras variables**
 - Variables adicionales: Evaluación del Proceso Terapéutico(d), Respecto al Patrón de consumo(d), a Situación Familiar(d), Interpersonal(d), Ocupacional(d), Salud Mental(d),  Salud Física(d),  Trasgresión a la Norma Social(d). **Más subjetivas, pero pueden ser un insumo importante en capacidad predictiva**.
-- logro alto logro intermedio     logro minimo, 235 perdidos=**todos los truncados, ¿los saco?**
+- logro mínimo, intermedio y alto, 235 perdidos=**todos los truncados, ¿los saco?**
 
 **Y ahora, me gustaría aprovechar la instancia para orientación respecto estas inquietudes"**
 
@@ -2577,5 +2577,5 @@ to_pdf_complex <- function(input, output_file, partial_slides, delay) {
   }
 
 pagedown::chrome_print(gsub(".Rmd",".html",rstudioapi::getSourceEditorContext()$path),output="avance1.pdf")
-xaringanBuilder::build_pdf(gsub(".Rmd",".Rmd",rstudioapi::getSourceEditorContext()$path),complex_slides = TRUE,output_file="avance1_alt.pdf")
+to_pdf(gsub(".Rmd",".Rmd",rstudioapi::getSourceEditorContext()$path),complex_slides = TRUE,to="avance1_alt.pdf")
 ```
