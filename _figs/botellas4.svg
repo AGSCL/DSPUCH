@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <title>Dos botellas cafés cruzadas (abajo a la derecha)</title>
+
+  <defs>
+    <!-- Degradado de vidrio ámbar -->
+    <linearGradient id="amberGlass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8B4513"></stop>
+      <stop offset="50%" stop-color="#A0522D"></stop>
+      <stop offset="100%" stop-color="#5C3317"></stop>
+    </linearGradient>
+
+    <!-- Símbolo reutilizable de botella -->
+    <symbol id="bottle" viewBox="-25 -130 50 260">
+      <!-- Botella -->
+      <path d="M -8 -120 L 8 -120
+               L 8 -80
+               Q 8 -60 18 -50
+               Q 25 -45 25 -30
+               L 25 90
+               Q 25 110 0 120
+               Q -25 110 -25 90
+               L -25 -30
+               Q -25 -45 -18 -50
+               Q -8 -60 -8 -80 Z" fill="url(#amberGlass)" stroke="#3B1C00" stroke-width="2" stroke-linejoin="round"></path>
+
+      <!-- Etiqueta -->
+      <rect x="-12" y="20" width="24" height="36" rx="3" fill="#F9E6C1" stroke="#3B1C00" stroke-width="1.5" opacity="0.8"></rect>
+
+      <!-- Brillo -->
+      <path d="M -5 -90 C -4 -50 -4 40 -5 80" fill="none" stroke="#FFFFFF" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round"></path>
+    </symbol>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="100%" height="100%" fill="none"></rect>
+
+  <!-- Botella izquierda (rotada +40°), desplazada hacia abajo/derecha -->
+  <g transform="translate(210,210) rotate(40)">
+    <use href="#bottle"></use>
+  </g>
+
+  <!-- Botella derecha (rotada -40°), también desplazada -->
+  <g transform="translate(230,210) rotate(-40)">
+    <use href="#bottle"></use>
+  </g>
+</svg>

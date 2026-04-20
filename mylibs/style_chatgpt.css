@@ -1,0 +1,1045 @@
+.section-slide {
+  background-color: #143d59;
+  color: white;
+  padding-top: 120px;
+}
+
+.section-slide h1,
+.section-slide h2,
+.section-slide h3 {
+  color: white;
+}
+
+.big-number {
+  font-size: 2.2em;
+  font-weight: 700;
+  color: #143d59;
+  line-height: 1;
+}
+
+.mini-label {
+  font-size: 0.85em;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.card {
+  background: #f7f9fb;
+  border-left: 6px solid #2f6f8f;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 10px 0;
+}
+
+.card-soft {
+  background: #f7f9fb;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 8px 0;
+}
+
+.key-box {
+  background: #eaf3f8;
+  border-left: 6px solid #143d59;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.metric-box {
+  background: white;
+  border: 1px solid #d9e2ea;
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.small-note {
+  font-size: 0.8em;
+  color: #666666;
+}
+
+.tight-list li {
+  margin-bottom: 0.35em;
+}
+
+/* Estilos específicos para diapositiva de características basales */
+.basal-slide {
+  background-color: #E6E6E6;
+}
+
+.basal-header {
+  color: #666666;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.basal-title {
+  color: #2f353b;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.basal-sub {
+  color: #666666;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.basal-grid {
+  display: flex;
+  gap: 14px;
+}
+
+.basal-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex: 1;
+}
+
+.basal-box-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.basal-box-title {
+  color: #003891;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.basal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 12.5px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.basal-label {
+  color: #666666;
+}
+
+.basal-val {
+  color: #003891;
+  font-weight: 700;
+}
+
+/* Barras de progreso */
+.basal-bar-track {
+  background-color: #E6E6E6;
+  border-radius: 3px;
+  height: 7px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.basal-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.bf-coca { width: 37.8%; background-color: #D3771F; }
+.bf-alc  { width: 34.0%; background-color: #003891; }
+.bf-polv { width: 19.6%; background-color: #EF9D2F; }
+.bf-mari { width: 6.8%;  background-color: #666666; }
+
+.basal-trat {
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: #2f353b;
+}
+
+.basal-trat strong {
+  color: #003891;
+}
+
+.basal-res-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 12px;
+}
+
+.basal-res-lab {
+  color: #666666;
+}
+
+.basal-res-val {
+  font-weight: 700;
+}
+
+.basal-res-val.abandono { color: #D3771F; }
+.basal-res-val.completa { color: #003891; }
+
+/* Diapositiva predictores XGBoost-SHAP */
+.pred-slide { background-color: #E6E6E6; }
+
+.pred-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.pred-title {
+  color: #2f353b;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.pred-content {
+  padding-top: 20px;   /* <-- Ajusta este valor para subir/bajar todo */
+}
+
+.pred-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+}
+
+.pred-box-intro {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #2f353b;
+}
+
+.pred-box-intro strong {
+  color: #D3771F;
+}
+
+.pred-box-footer {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-size: 13px;
+  line-height: 1.5;
+  color: #2f353b;
+}
+
+.pred-box-footer strong {
+  color: #D3771F;
+}
+
+.pred-grid {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.pred-col {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex: 1;
+}
+
+.pred-col-title {
+  color: #003891;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.pred-item {
+  background: #F7F7F7;
+  border-radius: 5px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+
+.pred-item-title {
+  color: #2f353b;
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.pred-item-desc {
+  color: #666666;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+/* Diapositiva Discriminación y Calibración */
+.calib-slide { background-color: #E6E6E6; }
+
+.calib-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.calib-title {
+  color: #2f353b;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.calib-content {
+  padding-top: 20px;   /* Ajusta para subir/bajar todo el bloque */
+}
+
+.calib-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.calib-top-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.calib-top-row > .calib-box {
+  flex: 1;
+}
+
+.calib-box-title {
+  color: #003891;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.calib-metric {
+  margin-bottom: 12px;
+}
+
+.calib-metric-label {
+  color: #666666;
+  font-size: 12px;
+}
+
+.calib-metric-value {
+  color: #2f353b;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.calib-metric-range {
+  color: #666666;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.calib-alert {
+  background: #FFF8F0;
+  border-left: 3px solid #D3771F;
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #2f353b;
+}
+
+.calib-alert strong {
+  color: #D3771F;
+}
+
+.calib-text {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #2f353b;
+}
+
+.calib-text strong {
+  color: #003891;
+}
+
+.calib-subtitle {
+  color: #003891;
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+.calib-metrics-row {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.calib-metric-block {
+  flex: 1;
+}
+
+.calib-metric-block-label {
+  color: #666666;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.calib-metric-block-value {
+  color: #D3771F;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.calib-metric-block-value.blue {
+  color: #003891;
+}
+
+.calib-metric-block-value.gray {
+  color: #999999;
+  font-size: 18px;
+}
+
+.calib-metric-block-desc {
+  color: #666666;
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.calib-footer {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #2f353b;
+}
+
+.calib-footer strong {
+  color: #D3771F;
+}
+
+/* Diapositiva Predictores Mortalidad */
+.mort-slide { background-color: #E6E6E6; }
+
+.mort-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.mort-title {
+  color: #2f353b;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.mort-content {
+  padding-top: 1%;
+}
+
+.mort-intro {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #2f353b;
+}
+
+.mort-intro strong {
+  color: #D3771F;
+}
+
+.mort-grid {
+  display: flex;
+  gap: 14px;
+}
+
+.mort-col {
+  flex: 1;
+}
+
+.mort-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+}
+
+.mort-box-title {
+  color: #003891;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.mort-item {
+  margin-bottom: 12px;
+}
+
+.mort-item-title {
+  color: #2f353b;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.mort-item-desc {
+  color: #666666;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.mort-num {
+  display: inline-block;
+  background: #D3771F;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.mort-box-footer {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #2f353b;
+}
+
+.mort-box-footer strong {
+  color: #D3771F;
+}
+
+.mort-note {
+  font-size: 11px;
+  color: #666666;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Diapositiva Discriminación y Calibración Mortalidad */
+.mort-slide { background-color: #E6E6E6; }
+
+.mort-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.mort-title {
+  color: #2f353b;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.mort-content {
+  padding-top: 10%;
+}
+
+.mort-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+}
+
+.mort-box-title {
+  color: #003891;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.mort-top-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.mort-top-row > .mort-box {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.mort-metric {
+  margin-bottom: 10px;
+}
+
+.mort-metric-label {
+  color: #666666;
+  font-size: 12px;
+}
+
+.mort-metric-value {
+  color: #2f353b;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.mort-metric-range {
+  color: #666666;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.mort-alert {
+  background: #FFF8F0;
+  border-left: 3px solid #D3771F;
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #2f353b;
+}
+
+.mort-alert strong {
+  color: #D3771F;
+}
+
+.mort-text {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #2f353b;
+}
+
+.mort-text strong {
+  color: #003891;
+}
+
+.mort-subtitle {
+  color: #003891;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.mort-classif-row {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.mort-classif-block {
+  flex: 1;
+  text-align: center;
+}
+
+.mort-classif-block-label {
+  color: #666666;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.mort-classif-block-value {
+  color: #003891;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.mort-classif-block-value.orange {
+  color: #D3771F;
+}
+
+.mort-classif-block-desc {
+  color: #666666;
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.mort-footer {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #2f353b;
+  border-left: 3px solid #D3771F;
+}
+
+.mort-footer strong {
+  color: #D3771F;
+}
+
+/* Tablas rendimiento modelo */
+.perf-slide { background-color: #E6E6E6; }
+
+.perf-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.perf-title {
+  color: #2f353b;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.perf-content {
+  padding-top: 18px;
+}
+
+.perf-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 14px;
+  overflow-x: auto;
+}
+
+.perf-box-title {
+  color: #003891;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.perf-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.perf-table th {
+  background-color: #003891;
+  color: #FFFFFF;
+  padding: 6px 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.perf-table td {
+  padding: 5px 8px;
+  text-align: center;
+  border-bottom: 1px solid #f0f0f0;
+  color: #2f353b;
+}
+
+.perf-table tr:nth-child(even) {
+  background-color: #F7F7F7;
+}
+
+.perf-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+}
+
+.perf-note {
+  font-size: 10px;
+  color: #666666;
+  margin-top: 6px;
+}
+
+.perf-two-cols {
+  display: flex;
+  gap: 14px;
+}
+
+.perf-two-cols > .perf-box {
+  flex: 1;
+}
+
+
+/* Diapositiva Nudos y Limitaciones */
+.limit-slide { background-color: #E6E6E6; }
+
+.limit-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.limit-title {
+  color: #2f353b;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.limit-content {
+  padding-top: 10%;   /* padding-top del 20% */
+}
+
+.limit-grid {
+  display: flex;
+  gap: 14px;
+}
+
+.limit-col-left {
+  flex: 1.1;
+}
+
+.limit-col-right {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.limit-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.limit-box-title {
+  color: #003891;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.limit-item {
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #2f353b;
+}
+
+.limit-item strong {
+  color: #003891;
+}
+
+.limit-num {
+  display: inline-block;
+  background: #D3771F;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.limit-check {
+  color: #003891;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+/* Diapositiva Conclusiones Principales */
+.conc-slide { background-color: #E6E6E6; }
+
+.conc-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.conc-title {
+  color: #2f353b;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.conc-content {
+  padding-top: 10%;
+}
+
+.conc-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.conc-row {
+  display: flex;
+  gap: 12px;
+}
+
+.conc-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex: 1;
+}
+
+.conc-box-wide {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.conc-box-title {
+  color: #003891;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.conc-text {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #2f353b;
+}
+
+.conc-text strong {
+  color: #003891;
+}
+
+.conc-footer {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #2f353b;
+  border-left: 3px solid #D3771F;
+}
+
+.conc-footer strong {
+  color: #D3771F;
+}
+/* Diapositiva Implementación Práctica */
+.impl-slide { background-color: #E6E6E6; }
+
+.impl-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.impl-title {
+  color: #2f353b;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.impl-subtitle {
+  color: #666666;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+
+.impl-content {
+  padding-top: 10%;
+}
+
+.impl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.impl-card {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.impl-num {
+  display: inline-block;
+  background: #003891;
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.impl-card-title {
+  color: #003891;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.impl-card-text {
+  color: #666666;
+  font-size: 11.5px;
+  line-height: 1.4;
+}
+
+.impl-vision {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #2f353b;
+  border-left: 3px solid #D3771F;
+}
+
+.impl-vision strong {
+  color: #D3771F;
+}

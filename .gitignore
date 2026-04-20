@@ -7,6 +7,12 @@
 /*.Rdata/
 desktop.ini
 
+# Archivos relacionados con Python
+/*gpg
+*gpg
+*.parquet
+*parquet
+
 # Archivos específicos de Windows
 desktop.ini
 */desktop.ini
