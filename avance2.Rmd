@@ -881,14 +881,12 @@ class: animated fadeIn
 **NOTA Objetivos**
 *#_#_#_#_#_#_#_#_#_#_
 
-Evaluar el papel predictivo de la duración de la estadía y del resultado del tratamiento inicial, junto con otros factores pronósticos y predictivos de predisposición, necesidad percibida y facilitadores de atención, sobre el riesgo y el tiempo hasta la ocurrencia de la primera readmisión y mortalidad por todas las causas en personas de 18 a 64 años admitidas a tratamiento por TUS en Chile entre 2010 y 2020.
+Evaluar el papel predictivo de la duración de la estadía y del resultado del tratamiento inicial, junto con otros factores pronósticos y predictivos de predisposición, necesidad percibida y facilitadores de atención, sobre el riesgo y el tiempo hasta la ocurrencia de la primera readmisión y mortalidad por todas las causas en personas de 18 a 64 años admitidas a tratamiento por trastornos por uso de sustancias, TUS, en Chile entre 2010 y 2020.
 
 En este avance me voy a concentrar en tres cosas: qué mostró ya el primer artículo, qué muestran los primeros resultados del segundo, y qué decisiones analíticas requieren orientación para cerrar la tesis.
 
 Prioricé los modelos de readmisión y mortalidad por separado. El componente multiestado sigue siendo valioso, pero lo dejé como una extensión posterior.
-
-**Reserva**:
-No ignoré la dependencia entre desenlaces: para readmisión incorporé la muerte como evento competidor en la calibración y en los riesgos observados mediante Aalen–Johansen.
+Aunque no ignoré la dependencia entre desenlaces: para readmisión incorporé la muerte como evento competidor en la calibración y en los riesgos observados mediante Aalen–Johansen.
 
 ---
 class: animated fadeIn 
@@ -936,6 +934,8 @@ El problema no es trivial. Después del tratamiento, la mortalidad en esta cohor
 
 Además, el exceso fue relativamente mayor en mujeres, aunque las tasas absolutas siguieron siendo más altas en hombres. También se concentró en algunas causas específicas, como causas digestivas, respiratorias y muertes violentas. Quienes completaron tratamiento experimentaron menor riesgo relativo.
 
+Lo que sigue es preguntarse: 
+
 → ¿Quiénes tienen mayor riesgo?
 
 → ¿Se puede predecir?
@@ -979,7 +979,7 @@ andersen
 ]
 
 .pull-right[
-### Diseño y cohorte
+### Plan analítico
 
 <details open>
 <summary>📦 Ocultar</summary>
@@ -992,7 +992,7 @@ knitr::include_graphics("./_figs/second_paper_scheme.png")
 </details>
 
 <details>
-<summary>🔬 Ver esquema </summary>
+<summary>🔬 Info. adicional </summary>
 <div class="pull-left" style="width: 32%;">
   <div class="metric-box">
     <div class="mini-label">Cohorte</div>
@@ -1026,15 +1026,15 @@ knitr::include_graphics("./_figs/second_paper_scheme.png")
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA 2do artículo**
 *#_#_#_#_#_#_#_#_#_#_
-DATASET: 88k pacientes, 70k train, 17k test (20%), estratificado por evento (ya sea readmisión o mortalidad) y modalidad de tratamiento, para que cada subconjunto esté balanceado.
+DATASET: Se compone de 88k pacientes, separados en un conjunto de entrenamiento (70k) y prueba (20%, 17k). La división se estratificó por evento (ya sea readmisión o mortalidad) y modalidad de tratamiento, para que cada subconjunto esté balanceado.
 
-Conceptualmente, organicé los predictores con el **modelo de Andersen**. Muy brevemente: los predisponentes son características previas de la persona, como edad, sexo o condiciones sociales; la necesidad percibida recoge cuánta necesidad clínica hay, por ejemplo severidad, comorbilidad o patrón de consumo; y los habilitadores son condiciones que facilitan o dificultan la atención y su continuidad, como modalidad, derivación, duración del tratamiento o resultado del egreso.
+Conceptualmente, se organizaron los predictores con el **modelo de Andersen**. Muy brevemente: los predisponentes son características previas de la persona, (ej., edad, sexo o condiciones sociales); la necesidad percibida recoge cuánta necesidad clínica hay, más inmediata (ej., severidad, frecuencia consumo, comorbilidad); y los habilitadores son condiciones que facilitan o dificultan la atención y su continuidad, como modalidad, derivación, duración del tratamiento o resultado del egreso.
 
-Primero, en el conjunto de entrenamiento, se uso Machine learning (Extreme Gradient Boosting, entrena muchos árboles de decisión en secuencia para detectar automáticamente qué predictores importan y cómo se relacionan entre sí) para explorar la estructura de los datos y detectar patrones complejos. Se eligieron los hiperparámetros que mejoren el desempeño en términos de discriminación y calibración. A través de valores SHAP (para predicciones, descompone cuánto contribuye una variable a alejar el resultado del riesgo promedio) identifico los predictores más influyentes/importantes, incluyendo posibles no linealidades e interacciones.
+Primero, en el conjunto de entrenamiento, se utilizó Machine learning (Extreme Gradient Boosting, entrena muchos árboles de decisión en secuencia para detectar automáticamente qué predictores importan y cómo se relacionan entre sí) para explorar la estructura de los datos y detectar patrones complejos. Se eligieron los hiperparámetros que mejoren el desempeño en términos de discriminación y calibración. A través de valores SHAP o Shapley additive values (para predicciones, descompone cuánto contribuye una variable a alejar el resultado del riesgo promedio) identifico los predictores más influyentes/importantes, incluyendo posibles no linealidades e interacciones.
 
-Descartamos variables colineales (generalized variance inflation factor >10, sólo evaluación proceso terapéutico, logro mínimo, para readmisión). Se generaron dos modelos por desenlace: Full PH uno tradicional con predictores establecidos, y otro modelo más parsimonioso e informado por ML.
+Se descartaron variables colineales (generalized variance inflation factor >10, sólo evaluación proceso terapéutico, logro mínimo, para readmisión). Se generaron dos modelos por desenlace: **Full Cox tradicional** con todos los predictores establecidos, y otro modelo más parsimonioso e **informado por ML**. En ambos casos, se estratificó el baseline hazard por modalidad de tratamiento y resultado de tratamiento (incumplimiento de normas del centro) por sustancial evidencia de violaciones al supuesto de riesgos proporcionales.
 
-Comparamos por desempeño: Uno’s C = Uno’s concordance index; IBS = integrated Brier score; ICI = integrated calibration index; D1 = prueba de Wald para comparar modelos anidados; AICc = criterio de información de Akaike corregido por tamaño muestral ; DCA = análisis de curvas de decisión. Valores altos de Uno’s C indican mejor discriminación (porcentaje de ordenamiento correcto entre pares comparables (considerando censura)), valores másbajos de IBS, ICI, y AICc indican mejor desempeño. IBS (error promedio de las predicciones en el tiempo).
+Se comparó por desempeño: Uno’s C = índice de concordancia de Uno (porcentaje de ordenamiento correcto entre pares comparables (considerando censura)); IBS = integrated Brier score (error promedio de las predicciones en el tiempo, incluye calibración + discriminación e incorpora la varianza inherente a los datos); ICI = integrated calibration index (coincidencia de probabilidades predichas con observadas en el tiempo); D1 = prueba de Wald para comparar modelos anidados; AICc = criterio de información de Akaike corregido por tamaño muestral ; Valores altos de Uno’s C indican mejor discriminación , valores másbajos de IBS, ICI, y AICc indican mejor desempeño.
 
 <div class="perf-content"> <div class="perf-two-cols"> <div class="perf-box"> <div class="perf-box-title">🔁 Readmisión — Riesgo acumulado KM</div> <table class="perf-table"> <tr> <th>Meses</th> <th>n total</th> <th>Eventos</th> <th>Censurados</th> <th>En riesgo</th> <th>Riesgo KM</th> </tr> <tr><td>3</td><td>70,521</td><td>2,875</td><td>5,320</td><td>62,326</td><td>4.4%</td></tr> <tr><td>12</td><td>70,521</td><td>7,442</td><td>8,705</td><td>54,374</td><td>11.5%</td></tr> <tr><td>24</td><td>70,521</td><td>10,531</td><td>14,905</td><td>45,085</td><td>16.8%</td></tr> <tr><td>36</td><td>70,521</td><td>12,347</td><td>21,321</td><td>36,853</td><td>20.4%</td></tr> <tr><td>60</td><td>70,521</td><td>14,154</td><td>33,538</td><td>22,829</td><td>25.0%</td></tr> <tr><td>108</td><td>70,521</td><td>15,202</td><td>50,813</td><td>4,506</td><td>30.7%</td></tr> </table> </div> <div class="perf-box"> <div class="perf-box-title">⚕️ Mortalidad — Riesgo acumulado KM</div> <table class="perf-table"> <tr> <th>Meses</th> <th>n total</th> <th>Eventos</th> <th>Censurados</th> <th>En riesgo</th> <th>Riesgo KM</th> </tr> <tr><td>3</td><td>70,521</td><td>329</td><td>5,012</td><td>65,180</td><td>0.5%</td></tr> <tr><td>12</td><td>70,521</td><td>706</td><td>8,198</td><td>61,617</td><td>1.1%</td></tr> <tr><td>24</td><td>70,521</td><td>1,246</td><td>14,610</td><td>54,665</td><td>2.0%</td></tr> <tr><td>36</td><td>70,521</td><td>1,700</td><td>21,792</td><td>47,029</td><td>2.9%</td></tr> <tr><td>60</td><td>70,521</td><td>2,379</td><td>36,465</td><td>31,677</td><td>4.5%</td></tr> <tr><td>108</td><td>70,521</td><td>2,994</td><td>60,535</td><td>6,992</td><td>7.7%</td></tr> </table> </div> </div>
 
@@ -1048,13 +1048,13 @@ class: basal-slide animated fadeIn
 **NOTA Diseño/Cohorte**
 *#_#_#_#_#_#_#_#_#_#_
 
-La cohorte muestra una población social y clínicamente vulnerable. La edad mediana fue cercana a 35 años; predominan los hombres; el policonsumo y el consumo diario fueron frecuentes; la comorbilidad psiquiátrica también fue alta.
-Desde el punto de vista del tratamiento, la mayoría estuvo en modalidades ambulatorias, la duración mediana fue cercana a seis meses, y el abandono fue más frecuente que la completación.
+La cohorte muestra una población con alta complejidad social y clínica. La edad mediana fue cercana a 35 años; predominan los hombres; el policonsumo y el consumo diario fueron frecuentes; la comorbilidad psiquiátrica también fue alta.
+Desde el punto de vista del tratamiento, la mayoría estuvo en modalidades ambulatorias, la duración mediana fue cercana a seis meses, y el abandono fue más frecuente que completar.
 Lo menciono porque este contexto ayuda a entender por qué la readmisión y la mortalidad no son desenlaces fáciles de predecir.
 
-VENTANAS DE SEGUIMIENTO PRINCIPALES: 1 año, 3 años, 5 años
+VENTANAS DE SEGUIMIENTO PRINCIPALES: 1 , 3 y 5 años
 
-readmisión compite con muerte
+Dando cuenta que la readmisión compite con muerte
 
 **secundario**
 DEMOGRAFÍA: edad ~35, mayoría hombres (~75%), mitad solteros, mitad trabaja, educación baja (mayoría secundaria o menos), vive con familia o propietario, 
@@ -1077,8 +1077,6 @@ En readmisión, el hallazgo principal es que no aparece un único mecanismo domi
 
 Entre los predictores más relevantes aparecen edad, comorbilidad psiquiátrica, policonsumo, sustancia principal, condiciones sociales y variables del propio tratamiento, como duración, motivo de ingreso y evaluación al egreso.
 
-En otras palabras, la readmisión no parece ser simplemente un problema de ‘fracaso individual’, sino un desenlace multidimensional.
-
 ---
 class: calib-slide
 
@@ -1089,9 +1087,9 @@ class: calib-slide
 **NOTA Readmisión: desempeño**
 *#_#_#_#_#_#_#_#_#_#_
 
-- En readmisión, el desempeño fue más bien modesto. Un Uno’s C-index global de 0,604 significa, en términos simples, que Si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes el evento en aproximadamente 6 de cada 10 casos. Es mejor que el azar, pero no es una discriminación fuerte. capacidad limitada para separar pacientes de alto y bajo riesgo.
+- El desempeño fue más bien modesto para readmisión. Un Uno’s C global de 0,604 significa, en términos simples, que Si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes el evento en aproximadamente 6 de cada 10 casos. Es mejor que el azar, pero no es una discriminación fuerte. capacidad limitada para separar pacientes de alto y bajo riesgo.
 
-- Respecto del IBS global, que en esta diapositiva está en el orden de 0,35 (35% error promedio en predicciones) por lo que el error predictivo global sigue siendo importante. Ojo, que estas métricas abarcan TODO el tiempo de seguimiento (hasta 10 años de seguimiento aprox.)
+- Respecto del IBS global, que en esta diapositiva está en el orden de 0,35 (35% error promedio en predicciones) por lo que el error predictivo global sigue siendo importante. Ojo, que estas métricas abarcan TODO el tiempo de seguimiento
 
 **secundario**
 
@@ -1120,8 +1118,7 @@ class: calib-figure-slide
 *#_#_#_#_#_#_#_#_#_#_
 
 Esta figura muestra calibración: compara riesgo predicho con riesgo observado ( a 1, 3 y 5 años). Mientras más cerca están los puntos de la diagonal, mayor concordancia.
-
-En readmisión hay concordancia razonable en varios estratos, pero también más tensión metodológica, porque es un evento frecuente y además compite con la mortalidad
+En readmisión hay concordancia razonable en varios estratos, pero también más tensión metodológica: es un evento frecuente y además compite con la mortalidad como evento competitivo. Se utilizó Aalen-Johansen para estimar la probabilidad observada, dando cuenta explícitamente de la mortalidad como competidor.
 
 **secundario**
 Panel A shows the full stratified Cox model (Full PH-adjusted model with additional stratification for rule-violation discharge), and panel B the selected machine-learning–informed Cox model (Final SHAP model with interactions and splines). Within each panel, observed risks are grouped and plotted against mean predicted risks at 12, 36, and 60 months. For readmission, observed risks were estimated using the Aalen–Johansen estimator to account for the competing risk of death. The dashed 45° line indicates perfect calibration. Points represent the grouped mean predicted and observed risks; vertical bars and shaded ribbons indicate uncertainty around the grouped observed risks. Marginal density plots display the distribution of grouped predicted risks (bottom) and grouped observed risks (right).
@@ -1135,7 +1132,8 @@ class: mort-slide
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA Mortalidad, predictores**
 *#_#_#_#_#_#_#_#_#_#_
-A diferencia de la readmisión, en mortalidad el patrón parece más concentrado. El riesgo está más dominado por edad, comorbilidad física, severidad clínica y algunos indicadores del proceso terapéutico
+
+A diferencia de la readmisión, el patrón para el modelo para mortalidad parece más concentrado. El riesgo está más dominado por edad, comorbilidad física, severidad clínica y algunos indicadores del proceso terapéutico
 
 Sugiere que la mortalidad responde a un conjunto más compacto de vulnerabilidad acumulada, menos disperso
 
@@ -1151,10 +1149,11 @@ class: mort-slide
 **NOTA Mortalidad, desempeño**
 *#_#_#_#_#_#_#_#_#_#_
 
-- En mortalidad, el modelo funcionó mejor que en readmisión. Un Uno’s C cercano a 0,74 indica una discriminación moderada a buena: el modelo separa bastante mejor a quienes tienen mayor y menor riesgo. IBS también fue menor que en readmisión, lo que sugiere menos error global (aunque el evento es poco frecuente, ~4%)
+- El modelo que predice mortalidad tuvo un mejor desempeño. Un Uno’s C cercano a 0,74 indica una discriminación moderada a buena: el modelo separa bastante mejor a quienes tienen mayor y menor riesgo. IBS también fue menor que en readmisión, lo que sugiere menos error global (aunque el evento es poco frecuente, ~4%)
 
 - modelo Full PH-adjusted fue consistentemente favorecido frente al ML-informed. Patrón más lineal
 
+**SECUNDARIO**
 Mean AICc: 51496.24 (full) vs. 54,156.9 (ML-informed)
 
 ---
