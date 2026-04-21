@@ -1177,8 +1177,6 @@ class: mort-slide
 
 - El modelo que predice mortalidad tuvo un mejor desempeño. Un Uno’s C cercano a 0,74 indica una discriminación moderada a buena: el modelo separa bastante mejor a quienes tienen mayor y menor riesgo. El puntaje brier integrado IBS también fue menor que en readmisión, lo que sugiere menos error global (aunque el evento es poco frecuente, ~4%)
 
--Esto sugiere que el modelo Full PH-adjusted fue consistentemente favorecido frente al ML-informed. Siguiendo un patrón más lineal
-
 **SECUNDARIO**
 Mean AICc: 51496.24 (full) vs. 54,156.9 (ML-informed)
 
@@ -1403,7 +1401,7 @@ print(planificacion, info="none")
 
 Finalmente, quisiera mencionar brevemente que la pasantía doctoral realizada en Québec entre mayo y julio de 2025 en el marco de un Fondo de Vinculación Internacional (FOVI) adjudicado por el Dr. Castillo-Carniglia, que fortaleció esta tesis en tres niveles: conceptual, al situarla mejor en la discusión entre abstinencia y reducción de daños; metodológico, al reforzar la reflexión sobre trayectorias post-tratamiento; y analítico, al aportar insumos para interpretar los hallazgos en clave de política pública.
 
-En este punto, considero que el núcleo empírico de la tesis está bastante consolidado: el primer artículo cuantificó el problema, y el segundo ya permite discutir hasta dónde ese riesgo podría anticiparse, al margen de haber postpuesto un modelo multiestado como tal. Los resultados que presento hoy corresponden a la fase de desarrollo del modelo. La evaluación en la muestra de test independiente fue reservada deliberadamente para una etapa posterior, para incorporar esta retroalimentación antes de fijar la especificación final y así preservar la independencia de esa validación. Ahora, de ser posible, me gustaría perdirles su orientación sobre los puntos metodológicos y de presentación que todavía están abiertos.
+En este punto, considero que el núcleo empírico de la tesis está bastante consolidado: el primer artículo cuantificó el problema, y el segundo ya permite discutir hasta dónde ese riesgo podría anticiparse, al margen de haber postpuesto un modelo multiestado como tal. Los resultados que presento hoy corresponden a la fase de desarrollo del modelo. Reitero: la evaluación en la muestra de test independiente fue reservada deliberadamente para una etapa posterior, para incorporar esta retroalimentación antes de fijar la especificación final y así preservar la independencia de esa validación. Ahora, de ser posible, me gustaría perdirles su orientación sobre los puntos metodológicos y de presentación que todavía están abiertos.
 
 **pasantía**
 Durante mi estadía doctoral en Québec, entre mayo y julio de 2025, sostuve reuniones de trabajo con el Dr. Ignacio Nazif-Muñoz y la Dra. Karen Domínguez-Cancino, visité un centro de tratamiento en Montréal y participé como oyente en instancias vinculadas con consumo de sustancias y embarazo.
