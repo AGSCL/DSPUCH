@@ -1113,7 +1113,7 @@ class: calib-slide
 
 - El desempeño fue más bien modesto para readmisión. Un Uno’s C global de 0,604 significa, en términos simples, que Si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes el evento en aproximadamente 6 de cada 10 casos. Es mejor que el azar, pero no es una discriminación fuerte. capacidad limitada para separar pacientes de alto y bajo riesgo.
 
-- Respecto del IBS global, que en esta diapositiva está en el orden de 0,35 (35% error promedio en predicciones) por lo que el error predictivo global sigue siendo importante. Ojo, que estas métricas abarcan TODO el tiempo de seguimiento
+- Respecto del puntaje brier integrado (IBS) global, que en esta diapositiva está en el orden de 0,35 (35% error promedio en predicciones) por lo que el error predictivo global sigue siendo importante. Ojo, que estas métricas abarcan TODO el tiempo de seguimiento
 
 - Específicamente, fue moderadamente útil al inicio: en los primeros 3 a 12 meses el C-index estuvo más o menos entre 0,63 y 0,65, con un IBS de 0,15 a 0,20. Después se fue deteriorando: hacia 1–2 años el C-index ya estaba más cerca de 0,62, y desde 3 años en adelante rondaba 0,61, mientras el IBS seguía subiendo-
 
@@ -1175,9 +1175,9 @@ class: mort-slide
 **NOTA Mortalidad, desempeño**
 *#_#_#_#_#_#_#_#_#_#_
 
-- El modelo que predice mortalidad tuvo un mejor desempeño. Un Uno’s C cercano a 0,74 indica una discriminación moderada a buena: el modelo separa bastante mejor a quienes tienen mayor y menor riesgo. IBS también fue menor que en readmisión, lo que sugiere menos error global (aunque el evento es poco frecuente, ~4%)
+- El modelo que predice mortalidad tuvo un mejor desempeño. Un Uno’s C cercano a 0,74 indica una discriminación moderada a buena: el modelo separa bastante mejor a quienes tienen mayor y menor riesgo. El puntaje brier integrado IBS también fue menor que en readmisión, lo que sugiere menos error global (aunque el evento es poco frecuente, ~4%)
 
-- modelo Full PH-adjusted fue consistentemente favorecido frente al ML-informed. Patrón más lineal
+-Esto sugiere que el modelo Full PH-adjusted fue consistentemente favorecido frente al ML-informed. Siguiendo un patrón más lineal
 
 **SECUNDARIO**
 Mean AICc: 51496.24 (full) vs. 54,156.9 (ML-informed)
@@ -1219,7 +1219,7 @@ class: perf-slide
 
 - Umbrales exploratorios. Los de readmisión van de 0.10 a 0.25, De mortalidad, de 0.03 a 0.05
 
-- Readmisión= A 60 meses, el umbral 0.20 ofrece el mejor equilibrio con F1 ~0.54: captura al 80% de las readmisiones futuras, aunque con una especificidad modesta del 30%.
+- Readmisión= A 60 meses, el umbral 0.20 ofrece el mejor equilibrio con F1 ~0.54: captura al 80% de las readmisiones futuras, aunque con una especificidad modesta del 30% (70% de falso positivo). De utilizarlo, se sugieriría para una intervención de bajo costo.
 - Mortalidad= Si una intervención es barata, puedo aceptar más falsos positivos; si es costosa, necesito un umbral más estricto. Para mortalidad, por ejemplo, umbral 0.05 con mayor especificidad. Un umbral 3%, para una intervención más barata.
 
 PPV = De cada 100 que el modelo marca como "alto riesgo", XX realmente son readmitidos
@@ -1266,7 +1266,7 @@ class: ml-slide
 
 No obstante, permite:
 - Descubrir qué variables realmente importan o influyen.
-- Detectar curvas no lineales (splines).
+- Detectar curvas no lineales.
 - Encontrar interacciones plausibles difíciles de hipotetizar. Por ejemplo, emergieron interacciones como edad con convivencia o pasta base con policonsumo.
 
 **3. RESULTADO PRÁCTICO**
@@ -1337,7 +1337,7 @@ class: impl-slide
 **NOTA Plan futuro y próximos pasos**
 *#_#_#_#_#_#_#_#_#_#_
 
-Para una aplicación práctica, el siguiente es validarlo externamente y recalibrarlo en otros contextos de atención. En este caso, sólo se validará en el 20% "dejado afuera" para prueba
+Para una aplicación práctica, el siguiente es validarlo externamente y recalibrarlo en otros contextos de atención. En este caso, sólo se validará en el 20% "dejado afuera" para prueba. Esot bajo una lógica de bloqueo analítico y de reserva de la muestra de test como evaluación final independiente, con fines de transparencia y reproducibilidad paso por paso, evitando así "intervenir" de antemano ese subconjunto.
 
 Si el desempeño resulta razonable, este trabajo podría traducirse en herramientas simples de apoyo, por ejemplo un nomograma, una aplicación web o un reporte automatizado para seguimiento post-egreso. Tengo bastante experiencia diseñando aplicaciones web y me gustaría darle ese producto a SENDA, al menos como prototipo muy rudimentario.
 
@@ -1403,11 +1403,7 @@ print(planificacion, info="none")
 
 Finalmente, quisiera mencionar brevemente que la pasantía doctoral realizada en Québec entre mayo y julio de 2025 en el marco de un Fondo de Vinculación Internacional (FOVI) adjudicado por el Dr. Castillo-Carniglia, que fortaleció esta tesis en tres niveles: conceptual, al situarla mejor en la discusión entre abstinencia y reducción de daños; metodológico, al reforzar la reflexión sobre trayectorias post-tratamiento; y analítico, al aportar insumos para interpretar los hallazgos en clave de política pública.
 
-En este punto, considero que el núcleo empírico de la tesis está bastante consolidado: el primer artículo cuantificó el problema, y el segundo ya permite discutir hasta dónde ese riesgo podría anticiparse, al margen de haber postpuesto un modelo multiestado como tal. Los resultados que presento hoy corresponden a la fase de desarrollo del modelo. La evaluación en la muestra de test independiente fue reservada deliberadamente para una etapa posterior, para incorporar esta retroalimentación antes de fijar la especificación final y así preservar la independencia de esa validación. Lo que sigue es cerrar la discusión general, afinar las decisiones analíticas finales y proyectar un producto aplicable y validable. Y ahora, más que seguir agregando resultados, me gustaría recibir orientación sobre los puntos metodológicos y de presentación que todavía están abiertos
-
-lógica de bloqueo analítico
-
-reserva de la muestra de test como evaluación final independiente
+En este punto, considero que el núcleo empírico de la tesis está bastante consolidado: el primer artículo cuantificó el problema, y el segundo ya permite discutir hasta dónde ese riesgo podría anticiparse, al margen de haber postpuesto un modelo multiestado como tal. Los resultados que presento hoy corresponden a la fase de desarrollo del modelo. La evaluación en la muestra de test independiente fue reservada deliberadamente para una etapa posterior, para incorporar esta retroalimentación antes de fijar la especificación final y así preservar la independencia de esa validación. Ahora, de ser posible, me gustaría perdirles su orientación sobre los puntos metodológicos y de presentación que todavía están abiertos.
 
 **pasantía**
 Durante mi estadía doctoral en Québec, entre mayo y julio de 2025, sostuve reuniones de trabajo con el Dr. Ignacio Nazif-Muñoz y la Dra. Karen Domínguez-Cancino, visité un centro de tratamiento en Montréal y participé como oyente en instancias vinculadas con consumo de sustancias y embarazo.
