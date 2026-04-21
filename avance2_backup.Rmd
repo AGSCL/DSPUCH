@@ -821,17 +821,17 @@ myBib <- ReadBib("./libreria_generica.txt", check = FALSE,  .Encoding="latin1")
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Portada**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-Muy Buenas tardes
+Muy Buenos días
 
-Buenas tardes. Les voy a presentar el estado de avance de mi tesis doctoral sobre predicción de readmisión y mortalidad post-tratamiento en personas adultas en tratamiento por trastornos por uso de sustancias en Chile.
+A continuación, les voy a presentar el estado de avance de mi proyecto de tesis doctoral.
 
 Acompañantes en este Proceso
 
-- el profesor Jay kaufman
-- el profesor Álvaro Castillo
+- Tutor: el profesor Jay kaufman
+- Co-Tutor: Álvaro Castillo
 
 ---
 layout: "true"
@@ -857,8 +857,15 @@ class: animated fadeIn
 *#_#_#_#_#_#_#_#_#_#_
 **NOTA INDICE**
 *#_#_#_#_#_#_#_#_#_#_
+A continuación mostraré la estructura de mi presentación: 
 
-Voy a organizar la presentación en cinco partes: primero, un ajuste de objetivos; segundo, qué demostró el primer artículo; tercero, los resultados preliminares del segundo; cuarto, qué aporta realmente el enfoque informado por Machine learning; y quinto, el estado final del trabajo y algunas dudas para discusión.
+0. Revisitar **Objetivos**, actualización
+
+1. **Primer Artículo**: Resultados Clave, Implicancias, Estado
+
+2. **Segundo Artículo**: Descriptivos, EPVs, One-hot encoding
+
+3. **Reflexiones/Dudas/Instancia de conversación**: ajustes finales del modelo en el split de prueba (20%), discusión integrada y redacción final
 
 ---
 class: animated fadeIn 
@@ -878,17 +885,25 @@ class: animated fadeIn
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Objetivos**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
+A continuación mostraré la estructura de mi presentación: 
 
-Evaluar el papel predictivo de la duración de la estadía y del resultado del tratamiento inicial, junto con otros factores pronósticos y predictivos de predisposición, necesidad percibida y facilitadores de atención, sobre el riesgo y el tiempo hasta la ocurrencia de la primera readmisión y mortalidad por todas las causas en personas de 18 a 64 años admitidas a tratamiento por TUS en Chile entre 2010 y 2020.
+Evaluar el rol predictivo de la duración de la estadía y el resultado del tratamiento inicial, junto con otros factores pronósticos y predictivos de predisposición, necesidad percibida y facilitadores de atención, en la predicción del riesgo y el tiempo transcurrido a la primera readmisión y mortalidad por todas las causas en pacientes entre 18 y 64 años admitidos a tratamientos por TUS en Chile, desde 2010 a 2020.
 
-En este avance me voy a concentrar en tres cosas: qué mostró ya el primer artículo, qué muestran los primeros resultados del segundo, y qué decisiones analíticas requieren orientación para cerrar la tesis.
+“En este segundo avance no voy a repetir el examen de calificación. Me voy a concentrar en tres puntos: qué demostró el primer artículo, qué muestran los primeros resultados del segundo, y qué decisiones analíticas todavía requieren orientación para cerrar la tesis.”
 
-Prioricé los modelos de readmisión y mortalidad por separado. El componente multiestado sigue siendo valioso, pero lo dejé como una extensión posterior.
+Prueba 1: el primer artículo ya mostró que ese riesgo no es trivial, sino excesivo frente a la población general
 
-**Reserva**:
-No ignoré la dependencia entre desenlaces: para readmisión incorporé la muerte como evento competidor en la calibración y en los riesgos observados mediante Aalen–Johansen.
+Prueba 2: el segundo artículo ya no solo describe el problema, sino que intenta anticiparlo con modelos pronósticos, usando una cohorte nacional de 88,152 personas y un enfoque ML-informado con Cox. El artículo se encuentra en elaboración avanzada, con resultados preliminares claros.
+
+Tesis completa: discusión general, cierre analítico y producto aplicable pendiente.
+
+Aporte de tesis: pasar de “sabemos que existe exceso de riesgo” a “podemos identificar mejor a quién seguir más de cerca y con qué criterio”.
+
+En el proyecto original contemplé un objetivo adicional de predicción conjunta de readmisión y mortalidad mediante un modelo multiestado, para representar de forma explícita su carácter semi-competidor. Sin embargo, en esta etapa prioricé consolidar primero los modelos principales de readmisión y mortalidad por separado, porque ya responden el núcleo predictivo de la tesis y permiten estimar riesgo absoluto a 1, 3 y 5 años con validación interna.
+
+Esto no implicó ignorar la dependencia entre desenlaces: para readmisión incorporé la muerte como evento competidor mediante el estimador de Aalen–Johansen en la calibración y en la estimación de riesgos observados. Por tanto, el componente multiestado quedó redefinido como una extensión metodológica valiosa, pero no prioritaria para cerrar de manera sólida y coherente el trabajo actual.
 
 ---
 class: animated fadeIn 
@@ -917,9 +932,7 @@ class: animated fadeIn
 
 .pull-right[
 
-```{r echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), fig.cap=NULL, out.width="67%"}
-#| label: screen-capture
-
+```{r screen-capture, echo=FALSE, fig.align="center", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), fig.cap=NULL, out.width="67%"}
 knitr::include_graphics("_figs/addiction_2026_excess_mortality.png")
 ```
 
@@ -927,17 +940,22 @@ knitr::include_graphics("_figs/addiction_2026_excess_mortality.png")
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA 1er articulo**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
 Aceptado en *Addiction*
 
-El problema no es trivial. Después del tratamiento, la mortalidad en esta cohorte fue aproximadamente 3,65 veces mayor que en la población general comparable.
+**Por qué sus resultados importan para el segundo paper?**
+el desenlace es relevante y evitable;
+justifica seguimiento post-egreso;
+muestra heterogeneidad, que hace razonable pasar a predicción.
 
-Además, el exceso fue relativamente mayor en mujeres, aunque las tasas absolutas siguieron siendo más altas en hombres. También se concentró en algunas causas específicas, como causas digestivas, respiratorias y muertes violentas. Quienes completaron tratamiento experimentaron menor riesgo relativo.
+- Artículo 1: cuantifica el problema
+- Pero no permite anticipar riesgo individual
+
+Si el artículo 1 mostró que el riesgo post-tratamiento es alto, el siguiente paso lógico es preguntarse si ese riesgo puede anticiparse de manera útil para el seguimiento clínico y la gestión del sistema.
 
 → ¿Quiénes tienen mayor riesgo?
-
 → ¿Se puede predecir?
 
 ---
@@ -946,9 +964,7 @@ class: animated fadeIn
 
 .pull-left[
 
-```{r echo=F, echo=FALSE, fig.align="left", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=500, out.height=500}
-#| label: andersen-scheme
-
+```{r andersen, echo=F, echo=FALSE, fig.align="left", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=500, out.height=500}
 andersen<- 
 grViz("
 digraph andersen_model {
@@ -980,19 +996,15 @@ andersen
 
 .pull-right[
 ### Diseño y cohorte
-
-<details open>
-<summary>📦 Ocultar</summary>
-
-```{r echo=FALSE, dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=800}
-#| label: paper2-esquema
-
+<details>
+<summary>🔬 Ver esquema </summary>
+```{r paper2-esquema, echo=FALSE, dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=800}
 knitr::include_graphics("./_figs/second_paper_scheme.png")
 ```
 </details>
 
-<details>
-<summary>🔬 Ver esquema </summary>
+<details open>
+<summary>📦 Ocultar</summary>
 <div class="pull-left" style="width: 32%;">
   <div class="metric-box">
     <div class="mini-label">Cohorte</div>
@@ -1024,17 +1036,14 @@ knitr::include_graphics("./_figs/second_paper_scheme.png")
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA 2do artículo**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-DATASET: 88k pacientes, 70k train, 17k test (20%), estratificado por evento (ya sea readmisión o mortalidad) y modalidad de tratamiento, para que cada subconjunto esté balanceado.
+DATASET: 88k pacientes, 70k train, 17k test (20%)
+exclusiones: 128 en tratamiento, 352 incompletos
 
-Conceptualmente, organicé los predictores con el **modelo de Andersen**. Muy brevemente: los predisponentes son características previas de la persona, como edad, sexo o condiciones sociales; la necesidad percibida recoge cuánta necesidad clínica hay, por ejemplo severidad, comorbilidad o patrón de consumo; y los habilitadores son condiciones que facilitan o dificultan la atención y su continuidad, como modalidad, derivación, duración del tratamiento o resultado del egreso.
-
-Primero, en el conjunto de entrenamiento, se uso Machine learning (Extreme Gradient Boosting, entrena muchos árboles de decisión en secuencia para detectar automáticamente qué predictores importan y cómo se relacionan entre sí) para explorar la estructura de los datos y detectar patrones complejos. Se eligieron los hiperparámetros que mejoren el desempeño en términos de discriminación y calibración. A través de valores SHAP (para predicciones, descompone cuánto contribuye una variable a alejar el resultado del riesgo promedio) identifico los predictores más influyentes/importantes, incluyendo posibles no linealidades e interacciones.
-
-Descartamos variables colineales (generalized variance inflation factor >10, sólo evaluación proceso terapéutico, logro mínimo, para readmisión). Se generaron dos modelos por desenlace: Full PH uno tradicional con predictores establecidos, y otro modelo más parsimonioso e informado por ML.
-
-Comparamos por desempeño: Uno’s C = Uno’s concordance index; IBS = integrated Brier score; ICI = integrated calibration index; D1 = prueba de Wald para comparar modelos anidados; AICc = criterio de información de Akaike corregido por tamaño muestral ; DCA = análisis de curvas de decisión. Valores altos de Uno’s C indican mejor discriminación (porcentaje de ordenamiento correcto entre pares comparables (considerando censura)), valores másbajos de IBS, ICI, y AICc indican mejor desempeño. IBS (error promedio de las predicciones en el tiempo).
+Note: Adapted from Liu et al. (2023). ML = machine learning; XGBoost = Extreme Gradient Boosting; SHAP = Shapley Additive Explanations; GVIF = generalized variance inflation factor; Uno’s C = Uno’s concordance index; IBS = integrated Brier score; ICI = integrated calibration index; D1 = pooled Wald test for comparing nested models across multiply imputed datasets; AICc = corrected Akaike information criterion; DCA = decision curve analysis. Higher values of Uno’s C indicate better discrimination, whereas lower values of IBS, ICI, and AICc indicate better model performance. IBS summarizes overall prediction error over follow-up, accounting for both discrimination and calibration in the presence of censoring. 
+(*) Stratified by event (readmission or death) and treatment setting. 
+(**) Performance was evaluated at 1, 3, and 5 years.
 
 <div class="perf-content"> <div class="perf-two-cols"> <div class="perf-box"> <div class="perf-box-title">🔁 Readmisión — Riesgo acumulado KM</div> <table class="perf-table"> <tr> <th>Meses</th> <th>n total</th> <th>Eventos</th> <th>Censurados</th> <th>En riesgo</th> <th>Riesgo KM</th> </tr> <tr><td>3</td><td>70,521</td><td>2,875</td><td>5,320</td><td>62,326</td><td>4.4%</td></tr> <tr><td>12</td><td>70,521</td><td>7,442</td><td>8,705</td><td>54,374</td><td>11.5%</td></tr> <tr><td>24</td><td>70,521</td><td>10,531</td><td>14,905</td><td>45,085</td><td>16.8%</td></tr> <tr><td>36</td><td>70,521</td><td>12,347</td><td>21,321</td><td>36,853</td><td>20.4%</td></tr> <tr><td>60</td><td>70,521</td><td>14,154</td><td>33,538</td><td>22,829</td><td>25.0%</td></tr> <tr><td>108</td><td>70,521</td><td>15,202</td><td>50,813</td><td>4,506</td><td>30.7%</td></tr> </table> </div> <div class="perf-box"> <div class="perf-box-title">⚕️ Mortalidad — Riesgo acumulado KM</div> <table class="perf-table"> <tr> <th>Meses</th> <th>n total</th> <th>Eventos</th> <th>Censurados</th> <th>En riesgo</th> <th>Riesgo KM</th> </tr> <tr><td>3</td><td>70,521</td><td>329</td><td>5,012</td><td>65,180</td><td>0.5%</td></tr> <tr><td>12</td><td>70,521</td><td>706</td><td>8,198</td><td>61,617</td><td>1.1%</td></tr> <tr><td>24</td><td>70,521</td><td>1,246</td><td>14,610</td><td>54,665</td><td>2.0%</td></tr> <tr><td>36</td><td>70,521</td><td>1,700</td><td>21,792</td><td>47,029</td><td>2.9%</td></tr> <tr><td>60</td><td>70,521</td><td>2,379</td><td>36,465</td><td>31,677</td><td>4.5%</td></tr> <tr><td>108</td><td>70,521</td><td>2,994</td><td>60,535</td><td>6,992</td><td>7.7%</td></tr> </table> </div> </div>
 
@@ -1045,23 +1054,18 @@ class: basal-slide animated fadeIn
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Diseño/Cohorte**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-La cohorte muestra una población social y clínicamente vulnerable. La edad mediana fue cercana a 35 años; predominan los hombres; el policonsumo y el consumo diario fueron frecuentes; la comorbilidad psiquiátrica también fue alta.
-Desde el punto de vista del tratamiento, la mayoría estuvo en modalidades ambulatorias, la duración mediana fue cercana a seis meses, y el abandono fue más frecuente que la completación.
-Lo menciono porque este contexto ayuda a entender por qué la readmisión y la mortalidad no son desenlaces fáciles de predecir.
-
-VENTANAS DE SEGUIMIENTO PRINCIPALES: 1 año, 3 años, 5 años
-
-readmisión compite con muerte
-
-**secundario**
 DEMOGRAFÍA: edad ~35, mayoría hombres (~75%), mitad solteros, mitad trabaja, educación baja (mayoría secundaria o menos), vive con familia o propietario, 
 casi todos de zonas urbanas.
 CONSUMO: principal, pasta base / alcohol / cocaína, sus. inicio: alcohol > marihuana; patrón: policonsumo muy alto (~70%), consumo diario alto (~44%)
 SALUD: comorbilidad psiquiátrica alta (~45%), reporta algún tipo de violencia frecuente (~28%), comorbilidad física "baja" (~10%)
 TRATAMIENTO: mayoría ambulatorio, dura ~6 meses, resultado (abandono >50%, completan ~25%)
+
+VENTANAS DE SEGUIMIENTO: 1 año, 3 años, 5 años
+
+readmisión compite con muerte
 
 ---
 class: pred-slide
@@ -1070,14 +1074,10 @@ class: pred-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Predictores Readmisión**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-En readmisión, el hallazgo principal es que no aparece un único mecanismo dominante. El riesgo parece surgir de una combinación de vulnerabilidad social, necesidad clínica persistente y características del proceso terapéutico.
-
-Entre los predictores más relevantes aparecen edad, comorbilidad psiquiátrica, policonsumo, sustancia principal, condiciones sociales y variables del propio tratamiento, como duración, motivo de ingreso y evaluación al egreso.
-
-En otras palabras, la readmisión no parece ser simplemente un problema de ‘fracaso individual’, sino un desenlace multidimensional.
+El panel multidimensional refleja que la readmisión no es solo "no cumplieron tratamiento" — es una mezcla de necesidad clínica persistente (comorbilidad, policonsumo), barreras estructurales (pobreza comunal, vivienda inestable) y proceso terapéutico (duración óptima, evaluaciones al alta). No hay un "responsable único", lo que justifica el enfoque de estratificación de riesgo post-egreso en lugar de intervenciones universales.
 
 ---
 class: calib-slide
@@ -1086,16 +1086,8 @@ class: calib-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Readmisión: desempeño**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-
-- En readmisión, el desempeño fue más bien modesto. Un Uno’s C-index de 0,604 significa, en términos simples, que si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes la readmisión en alrededor del 60% de los pares. Es mejor que el azar, pero no es una discriminación fuerte. capacidad limitada para separar pacientes de alto y bajo riesgo.
-
-- Si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes el evento en aproximadamente 6 de cada 10 casos
-
-- Respecto del IBS, que en esta diapositiva está en el orden de 0,35 (35% error promedio en predicciones) el error predictivo global sigue siendo importante.
-
-**secundario**
 
 - el modelo SHAP sí tiene menor AICc, lo que respalda que la penalización por complejidad no anula la ventaja de la parsimonia.(AICc= 272,549.2 vs.	272,443.9)
 - Full PH-adjusted mostró ligeramente mejor calibración agrupada a 36 y 60 meses (ej. para Readmisión: predicción 0.2332 vs. observado 0.2339, frente a 0.2344 vs. 0.2436 del SHAP) 
@@ -1117,30 +1109,26 @@ class: calib-figure-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Readmisión, Calibración**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-Esta figura muestra calibración: compara riesgo predicho con riesgo observado ( a 1, 3 y 5 años). Mientras más cerca están los puntos de la diagonal, mayor concordancia.
-
-En readmisión hay concordancia razonable en varios estratos, pero también más tensión metodológica, porque es un evento frecuente y además compite con la mortalidad
-
-**secundario**
-Panel A shows the full stratified Cox model (Full PH-adjusted model with additional stratification for rule-violation discharge), and panel B the selected machine-learning–informed Cox model (Final SHAP model with interactions and splines). Within each panel, observed risks are grouped and plotted against mean predicted risks at 12, 36, and 60 months. For readmission, observed risks were estimated using the Aalen–Johansen estimator to account for the competing risk of death. The dashed 45° line indicates perfect calibration. Points represent the grouped mean predicted and observed risks; vertical bars and shaded ribbons indicate uncertainty around the grouped observed risks. Marginal density plots display the distribution of grouped predicted risks (bottom) and grouped observed risks (right).
+Esta figura muestra la calibración agrupada en horizontes clínicamente interpretables: 12, 36 y 60 meses.
+La lectura central es visual: mientras más cerca están los puntos de la diagonal, más concordancia hay entre riesgo predicho y observado.
+En readmisión, la calibración es razonable en varios estratos, pero hay más tensión metodológica por la frecuencia del evento y por competencia con mortalidad.
 
 ---
 class: mort-slide
 
 <div class="mort-header">Resultados: Mortalidad</div> <div class="mort-title">Predictores de Mortalidad:<br>Hallazgos del Modelo XGBoost-SHAP</div> <div class="mort-content"> <div class="mort-intro"> <strong>Hallazgo principal:</strong> Conjunto <strong>más parsimonioso</strong>, impulsado por vulnerabilidad biológica acumulada (edad, salud física, severidad clínica). Pocas variables de tratamiento. </div> <div class="mort-grid"> <div class="mort-col"> <div class="mort-box"> <div class="mort-box-title"> Predictores más influyentes</div> <div class="mort-item"> <span class="mort-num">1</span><span class="mort-item-title">Edad al ingreso</span> <div class="mort-item-desc">Predictor dominante; efecto no lineal con splines cúbicos</div> </div> <div class="mort-item"> <span class="mort-num">2</span><span class="mort-item-title">Comorbilidades físicas</span> <div class="mort-item-desc">9.5% de la cohorte; fuerte predictor de mortalidad</div> </div> <div class="mort-item"> <span class="mort-num">3</span><span class="mort-item-title">Frecuencia uso diario</span> <div class="mort-item-desc">44.1% de la cohorte; severidad del patrón de uso</div> </div> <div class="mort-item"> <span class="mort-num">4</span><span class="mort-item-title">Policonsumo</span> <div class="mort-item-desc">73.1% de la cohorte; complejidad clínica asociada</div> </div> <div class="mort-item"> <span class="mort-num">5</span><span class="mort-item-title">Sustancia primaria: pasta base o alcohol</span> <div class="mort-item-desc">Sustancias con mayor impacto en mortalidad</div> </div> </div> </div> <div class="mort-col"> <div class="mort-box"> <div class="mort-box-title">🏥 Variables de Tratamiento</div> <div class="mort-item"> <span class="mort-item-title">Evaluación egreso: situación ocupacional</span> <div class="mort-item-desc">Logro terapéutico en reinserción laboral</div> </div> <div class="mort-item"> <span class="mort-item-title">Evaluación egreso: salud física</span> <div class="mort-item-desc">Estado de salud somática al alta</div> </div> <div class="mort-note"> <strong>⚠️ Número limitado</strong> de variables de tratamiento entre predictores principales </div> </div> </div> </div> </div>
 
+
+
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Mortalidad, predictores**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-A diferencia de la readmisión, en mortalidad el patrón parece más concentrado. El riesgo está más dominado por edad, comorbilidad física, severidad clínica y algunos indicadores del proceso terapéutico
-
-Sugiere que la mortalidad responde a un conjunto más compacto de vulnerabilidad acumulada, menos disperso
-
-perfil de mortalidad parece más clínico-biológico vs. más social y del proceso de atención para readmisión
+Interpretación: La mortalidad fue impulsada por un subconjunto más compacto centrado en edad, comorbilidad física, severidad del uso de sustancias y evaluaciones de egreso selectivas — sugiriendo una contribución más fuerte de vulnerabilidad biológica y clínica acumulada en comparación con la readmisión.
+- La readmisión refleja heterogeneidad multidimensional (social, clínica, del proceso terapéutico).
 
 ---
 class: mort-slide
@@ -1149,12 +1137,8 @@ class: mort-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Mortalidad, desempeño**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-
-- En mortalidad, el modelo funcionó mejor que en readmisión. Un Uno’s C cercano a 0,74 indica una discriminación moderada a buena: el modelo separa bastante mejor a quienes tienen mayor y menor riesgo. IBS también fue menor que en readmisión, lo que sugiere menos error global (aunque el evento es poco frecuente, ~4%)
-
-- modelo Full PH-adjusted fue consistentemente favorecido frente al ML-informed. Patrón más lineal
 
 Mean AICc: 51496.24 (full) vs. 54,156.9 (ML-informed)
 
@@ -1175,10 +1159,11 @@ class: calib-figure-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Calibración**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-En los horizontes de seguimiento de 36 y 60 meses posterior a tratamiento, los grupos de riesgo más alto se mantienen cerca de la diagonal esperada.
+La mortalidad es un evento menos frecuente, pero el modelo discrimina mejor que para readmisión.
+La figura permite mostrar que, en los horizontes de 36 y 60 meses, los grupos de riesgo más alto se mantienen cerca de la diagonal esperada.
 Esto refuerza que el desenlace de mortalidad parece responder a un conjunto más compacto de vulnerabilidad clínica y biológica acumulada.
 
 ---
@@ -1188,29 +1173,8 @@ class: perf-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA NRI e IDI y DCA**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-
-- ML-informed, similar a modelo Cox tradicional. En readmisión, las diferencias fueron neutras o pequeñas a corto plazo y empeoraron a largo plazo. En mortalidad, el modelo completo también tendió a verse mejor. Por tanto, el valor del enfoque ML no estuvo en superar claramente al modelo de Cox completo, sino en ayudar a descubrir estructura
-
-Aunque las diferencias en métricas de clasificación tradicionales (PPV, sensibilidad, F1) son modestas (< 2 puntos porcentuales en la mayoría de los escenarios), el modelo informado por ML muestra un deterioro claro en capacidad de reclasificación (NRI e IDI negativos), especialmente en horizontes tardíos para readmisión y de manera consistente para mortalidad. 
-
-- El modelo informado por ML potencialmente empeora la asignación de riesgo individual respecto a Cox tradicional. A corto plazo, similar, pero a 5 años -0.068 y a 108 meses el NRI alcanza −0.148, lo que implica que aproximadamente 7 y 15 de cada 100 pacientes son reclasificados netamente en la dirección incorrecta en readmisión, respectivamente. En mortalidad: NRI siempre negativo, hasta −0.277 a 12m (277 de mil reclasificados en una dir equivacada, 5 años, 106 de mil).
-
-- IDI, la separación entre distribuciones es pequeña, del orden del 0.007, pérdida valor discriminativo mínima entre mortalidad y no; distingue peor entre fallecidos y sobrevivientes.
-
-**DCA**= Las curvas de decisión muestran una utilidad potencial modesta de la estratificación por riesgo. En readmisión, el beneficio neto promedio dentro de las ventanas clínicamente plausibles aumentó desde aproximadamente 0.015 a 6 meses hasta 0.040 a 5 años. En mortalidad, el beneficio neto fue menor, alrededor de 0.003 a 12 meses y 0.017 a 60 meses, esperable por ser un evento menos frecuente. En ambos desenlaces, las curvas del modelo ML-informed y del Cox completo tradicional se superpusieron casi completamente.
-
-**solo de ayuda**= NETO, 4 verdaderos positivos netos por cada 100 pacientes evaluados, después de descontar el “costo” de los falsos positivos.
-
-**SECUNDARIO**
-
-- Patrón readmisión: El spline gana ~0.2–0.9 puntos de sensibilidad pero pierde ~0.1–1.6 puntos de especificidad. En términos netos (F1), las diferencias son prácticamente nulas (−0.002 a 0.000). El impacto real aparece en reclasificación: NRI de −0.068 a 60m y −0.148 a 108m.
-- Patrón mortalidad: El spline es consistentemente peor en PPV. La mayor brecha está a 12 meses, umbral 0.05: −5.0 puntos de sensibilidad y −1.7 puntos de F1. A horizontes más largos las diferencias se atenúan.
-- Esto es lo que más pesa. A 5años readmisión: NRI = −0.068 (68 de mil los mueve a una categoría de riesgo equivocada, sobreestimando el riesgo de readmisión); a 108m: −0.148. En mortalidad: NRI siempre negativo, hasta −0.277 a 12m (277 de mil reclasificados en una dir equivacada, 5 años, 106 de mil).
-- IDI, la separación entre distribuciones es pequeña, del orden del 0.007, pérdida valor discriminativo mínima entre mortalidad y no; distingue peor entre fallecidos y sobrevivientes.
-
-- En readmisión, el patrón es bifásico. A corto plazo —3 a 12 meses— el modelo con splines es neutro respecto al full PH-adjusted: no mejora ni empeora la clasificación. Sin embargo, a partir de 36 meses el NRI continuo se vuelve claramente negativo, el spline comienza a clasificar como de alto riesgo a pacientes que en realidad permanecen sin readmisión. A 108 meses el NRI alcanza −0.148, lo que implica que aproximadamente 15 de cada 100 pacientes son reclasificados netamente en la dirección incorrecta.
 
 <table>
 <thead>
@@ -1258,93 +1222,14 @@ Aunque las diferencias en métricas de clasificación tradicionales (PPV, sensib
 </tbody>
 </table>
 
-**DCA**
-Las curvas de decisión muestran una utilidad potencial modesta de la estratificación por riesgo. En readmisión, el beneficio neto promedio dentro de las ventanas clínicamente plausibles aumentó desde aproximadamente 0.015 a 6 meses hasta 0.040 a 60 meses. En mortalidad, el beneficio neto fue menor, alrededor de 0.003 a 12 meses y 0.017 a 60 meses, lo esperable dado que es un evento menos frecuente. En ambos desenlaces, las curvas del modelo ML-informed y del Cox completo se superpusieron casi completamente, por lo que no hay evidencia visual de una ventaja decisional relevante de un modelo sobre el otro.
+- Patrón readmisión: El spline gana ~0.2–0.9 puntos de sensibilidad pero pierde ~0.1–1.6 puntos de especificidad. En términos netos (F1), las diferencias son prácticamente nulas (−0.002 a 0.000). El impacto real aparece en reclasificación: NRI de −0.068 a 60m y −0.148 a 108m.
+- Patrón mortalidad: El spline es consistentemente peor en PPV. La mayor brecha está a 12 meses, umbral 0.05: −5.0 puntos de sensibilidad y −1.7 puntos de F1. A horizontes más largos las diferencias se atenúan.
+- Esto es lo que más pesa. A 5años readmisión: NRI = −0.068 (68 de mil los mueve a una categoría de riesgo equivocada, sobreestimando el riesgo de readmisión); a 108m: −0.148. En mortalidad: NRI siempre negativo, hasta −0.277 a 12m (277 de mil reclasificados en una dir equivacada, 5 años, 106 de mil).
+- IDI, la separación entre distribuciones es pequeña, del orden del 0.007, pérdida valor discriminativo mínima entre mortalidad y no; distingue peor entre fallecidos y sobrevivientes.
+- Aunque las diferencias en métricas de clasificación tradicionales (PPV, sensibilidad, F1) son modestas (< 2 puntos porcentuales en la mayoría de los escenarios), el spline model muestra un deterioro claro en capacidad de reclasificación (NRI e IDI negativos), especialmente en horizontes tardíos para readmisión y de manera consistente para mortalidad. Esto sugiere que el spline no mejora —y potencialmente empeora— la asignación de riesgo individual respecto al full PH-adjusted model.
 
-<table>
-  <thead>
-    <tr>
-      <th>Horizonte</th>
-      <th>Ventana gris</th>
-      <th>Beneficio neto aprox. al inicio</th>
-      <th>Mitad de ventana</th>
-      <th>Final de ventana</th>
-      <th>Promedio aprox.</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>12 meses</td>
-      <td>1–3%</td>
-      <td>0.0043–0.0045</td>
-      <td>0.0026–0.0030</td>
-      <td>0.0018–0.0020</td>
-      <td>0.0029–0.0032</td>
-    </tr>
-    <tr>
-      <td>36 meses</td>
-      <td>1–6%</td>
-      <td>0.019</td>
-      <td>0.010–0.011</td>
-      <td>0.006–0.007</td>
-      <td>0.011–0.012</td>
-    </tr>
-    <tr>
-      <td>60 meses</td>
-      <td>2–10%</td>
-      <td>0.028</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Horizonte</th>
-      <th>Ventana gris</th>
-      <th>Beneficio neto aprox. al inicio</th>
-      <th>Mitad de ventana</th>
-      <th>Final de ventana</th>
-      <th>Promedio aprox.</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>6 meses</td>
-      <td>3–15%</td>
-      <td>0.044</td>
-      <td>0.010</td>
-      <td>0.002</td>
-      <td>0.015</td>
-    </tr>
-    <tr>
-      <td>12 meses</td>
-      <td>5–24%</td>
-      <td>0.069</td>
-      <td>0.013</td>
-      <td>0.002</td>
-      <td>0.021–0.022</td>
-    </tr>
-    <tr>
-      <td>36 meses</td>
-      <td>10–41%</td>
-      <td>0.116</td>
-      <td>0.017</td>
-      <td>0.001–0.002</td>
-      <td>0.032</td>
-    </tr>
-    <tr>
-      <td>60 meses</td>
-      <td>12–50%</td>
-      <td>0.148</td>
-      <td>0.019</td>
-      <td>~0.0003</td>
-      <td>0.040</td>
-    </tr>
-  </tbody>
-</table>
+- En readmisión, el patrón es bifásico. A corto plazo —3 a 12 meses— el modelo con splines es neutro respecto al full PH-adjusted: no mejora ni empeora la clasificación. Sin embargo, a partir de 36 meses el NRI continuo se vuelve claramente negativo, el spline comienza a clasificar como de alto riesgo a pacientes que en realidad permanecen sin readmisión. A 108 meses el NRI alcanza −0.148, lo que implica que aproximadamente 15 de cada 100 pacientes son reclasificados netamente en la dirección incorrecta.
+
 ---
 class: perf-slide
 
@@ -1352,23 +1237,10 @@ class: perf-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Umbrales y clasificación**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-- Esta diapositiva muestra algo importante para una eventual implementación: cómo cambia el rendimiento cuando uno fija umbrales de riesgo
-
-- Umbrales exploratorios. Los de readmisión van de 0.10 a 0.25, De mortalidad, de 0.03 a 0.05
-
-- Readmisión= A 60 meses, el umbral 0.20 ofrece el mejor equilibrio con F1 ~0.54: captura al 80% de las readmisiones futuras, aunque con una especificidad modesta del 30%.
-- Mortalidad= Si una intervención es barata, puedo aceptar más falsos positivos; si es costosa, necesito un umbral más estricto. Para mortalidad, por ejemplo, umbral 0.05 con mayor especificidad. Un umbral 3%, para una intervención más barata.
-
-PPV = De cada 100 que el modelo marca como "alto riesgo", XX realmente son readmitidos
-Sensibilidad = De cada 100 que se readmiten, el modelo detecta XX
-Especificidad = De cada 100 que no se readmiten, el modelo detecta XX
-NPV = De cada 100 que el modelo marca como "bajo riesgo", XX realmente no se readmiten
-F1 = Balance entre PPV y sensibilidad.
-
-**SECUNDARIO**
+- Presentamos 0.10, 0.15, 0.20 y 0.25 como escenarios plausibles de implementación. A 60 meses, el umbral 0.20 ofrece el mejor equilibrio con F1 ~0.54: captura al 80% de las readmisiones futuras, aunque con una especificidad modesta del 30%. Esto sugiere que el modelo es más útil como herramienta de priorización de recursos que como clasificador binario definitivo.
 
 - El NPV de ~70% a 60 meses (umbral 0.20) indica que 7 de cada 10 pacientes clasificados como de 'bajo riesgo' efectivamente no se readmiten. Esto es clínicamente valioso: nos permite identificar quién NO necesita seguimiento intensivo, liberando recursos para los de mayor riesgo
 
@@ -1376,7 +1248,7 @@ F1 = Balance entre PPV y sensibilidad.
 
 - Para mortalidad, el umbral 0.03 a 60 meses tiene una sensibilidad del ~80%, lo que permite identificar a la mayoría de pacientes con riesgo elevado. Sin embargo, el costo es una especificidad del 59%, lo que implica que ~4 de cada 10 pacientes clasificados como de alto riesgo no experimentarán el evento. La decisión del umbral dependerá del costo de la intervención preventiva: si es barata (ej. llamada telefónica de seguimiento), aceptamos más falsos positivos; si es costosa (ej. internación domiciliaria), preferimos el umbral 0.05 con mayor especificidad.
 
-- Es crucial enfatizar que estos umbrales son exploratorios y no han sido validados clínicamente. La elección del umbral óptimo requiere un análisis de costo-efectividad que integre: (1) la carga de la enfermedad, (2) el costo de la intervención, (3) el costo de los falsos positivos (sobrediagnóstico) y (4) el costo de los falsos negativos (eventos perdidos). Alcance fuera de la tesis
+- Es crucial enfatizar que estos umbrales son exploratorios y no han sido validados clínicamente. La elección del umbral óptimo requiere un análisis de costo-efectividad que integre: (1) la carga de la enfermedad, (2) el costo de la intervención, (3) el costo de los falsos positivos (sobrediagnóstico) y (4) el costo de los falsos negativos (eventos perdidos). Este análisis está fuera del alcance de esta tesis pero es el siguiente paso lógico para la implementación
 
 ---
 class: ml-slide
@@ -1385,33 +1257,21 @@ class: ml-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA ¿Para qué ML?**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-**Entonces, ¿para qué sirvió el modelo informado por ML?**
-
 **1. HALLAZGO CENTRAL**
-
-- El modelo informado por ML no ganó en predicción agregada vs. modelo Cox completo
+- ML no ganó en predicción agregada vs. Full PH.
 - Diferencias modestas en Uno's C e IBS.
 - No es fallo del ML: en cohortes grandes con predictores conocidos, ML rara vez supera a regresión tradicional.
-
-**2. UTILIDAD**
-
-- Descubrir qué variables realmente importan o influyen.
+**2. ¿PARA QUÉ SIRVIÓ EL ML?**
+- Descubrir qué variables realmente importan.
 - Detectar curvas no lineales (splines).
-- Encontrar interacciones plausibles difíciles de hipotetizar. Por ejemplo, emergieron interacciones como edad con convivencia o pasta base con policonsumo.
-
+- Encontrar interacciones difíciles de hipotizar.
 **3. RESULTADO PRÁCTICO**
-
 - Modelo más compacto.
 - Menos carga de medición.
 - Más fácil de implementar en distintos servicios SENDA.
-
-**SECUNDARIO**
-
-No es mejor predictivamente. Full PH calibra un poquito mejor a 36 y 60 meses (ej: Readmisión 0.2332 vs 0.2339 Full, vs 0.2344 vs 0.2436 SHAP). Para muerte, Full PH tiene AICc mucho menor (51.496 vs 54.157). Discriminación (Uno's C) = casi igual en ambos.
-
 **4. INTERACCIONES CLAVE**
 Mortalidad: Edad x Desempleo
 Mortalidad: Edad x Vivir solo
@@ -1424,63 +1284,15 @@ Readmisión: Evaluación consumo x Derivación
 - Readmisión: Empate a corto plazo; Full PH ligeramente mejor a muy largo plazo.
 - Discriminación: virtualmente igual en ambos.
 
-**Transportabilidad a otros programas SENDA**
-
-- **Alta compatibilidad:** C3 (calle), C5–C6 (privados de libertad / tribunales), y en menor medida C4 (libertad vigilada). Las variables clave se pueden reconstruir o armonizar.
-- **Baja compatibilidad:** C2 (adolescentes en conflicto con la ley). Población distinta y variables faltantes o con otra codificación.
-- **Conclusión:** La transportabilidad es plausible, pero requiere armonización de datos, validación externa y posibles proxies según el contexto programático.
-
 ---
 class: conc-slide
 
 <div class="conc-header">Cierre, Nudos y Plan Futuro</div> <div class="conc-title">Conclusiones Principales</div> <div class="conc-content"> <div class="conc-grid"> <div class="conc-row"> <div class="conc-box"> <div class="conc-box-title">🎯 1: Riesgo Estimable</div> <div class="conc-text"> El riesgo post-tratamiento puede estimarse con una <strong>combinación de variables sociales, clínicas y del tratamiento</strong>. Es viable la predicción individualizada en el sistema chileno de TUS. </div> </div> <div class="conc-box"> <div class="conc-box-title">📊 2: Variables Críticas</div> <div class="conc-text"> <strong>Duración del tratamiento y resultado de egreso</strong> contribuyen sustancialmente a las predicciones a 1, 3 y 5 años. Son clave para la estratificación de riesgo post-egreso. </div> </div> </div> <div class="conc-box-wide"> <div class="conc-box-title">🤖 3: Valor del ML</div> <div class="conc-text"> El ML fue más valioso como <strong>herramienta de descubrimiento y simplificación</strong>, no como garantía de mejor rendimiento. Su fortaleza: explorar estructuras complejas y generar modelos mejor especificados e interpretables. </div> </div> <div class="conc-row"> <div class="conc-box"> <div class="conc-box-title">⚕️ 4: Utilidad Clínica</div> <div class="conc-text"> Los modelos son más útiles como <strong>apoyo a decisiones</strong> que como instrumentos con un único umbral universal.<br><br> <strong>Umbrales sugeridos:</strong><br> • Mortalidad: 3–5% (favorece sensibilidad)<br> • Readmisión: 10–25% según intensidad de intervención </div> </div> <div class="conc-box"> <div class="conc-box-title">🔁 5: Naturaleza de los Outcomes</div> <div class="conc-text"> <strong>Readmisión:</strong> refleja una mezcla de necesidad clínica, engagement, acceso e inestabilidad social — <strong>mecanismos múltiples</strong>, no uno dominante.<br><br> <strong>Mortalidad:</strong> impulsada por un subconjunto compacto de <strong>vulnerabilidad biológica y clínica acumulada</strong> — edad, comorbilidad física, severidad del uso. </div> </div> </div> <div class="conc-footer"> <strong>💡 Implicación para políticas públicas:</strong> El sistema de salud debe diseñar <strong>planes de seguimiento</strong> que apunten a los nódulos críticos del paciente (factores estructurales y determinantes sociales). </div> </div> </div>
 
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA Conclusiones**
-*#_#_#_#_#_#_#_#_#_#_
-
-En síntesis, primero, el riesgo post-tratamiento sí puede estimarse con variables disponibles en registros rutinarios. Segundo, duración del tratamiento y resultado del egreso siguen siendo variables centrales para estratificar riesgo. Y tercero, el ML fue útil para descubrir estructura y simplificar, pero no mostró una ganancia predictiva contundente.
-
 ---
 class: limit-slide
 
 <div class="limit-header">Cierre, Nudos y Plan Futuro</div> <div class="limit-title">Nudos Críticos y Limitaciones</div> <div class="limit-content"> <div class="limit-grid"> <div class="limit-col-left"> <div class="limit-box"> <div class="limit-box-title">⚠️ Nudos Metodológicos</div> <div class="limit-item"> <span class="limit-num">1</span><strong>Diseño retrospectivo</strong><br> Sensible a sesgo de selección y error de medición en predictores administrativos. </div> <div class="limit-item"> <span class="limit-num">2</span><strong>Tratamientos en curso</strong><br> 128 pacientes con tratamiento ongoing al cierre; limita generalización a episodios cortos. </div> <div class="limit-item"> <span class="limit-num">3</span><strong>Historial previo no capturado</strong><br> Bajo rendimiento de imputación para tratamientos previos (OOB error 0.87). </div> <div class="limit-item"> <span class="limit-num">4</span><strong>Supuestos de riesgos proporcionales</strong><br> Más difíciles de satisfacer para readmisión; requirieron estratificación adicional. </div> <div class="limit-item"> <span class="limit-num">5</span><strong>SHAP como descriptivo</strong><br> No evidencia de mecanismos causales; limitado en settings de supervivencia. </div> </div> </div> <div class="limit-col-right"> <div class="limit-box"> <div class="limit-box-title">⚙️ Limitaciones de Implementación</div> <div class="limit-item"> <strong>Transportabilidad no evaluada</strong><br> Solo programas adultos Convenio 1 de SENDA. </div> <div class="limit-item"> <strong>Extensión a otras poblaciones</strong><br> Requiere validación externa; no asumir generalización a adolescentes. </div> <div class="limit-item"> <strong>Sistema heterogéneo</strong><br> Múltiples modalidades con flujos clínicos y disponibilidad variable. </div> </div> <div class="limit-box"> <div class="limit-box-title">🛡️ Fortalezas del Estudio</div> <div class="limit-item"><span class="limit-check">✓</span> Gran registro nacional vinculado a mortalidad DEIS.</div> <div class="limit-item"><span class="limit-check">✓</span> Outcomes post-tratamiento clínicamente relevantes.</div> <div class="limit-item"><span class="limit-check">✓</span> ML para descubrimiento + modelos de supervivencia interpretables.</div> <div class="limit-item"><span class="limit-check">✓</span> Estrategia parsimoniosa con mejor factibilidad de implementación.</div> <div class="limit-item"><span class="limit-check">✓</span> Validación interna rigurosa con cross-validation repetida.</div> </div> </div> </div> </div>
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA Limitaciones**
-*#_#_#_#_#_#_#_#_#_#_
-
-Las principales limitaciones tienen que ver con el uso de datos administrativos: variables no medidas, posible error de registro y desafíos de especificación, especialmente en readmisión.”
-
-También hubo decisiones analíticas para hacer el problema abordable, como priorizar los modelos principales por separado antes que cerrar el multiestado.
-
-Más que debilidades fatales, las veo como condiciones reales del tipo de datos con los que se construyen modelos aplicables en salud pública.
-
-**SECUNDARIO**
-
-**SHAP** método de interpretabilidad basado en la teoría de juegos cooperativos (valores de Shapley). ayuda a interpretar predicción, no a establecer causalidad. Los valores SHAP indican cuánto aporta cada variable a una predicción específica.
-Es decir, muestran qué variables empujan el riesgo hacia arriba o hacia abajo en cada paciente. SHAP permite interpretar modelos complejos asignando una contribución individual a cada predictor en cada predicción.
-
-SHAP calcula cuánto pesa cada variable viendo qué pasa cuando esa variable entra o sale del modelo, pero no lo hace una sola vez, sino en muchas combinaciones posibles con otras variables.
-
-Por ejemplo, toma un paciente y evalúa:
-
-qué pasa con la predicción si uso solo la edad,
-luego edad + policonsumo,
-luego edad + tratamiento completado,
-y así sucesivamente.
-
-Entonces, para cada variable, mide cuánto cambia la predicción cuando se agrega, comparado con escenarios donde no está.
-
-Finalmente, promedia esos cambios en todas las combinaciones posibles, y ese promedio es el valor SHAP.
-
-Por eso es una contribución ‘justa’: no depende del orden ni de con qué otras variables la mire
-
-Aditividad: La suma de los SHAP values de todas las características más el valor base (promedio) equivale a la predicción del modelo.
-Equidad: Características con el mismo impacto reciben el mismo valor.
-Consistencia: Si un modelo cambia y una característica tiene más influencia, su SHAP value no disminuye.
 
 ---
 class: impl-slide
@@ -1489,16 +1301,8 @@ class: impl-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Plan futuro y próximos pasos**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
-
-Para una aplicación práctica, el siguiente es validarlo externamente y recalibrarlo en otros contextos de atención. En este caso, sólo se validará en el 20% "dejado afuera" para prueba
-
-Si el desempeño resulta razonable, este trabajo podría traducirse en herramientas simples de apoyo, por ejemplo un nomograma, una aplicación web o un reporte automatizado para seguimiento post-egreso. Tengo bastante experiencia diseñando aplicaciones web y me gustaría darle ese producto a SENDA, al menos como prototipo muy rudimentario.
-
-Pero hoy lo responsable es presentarlo como una base prometedora, no como una herramienta lista para uso clínico.
-
-**SECUNDARIO**
 
 1. Validación Externa El modelo fue desarrollado y validado internamente en adultos del Convenio 1 de SENDA (tratamiento ambulatorio y residencial). El siguiente paso es validar en otras modalidades (tratamiento en comunidad terapéutica, programas de reducción de daño) y en otros países latinoamericanos con sistemas de registro similares. Esto evaluará si los predictores y sus coeficientes se transportan a poblaciones con diferentes perfiles epidemiológicos y estructurales.
 
@@ -1521,9 +1325,7 @@ class: animated fadeIn
 .pull-left[
 
 ### Plan de trabajo
-```{r echo=F, echo=FALSE, fig.align="left", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=350, out.height=200}
-#| label: plan
-
+```{r plan, echo=F, echo=FALSE, fig.align="left", message=FALSE, warning=FALSE, dev.args=list(bg = 'transparent'), out.width=350, out.height=200}
 planificacion <- magick::image_read("_figs/planificacion (2).svg")|>
     magick::image_convert(format = "png")|>   
     magick::image_background("white", flatten = TRUE)|> # <- asegura fondo visible|>
@@ -1532,13 +1334,6 @@ planificacion <- magick::image_read("_figs/planificacion (2).svg")|>
     magick::image_background("none")          # conserva transparencia
 print(planificacion, info="none")
 ```
-
-- **Pasantía (ANID-FOVI N°240124)**
-
-  - intercambio académico
-  - observación de servicios
-  - participación en actividades científicas
-  - outline Chile–Québec
 ]
 
 .pull-right[
@@ -1553,23 +1348,26 @@ print(planificacion, info="none")
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Conclusiones finales**
+**NOTA**
 *#_#_#_#_#_#_#_#_#_#_
 
-Finalmente, quisiera mencionar brevemente que la pasantía doctoral realizada en Québec entre mayo y julio de 2025 en el marco de un Fondo de Vinculación Internacional (FOVI) adjudicado por el Dr. Castillo-Carniglia, que fortaleció esta tesis en tres niveles: conceptual, al situarla mejor en la discusión entre abstinencia y reducción de daños; metodológico, al reforzar la reflexión sobre trayectorias post-tratamiento; y analítico, al aportar insumos para interpretar los hallazgos en clave de política pública.
+**Fase 1: Modelos predictivos separados (Oct–Nov)**
 
-En este punto, considero que el núcleo empírico de la tesis está bastante consolidado: el primer artículo cuantificó el problema, y el segundo ya permite discutir hasta dónde ese riesgo podría anticiparse, al margen de haber postpuesto un modelo multiestado como tal. Los resultados que presento hoy corresponden a la fase de desarrollo del modelo. La evaluación en la muestra de test independiente fue reservada deliberadamente para una etapa posterior, para incorporar esta retroalimentación antes de fijar la especificación final y así preservar la independencia de esa validación. Lo que sigue es cerrar la discusión general, afinar las decisiones analíticas finales y proyectar un producto aplicable y validable. Y ahora, más que seguir agregando resultados, me gustaría recibir orientación sobre los puntos metodológicos y de presentación que todavía están abiertos
+**Fase 2: Modelo multiestado (Dic–Ene)**
+En el proyecto original contemplé un objetivo adicional de predicción conjunta de readmisión y mortalidad mediante un modelo multiestado, para representar de forma explícita su carácter semi-competidor. Sin embargo, en esta etapa prioricé consolidar primero los modelos principales de readmisión y mortalidad por separado, porque ya responden el núcleo predictivo de la tesis y permiten estimar riesgo absoluto a 1, 3 y 5 años con validación interna.
 
-lógica de bloqueo analítico
+Esto no implicó ignorar la dependencia entre desenlaces: para readmisión incorporé la muerte como evento competidor mediante el estimador de Aalen–Johansen en la calibración y en la estimación de riesgos observados. Por tanto, el componente multiestado quedó redefinido como una extensión metodológica valiosa, pero no prioritaria para cerrar de manera sólida y coherente el trabajo actual.
 
-reserva de la muestra de test como evaluación final independiente
+**por qué elegí SHAP final:**
+No es mejor predictivamente. Full PH calibra un poquito mejor a 36 y 60 meses (ej: Readmisión 0.2332 vs 0.2339 Full, vs 0.2344 vs 0.2436 SHAP). Para muerte, Full PH tiene AICc mucho menor (51.496 vs 54.157). Discriminación (Uno's C) = casi igual en ambos.
+Entonces, ¿por qué SHAP? Porque el valor del ML no fue ganar performance. Fue descubrir cosas que Cox puro no encuentra solo: curvas no lineales (splines) e interacciones reales (ej: edad × trabajo, pasta base × policonsumo). Eso enriquece la especificación epidemiológica sin depender de que yo adivine todo a priori.
+Menos predictores = más factible. SHAP es más compacto. SENDA tiene mil modalidades (ambulatorio, residencial, mujeres, etc.). Menos variables = menos papeleo, más fácil de recalibrar en otro servicio, más probable que lo usen en la práctica.
+Es para estratificar riesgo post-egreso, no para explicar causalidad. Acá sirve más algo interpretable y liviano que algo hiperajustado con 200 variables.
+Readmisión = empate técnico. NRI/IDI neutrales a corto plazo. Full PH solo gana un poco a 48+ meses. No justifica quedarse con el modelo gigante.
+Resumen caveman: SHAP no gana en números, pero descubre estructuras útiles y deja un modelo más chico y usable. Full PH calibra un pelo mejor, pero es más gordo y menos portable. Elegí usabilidad sobre la calibración marginal.
 
-**pasantía**
-Durante mi estadía doctoral en Québec, entre mayo y julio de 2025, sostuve reuniones de trabajo con el Dr. Ignacio Nazif-Muñoz y la Dra. Karen Domínguez-Cancino, visité un centro de tratamiento en Montréal y participé como oyente en instancias vinculadas con consumo de sustancias y embarazo.
+**Y ahora, me gustaría aprovechar la instancia para orientación respecto estas inquietudes"**
 
-En lo conceptual, la estadía me permitió situar mejor mi tesis en la discusión entre modelos de abstinencia y reducción de daños. En lo metodológico, reforzó la reflexión sobre trayectorias post-tratamiento e indicadores como retención, completar y readmisión. En lo analítico, aportó insumos para interpretar los hallazgos del estudio en clave de políticas públicas.
-
-Además, la estadía derivó en la elaboración de un outline preliminar para un proyecto comparativo Chile–Québec liderada por investigadores Dr. Castillo y Dr. Nazif,en el marco de un Fondo de Vinculación Internacional (FOVI) adjudicado por ellos, que proyecta una futura línea internacional coherente con los objetivos de mi tesis.
 ---
 class: center, middle, animated fadeIn
 
@@ -1588,8 +1386,6 @@ class: center, middle, animated fadeIn
 .down_right[
 
 ```{r echo=FALSE, include=F, fig.show='hide', dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=200}
-#| label: qr
-
 par(mar=c(0,0,0,0))
 par(bg=NA)
 image(qrcode::qr_code("https://agscl.github.io/DSPUCH/avance2.html"), asp=1, col=c("white", "black"), axes=FALSE, alpha =c(.0,1), 
@@ -1602,25 +1398,19 @@ magick::image_write(magick::image_transparent(magick::image_read("_figs/qrcode_a
 #"`r plot(qrcode::qr_code('https://fondecytacc.github.io/nDP/'))`" magick::image_write(magick::image_transparent(magick::image_read("_figs/qrcode.png"), "white"), path = "_figs/qrcode.png", format = "png")
 ```
 ```{r echo=FALSE, dev.args = list(bg = 'transparent'), error=T, fig.align="center", message=FALSE, warning=FALSE, out.width=200}
-#| label: qr2
-
 knitr::include_graphics("./_figs/qrcode_avance2.png")
 ```
 ]
 
 .down_left[
 
-```{r echo=FALSE, fig.align="center", out.width=200, error=T}
-#| label: nDP logo
-
+```{r, echo=FALSE, fig.align="center", out.width=200, error=T}
 knitr::include_graphics('./_style/Logo_nDP_color_hz_en.png')
 ```
 
 ]
 
-```{r eval=F,echo=F, results="asis"}
-#| label: exp
-
+```{r exp, eval=F,echo=F, results="asis"}
 library(pagedown)
 
 to_pdf_complex <- function(input, output_file, partial_slides, delay) {

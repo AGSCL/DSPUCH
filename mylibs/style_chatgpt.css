@@ -307,7 +307,7 @@
 }
 
 .calib-content {
-  padding-top: 20px;   /* Ajusta para subir/bajar todo el bloque */
+  padding-top: 10px;   /* Ajusta para subir/bajar todo el bloque */
 }
 
 .calib-box {
@@ -440,6 +440,82 @@
   color: #D3771F;
 }
 
+/* Diapositivas con figuras de calibracion */
+.calib-figure-slide {
+  background-color: #E6E6E6;
+}
+
+.calib-figure-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.calib-figure-title {
+  color: #2f353b;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.calib-figure-content {
+  padding-top: 2px;
+}
+
+.calib-figure-frame {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  height: 485px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.calib-figure-frame.readmission {
+  border-left: 4px solid #003891;
+}
+
+.calib-figure-frame.mortality {
+  border-left: 4px solid #D3771F;
+}
+
+.calib-figure-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.calib-figure-caption {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 9px 13px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-top: 8px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: #2f353b;
+}
+
+.calib-figure-caption strong {
+  color: #D3771F;
+}
+
+.calib-figure-caption.readmission {
+  border-left: 3px solid #003891;
+}
+
+.calib-figure-caption.mortality {
+  border-left: 3px solid #D3771F;
+}
+
 /* Diapositiva Predictores Mortalidad */
 .mort-slide { background-color: #E6E6E6; }
 
@@ -461,7 +537,7 @@
 }
 
 .mort-content {
-  padding-top: 1%;
+  padding-top: 0%;
 }
 
 .mort-intro {
@@ -727,7 +803,7 @@
 }
 
 .perf-content {
-  padding-top: 18px;
+  padding-top: 14px;
 }
 
 .perf-box {
@@ -791,6 +867,110 @@
   flex: 1;
 }
 
+/* Diapositiva Qué Aporta el Enfoque ML */
+.ml-slide { background-color: #E6E6E6; }
+
+.ml-header {
+  color: #D3771F;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+.ml-title {
+  color: #2f353b;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.ml-content {
+  padding-top: 10%;
+}
+
+.ml-box {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+}
+
+.ml-box-title {
+  color: #003891;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.ml-text {
+  font-size: 12px;
+  line-height: 1.45;
+  color: #2f353b;
+}
+
+.ml-text strong {
+  color: #003891;
+}
+
+.ml-grid {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.ml-card {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  flex: 1;
+}
+
+.ml-card-title {
+  color: #003891;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.ml-card-text {
+  color: #666666;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.ml-num {
+  display: inline-block;
+  background: #003891;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.ml-footer {
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #2f353b;
+  border-left: 3px solid #D3771F;
+}
+
+.ml-footer strong {
+  color: #D3771F;
+}
 
 /* Diapositiva Nudos y Limitaciones */
 .limit-slide { background-color: #E6E6E6; }
