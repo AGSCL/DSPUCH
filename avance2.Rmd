@@ -1036,6 +1036,30 @@ Se descartaron variables colineales (generalized variance inflation factor >10, 
 
 Se comparó por desempeño: Uno’s C = índice de concordancia de Uno (porcentaje de ordenamiento correcto entre pares comparables (considerando censura)); IBS = integrated Brier score (error promedio de las predicciones en el tiempo, incluye calibración + discriminación e incorpora la varianza inherente a los datos); ICI = integrated calibration index (coincidencia de probabilidades predichas con observadas en el tiempo); D1 = prueba de Wald para comparar modelos anidados; AICc = criterio de información de Akaike corregido por tamaño muestral ; Valores altos de Uno’s C indican mejor discriminación , valores másbajos de IBS, ICI, y AICc indican mejor desempeño.
 
+**SECUNDARIO**
+
+**SHAP** método de interpretabilidad basado en la teoría de juegos cooperativos (valores de Shapley). ayuda a interpretar predicción, no a establecer causalidad. Los valores SHAP indican cuánto aporta cada variable a una predicción específica.
+Es decir, muestran qué variables empujan el riesgo hacia arriba o hacia abajo en cada paciente. SHAP permite interpretar modelos complejos asignando una contribución individual a cada predictor en cada predicción.
+
+SHAP calcula cuánto pesa cada variable viendo qué pasa cuando esa variable entra o sale del modelo, pero no lo hace una sola vez, sino en muchas combinaciones posibles con otras variables.
+
+Por ejemplo, toma un paciente y evalúa:
+
+qué pasa con la predicción si uso solo la edad,
+luego edad + policonsumo,
+luego edad + tratamiento completado,
+y así sucesivamente.
+
+Entonces, para cada variable, mide cuánto cambia la predicción cuando se agrega, comparado con escenarios donde no está.
+
+Finalmente, promedia esos cambios en todas las combinaciones posibles, y ese promedio es el valor SHAP.
+
+Por eso es una contribución ‘justa’: no depende del orden ni de con qué otras variables la mire
+
+Aditividad: La suma de los SHAP values de todas las características más el valor base (promedio) equivale a la predicción del modelo.
+Equidad: Características con el mismo impacto reciben el mismo valor.
+Consistencia: Si un modelo cambia y una característica tiene más influencia, su SHAP value no disminuye.
+
 <div class="perf-content"> <div class="perf-two-cols"> <div class="perf-box"> <div class="perf-box-title">🔁 Readmisión — Riesgo acumulado KM</div> <table class="perf-table"> <tr> <th>Meses</th> <th>n total</th> <th>Eventos</th> <th>Censurados</th> <th>En riesgo</th> <th>Riesgo KM</th> </tr> <tr><td>3</td><td>70,521</td><td>2,875</td><td>5,320</td><td>62,326</td><td>4.4%</td></tr> <tr><td>12</td><td>70,521</td><td>7,442</td><td>8,705</td><td>54,374</td><td>11.5%</td></tr> <tr><td>24</td><td>70,521</td><td>10,531</td><td>14,905</td><td>45,085</td><td>16.8%</td></tr> <tr><td>36</td><td>70,521</td><td>12,347</td><td>21,321</td><td>36,853</td><td>20.4%</td></tr> <tr><td>60</td><td>70,521</td><td>14,154</td><td>33,538</td><td>22,829</td><td>25.0%</td></tr> <tr><td>108</td><td>70,521</td><td>15,202</td><td>50,813</td><td>4,506</td><td>30.7%</td></tr> </table> </div> <div class="perf-box"> <div class="perf-box-title">⚕️ Mortalidad — Riesgo acumulado KM</div> <table class="perf-table"> <tr> <th>Meses</th> <th>n total</th> <th>Eventos</th> <th>Censurados</th> <th>En riesgo</th> <th>Riesgo KM</th> </tr> <tr><td>3</td><td>70,521</td><td>329</td><td>5,012</td><td>65,180</td><td>0.5%</td></tr> <tr><td>12</td><td>70,521</td><td>706</td><td>8,198</td><td>61,617</td><td>1.1%</td></tr> <tr><td>24</td><td>70,521</td><td>1,246</td><td>14,610</td><td>54,665</td><td>2.0%</td></tr> <tr><td>36</td><td>70,521</td><td>1,700</td><td>21,792</td><td>47,029</td><td>2.9%</td></tr> <tr><td>60</td><td>70,521</td><td>2,379</td><td>36,465</td><td>31,677</td><td>4.5%</td></tr> <tr><td>108</td><td>70,521</td><td>2,994</td><td>60,535</td><td>6,992</td><td>7.7%</td></tr> </table> </div> </div>
 
 ---
@@ -1054,7 +1078,7 @@ Lo menciono porque este contexto ayuda a entender por qué la readmisión y la m
 
 VENTANAS DE SEGUIMIENTO PRINCIPALES: 1 , 3 y 5 años
 
-Dando cuenta que la readmisión compite con muerte
+Además, dando cuenta que la readmisión compite con muerte, en instancias como la calibración.
 
 **secundario**
 DEMOGRAFÍA: edad ~35, mayoría hombres (~75%), mitad solteros, mitad trabaja, educación baja (mayoría secundaria o menos), vive con familia o propietario, 
@@ -1090,6 +1114,8 @@ class: calib-slide
 - El desempeño fue más bien modesto para readmisión. Un Uno’s C global de 0,604 significa, en términos simples, que Si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes el evento en aproximadamente 6 de cada 10 casos. Es mejor que el azar, pero no es una discriminación fuerte. capacidad limitada para separar pacientes de alto y bajo riesgo.
 
 - Respecto del IBS global, que en esta diapositiva está en el orden de 0,35 (35% error promedio en predicciones) por lo que el error predictivo global sigue siendo importante. Ojo, que estas métricas abarcan TODO el tiempo de seguimiento
+
+- Específicamente, fue moderadamente útil al inicio: en los primeros 3 a 12 meses el C-index estuvo más o menos entre 0,63 y 0,65, con un IBS de 0,15 a 0,20. Después se fue deteriorando: hacia 1–2 años el C-index ya estaba más cerca de 0,62, y desde 3 años en adelante rondaba 0,61, mientras el IBS seguía subiendo-
 
 **secundario**
 
@@ -1173,7 +1199,7 @@ class: calib-figure-slide
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
-**NOTA Calibración**
+**NOTA Calibración, mortalidad**
 *#_#_#_#_#_#_#_#_#_#_
 
 En los horizontes de seguimiento de 36 y 60 meses posterior a tratamiento, los grupos de riesgo más alto se mantienen cerca de la diagonal esperada.
@@ -1182,171 +1208,7 @@ Esto refuerza que el desenlace de mortalidad parece responder a un conjunto más
 ---
 class: perf-slide
 
-<div class="perf-header">Resultados: Readmisión y Mortalidad</div> <div class="perf-title">Mejora del Modelo: NRI e IDI<br>por Horizonte</div> <div class="perf-content"> <div class="perf-box"> <div class="perf-box-title">📈 Readmisión — NRI Continuo, Categórico e IDI</div> <table class="perf-table"> <tr> <th>Horizonte</th> <th>Cont. NRI</th> <th>Cat. NRI</th> <th>IDI</th> <th>Discrim. Slope (ref vs act)</th> </tr> <tr><td>3 meses</td><td>0.026</td><td>-0.001</td><td>0.000</td><td>0.013 vs 0.014</td></tr> <tr><td>6 meses</td><td>0.022</td><td>0.005</td><td>0.000</td><td>0.019 vs 0.019</td></tr> <tr><td>12 meses</td><td>0.023</td><td>0.001</td><td>0.001</td><td>0.025 vs 0.026</td></tr> <tr><td>24 meses</td><td>-0.009</td><td>-0.001</td><td>-0.000</td><td>0.030 vs 0.030</td></tr> <tr><td>36 meses</td><td>-0.036</td><td>-0.001</td><td>-0.001</td><td>0.033 vs 0.032</td></tr> <tr><td>60 meses</td><td>-0.068</td><td>-0.018</td><td>-0.002</td><td>0.032 vs 0.030</td></tr> <tr><td>108 meses</td><td>-0.148</td><td>-0.008</td><td>-0.005</td><td>0.020 vs 0.015</td></tr> </table> </div> <div class="perf-box"> <div class="perf-box-title">📉 Mortalidad — NRI Continuo, Categórico e IDI</div> <table class="perf-table"> <tr> <th>Horizonte</th> <th>Cont. NRI</th> <th>Cat. NRI</th> <th>IDI</th> <th>Discrim. Slope (ref vs act)</th> </tr> <tr><td>12 meses</td><td>-0.277</td><td>-0.074</td><td>-0.005</td><td>0.022 vs 0.017</td></tr> <tr><td>24 meses</td><td>-0.184</td><td>-0.061</td><td>-0.006</td><td>0.038 vs 0.032</td></tr> <tr><td>36 meses</td><td>-0.125</td><td>-0.035</td><td>-0.006</td><td>0.050 vs 0.044</td></tr> <tr><td>60 meses</td><td>-0.106</td><td>-0.027</td><td>-0.007</td><td>0.074 vs 0.067</td></tr> <tr><td>84 meses</td><td>-0.105</td><td>-0.020</td><td>-0.008</td><td>0.098 vs 0.090</td></tr> <tr><td>108 meses</td><td>-0.102</td><td>-0.017</td><td>-0.009</td><td>0.123 vs 0.114</td></tr> </table> <div class="perf-note">El modelo actual no mejora sobre el modelo de referencia en predicción de eventos (NRI).</div> </div> </div>
-
-???
-*#_#_#_#_#_#_#_#_#_#_
-**NOTA NRI e IDI y DCA**
-*#_#_#_#_#_#_#_#_#_#_
-
-- ML-informed, similar a modelo Cox tradicional. En readmisión, las diferencias fueron neutras o pequeñas a corto plazo y empeoraron a largo plazo. En mortalidad, el modelo completo también tendió a verse mejor. Por tanto, el valor del enfoque ML no estuvo en superar claramente al modelo de Cox completo, sino en ayudar a descubrir estructura
-
-Aunque las diferencias en métricas de clasificación tradicionales (PPV, sensibilidad, F1) son modestas (< 2 puntos porcentuales en la mayoría de los escenarios), el modelo informado por ML muestra un deterioro claro en capacidad de reclasificación (NRI e IDI negativos), especialmente en horizontes tardíos para readmisión y de manera consistente para mortalidad. 
-
-- El modelo informado por ML potencialmente empeora la asignación de riesgo individual respecto a Cox tradicional. A corto plazo, similar, pero a 5 años -0.068 y a 108 meses el NRI alcanza −0.148, lo que implica que aproximadamente 7 y 15 de cada 100 pacientes son reclasificados netamente en la dirección incorrecta en readmisión, respectivamente. En mortalidad: NRI siempre negativo, hasta −0.277 a 12m (277 de mil reclasificados en una dir equivacada, 5 años, 106 de mil).
-
-- IDI, la separación entre distribuciones es pequeña, del orden del 0.007, pérdida valor discriminativo mínima entre mortalidad y no; distingue peor entre fallecidos y sobrevivientes.
-
-**DCA**= Las curvas de decisión muestran una utilidad potencial modesta de la estratificación por riesgo. En readmisión, el beneficio neto promedio dentro de las ventanas clínicamente plausibles aumentó desde aproximadamente 0.015 a 6 meses hasta 0.040 a 5 años. En mortalidad, el beneficio neto fue menor, alrededor de 0.003 a 12 meses y 0.017 a 60 meses, esperable por ser un evento menos frecuente. En ambos desenlaces, las curvas del modelo ML-informed y del Cox completo tradicional se superpusieron casi completamente.
-
-**solo de ayuda**= NETO, 4 verdaderos positivos netos por cada 100 pacientes evaluados, después de descontar el “costo” de los falsos positivos.
-
-**SECUNDARIO**
-
-- Patrón readmisión: El spline gana ~0.2–0.9 puntos de sensibilidad pero pierde ~0.1–1.6 puntos de especificidad. En términos netos (F1), las diferencias son prácticamente nulas (−0.002 a 0.000). El impacto real aparece en reclasificación: NRI de −0.068 a 60m y −0.148 a 108m.
-- Patrón mortalidad: El spline es consistentemente peor en PPV. La mayor brecha está a 12 meses, umbral 0.05: −5.0 puntos de sensibilidad y −1.7 puntos de F1. A horizontes más largos las diferencias se atenúan.
-- Esto es lo que más pesa. A 5años readmisión: NRI = −0.068 (68 de mil los mueve a una categoría de riesgo equivocada, sobreestimando el riesgo de readmisión); a 108m: −0.148. En mortalidad: NRI siempre negativo, hasta −0.277 a 12m (277 de mil reclasificados en una dir equivacada, 5 años, 106 de mil).
-- IDI, la separación entre distribuciones es pequeña, del orden del 0.007, pérdida valor discriminativo mínima entre mortalidad y no; distingue peor entre fallecidos y sobrevivientes.
-
-- En readmisión, el patrón es bifásico. A corto plazo —3 a 12 meses— el modelo con splines es neutro respecto al full PH-adjusted: no mejora ni empeora la clasificación. Sin embargo, a partir de 36 meses el NRI continuo se vuelve claramente negativo, el spline comienza a clasificar como de alto riesgo a pacientes que en realidad permanecen sin readmisión. A 108 meses el NRI alcanza −0.148, lo que implica que aproximadamente 15 de cada 100 pacientes son reclasificados netamente en la dirección incorrecta.
-
-<table>
-<thead>
-<tr>
-<th>Tiempo</th>
-<th>Umbral</th>
-<th>PPV Δ</th>
-<th>Sens Δ</th>
-<th>Spec Δ</th>
-<th>NPV Δ</th>
-<th>F1 Δ</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>12m</td><td>0.03</td><td>−0.3</td><td>−2.2</td><td>0.0</td><td>0.0</td><td>−0.006</td></tr>
-<tr><td>12m</td><td>0.05</td><td>−0.5</td><td>−5.0</td><td>+0.4</td><td>−0.1</td><td>−0.017</td></tr>
-<tr><td>36m</td><td>0.03</td><td>−0.4</td><td>+0.1</td><td>−1.4</td><td>0.0</td><td>−0.006</td></tr>
-<tr><td>36m</td><td>0.05</td><td>−0.9</td><td>−0.9</td><td>−0.9</td><td>−0.1</td><td>−0.012</td></tr>
-<tr><td>60m</td><td>0.03</td><td>−0.1</td><td>+0.3</td><td>−0.7</td><td>0.0</td><td>−0.002</td></tr>
-<tr><td>60m</td><td>0.05</td><td>−0.5</td><td>+0.7</td><td>−1.1</td><td>0.0</td><td>−0.006</td></tr>
-</tbody>
-</table>
-
-<table>
-<thead>
-<tr>
-<th>Tiempo</th>
-<th>Umbral</th>
-<th>PPV Δ</th>
-<th>Sens Δ</th>
-<th>Spec Δ</th>
-<th>NPV Δ</th>
-<th>F1 Δ</th>
-</tr>
-</thead>
-<tbody>
-<tr><td>6m</td><td>0.10</td><td>0.0</td><td>+0.2</td><td>−0.1</td><td>0.0</td><td>0.000</td></tr>
-<tr><td>6m</td><td>0.15</td><td>+0.4</td><td>+0.2</td><td>0.0</td><td>+0.1</td><td>+0.003</td></tr>
-<tr><td>12m</td><td>0.10</td><td>−0.1</td><td>+0.3</td><td>−0.8</td><td>0.0</td><td>−0.002</td></tr>
-<tr><td>12m</td><td>0.15</td><td>−0.2</td><td>+0.1</td><td>−0.3</td><td>0.0</td><td>−0.002</td></tr>
-<tr><td>36m</td><td>0.20</td><td>−0.4</td><td>+0.8</td><td>−1.3</td><td>0.0</td><td>−0.002</td></tr>
-<tr><td>36m</td><td>0.25</td><td>−0.5</td><td>+0.4</td><td>−0.7</td><td>−0.1</td><td>0.000</td></tr>
-<tr><td>60m</td><td>0.20</td><td>−0.4</td><td>+0.4</td><td>−1.6</td><td>−0.6</td><td>−0.002</td></tr>
-<tr><td>60m</td><td>0.25</td><td>−0.5</td><td>+0.9</td><td>−1.5</td><td>−0.1</td><td>0.000</td></tr>
-</tbody>
-</table>
-
-**DCA**
-Las curvas de decisión muestran una utilidad potencial modesta de la estratificación por riesgo. En readmisión, el beneficio neto promedio dentro de las ventanas clínicamente plausibles aumentó desde aproximadamente 0.015 a 6 meses hasta 0.040 a 60 meses. En mortalidad, el beneficio neto fue menor, alrededor de 0.003 a 12 meses y 0.017 a 60 meses, lo esperable dado que es un evento menos frecuente. En ambos desenlaces, las curvas del modelo ML-informed y del Cox completo se superpusieron casi completamente, por lo que no hay evidencia visual de una ventaja decisional relevante de un modelo sobre el otro.
-
-<table>
-  <thead>
-    <tr>
-      <th>Horizonte</th>
-      <th>Ventana gris</th>
-      <th>Beneficio neto aprox. al inicio</th>
-      <th>Mitad de ventana</th>
-      <th>Final de ventana</th>
-      <th>Promedio aprox.</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>12 meses</td>
-      <td>1–3%</td>
-      <td>0.0043–0.0045</td>
-      <td>0.0026–0.0030</td>
-      <td>0.0018–0.0020</td>
-      <td>0.0029–0.0032</td>
-    </tr>
-    <tr>
-      <td>36 meses</td>
-      <td>1–6%</td>
-      <td>0.019</td>
-      <td>0.010–0.011</td>
-      <td>0.006–0.007</td>
-      <td>0.011–0.012</td>
-    </tr>
-    <tr>
-      <td>60 meses</td>
-      <td>2–10%</td>
-      <td>0.028</td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Horizonte</th>
-      <th>Ventana gris</th>
-      <th>Beneficio neto aprox. al inicio</th>
-      <th>Mitad de ventana</th>
-      <th>Final de ventana</th>
-      <th>Promedio aprox.</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>6 meses</td>
-      <td>3–15%</td>
-      <td>0.044</td>
-      <td>0.010</td>
-      <td>0.002</td>
-      <td>0.015</td>
-    </tr>
-    <tr>
-      <td>12 meses</td>
-      <td>5–24%</td>
-      <td>0.069</td>
-      <td>0.013</td>
-      <td>0.002</td>
-      <td>0.021–0.022</td>
-    </tr>
-    <tr>
-      <td>36 meses</td>
-      <td>10–41%</td>
-      <td>0.116</td>
-      <td>0.017</td>
-      <td>0.001–0.002</td>
-      <td>0.032</td>
-    </tr>
-    <tr>
-      <td>60 meses</td>
-      <td>12–50%</td>
-      <td>0.148</td>
-      <td>0.019</td>
-      <td>~0.0003</td>
-      <td>0.040</td>
-    </tr>
-  </tbody>
-</table>
----
-class: perf-slide
-
-<div class="perf-header">Resultados: Readmisión y Mortalidad</div> <div class="perf-title">Rendimiento de Clasificación<br>por Umbral y Horizonte</div> <div class="perf-content"> <div class="perf-box"> <div class="perf-box-title">🔁 Readmisión — Métricas de Clasificación (Modelo Full)</div> <table class="perf-table"> <tr> <th>Tiempo</th> <th>Umbral</th> <th>PPV</th> <th>Sensibilidad</th> <th>Especificidad</th> <th>NPV</th> <th>F1</th> </tr> <tr><td>6 meses</td><td>0.10</td><td>15.2%</td><td>29.8%</td><td>86.7%</td><td>93.9%</td><td>0.202</td></tr> <tr><td>6 meses</td><td>0.15</td><td>21.8%</td><td>9.3%</td><td>97.3%</td><td>93.0%</td><td>0.130</td></tr> <tr><td>12 meses</td><td>0.10</td><td>15.2%</td><td>72.5%</td><td>44.6%</td><td>92.2%</td><td>0.251</td></tr> <tr><td>12 meses</td><td>0.15</td><td>21.7%</td><td>31.4%</td><td>84.5%</td><td>90.0%</td><td>0.257</td></tr> <tr><td>36 meses</td><td>0.20</td><td>31.5%</td><td>58.3%</td><td>57.4%</td><td>80.4%</td><td>0.409</td></tr> <tr><td>36 meses</td><td>0.25</td><td>36.6%</td><td>33.1%</td><td>80.8%</td><td>78.3%</td><td>0.347</td></tr> <tr><td>60 meses</td><td>0.20</td><td>41.4%</td><td>80.0%</td><td>29.7%</td><td>70.5%</td><td>0.545</td></tr> <tr><td>60 meses</td><td>0.25</td><td>44.5%</td><td>55.2%</td><td>57.2%</td><td>67.3%</td><td>0.493</td></tr> </table> </div> <div class="perf-box"> <div class="perf-box-title">⚕️ Mortalidad — Métricas de Clasificación (Modelo Full)</div> <table class="perf-table"> <tr> <th>Tiempo</th> <th>Umbral</th> <th>PPV</th> <th>Sensibilidad</th> <th>Especificidad</th> <th>NPV</th> <th>F1</th> </tr> <tr><td>12 meses</td><td>0.03</td><td>6.1%</td><td>37.8%</td><td>93.3%</td><td>99.2%</td><td>0.105</td></tr> <tr><td>12 meses</td><td>0.05</td><td>9.3%</td><td>21.3%</td><td>97.6%</td><td>99.1%</td><td>0.130</td></tr> <tr><td>36 meses</td><td>0.03</td><td>8.8%</td><td>67.4%</td><td>74.7%</td><td>98.4%</td><td>0.155</td></tr> <tr><td>36 meses</td><td>0.05</td><td>12.7%</td><td>52.2%</td><td>87.0%</td><td>98.1%</td><td>0.204</td></tr> <tr><td>60 meses</td><td>0.03</td><td>12.7%</td><td>79.2%</td><td>59.2%</td><td>97.4%</td><td>0.219</td></tr> <tr><td>60 meses</td><td>0.05</td><td>18.1%</td><td>65.3%</td><td>77.8%</td><td>96.8%</td><td>0.283</td></tr> </table> <div class="perf-note">Umbrales ilustrativos. No existe umbral clínicamente validado establecido.</div> </div> </div>
+<div class="perf-header">Resultados: Readmisión y Mortalidad</div> <div class="perf-title">Rendimiento de Clasificación<br>por Umbral y Horizonte</div> <div class="perf-content"> <div class="perf-box"> <div class="perf-box-title">🔁 Readmisión — Métricas de Clasificación</div> <table class="perf-table"> <tr> <th>Tiempo</th> <th>Umbral</th> <th>PPV</th> <th>Sensibilidad</th> <th>Especificidad</th> <th>NPV</th> <th>F1</th> </tr> <tr><td>6 meses</td><td>0.10</td><td>15.2%</td><td>29.8%</td><td>86.7%</td><td>93.9%</td><td>0.202</td></tr> <tr><td>6 meses</td><td>0.15</td><td>21.8%</td><td>9.3%</td><td>97.3%</td><td>93.0%</td><td>0.130</td></tr> <tr><td>12 meses</td><td>0.10</td><td>15.2%</td><td>72.5%</td><td>44.6%</td><td>92.2%</td><td>0.251</td></tr> <tr><td>12 meses</td><td>0.15</td><td>21.7%</td><td>31.4%</td><td>84.5%</td><td>90.0%</td><td>0.257</td></tr> <tr><td>36 meses</td><td>0.20</td><td>31.5%</td><td>58.3%</td><td>57.4%</td><td>80.4%</td><td>0.409</td></tr> <tr><td>36 meses</td><td>0.25</td><td>36.6%</td><td>33.1%</td><td>80.8%</td><td>78.3%</td><td>0.347</td></tr> <tr><td>60 meses</td><td>0.20</td><td>41.4%</td><td>80.0%</td><td>29.7%</td><td>70.5%</td><td>0.545</td></tr> <tr><td>60 meses</td><td>0.25</td><td>44.5%</td><td>55.2%</td><td>57.2%</td><td>67.3%</td><td>0.493</td></tr> </table> </div> <div class="perf-box"> <div class="perf-box-title">⚕️ Mortalidad — Métricas de Clasificación</div> <table class="perf-table"> <tr> <th>Tiempo</th> <th>Umbral</th> <th>PPV</th> <th>Sensibilidad</th> <th>Especificidad</th> <th>NPV</th> <th>F1</th> </tr> <tr><td>12 meses</td><td>0.03</td><td>6.1%</td><td>37.8%</td><td>93.3%</td><td>99.2%</td><td>0.105</td></tr> <tr><td>12 meses</td><td>0.05</td><td>9.3%</td><td>21.3%</td><td>97.6%</td><td>99.1%</td><td>0.130</td></tr> <tr><td>36 meses</td><td>0.03</td><td>8.8%</td><td>67.4%</td><td>74.7%</td><td>98.4%</td><td>0.155</td></tr> <tr><td>36 meses</td><td>0.05</td><td>12.7%</td><td>52.2%</td><td>87.0%</td><td>98.1%</td><td>0.204</td></tr> <tr><td>60 meses</td><td>0.03</td><td>12.7%</td><td>79.2%</td><td>59.2%</td><td>97.4%</td><td>0.219</td></tr> <tr><td>60 meses</td><td>0.05</td><td>18.1%</td><td>65.3%</td><td>77.8%</td><td>96.8%</td><td>0.283</td></tr> </table> <div class="perf-note">Umbrales ilustrativos. No existe umbral clínicamente validado establecido.</div> </div> </div>
 
 ???
 *#_#_#_#_#_#_#_#_#_#_
@@ -1366,7 +1228,15 @@ Especificidad = De cada 100 que no se readmiten, el modelo detecta XX
 NPV = De cada 100 que el modelo marca como "bajo riesgo", XX realmente no se readmiten
 F1 = Balance entre PPV y sensibilidad.
 
+**solo de ayuda**= NETO, 4 verdaderos positivos netos por cada 100 pacientes evaluados, después de descontar el “costo” de los falsos positivos.
+
+**DCA**= Las curvas de decisión muestran una utilidad potencial modesta de la estratificación por riesgo. En readmisión, el beneficio neto promedio dentro de las ventanas clínicamente plausibles aumentó desde aproximadamente 0.015 a 6 meses hasta 0.040 a 5 años. En mortalidad, el beneficio neto fue menor, alrededor de 0.003 a 12 meses y 0.017 a 60 meses, esperable por ser un evento menos frecuente. En ambos desenlaces, las curvas del modelo ML-informed y del Cox completo tradicional se superpusieron casi completamente.
+
 **SECUNDARIO**
+
+**MEDIO DESCARTADO: NRI e IDI y DCA**= Comparamos modelo Cox tradicional con informado por Machinelearning: NRI= personas con el evento quedan con más riesgo predicho, y personasque no tuvieron quedan con menor riesgo predicho; IDI= “¿el modelo nuevo asigna mejor el riesgo individual que el modelo de referencia?”; pregunta si el modelo nuevo separa mejor, en promedio en eltiempo
+- El modelo informado por ML potencialmente empeora la asignación de riesgo individual respecto a Cox tradicional. A corto plazo, similar, pero a 5 años alcanza -0.068, lo que implica que aproximadamente 7 de cada 100 pacientes son reclasificados netamente en la dirección incorrecta en readmisión. En mortalidad: NRI siempre negativo, hasta −0.277 a 12m (28 de 100 reclasificados en una dir equivacada).
+- IDI, la separación entre distribuciones es pequeña, del orden del 0.007, pérdida valor discriminativo mínima entre mortalidad y no; distingue peor entre fallecidos y sobrevivientes.
 
 - El NPV de ~70% a 60 meses (umbral 0.20) indica que 7 de cada 10 pacientes clasificados como de 'bajo riesgo' efectivamente no se readmiten. Esto es clínicamente valioso: nos permite identificar quién NO necesita seguimiento intensivo, liberando recursos para los de mayor riesgo
 
@@ -1390,12 +1260,11 @@ class: ml-slide
 
 **1. HALLAZGO CENTRAL**
 
-- El modelo informado por ML no ganó en predicción agregada vs. modelo Cox completo
-- Diferencias modestas en Uno's C e IBS.
-- No es fallo del ML: en cohortes grandes con predictores conocidos, ML rara vez supera a regresión tradicional.
+- Si bien El modelo informado por ML mostró diferencias modestas en Uno's C e IBS conel modelo tradicional, incluso una leve pero peor capacidad de reclasificación neta.
 
 **2. UTILIDAD**
 
+No obstante, permite:
 - Descubrir qué variables realmente importan o influyen.
 - Detectar curvas no lineales (splines).
 - Encontrar interacciones plausibles difíciles de hipotetizar. Por ejemplo, emergieron interacciones como edad con convivencia o pasta base con policonsumo.
@@ -1404,7 +1273,7 @@ class: ml-slide
 
 - Modelo más compacto.
 - Menos carga de medición.
-- Más fácil de implementar en distintos servicios SENDA.
+- Más fácil de implementar en distintos servicios SENDA (por ejemplo, en población en tribunales de tto. de drogas o incluso en personas en sit. de calle)
 
 **SECUNDARIO**
 
@@ -1457,28 +1326,6 @@ También hubo decisiones analíticas para hacer el problema abordable, como prio
 Más que debilidades fatales, las veo como condiciones reales del tipo de datos con los que se construyen modelos aplicables en salud pública.
 
 **SECUNDARIO**
-
-**SHAP** método de interpretabilidad basado en la teoría de juegos cooperativos (valores de Shapley). ayuda a interpretar predicción, no a establecer causalidad. Los valores SHAP indican cuánto aporta cada variable a una predicción específica.
-Es decir, muestran qué variables empujan el riesgo hacia arriba o hacia abajo en cada paciente. SHAP permite interpretar modelos complejos asignando una contribución individual a cada predictor en cada predicción.
-
-SHAP calcula cuánto pesa cada variable viendo qué pasa cuando esa variable entra o sale del modelo, pero no lo hace una sola vez, sino en muchas combinaciones posibles con otras variables.
-
-Por ejemplo, toma un paciente y evalúa:
-
-qué pasa con la predicción si uso solo la edad,
-luego edad + policonsumo,
-luego edad + tratamiento completado,
-y así sucesivamente.
-
-Entonces, para cada variable, mide cuánto cambia la predicción cuando se agrega, comparado con escenarios donde no está.
-
-Finalmente, promedia esos cambios en todas las combinaciones posibles, y ese promedio es el valor SHAP.
-
-Por eso es una contribución ‘justa’: no depende del orden ni de con qué otras variables la mire
-
-Aditividad: La suma de los SHAP values de todas las características más el valor base (promedio) equivale a la predicción del modelo.
-Equidad: Características con el mismo impacto reciben el mismo valor.
-Consistencia: Si un modelo cambia y una característica tiene más influencia, su SHAP value no disminuye.
 
 ---
 class: impl-slide
