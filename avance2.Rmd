@@ -1089,16 +1089,15 @@ class: calib-slide
 **NOTA Readmisión: desempeño**
 *#_#_#_#_#_#_#_#_#_#_
 
-- En readmisión, el desempeño fue más bien modesto. Un Uno’s C-index de 0,604 significa, en términos simples, que si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes la readmisión en alrededor del 60% de los pares. Es mejor que el azar, pero no es una discriminación fuerte. capacidad limitada para separar pacientes de alto y bajo riesgo.
+- En readmisión, el desempeño fue más bien modesto. Un Uno’s C-index global de 0,604 significa, en términos simples, que Si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes el evento en aproximadamente 6 de cada 10 casos. Es mejor que el azar, pero no es una discriminación fuerte. capacidad limitada para separar pacientes de alto y bajo riesgo.
 
-- Si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes el evento en aproximadamente 6 de cada 10 casos
-
-- Respecto del IBS, que en esta diapositiva está en el orden de 0,35 (35% error promedio en predicciones) el error predictivo global sigue siendo importante.
+- Respecto del IBS global, que en esta diapositiva está en el orden de 0,35 (35% error promedio en predicciones) por lo que el error predictivo global sigue siendo importante. Ojo, que estas métricas abarcan TODO el tiempo de seguimiento (hasta 10 años de seguimiento aprox.)
 
 **secundario**
 
 - el modelo SHAP sí tiene menor AICc, lo que respalda que la penalización por complejidad no anula la ventaja de la parsimonia.(AICc= 272,549.2 vs.	272,443.9)
 - Full PH-adjusted mostró ligeramente mejor calibración agrupada a 36 y 60 meses (ej. para Readmisión: predicción 0.2332 vs. observado 0.2339, frente a 0.2344 vs. 0.2436 del SHAP) 
+- si tomo dos pacientes al azar, el modelo ordena correctamente quién tendrá antes la readmisión en alrededor del 60% de los pares
 
 ---
 class: calib-figure-slide

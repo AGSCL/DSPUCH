@@ -10,3 +10,5 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
+include:
+  - _figs
